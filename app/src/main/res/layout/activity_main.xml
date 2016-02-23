@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.mobvoi.design.wearable.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:scrollbars="vertical"
+    tools:context="com.ticwear.design.demo.MainActivity">
+
+    <include layout="@layout/content_main" />
+
+    <com.mobvoi.design.wearable.widget.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <!--<com.mobvoi.design.wearable.widget.StretchingLayout-->
+            <!--android:id="@+id/layout_header"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="100dp"-->
+            <!--android:minHeight="?android:actionBarSize"-->
+            <!--app:expandedTitleGravity="center"-->
+            <!--app:collapsedTitleGravity="center"-->
+            <!--app:layout_scrollFlags="scroll|exitUntilCollapsed|snap|overScrollBounce"-->
+            <!--app:layout_scrollResistanceFactor="0.5"-->
+            <!--app:title="@string/main.title">-->
+
+        <!--</com.mobvoi.design.wearable.widget.StretchingLayout>-->
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="24dp"
+            android:layout_marginTop="4dp"
+            android:paddingTop="4dp"
+            android:paddingBottom="4dp"
+            android:gravity="bottom"
+            android:src="@mipmap/ic_launcher"
+            android:scaleType="fitCenter"
+            android:contentDescription="@null"
+            app:layout_scrollFlags="scroll|overScrollBounce"
+            app:layout_scrollResistanceFactor="0.5"
+            />
+
+        <com.mobvoi.design.wearable.widget.ScalableTextView
+            style="?android:textAppearanceSmall"
+            android:layout_width="match_parent"
+            android:layout_height="32dp"
+            android:gravity="center"
+            android:text="@string/main.title"
+            app:layout_scrollFlags="scroll|overScrollBounce|enterAlways"
+            app:layout_scrollResistanceFactor="0.5"
+            app:scaleFactor="0.5"
+            />
+
+    </com.mobvoi.design.wearable.widget.AppBarLayout>
+
+</com.mobvoi.design.wearable.widget.CoordinatorLayout>

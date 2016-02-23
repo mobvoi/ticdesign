@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<resources>
+    <style name="Animation"/>
+    <style name="Animation.Ticwear"/>
+
+    <style name="Animation.Ticwear.Activity" parent="android:Animation.Activity">
+        <item name="android:activityOpenEnterAnimation">@anim/slide_in_ticwear</item>
+        <item name="android:activityOpenExitAnimation">@anim/scale_out_ticwear</item>
+        <item name="android:activityCloseEnterAnimation">@anim/scale_in_ticwear</item>
+        <item name="android:activityCloseExitAnimation">@anim/slide_out_ticwear</item>
+        <item name="android:taskOpenEnterAnimation">@anim/slide_in_ticwear</item>
+        <item name="android:taskOpenExitAnimation">@anim/scale_out_ticwear</item>
+        <item name="android:taskCloseEnterAnimation">@anim/scale_in_ticwear</item>
+        <item name="android:taskCloseExitAnimation">@anim/slide_out_ticwear</item>
+        <item name="android:wallpaperOpenEnterAnimation">@anim/scale_in_ticwear</item>
+        <item name="android:wallpaperOpenExitAnimation">@anim/slide_out_ticwear</item>
+        <item name="android:wallpaperCloseEnterAnimation">@anim/front_scale_in_ticwear</item>
+        <item name="android:wallpaperCloseExitAnimation">@anim/scale_out_ticwear</item>
+        <item name="android:wallpaperIntraOpenEnterAnimation">@anim/scale_in_ticwear</item>
+        <item name="android:wallpaperIntraOpenExitAnimation">@anim/slide_out_ticwear</item>
+        <item name="android:wallpaperIntraCloseEnterAnimation">@anim/slide_in_ticwear</item>
+        <item name="android:wallpaperIntraCloseExitAnimation">@anim/scale_out_ticwear</item>
+    </style>
+
+</resources>

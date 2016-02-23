@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.ticwear.design.demo.ContentActivity"
+    android:id="@+id/layout_container"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingTop="16dp"
+    android:paddingBottom="32dp"
+    android:paddingStart="24dp"
+    android:paddingEnd="24dp"
+    android:clipToPadding="false"
+    android:scrollbars="none">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <ImageButton
+            style="@android:style/Widget.Material.Button.Borderless"
+            android:id="@+id/image_avatar"
+            android:layout_width="56dp"
+            android:layout_height="56dp"
+            android:layout_weight="0"
+            android:layout_gravity="center_horizontal|top"
+            android:contentDescription="@null"
+            android:src="@drawable/avatar_1"
+            android:scaleType="centerInside"
+            android:transitionName="@string/transition_shared_avatar"
+            />
+
+        <TextView
+            android:id="@+id/text_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="0"
+            android:layout_marginTop="4dp"
+            android:layout_gravity="center_horizontal"
+            android:singleLine="true"
+            android:textAppearance="?android:textAppearanceButton"
+            android:transitionName="@string/transition_shared_title"
+            tools:text="Abertam"
+            />
+
+        <TextView
+            android:id="@+id/text_content"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginTop="16dp"
+            android:textAppearance="?android:textAppearanceSmall"
+            android:text="@string/cheese_content"
+            />
+
+    </LinearLayout>
+
+</ScrollView>

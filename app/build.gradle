@@ -1,0 +1,37 @@
+apply plugin: 'com.android.application'
+
+
+android {
+    compileSdkVersion 23
+    buildToolsVersion "23.0.2"
+
+    defaultConfig {
+        applicationId "com.ticwear.design.demo"
+        minSdkVersion 21
+        targetSdkVersion 23
+        versionCode 1
+        versionName "1.0"
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+
+ext {
+    supportLibVersion = '23.1.1'
+}
+
+dependencies {
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+    debugCompile project(path: ':ticDesign', configuration: 'debug')
+    releaseCompile project(path: ':ticDesign', configuration: 'release')
+    compile 'com.jakewharton:butterknife:7.0.1'
+
+    compile 'com.google.android.support:wearable:1.3.0'
+
+    compile "com.android.support:palette-v7:${supportLibVersion}"
+    compile "com.android.support:recyclerview-v7:${supportLibVersion}"
+}

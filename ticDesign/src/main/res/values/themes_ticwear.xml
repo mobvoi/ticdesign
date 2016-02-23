@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="Theme.Ticwear" parent="android:Theme.Material.NoActionBar">
+        <item name="android:windowAnimationStyle">@style/Animation.Ticwear.Activity</item>
+        <item name="android:windowBackground">@android:color/black</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:windowIsFloating">false</item>
+        <!-- We need the windows to be translucent for SwipeToDismiss layout
+             to work properly. -->
+        <item name="android:windowIsTranslucent">false</item>   <!-- TODO: use translucent background with swipe to dismiss is set -->
+        <item name="android:windowSwipeToDismiss">true</item>
+        <!-- Required to force windowInsets dispatch through application UI. -->
+        <item name="android:windowOverscan">true</item>
+    </style>
+</resources>
