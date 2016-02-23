@@ -1,1 +1,1 @@
-include ':app', ':ticDesign'
+include ':demo', ':ticDesign'

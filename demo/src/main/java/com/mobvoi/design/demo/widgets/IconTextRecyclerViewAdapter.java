@@ -1,4 +1,4 @@
-package com.ticwear.design.demo.widgets;
+package com.mobvoi.design.demo.widgets;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -9,7 +9,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.mobvoi.design.wearable.view.TicklableListView;
-import com.ticwear.design.demo.ContentActivity;
+import com.mobvoi.design.demo.ContentActivity;
 import com.ticwear.design.demo.R;
 
 import java.lang.ref.WeakReference;

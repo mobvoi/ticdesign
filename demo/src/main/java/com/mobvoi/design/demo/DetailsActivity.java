@@ -1,11 +1,12 @@
-package com.ticwear.design.demo;
+package com.mobvoi.design.demo;
 
 import android.app.Activity;
 import android.app.Fragment;
 import android.os.Bundle;
 
-import com.ticwear.design.demo.fragments.DialogsFragment;
-import com.ticwear.design.demo.fragments.TransitionsFragment;
+import com.ticwear.design.demo.R;
+import com.mobvoi.design.demo.fragments.DialogsFragment;
+import com.mobvoi.design.demo.fragments.TransitionsFragment;
 
 /**
  * Created by tankery on 1/12/16.

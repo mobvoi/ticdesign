@@ -1,11 +1,12 @@
-package com.ticwear.design.demo;
+package com.mobvoi.design.demo;
 
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
-import com.ticwear.design.demo.widgets.SimpleRecyclerViewAdapter;
+import com.ticwear.design.demo.R;
+import com.mobvoi.design.demo.widgets.SimpleRecyclerViewAdapter;
 
 import java.util.Arrays;
 import java.util.HashMap;

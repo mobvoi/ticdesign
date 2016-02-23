@@ -1,4 +1,4 @@
-package com.ticwear.design.demo.fragments;
+package com.mobvoi.design.demo.fragments;
 
 import android.app.Fragment;
 import android.os.Bundle;

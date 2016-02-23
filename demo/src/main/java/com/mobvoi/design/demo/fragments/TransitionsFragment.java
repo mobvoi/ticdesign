@@ -1,4 +1,4 @@
-package com.ticwear.design.demo.fragments;
+package com.mobvoi.design.demo.fragments;
 
 import android.app.Fragment;
 import android.os.Bundle;
@@ -10,12 +10,11 @@ import android.view.ViewGroup;
 
 import com.mobvoi.design.wearable.view.TicklableListView;
 import com.ticwear.design.demo.R;
-import com.ticwear.design.demo.widgets.SimpleRecyclerViewAdapter;
+import com.mobvoi.design.demo.data.Cheeses;
+import com.mobvoi.design.demo.widgets.IconTextRecyclerViewAdapter;
 
-import java.util.Arrays;
-import java.util.HashMap;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -25,7 +24,7 @@ import butterknife.ButterKnife;
  *
  * fragment for dialogs
  */
-public class DialogsFragment extends Fragment {
+public class TransitionsFragment extends Fragment {
 
     @Nullable
     @Override
@@ -36,24 +35,18 @@ public class DialogsFragment extends Fragment {
     @Bind(R.id.list_sub_demo)
     TicklableListView listSubDemo;
 
-    private final static String[] fromList = {
-            "title",
-            "subtitle"
-    };
-    private final static int[] toList = {
-            R.id.text1,
-            R.id.text2
-    };
-    private final static List<Map<String, String>> listData = Arrays.asList(
-            createRowData("Notify Dialog", ""),
-            createRowData("Confirm Dialog", null)
-    );
+    private final static List<IconTextRecyclerViewAdapter.ListData> listData = generateContents(10);
 
-    private static Map<String, String> createRowData(String title, String subtitle) {
-        Map<String, String> map = new HashMap<>(2);
-        map.put(fromList[0], title);
-        map.put(fromList[1], subtitle);
-        return map;
+    private static List<IconTextRecyclerViewAdapter.ListData> generateContents(int count) {
+        List<IconTextRecyclerViewAdapter.ListData> listData = new ArrayList<>(count);
+
+        for (int i = 0; i < count; i++) {
+            int icon = Cheeses.getRandomCheeseDrawable();
+            String title = Cheeses.getRandomCheeseString();
+            listData.add(new IconTextRecyclerViewAdapter.ListData(icon, title));
+        }
+
+        return listData;
     }
 
     @Override
@@ -64,7 +57,7 @@ public class DialogsFragment extends Fragment {
     }
 
     private void initViews() {
-        RecyclerView.Adapter adapter = new SimpleRecyclerViewAdapter(getActivity(), listData, R.layout.list_item_simple_text2, fromList, toList);
+        RecyclerView.Adapter adapter = new IconTextRecyclerViewAdapter(getActivity(), listData);
         listSubDemo.setAdapter(adapter);
     }
 

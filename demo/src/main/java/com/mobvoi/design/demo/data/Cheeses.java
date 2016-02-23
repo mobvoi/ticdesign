@@ -1,4 +1,4 @@
-package com.ticwear.design.demo.data;
+package com.mobvoi.design.demo.data;
 
 import com.ticwear.design.demo.R;
 

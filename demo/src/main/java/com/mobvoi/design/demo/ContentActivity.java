@@ -1,4 +1,4 @@
-package com.ticwear.design.demo;
+package com.mobvoi.design.demo;
 
 import android.app.Activity;
 import android.app.ActivityOptions;
@@ -18,7 +18,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.ticwear.design.demo.data.Cheeses;
+import com.ticwear.design.demo.R;
+import com.mobvoi.design.demo.data.Cheeses;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;

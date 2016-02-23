@@ -1,4 +1,4 @@
-package com.ticwear.design.demo.widgets;
+package com.mobvoi.design.demo.widgets;
 
 import android.content.Context;
 import android.content.Intent;
@@ -10,7 +10,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.mobvoi.design.wearable.view.TicklableListView;
-import com.ticwear.design.demo.DetailsActivity;
+import com.mobvoi.design.demo.DetailsActivity;
 import com.ticwear.design.demo.R;
 
 import java.util.List;
