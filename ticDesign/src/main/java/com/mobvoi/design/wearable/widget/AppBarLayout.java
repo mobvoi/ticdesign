@@ -946,6 +946,7 @@ public class AppBarLayout extends LinearLayout {
                         deltaHeight += childLp.height - childLp.mOverScrollOriginalHeight;
                     }
                 }
+                // TODO: adjust animation duration for long distance snap
                 animateOffsetTo(coordinatorLayout, abl, deltaHeight, 0);
                 return true;
             }
@@ -1330,8 +1331,9 @@ public class AppBarLayout extends LinearLayout {
             if (behavior instanceof Behavior) {
                 // Offset the child so that it is below the app-bar (with any overlap)
                 final int offset = ((Behavior) behavior).getTopBottomOffsetForScrollingSibling();
-                setTopAndBottomOffset(dependency.getHeight() + offset
-                        - getOverlapForOffset(dependency, offset));
+                final int dependencyHeight = dependency.getHeight() + offset
+                        - getOverlapForOffset(dependency, offset);
+                setTopAndBottomOffset(dependencyHeight);
                 return true;
             }
             return false;

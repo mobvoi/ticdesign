@@ -3,14 +3,14 @@ package com.ticwear.design.demo.fragments;
 import android.app.Fragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ListAdapter;
-import android.widget.SimpleAdapter;
 
+import com.mobvoi.design.wearable.view.TicklableListView;
 import com.ticwear.design.demo.R;
-import com.mobvoi.design.wearable.view.ListView;
+import com.ticwear.design.demo.widgets.SimpleRecyclerViewAdapter;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -34,7 +34,7 @@ public class DialogsFragment extends Fragment {
     }
 
     @Bind(R.id.list_sub_demo)
-    ListView listSubDemo;
+    TicklableListView listSubDemo;
 
     private final static String[] fromList = {
             "title",
@@ -44,13 +44,13 @@ public class DialogsFragment extends Fragment {
             R.id.text1,
             R.id.text2
     };
-    private final static List<Map<String, Object>> listData = Arrays.asList(
+    private final static List<Map<String, String>> listData = Arrays.asList(
             createRowData("Notify Dialog", ""),
             createRowData("Confirm Dialog", null)
     );
 
-    private static Map<String, Object> createRowData(String title, String subtitle) {
-        Map<String, Object> map = new HashMap<>(2);
+    private static Map<String, String> createRowData(String title, String subtitle) {
+        Map<String, String> map = new HashMap<>(2);
         map.put(fromList[0], title);
         map.put(fromList[1], subtitle);
         return map;
@@ -64,7 +64,7 @@ public class DialogsFragment extends Fragment {
     }
 
     private void initViews() {
-        ListAdapter adapter = new SimpleAdapter(getActivity(), listData, R.layout.list_item_simple_text2, fromList, toList);
+        RecyclerView.Adapter adapter = new SimpleRecyclerViewAdapter(getActivity(), listData, R.layout.list_item_simple_text2, fromList, toList);
         listSubDemo.setAdapter(adapter);
     }
 
