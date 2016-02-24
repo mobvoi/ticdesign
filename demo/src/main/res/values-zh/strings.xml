@@ -1,6 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">TicDesignDemo</string>
+
+    <string name="category.dialog.title">对话框</string>
+    <string name="category.dialog.notify">提示对话框</string>
+    <string name="category.dialog.confirm">确认对话框</string>
+    <string name="category.dialog.choose">选择对话框</string>
+
+    <string name="category.widgets.title">控件</string>
+    <string name="category.widgets.button">按钮控件</string>
+    <string name="category.widgets.progress">进度/加载</string>
+    <string name="category.widgets.picker">数值选择器</string>
+
+    <string name="category.showcase.title">眼前一亮</string>
 
     <string name="cheese_content">中国拥有众多的人口，也拥有世界上最丰富多元的自然景观，高原、山林、湖泊、海岸
         线，这种地理和气候的跨度有助于物种的形成和保存，任何一个国家都没有这样多潜在的食物原材料。人们采集、捡拾、

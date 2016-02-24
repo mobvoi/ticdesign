@@ -21,14 +21,14 @@ public class DetailsActivity extends Activity {
         setContentView(R.layout.activity_details);
 
         Fragment detailFragment;
-        switch (getIntent().getStringExtra("case")) {
-            case "Dialogs":
+        switch (getIntent().getIntExtra("case", -1)) {
+            case R.string.category_dialog_title:
                 detailFragment = new DialogsFragment();
                 break;
-            case "Widgets":
+            case R.string.category_widgets_title:
                 detailFragment = null;
                 break;
-            case "Showcase":
+            case R.string.category_showcase_title:
                 detailFragment = new TransitionsFragment();
                 break;
             default:

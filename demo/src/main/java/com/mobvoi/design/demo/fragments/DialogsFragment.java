@@ -3,14 +3,15 @@ package com.mobvoi.design.demo.fragments;
 import android.app.Fragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.annotation.StringRes;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.mobvoi.design.wearable.view.SimpleRecyclerAdapter;
 import com.mobvoi.design.wearable.view.TicklableListView;
 import com.ticwear.design.demo.R;
-import com.mobvoi.design.demo.widgets.SimpleRecyclerViewAdapter;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -37,22 +38,19 @@ public class DialogsFragment extends Fragment {
     TicklableListView listSubDemo;
 
     private final static String[] fromList = {
-            "title",
-            "subtitle"
+            "title"
     };
     private final static int[] toList = {
-            R.id.text1,
-            R.id.text2
+            R.id.text1
     };
-    private final static List<Map<String, String>> listData = Arrays.asList(
-            createRowData("Notify Dialog", ""),
-            createRowData("Confirm Dialog", null)
+    private final static List<Map<String, Object>> listData = Arrays.asList(
+            createRowData(R.string.category_dialog_notify),
+            createRowData(R.string.category_dialog_confirm)
     );
 
-    private static Map<String, String> createRowData(String title, String subtitle) {
-        Map<String, String> map = new HashMap<>(2);
+    private static Map<String, Object> createRowData(@StringRes int title) {
+        Map<String, Object> map = new HashMap<>(2);
         map.put(fromList[0], title);
-        map.put(fromList[1], subtitle);
         return map;
     }
 
@@ -64,7 +62,7 @@ public class DialogsFragment extends Fragment {
     }
 
     private void initViews() {
-        RecyclerView.Adapter adapter = new SimpleRecyclerViewAdapter(getActivity(), listData, R.layout.list_item_simple_text2, fromList, toList);
+        RecyclerView.Adapter adapter = new SimpleRecyclerAdapter(getActivity(), listData, R.layout.list_item_simple_text1, fromList, toList);
         listSubDemo.setAdapter(adapter);
     }
 
