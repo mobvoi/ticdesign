@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- Default padding for list items. -->
+    <dimen name="list_item_padding_horizontal_ticwear">24dp</dimen>
+
+    <!-- Dimens for text size -->
+    <dimen name="text_size_title_ticwear">18sp</dimen>
+    <dimen name="text_size_title_small_ticwear">17sp</dimen>
+    <dimen name="text_size_body_1_ticwear">16sp</dimen>
+    <dimen name="text_size_body_2_ticwear">15sp</dimen>
+    <dimen name="text_size_hint_1_ticwear">14sp</dimen>
+    <dimen name="text_size_hint_2_ticwear">13sp</dimen>
+    <dimen name="text_size_button_ticwear">14sp</dimen>
+
+    <dimen name="text_size_large_ticwear">22sp</dimen>
+    <dimen name="text_size_medium_ticwear">18sp</dimen>
+    <dimen name="text_size_small_ticwear">14sp</dimen>
+
+</resources>

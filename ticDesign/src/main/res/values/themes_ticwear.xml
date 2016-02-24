@@ -1,6 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <style name="Theme.Ticwear" parent="android:Theme.Material.NoActionBar">
+
+        <!-- Text styles -->
+        <item name="android:textAppearance">@style/TextAppearance.Ticwear</item>
+        <item name="android:textAppearanceInverse">@style/TextAppearance.Ticwear.Inverse</item>
+
+        <item name="android:textAppearanceLarge">@style/TextAppearance.Ticwear.Large</item>
+        <item name="android:textAppearanceLargeInverse">@style/TextAppearance.Ticwear.Large.Inverse</item>
+        <item name="android:textAppearanceMedium">@style/TextAppearance.Ticwear.Medium</item>
+        <item name="android:textAppearanceMediumInverse">@style/TextAppearance.Ticwear.Medium.Inverse</item>
+        <item name="android:textAppearanceSmall">@style/TextAppearance.Ticwear.Small</item>
+        <item name="android:textAppearanceSmallInverse">@style/TextAppearance.Ticwear.Small.Inverse</item>
+
+        <item name="android:textAppearanceButton">@style/TextAppearance.Ticwear.Widget.Button</item>
+
+        <item name="android:lineSpacingMultiplier">1.4</item>
+
         <item name="android:windowAnimationStyle">@style/Animation.Ticwear.Activity</item>
         <item name="android:windowBackground">@android:color/black</item>
         <item name="android:windowContentOverlay">@null</item>
@@ -11,5 +27,19 @@
         <item name="android:windowSwipeToDismiss">true</item>
         <!-- Required to force windowInsets dispatch through application UI. -->
         <item name="android:windowOverscan">true</item>
+
+
+        <!-- List attributes -->
+        <item name="android:listPreferredItemHeight">64dp</item>
+        <item name="android:listPreferredItemHeightSmall">48dp</item>
+        <item name="android:listPreferredItemHeightLarge">80dp</item>
+        <item name="android:textAppearanceListItem">@style/TextAppearance.Ticwear.Title</item>
+        <item name="android:textAppearanceListItemSmall">@style/TextAppearance.Ticwear.Body1</item>
+        <item name="android:textAppearanceListItemSecondary">@style/TextAppearance.Ticwear.Body2</item>
+        <item name="android:listPreferredItemPaddingLeft">@dimen/list_item_padding_horizontal_ticwear</item>
+        <item name="android:listPreferredItemPaddingRight">@dimen/list_item_padding_horizontal_ticwear</item>
+        <item name="android:listPreferredItemPaddingStart">@dimen/list_item_padding_horizontal_ticwear</item>
+        <item name="android:listPreferredItemPaddingEnd">@dimen/list_item_padding_horizontal_ticwear</item>
     </style>
+
 </resources>

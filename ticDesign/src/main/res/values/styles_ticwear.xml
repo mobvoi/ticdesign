@@ -1,5 +1,116 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <resources>
+
+    <!-- Begin Ticwear theme styles -->
+
+    <!-- Text styles -->
+
+    <style name="TextAppearance"/>
+    <style name="TextAppearance.Ticwear">
+        <item name="android:textColor">?android:textColorPrimary</item>
+        <item name="android:textColorHint">?android:textColorHint</item>
+        <item name="android:textColorHighlight">?android:textColorHighlight</item>
+        <item name="android:textColorLink">?android:textColorLink</item>
+        <item name="android:textSize">@dimen/text_size_body_1_ticwear</item>
+        <item name="android:lineSpacingMultiplier">?android:lineSpacingMultiplier</item>
+        <item name="android:fontFamily">@string/font_family_body_1_ticwear</item>
+    </style>
+
+
+    <style name="TextAppearance.Ticwear.Title">
+        <item name="android:textSize">@dimen/text_size_title_ticwear</item>
+        <item name="android:fontFamily">@string/font_family_title_ticwear</item>
+        <item name="android:textColor">?android:textColorPrimary</item>
+    </style>
+
+    <style name="TextAppearance.Ticwear.Title.Inverse">
+        <item name="android:textColor">?android:textColorPrimaryInverse</item>
+        <item name="android:textColorHint">?android:textColorHintInverse</item>
+        <item name="android:textColorHighlight">?android:textColorHighlightInverse</item>
+        <item name="android:textColorLink">?android:textColorLinkInverse</item>
+    </style>
+
+    <style name="TextAppearance.Ticwear.Body2">
+        <item name="android:textSize">@dimen/text_size_body_2_ticwear</item>
+        <item name="android:fontFamily">@string/font_family_body_2_ticwear</item>
+        <item name="android:textColor">?android:textColorPrimary</item>
+    </style>
+
+    <style name="TextAppearance.Ticwear.Body1">
+        <item name="android:textSize">@dimen/text_size_body_1_ticwear</item>
+        <item name="android:fontFamily">@string/font_family_body_1_ticwear</item>
+        <item name="android:textColor">?android:textColorPrimary</item>
+    </style>
+
+    <style name="TextAppearance.Ticwear.Hint1">
+        <item name="android:textSize">@dimen/text_size_hint_1_ticwear</item>
+        <item name="android:fontFamily">@string/font_family_body_1_ticwear</item>
+        <item name="android:textColor">?android:textColorSecondary</item>
+    </style>
+
+    <style name="TextAppearance.Ticwear.Hint2">
+        <item name="android:textSize">@dimen/text_size_hint_2_ticwear</item>
+        <item name="android:fontFamily">@string/font_family_body_2_ticwear</item>
+        <item name="android:textColor">?android:textColorSecondary</item>
+    </style>
+
+    <style name="TextAppearance.Ticwear.Button">
+        <item name="android:textSize">@dimen/text_size_button_ticwear</item>
+        <item name="android:fontFamily">@string/font_family_button_ticwear</item>
+        <item name="android:textAllCaps">true</item>
+        <item name="android:textColor">?android:textColorPrimary</item>
+    </style>
+
+    <!-- Deprecated text styles -->
+
+    <style name="TextAppearance.Ticwear.Inverse">
+        <item name="android:textColor">?android:textColorPrimaryInverse</item>
+        <item name="android:textColorHint">?android:textColorHintInverse</item>
+        <item name="android:textColorHighlight">?android:textColorHighlightInverse</item>
+        <item name="android:textColorLink">?android:textColorLinkInverse</item>
+    </style>
+
+    <style name="TextAppearance.Ticwear.Large">
+        <item name="android:textSize">@dimen/text_size_large_ticwear</item>
+        <item name="android:textColor">?android:textColorPrimary</item>
+    </style>
+
+    <style name="TextAppearance.Ticwear.Large.Inverse">
+        <item name="android:textColor">?android:textColorPrimaryInverse</item>
+        <item name="android:textColorHint">?android:textColorHintInverse</item>
+        <item name="android:textColorHighlight">?android:textColorHighlightInverse</item>
+        <item name="android:textColorLink">?android:textColorLinkInverse</item>
+    </style>
+
+    <style name="TextAppearance.Ticwear.Medium">
+        <item name="android:textSize">@dimen/text_size_medium_ticwear</item>
+        <item name="android:textColor">?android:textColorSecondary</item>
+    </style>
+
+    <style name="TextAppearance.Ticwear.Medium.Inverse">
+        <item name="android:textColor">?android:textColorSecondaryInverse</item>
+        <item name="android:textColorHint">?android:textColorHintInverse</item>
+        <item name="android:textColorHighlight">?android:textColorHighlightInverse</item>
+        <item name="android:textColorLink">?android:textColorLinkInverse</item>
+    </style>
+
+    <style name="TextAppearance.Ticwear.Small">
+        <item name="android:textSize">@dimen/text_size_small_ticwear</item>
+        <item name="android:textColor">?android:textColorTertiary</item>
+    </style>
+
+    <style name="TextAppearance.Ticwear.Small.Inverse">
+        <item name="android:textColor">?android:textColorTertiaryInverse</item>
+        <item name="android:textColorHint">?android:textColorHintInverse</item>
+        <item name="android:textColorHighlight">?android:textColorHighlightInverse</item>
+        <item name="android:textColorLink">?android:textColorLinkInverse</item>
+    </style>
+
+    <style name="TextAppearance.Ticwear.Widget"/>
+    <style name="TextAppearance.Ticwear.Widget.Button" parent="TextAppearance.Ticwear.Button" />
+
+    <!-- Animation Styles -->
+
     <style name="Animation"/>
     <style name="Animation.Ticwear"/>
 

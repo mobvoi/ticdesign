@@ -110,7 +110,7 @@ public class IconTextRecyclerViewAdapter extends TicklableListView.Adapter<IconT
                     break;
             }
             textView.setPivotX(0);
-            textView.setPivotY(0);
+            textView.setPivotY(textView.getHeight() / 2f);
             if (animate) {
                 textView.animate().setDuration(animDuration).scaleX(scale);
                 textView.animate().setDuration(animDuration).scaleY(scale);

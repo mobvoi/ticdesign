@@ -1,0 +1,4 @@
+<resources>
+    <string name="transition_shared_avatar">avatar</string>
+    <string name="transition_shared_title">title</string>
+</resources>

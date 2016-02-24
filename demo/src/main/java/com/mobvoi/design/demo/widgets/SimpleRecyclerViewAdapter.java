@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.IdRes;
 import android.support.annotation.LayoutRes;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -45,7 +46,13 @@ public class SimpleRecyclerViewAdapter extends TicklableListView.Adapter<SimpleR
         Map<String, String> item = listData.get(position);
         for (int i = 0; i < from.length; i++) {
             TextView textView = ButterKnife.findById(holder.itemView, to[i]);
-            textView.setText(item.get(from[i]));
+            String text = item.get(from[i]);
+            if (TextUtils.isEmpty(text)) {
+                textView.setVisibility(View.GONE);
+            } else {
+                textView.setVisibility(View.VISIBLE);
+                textView.setText(text);
+            }
         }
     }
 
@@ -89,7 +96,7 @@ public class SimpleRecyclerViewAdapter extends TicklableListView.Adapter<SimpleR
             }
             TextView title = ButterKnife.findById(itemView, R.id.text1);
             title.setPivotX(0);
-            title.setPivotY(0);
+            title.setPivotY(title.getHeight() / 2f);
             if (animate) {
                 title.animate().setDuration(animDuration).scaleX(scale);
                 title.animate().setDuration(animDuration).scaleY(scale);
