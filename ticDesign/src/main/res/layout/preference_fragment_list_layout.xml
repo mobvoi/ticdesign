@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.mobvoi.design.wearable.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:scrollbars="vertical"
+    tools:context="com.mobvoi.design.demo.MainActivity">
+
+    <com.mobvoi.design.wearable.view.TicklableListView
+        style="?attr/preferenceFragmentListStyle"
+        android:id="@android:id/list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingTop="0dip"
+        android:paddingBottom="@dimen/preference_fragment_padding_bottom_ticwear"
+        android:scrollbarStyle="@integer/preference_fragment_scrollbarStyle_ticwear"
+        android:clipToPadding="false"
+        android:drawSelectorOnTop="false"
+        android:cacheColorHint="@android:color/transparent"
+        android:scrollbarAlwaysDrawVerticalTrack="true" />
+
+    <com.mobvoi.design.wearable.widget.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <com.mobvoi.design.wearable.widget.ScalableTextView
+            style="?android:textAppearanceSmall"
+            android:id="@+id/title"
+            android:layout_width="match_parent"
+            android:layout_height="32dp"
+            android:gravity="center"
+            android:text="@null"
+            app:layout_scrollFlags="scroll|overScrollBounce"
+            app:layout_scrollResistanceFactor="0.5"
+            app:scaleFactor="0.5"
+            />
+
+    </com.mobvoi.design.wearable.widget.AppBarLayout>
+
+</com.mobvoi.design.wearable.widget.CoordinatorLayout>

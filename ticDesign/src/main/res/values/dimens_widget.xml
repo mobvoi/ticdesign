@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- Dimens for list item content -->
+    <dimen name="list_item_status_box_size_normal">36dp</dimen>
+    <dimen name="list_item_status_box_size_large">42dp</dimen>
+    <dimen name="list_item_status_box_size_small">34dp</dimen>
+    <dimen name="list_item_icon_frame_size_normal">46dp</dimen>
+    <dimen name="list_item_icon_frame_size_large">50dp</dimen>
+    <dimen name="list_item_icon_frame_size_small">42dp</dimen>
+    <dimen name="list_item_icon_src_size">22dp</dimen>
+    <!-- text margin from icon or other widgets -->
+    <dimen name="list_item_text_margin_normal">14dp</dimen>
+
+</resources>

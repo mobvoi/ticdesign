@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- Default padding for list items. -->
+    <dimen name="list_item_padding_horizontal_ticwear">30dp</dimen>
+
+</resources>

@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright (C) 2014 The Android Open Source Project
+
+     Licensed under the Apache License, Version 2.0 (the "License");
+     you may not use this file except in compliance with the License.
+     You may obtain a copy of the License at
+
+          http://www.apache.org/licenses/LICENSE-2.0
+
+     Unless required by applicable law or agreed to in writing, software
+     distributed under the License is distributed on an "AS IS" BASIS,
+     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+     See the License for the specific language governing permissions and
+     limitations under the License.
+-->
+
+<!-- Layout for a Preference in a PreferenceActivity. The
+     Preference is able to place a specific widget for its particular
+     type in the "widget_frame" layout. -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:minHeight="?android:listPreferredItemHeightSmall"
+    android:gravity="center_vertical"
+    android:paddingStart="?android:listPreferredItemPaddingStart"
+    android:paddingEnd="?android:listPreferredItemPaddingEnd"
+    android:paddingTop="@dimen/preference_padding_vertical"
+    android:paddingBottom="@dimen/preference_padding_vertical"
+    android:background="?android:selectableItemBackground"
+    android:clipToPadding="false"
+    android:orientation="horizontal">
+
+    <!-- extra spacing on start of preference -->
+    <View
+        android:layout_width="6dp"
+        android:layout_height="0dp"
+        android:layout_weight="0" />
+
+    <!-- Use a larger frame size to allow image scale animation. -->
+    <FrameLayout
+        android:id="@+id/icon_frame"
+        android:layout_width="@dimen/list_item_icon_frame_size_large"
+        android:layout_height="@dimen/list_item_icon_frame_size_large"
+        android:layout_weight="0"
+        android:layout_marginStart="@dimen/preference_icon_frame_margin_diff"
+        android:layout_marginTop="@dimen/preference_icon_frame_margin_diff"
+        android:layout_marginBottom="@dimen/preference_icon_frame_margin_diff"
+        android:layout_marginEnd="@dimen/preference_icon_frame_margin_end"
+        android:clipToPadding="false"
+        android:gravity="center">
+
+        <ImageView
+            android:id="@+id/icon_background"
+            android:layout_width="@dimen/list_item_icon_frame_size_normal"
+            android:layout_height="@dimen/list_item_icon_frame_size_normal"
+            android:layout_gravity="center"
+            android:src="@drawable/list_item_icon_background"
+            android:contentDescription="@null"
+            />
+        <ImageView
+            android:id="@android:id/icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:contentDescription="@null"
+            android:maxWidth="@dimen/list_item_icon_frame_size_normal"
+            android:maxHeight="@dimen/list_item_icon_frame_size_normal"
+            tools:layout_width="@dimen/list_item_icon_src_size"
+            tools:layout_height="@dimen/list_item_icon_src_size"
+            tools:background="#aaa"/>
+    </FrameLayout>
+
+    <RelativeLayout android:id="@+id/text_frame"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1">
+
+        <TextView android:id="@android:id/title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:singleLine="true"
+            android:textAppearance="?android:textAppearanceListItem"
+            android:ellipsize="marquee"
+            tools:text="Preference Title"/>
+
+        <TextView android:id="@android:id/summary"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@android:id/title"
+            android:layout_alignStart="@android:id/title"
+            android:textAppearance="?android:textAppearanceListItemSecondary"
+            android:textColor="?android:textColorSecondary"
+            android:maxLines="10"
+            tools:text="Detailed description text"/>
+
+    </RelativeLayout>
+
+    <!-- Preference should place its actual preference widget here. -->
+    <LinearLayout
+        android:id="@android:id/widget_frame"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_weight="0"
+        android:gravity="end|center_vertical"
+        android:layout_marginStart="@dimen/list_item_text_margin_normal"
+        android:orientation="vertical"/>
+
+</LinearLayout>

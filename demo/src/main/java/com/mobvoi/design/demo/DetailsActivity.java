@@ -2,11 +2,12 @@ package com.mobvoi.design.demo;
 
 import android.app.Activity;
 import android.app.Fragment;
+import android.content.Intent;
 import android.os.Bundle;
 
-import com.ticwear.design.demo.R;
 import com.mobvoi.design.demo.fragments.DialogsFragment;
 import com.mobvoi.design.demo.fragments.TransitionsFragment;
+import com.ticwear.design.demo.R;
 
 /**
  * Created by tankery on 1/12/16.
@@ -26,6 +27,11 @@ public class DetailsActivity extends Activity {
                 detailFragment = new DialogsFragment();
                 break;
             case R.string.category_widgets_title:
+                detailFragment = null;
+                break;
+            case R.string.category_settings_title:
+                // Use a settings activity instead of details activity.
+                startActivity(new Intent(this, SettingsActivity.class));
                 detailFragment = null;
                 break;
             case R.string.category_showcase_title:

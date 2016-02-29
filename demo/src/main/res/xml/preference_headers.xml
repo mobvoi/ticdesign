@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<preference-headers xmlns:android="http://schemas.android.com/apk/res/android">
+    <header
+        android:fragment="com.mobvoi.design.demo.fragments.SettingsFragment"
+        android:icon="@drawable/ic_preference"
+        android:title="@string/preference.custom_config_mode" />
+    <header
+        android:icon="@drawable/ic_batterysave"
+        android:title="@string/preference.power_save_mode" />
+    <header
+        android:icon="@drawable/ic_plane"
+        android:title="@string/preference.airplane_mode_service_name" />
+    <header
+        android:icon="@drawable/ic_wifi"
+        android:title="@string/preference.wifi_setting" />
+    <header
+        android:icon="@drawable/ic_3g"
+        android:title="@string/preference.network_saved" />
+    <header
+        android:icon="@drawable/ic_developer"
+        android:title="@string/preference.developer_options" />
+    <header
+        android:icon="@drawable/ic_about"
+        android:title="@string/preference.about" />
+</preference-headers>

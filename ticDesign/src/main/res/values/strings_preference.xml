@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!--  Strings for possible PreferenceActivity Back/Next buttons -->
+    <string name="back_button_label">Back</string>
+    <string name="next_button_label">Next</string>
+
+    <!-- Optional button to Skip a PreferenceActivity [CHAR LIMIT=20] -->
+    <string name="skip_button_label">Skip</string>
+
+    <!-- Default text for a button that can be toggled on and off. -->
+    <string name="capital_on">ON</string>
+    <!-- Default text for a button that can be toggled on and off. -->
+    <string name="capital_off">OFF</string>
+
+</resources>

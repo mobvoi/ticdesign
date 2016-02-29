@@ -493,6 +493,36 @@ public class TicklableListView extends RecyclerView {
             if (itemView instanceof TicklableListView.OnFocusStateChangedListener) {
                 TicklableListView.OnFocusStateChangedListener item = (TicklableListView.OnFocusStateChangedListener) itemView;
                 item.onFocusStateChanged(focusState, animate);
+            } else {
+                applyDefaultAnimate(focusState, animate);
+            }
+        }
+
+        private void applyDefaultAnimate(int focusState, boolean animate) {
+            float scale = 1.0f;
+            float alpha = 1.0f;
+            switch (focusState) {
+                case FOCUS_STATE_NORMAL:
+                    break;
+                case FOCUS_STATE_CENTRAL:
+                    scale = 1.1f;
+                    alpha = 1.0f;
+                    break;
+                case FOCUS_STATE_NON_CENTRAL:
+                    scale = 0.9f;
+                    alpha = 0.6f;
+                    break;
+            }
+            if (animate) {
+                itemView.animate()
+                        .setDuration(200)
+                        .alpha(alpha)
+                        .scaleX(scale)
+                        .scaleY(scale);
+            } else {
+                itemView.setScaleX(scale);
+                itemView.setScaleY(scale);
+                itemView.setAlpha(alpha);
             }
         }
     }

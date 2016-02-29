@@ -18,6 +18,8 @@
         </activity>
         <activity android:name="com.mobvoi.design.demo.DetailsActivity" />
         <activity android:name="com.mobvoi.design.demo.ContentActivity"/>
+        <activity android:name="com.mobvoi.design.demo.SettingsActivity"
+            android:label="@string/category.settings.title"/>
     </application>
 
 </manifest>
