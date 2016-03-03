@@ -1668,6 +1668,19 @@ public class Preference implements Comparable<Preference> {
                 };
     }
 
+    /**
+     * ViewHolder for preference.
+     *
+     * This class will instance a {@link PreferenceData} in constructor. When
+     * each time we needs to bind a {@link ViewHolder}, we first bind the
+     * preference to the data for display by calling {@link #bindPreferenceToData(Preference)},
+     * then bind the new data to view using {@link #bind(PreferenceData)}.
+     *
+     * If you need to define your own Preference with some custom data, you may
+     * need to extends the {@link PreferenceData}, instance it in your Preference,
+     * override the {@link #bindPreferenceToData} to bind custom data, then you can
+     * update your view by override the {@link #bind} with your custom {@link PreferenceData}.
+     */
     static class ViewHolder extends PreferenceViewHolder {
 
         PreferenceData data;
@@ -1677,17 +1690,32 @@ public class Preference implements Comparable<Preference> {
             this(context, layoutResId, widgetLayoutResId, new PreferenceData());
         }
 
+        /**
+         * Calling this constructor when you have your custom {@link PreferenceData}.
+         */
         ViewHolder(Context context, @LayoutRes int layoutResId,
                           @LayoutRes int widgetLayoutResId, PreferenceData data) {
             super(context, layoutResId, widgetLayoutResId);
             this.data = data;
         }
 
+        /**
+         * Bind new preference to this ViewHolder.
+         * @param preference new preference to be bind.
+         */
         public final void bindPreference(@NonNull Preference preference) {
             bindPreferenceToData(preference);
             bind(data);
         }
 
+        /**
+         * bind preference to data for display.
+         *
+         * Override this method if you have some custom data needs to bind.
+         * @param preference new preference to be bind.
+         *
+         * {@see #bindPreference}
+         */
         @CallSuper
         protected void bindPreferenceToData(@NonNull Preference preference) {
             data.title = preference.getTitle();

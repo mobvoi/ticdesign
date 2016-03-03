@@ -193,6 +193,9 @@ public class PreferenceViewHolder extends TicklableListView.ViewHolder {
         }
     }
 
+    /**
+     * The data of preference needs to display in view.
+     */
     static class PreferenceData {
 
         @Nullable
