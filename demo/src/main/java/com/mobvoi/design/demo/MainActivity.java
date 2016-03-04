@@ -9,8 +9,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.TextView;
 
-import com.mobvoi.design.wearable.view.SimpleRecyclerAdapter;
-import com.mobvoi.design.wearable.view.TicklableListView;
 import com.ticwear.design.demo.R;
 
 import java.util.Arrays;
@@ -20,6 +18,8 @@ import java.util.Map;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import mobvoi.design.widget.SimpleRecyclerAdapter;
+import mobvoi.design.widget.TicklableListView;
 
 public class MainActivity extends Activity {
 

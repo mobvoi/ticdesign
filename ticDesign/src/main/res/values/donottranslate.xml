@@ -16,6 +16,6 @@
 -->
 <resources>
     <!-- The class name to the ScrollingChildBehavior required for AppBarLayout -->
-    <string name="appbar_scrolling_view_behavior" translatable="false">com.mobvoi.design.wearable.widget.AppBarLayout$ScrollingViewBehavior</string>
+    <string name="appbar_scrolling_view_behavior" translatable="false">mobvoi.design.widget.AppBarLayout$ScrollingViewBehavior</string>
 </resources>
 

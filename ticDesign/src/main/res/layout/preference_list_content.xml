@@ -65,7 +65,7 @@
             <!-- TODO -->
             <!--<include layout="@android:layout/breadcrumbs_in_fragment" />-->
 
-            <com.mobvoi.design.wearable.preference.PreferenceFrameLayout
+            <mobvoi.design.preference.PreferenceFrameLayout
                 android:id="@+id/prefs"
                 android:layout_width="match_parent"
                 android:layout_height="0dip"

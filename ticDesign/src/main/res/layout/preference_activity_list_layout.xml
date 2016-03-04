@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.mobvoi.design.wearable.widget.CoordinatorLayout
+<mobvoi.design.widget.CoordinatorLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -8,7 +8,7 @@
     android:scrollbars="vertical"
     tools:context="com.mobvoi.design.demo.MainActivity">
 
-    <com.mobvoi.design.wearable.view.TicklableListView
+    <mobvoi.design.widget.TicklableListView
         style="?attr/preferenceListStyle"
         android:id="@android:id/list"
         android:layout_width="match_parent"
@@ -19,11 +19,11 @@
         android:listPreferredItemHeight="48dp"
         android:scrollbarAlwaysDrawVerticalTrack="true" />
 
-    <com.mobvoi.design.wearable.widget.AppBarLayout
+    <mobvoi.design.widget.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <com.mobvoi.design.wearable.widget.ScalableTextView
+        <mobvoi.design.widget.ScalableTextView
             style="?android:textAppearanceSmall"
             android:id="@+id/title"
             android:layout_width="match_parent"
@@ -35,6 +35,6 @@
             app:scaleFactor="0.5"
             />
 
-    </com.mobvoi.design.wearable.widget.AppBarLayout>
+    </mobvoi.design.widget.AppBarLayout>
 
-</com.mobvoi.design.wearable.widget.CoordinatorLayout>
+</mobvoi.design.widget.CoordinatorLayout>

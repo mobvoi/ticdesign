@@ -14,8 +14,8 @@ import android.widget.TextView;
 
 import com.mobvoi.design.demo.ContentActivity;
 import com.mobvoi.design.demo.data.Cheeses;
-import com.mobvoi.design.wearable.view.SimpleRecyclerAdapter;
-import com.mobvoi.design.wearable.view.TicklableListView;
+import mobvoi.design.widget.SimpleRecyclerAdapter;
+import mobvoi.design.widget.TicklableListView;
 import com.ticwear.design.demo.R;
 
 import java.lang.ref.WeakReference;

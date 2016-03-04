@@ -9,8 +9,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.mobvoi.design.wearable.view.SimpleRecyclerAdapter;
-import com.mobvoi.design.wearable.view.TicklableListView;
+import mobvoi.design.widget.SimpleRecyclerAdapter;
+import mobvoi.design.widget.TicklableListView;
 import com.ticwear.design.demo.R;
 
 import java.util.Arrays;
