@@ -16,6 +16,16 @@
 -->
 <resources>
 
+    <style name="Widget.Design.FloatingActionButton" parent="android:Widget">
+        <item name="android:background">@drawable/design_fab_background</item>
+        <item name="android:backgroundTint">?android:colorAccent</item>
+        <item name="fabSize">normal</item>
+        <item name="android:elevation">@dimen/design_fab_elevation</item>
+        <item name="pressedTranslationZ">@dimen/design_fab_translation_z_pressed</item>
+        <item name="rippleColor">?android:colorControlHighlight</item>
+        <item name="borderWidth">@dimen/design_fab_border_width</item>
+    </style>
+
     <style name="Widget.Design.CollapsingToolbar" parent="android:Widget">
         <item name="expandedTitleMargin">32dp</item>
         <item name="statusBarScrim">?android:colorPrimaryDark</item>

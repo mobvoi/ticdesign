@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <declare-styleable name="ScalableTextView">
+        <!-- A factor multiplied to text scale.
+             When equals 0, there is no scale effect, when equals 1, the text scaled with view change.
+             textScale = 1f + (scale - 1f) * scaleFactor -->
+        <attr name="scaleFactor" format="float"/>
+    </declare-styleable>
+
+</resources>

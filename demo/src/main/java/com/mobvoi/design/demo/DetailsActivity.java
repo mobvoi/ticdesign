@@ -7,6 +7,7 @@ import android.os.Bundle;
 
 import com.mobvoi.design.demo.fragments.DialogsFragment;
 import com.mobvoi.design.demo.fragments.TransitionsFragment;
+import com.mobvoi.design.demo.fragments.WidgetsFragment;
 import com.ticwear.design.demo.R;
 
 /**
@@ -27,7 +28,7 @@ public class DetailsActivity extends Activity {
                 detailFragment = new DialogsFragment();
                 break;
             case R.string.category_widgets_title:
-                detailFragment = null;
+                detailFragment = new WidgetsFragment();
                 break;
             case R.string.category_settings_title:
                 // Use a settings activity instead of details activity.

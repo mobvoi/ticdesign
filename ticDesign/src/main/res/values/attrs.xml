@@ -16,6 +16,26 @@
 -->
 <resources>
 
+    <declare-styleable name="FloatingActionButton">
+        <!-- Background for the FloatingActionButton -->
+        <attr name="android:backgroundTint"/>
+        <attr name="android:backgroundTintMode"/>
+
+        <!-- Ripple color for the FAB. -->
+        <attr name="rippleColor" format="color"/>
+        <!-- Size for the FAB. -->
+        <attr name="fabSize">
+            <enum name="normal" value="0"/>
+            <enum name="mini" value="1"/>
+        </attr>
+        <!-- Elevation value for the FAB -->
+        <attr name="android:elevation"/>
+        <!-- TranslationZ value for the FAB when pressed-->
+        <attr name="pressedTranslationZ" format="dimension"/>
+        <!-- The width of the border around the FAB. -->
+        <attr name="borderWidth" format="dimension"/>
+    </declare-styleable>
+
     <declare-styleable name="CoordinatorLayout">
         <!-- A reference to an array of integers representing the
              locations of horizontal keylines in dp from the starting edge.
@@ -241,13 +261,6 @@
     <declare-styleable name="BottomSheetBehavior_Params">
         <!-- The height of the bottom sheet when it is collapsed. -->
         <attr name="behavior_peekHeight" format="dimension"/>
-    </declare-styleable>
-
-    <declare-styleable name="ScalableTextView">
-        <!-- A factor multiplied to text scale.
-             When equals 0, there is no scale effect, when equals 1, the text scaled with view change.
-             textScale = 1f + (scale - 1f) * scaleFactor -->
-        <attr name="scaleFactor" format="float"/>
     </declare-styleable>
 
 </resources>

@@ -102,6 +102,7 @@ public class ScalableTextView extends TextView {
 
             float scale;
 
+            // Select the larger scale.
             if (srcWidth * dstHeight > dstWidth * srcHeight) {
                 scale = (float) dstHeight / (float) srcHeight;
             } else {

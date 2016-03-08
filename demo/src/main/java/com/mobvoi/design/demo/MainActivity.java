@@ -35,10 +35,11 @@ public class MainActivity extends Activity {
     private final static List<Map<String, Object>> listData = Arrays.asList(
             createRowData(R.string.category_dialog_title),
             createRowData(R.string.category_settings_title),
+            createRowData(R.string.category_widgets_title),
             createRowData(R.string.category_showcase_title),
-            createRowData(R.string.category_widgets_title),
-            createRowData(R.string.category_widgets_title),
-            createRowData(R.string.category_widgets_title)
+            createRowData(R.string.app_name),
+            createRowData(R.string.app_name),
+            createRowData(R.string.app_name)
     );
 
     private static Map<String, Object> createRowData(@StringRes int title) {

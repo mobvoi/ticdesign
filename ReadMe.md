@@ -9,6 +9,6 @@
 详细的使用帮助，参看 [Ticwear 设计辅助库使用说明][ticwear-design-support]。
 
 
-[ticwear-design]: #
-[ticwear-design-support]: doc/
+[ticwear-design]: http://developer.ticwear.com/doc/guideline
+[ticwear-design-support]: doc/ReadMe.md
 
