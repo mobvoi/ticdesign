@@ -9,6 +9,8 @@
     </declare-styleable>
 
 
+    <attr name="tic_numberPickerStyle" format="reference" />
+
     <!-- The set of attributes that describe a AlertDialog's theme. -->
     <declare-styleable name="AlertDialog">
         <attr name="android:fullDark" />
@@ -29,6 +31,32 @@
         <attr name="android:listItemLayout" />
         <attr name="android:progressLayout" />
         <attr name="android:horizontalProgressLayout" />
+    </declare-styleable>
+
+    <!-- TODO: check if this may conflict to other library when its not public. -->
+    <declare-styleable name="NumberPicker">
+        <!-- @hide Color for the solid color background if such for optimized rendering. -->
+        <attr name="tic_solidColor" format="color|reference" />
+        <!-- @hide The divider for making the selection area. -->
+        <attr name="tic_selectionDivider" format="reference" />
+        <!-- @hide The height of the selection divider. -->
+        <attr name="tic_selectionDividerHeight" format="dimension" />
+        <!-- @hide The distance between the two selection dividers. -->
+        <attr name="tic_selectionDividersDistance" format="dimension" />
+        <!-- @hide The min height of the NumberPicker. -->
+        <attr name="tic_internalMinHeight" format="dimension" />
+        <!-- @hide The max height of the NumberPicker. -->
+        <attr name="tic_internalMaxHeight" format="dimension" />
+        <!-- @hide The min width of the NumberPicker. -->
+        <attr name="tic_internalMinWidth" format="dimension" />
+        <!-- @hide The max width of the NumberPicker. -->
+        <attr name="tic_internalMaxWidth" format="dimension" />
+        <!-- @hide The layout of the number picker. -->
+        <attr name="tic_internalLayout" format="reference" />
+        <!-- @hide The drawable for pressed virtual (increment/decrement) buttons. -->
+        <attr name="tic_virtualButtonPressedDrawable" format="reference"/>
+        <!-- @hide If true then the selector wheel is hidden until the picker has focus. -->
+        <attr name="tic_hideWheelUntilFocused" format="boolean"/>
     </declare-styleable>
 
 </resources>

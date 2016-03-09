@@ -7,6 +7,8 @@
     <string name="category.dialog.notify">Notify Dialog</string>
     <string name="category.dialog.confirm">Confirm Dialog</string>
     <string name="category.dialog.choose">Choose Dialog</string>
+    <string name="category.dialog.number_picker">Number Picker</string>
+    <string name="category.dialog.time_picker">Time Picker</string>
 
     <string name="category.widgets.title">Widgets</string>
     <string name="category.widgets.button">Buttons</string>

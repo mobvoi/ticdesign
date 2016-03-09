@@ -5,6 +5,7 @@
     <public type="style" name="Widget.Ticwear.CollapsingToolbar" />
     <public type="style" name="Widget.Ticwear.AppBarLayout" />
     <public type="style" name="Widget.Ticwear.CoordinatorLayout" />
+    <public type="style" name="Widget.Ticwear.NumberPicker" />
     <public type="style" name="TextAppearance.Ticwear.CollapsingToolbar.Expanded" />
 
     <public type="style" name="Preference.Ticwear" />

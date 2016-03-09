@@ -2,15 +2,21 @@ package com.mobvoi.design.demo.fragments;
 
 import android.app.Dialog;
 import android.app.DialogFragment;
+import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.StringRes;
+import android.text.format.DateFormat;
 import android.view.View;
+import android.widget.TimePicker;
 
 import com.ticwear.design.demo.R;
 
+import java.util.Calendar;
+
 import ticwear.design.app.AlertDialog;
+import ticwear.design.app.NumberPickerDialog;
 
 /**
  * Created by tankery on 1/12/16.
@@ -24,6 +30,8 @@ public class DialogsFragment extends ListFragment {
                 R.string.category_dialog_notify,
                 R.string.category_dialog_confirm,
                 R.string.category_dialog_choose,
+                R.string.category_dialog_number_picker,
+                R.string.category_dialog_time_picker,
         });
     }
 
@@ -59,9 +67,43 @@ public class DialogsFragment extends ListFragment {
                 break;
             case R.string.category_dialog_choose:
                 break;
+            case R.string.category_dialog_number_picker:
+                dialogFragment = new DialogFragment() {
+                    @Override
+                    public Dialog onCreateDialog(Bundle savedInstanceState) {
+                        return new NumberPickerDialog.Builder(context)
+                                .minValue(0)
+                                .maxValue(20)
+                                .defaultValue(5)
+                                .build();
+                    }
+                };
+                break;
+            case R.string.category_dialog_time_picker:
+                dialogFragment = new TimePickerFragment();
+                break;
         }
 
         return dialogFragment;
     }
 
+    public static class TimePickerFragment extends DialogFragment
+            implements TimePickerDialog.OnTimeSetListener {
+
+        @Override
+        public Dialog onCreateDialog(Bundle savedInstanceState) {
+            // Use the current time as the default values for the picker
+            final Calendar c = Calendar.getInstance();
+            int hour = c.get(Calendar.HOUR_OF_DAY);
+            int minute = c.get(Calendar.MINUTE);
+
+            // Create a new instance of TimePickerDialog and return it
+            return new TimePickerDialog(getActivity(), this, hour, minute,
+                    DateFormat.is24HourFormat(getActivity()));
+        }
+
+        public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+            // Do something with the time chosen by the user
+        }
+    }
 }

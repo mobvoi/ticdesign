@@ -3,5 +3,10 @@
 
     <item name="tic_view_offset_helper" type="id" />
 
+
+    <!-- Just adding these so I wont have to remove a lot of code from NumberPicker.java. -->
+    <item name="tic_increment" type="id" />
+    <item name="tic_decrement" type="id" />
+
 </resources>
 

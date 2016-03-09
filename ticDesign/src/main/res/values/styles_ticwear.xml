@@ -112,6 +112,20 @@
         <item name="tic_borderRight">?attr/tic_preferenceFragmentPaddingSide</item>
     </style>
 
+    <style name="Widget.Ticwear.NumberPicker">
+        <item name="android:orientation">vertical</item>
+        <item name="android:fadingEdge">vertical</item>
+        <item name="android:fadingEdgeLength">50dip</item>
+
+        <item name="tic_solidColor">@android:color/transparent</item>
+        <item name="tic_selectionDivider">@drawable/number_picker_divider_ticwear</item>
+        <item name="tic_selectionDividerHeight">2dip</item>
+        <item name="tic_internalLayout">@layout/number_picker_with_selector_wheel_ticwear</item>
+        <item name="tic_internalMinWidth">64dip</item>
+        <item name="tic_internalMaxHeight">180dip</item>
+        <item name="tic_virtualButtonPressedDrawable">?android:selectableItemBackground</item>
+    </style>
+
     <!-- Text styles -->
 
     <style name="TextAppearance"/>
