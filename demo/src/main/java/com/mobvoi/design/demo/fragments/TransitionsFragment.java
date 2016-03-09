@@ -14,8 +14,6 @@ import android.widget.TextView;
 
 import com.mobvoi.design.demo.ContentActivity;
 import com.mobvoi.design.demo.data.Cheeses;
-import mobvoi.design.widget.SimpleRecyclerAdapter;
-import mobvoi.design.widget.TicklableListView;
 import com.ticwear.design.demo.R;
 
 import java.lang.ref.WeakReference;
@@ -26,6 +24,8 @@ import java.util.Map;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import mobvoi.design.widget.SimpleRecyclerAdapter;
+import mobvoi.design.widget.TicklableListView;
 
 /**
  * Created by tankery on 1/12/16.
@@ -117,8 +117,8 @@ public class TransitionsFragment extends Fragment {
                 return;
             }
             Intent intent = new Intent(host, ContentActivity.class);
-            intent.putExtra(host.getString(R.string.transition_shared_avatar), (int) dataSet.get(fromList[0]));
-            intent.putExtra(host.getString(R.string.transition_shared_title), (String) dataSet.get(fromList[1]));
+            intent.putExtra(host.getString(R.string.transition_shared_avatar), (int) getBindingData(fromList[0]));
+            intent.putExtra(host.getString(R.string.transition_shared_title), (String) getBindingData(fromList[1]));
             ContentActivity.startActivityWithOptions(host, intent, imageIcon, textView);
         }
 

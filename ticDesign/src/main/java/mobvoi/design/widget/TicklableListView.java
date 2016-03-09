@@ -13,18 +13,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import hugo.weaving.DebugLog;
+import mobvoi.design.R;
 
 @TargetApi(20)
 @CoordinatorLayout.DefaultBehavior(TicklableListViewBehavior.class)
 public class TicklableListView extends RecyclerView {
 
     static final String TAG = "TicklableListView";
-
-    /**
-     * after this period of time without focus state action (side panel event), we should exit
-     * focus state.
-     */
-    private static final long FOCUS_ACTION_IDLE_TIMEOUT = 2000l;
 
     /**
      * Invalid focus state
@@ -275,7 +270,10 @@ public class TicklableListView extends RecyclerView {
                 break;
             case MotionEvent.ACTION_UP:
             case MotionEvent.ACTION_CANCEL:
-                getHandler().postDelayed(exitFocusStateRunnable, FOCUS_ACTION_IDLE_TIMEOUT);
+                getHandler().postDelayed(exitFocusStateRunnable,
+                         // after this period of time without focus state action (side panel event),
+                         // we should exit focus state.
+                        getResources().getInteger(R.integer.design_time_action_idle_timeout));
                 break;
         }
         super.dispatchTouchEvent(ev);

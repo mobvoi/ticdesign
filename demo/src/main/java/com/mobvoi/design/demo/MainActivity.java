@@ -79,7 +79,7 @@ public class MainActivity extends Activity {
         public void onClick(View v) {
             Context context = v.getContext();
             Intent intent = new Intent(context, DetailsActivity.class);
-            intent.putExtra("case", (int) dataSet.get(fromList[0]));
+            intent.putExtra("case", (int) getBindingData(fromList[0]));
             context.startActivity(intent);
         }
 

@@ -309,8 +309,8 @@ public class SimpleRecyclerAdapter extends TicklableListView.Adapter<SimpleRecyc
 
     public static class ViewHolder extends TicklableListView.ViewHolder {
 
-        protected final View[] views;
-        protected Map dataSet;
+        private final View[] views;
+        private Map dataSet;
 
         public ViewHolder(View itemView, final int[] to) {
             super(itemView);
@@ -319,6 +319,10 @@ public class SimpleRecyclerAdapter extends TicklableListView.Adapter<SimpleRecyc
             for (int i = 0; i < count; i++) {
                 views[i] = itemView.findViewById(to[i]);
             }
+        }
+
+        protected Object getBindingData(String key) {
+            return dataSet.get(key);
         }
     }
 

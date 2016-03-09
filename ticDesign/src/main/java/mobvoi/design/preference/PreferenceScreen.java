@@ -188,7 +188,7 @@ public final class PreferenceScreen extends PreferenceGroup implements
 
         // Set the title bar if title is available, else no title bar
         final CharSequence title = getTitle();
-        Dialog dialog = mDialog = new Dialog(context, R.style.Theme_Ticwear_Fullscreen);
+        Dialog dialog = mDialog = new Dialog(context, R.style.Theme_Ticwear_Dialog);
         if (TextUtils.isEmpty(title)) {
             dialog.getWindow().requestFeature(Window.FEATURE_NO_TITLE);
         } else {

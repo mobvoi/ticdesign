@@ -28,6 +28,14 @@
         <!-- Required to force windowInsets dispatch through application UI. -->
         <item name="android:windowOverscan">true</item>
 
+        <!-- Dialog attributes -->
+        <item name="android:dialogTheme">@style/Theme.Ticwear.Dialog</item>
+
+        <!-- AlertDialog attributes -->
+        <item name="android:alertDialogTheme">@style/Theme.Ticwear.Dialog.Alert</item>
+        <item name="android:alertDialogStyle">@style/AlertDialog.Ticwear</item>
+        <!--<item name="android:alertDialogIcon">@drawable/ic_dialog_alert_material</item>-->
+
         <!-- Preference styles -->
         <item name="android:preferenceScreenStyle">@style/Preference.Ticwear.PreferenceScreen</item>
         <item name="preferenceActivityStyle">@style/PreferenceActivity.Ticwear</item>
@@ -65,11 +73,55 @@
         <item name="android:listPreferredItemPaddingRight">@dimen/list_item_padding_horizontal_ticwear</item>
         <item name="android:listPreferredItemPaddingStart">@dimen/list_item_padding_horizontal_ticwear</item>
         <item name="android:listPreferredItemPaddingEnd">@dimen/list_item_padding_horizontal_ticwear</item>
+
+        <item name="android:colorAccent">@color/design.basic.blue</item>
+        <item name="android:colorControlNormal">?android:textColorSecondary</item>
+        <item name="android:colorControlActivated">?android:textColorPrimary</item>
+        <item name="android:colorControlHighlight">?android:textColorHighlight</item>
     </style>
 
     <style name="Theme.Ticwear.Fullscreen">
         <item name="android:windowFullscreen">true</item>
         <item name="android:windowContentOverlay">@null</item>
     </style>
+
+
+    <!-- Dialog themes for Material -->
+    <eat-comment />
+
+    <style name="Theme.Ticwear.BaseDialog">
+        <item name="android:windowFrame">@null</item>
+        <item name="android:windowIsFloating">false</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:windowAnimationStyle">@style/Animation.Ticwear.Dialog</item>
+        <item name="android:windowActionBar">false</item>
+        <item name="android:windowActionModeOverlay">true</item>
+        <item name="android:windowCloseOnTouchOutside">true</item>
+
+        <item name="android:colorBackgroundCacheHint">@null</item>
+
+        <item name="android:listPreferredItemPaddingLeft">24dip</item>
+        <item name="android:listPreferredItemPaddingRight">24dip</item>
+        <item name="android:listPreferredItemPaddingStart">24dip</item>
+        <item name="android:listPreferredItemPaddingEnd">24dip</item>
+
+        <item name="android:listDivider">@null</item>
+    </style>
+
+    <!-- Material theme for dialog windows and activities, which is used by the
+         {@link android.app.Dialog} class.  This changes the window to be
+         floating (not fill the entire screen), and puts a frame around its
+         contents.  You can set this theme on an activity if you would like to
+         make an activity that looks like a Dialog. -->
+    <style name="Theme.Ticwear.Dialog" parent="Theme.Ticwear.BaseDialog"/>
+
+    <style name="Theme.Ticwear.Dialog.BaseAlert"/>
+
+    <!-- Material theme for alert dialog windows, which is used by the
+         {@link android.app.AlertDialog} class.  This is basically a dialog
+         but sets the background to empty so it can do two-tone backgrounds.
+         For applications targeting Honeycomb or newer, this is the default
+         AlertDialog theme. -->
+    <style name="Theme.Ticwear.Dialog.Alert" parent="Theme.Ticwear.Dialog.BaseAlert"/>
 
 </resources>

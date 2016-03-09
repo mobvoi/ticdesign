@@ -10,7 +10,7 @@
 2. [可拉伸、跟随内容的标题](#title-bar)：基于 [Android Design Support][google-design-support]，构建了一套适合手表展示的页面结构，除了 Google Design 中的跟随滚动等效果，我们还为标题栏增加了可拉伸等效果。
 3. [支持挠挠的 Listview](#ticklable-listview)：基于 `RecyclerView`，我们创造了一个列表展示控件，使其在触摸操作时与普通线性布局的列表操作无异，而使用挠挠交互时，具有聚焦效果（聚焦效果类似 `WearableListView`），方便挠挠的操作。
 4. [设置](#preference)：提供一套类似 [Android Settings][android-settings] 的、符合 [Ticwear Design][ticwear-design] 的设置系统，更适合手表展示，并支持挠挠交互。
-5. [其他小控件](#widgets)：Ticwear提供了一系列适合手表使用的小控件，包括[可缩放文本框](#scale-textview)、[悬浮按钮](#fab)、[数值选择器](#number-picker)、[日期时间选择器](#date-picker)等。
+5. [其他小控件](#widgets)：Ticwear提供了一系列适合手表使用的小控件，包括[可缩放文本框](#scale-textview)、[悬浮按钮](#fab)、[弹出式对话框](#alert-dialog)、[数值选择器](#number-picker)、[日期时间选择器](#date-picker)等。
 
 ### <a id="style-and-theme"></a> 样式和主题
 
@@ -76,6 +76,28 @@ $$
 
 使用方式类似`show()`和`hide()`，调用`minimize()`可以最小化按钮，按钮在完成最小化以后，会触发 `OnVisibilityChangedListener.onMinimum` 回调。
 
+#### <a id="alert-dialog"></a> 弹出式对话框
+
+移植并扩展了 Android 的 [`AlertDialog`][android-alert-dialog]。为其定制了适用于手表的主题。并提供了利于手表显示的圆形图标按钮，以替代原生的文字按钮。
+
+当设置的文本消息非常长时，消息将可以滚动，并且，滚动时底部的图标按钮会消失，以便更方便的阅读文本内容。
+
+使用方式与原生的 `AlertDialog` 无异，只是需要制定图标资源文件，或图标的`Drawable`，类似下面的使用方式：
+
+``` Java
+new AlertDialog.Builder(context)
+        .setTitle(R.string.dialog_title)
+        .setMessage(R.string.dialog_content)
+        .setPositiveButtonIcon(R.drawable.ic_btn_ok, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                // Do something for positive action.
+                dialog.dismiss();
+            }
+        })
+        .show();
+```
+
 #### <a id="number-picker"></a> 数值选择器
 
 #### <a id="date-picker"></a> 日期时间选择器
@@ -84,5 +106,6 @@ $$
 [ticwear-design]: http://developer.ticwear.com/doc/guideline
 [google-design-support]: http://android-developers.blogspot.hk/2015/05/android-design-support-library.html
 [android-settings]: http://developer.android.com/guide/topics/ui/settings.html
+[android-alert-dialog]: http://developer.android.com/reference/android/app/AlertDialog.html
 
 

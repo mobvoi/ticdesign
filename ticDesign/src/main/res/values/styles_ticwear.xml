@@ -100,8 +100,11 @@
 
     <!-- Begin Ticwear theme styles -->
 
-    <style name="Widget"/>
+    <style name="Widget">
+        <item name="android:textAppearance">?android:textAppearance</item>
+    </style>
     <style name="Widget.Ticwear"/>
+
     <style name="Widget.Ticwear.PreferenceFrameLayout">
         <item name="borderTop">0dip</item>
         <item name="borderBottom">0dip</item>
@@ -237,6 +240,25 @@
         <item name="android:wallpaperIntraOpenExitAnimation">@anim/slide_out_ticwear</item>
         <item name="android:wallpaperIntraCloseEnterAnimation">@anim/slide_in_ticwear</item>
         <item name="android:wallpaperIntraCloseExitAnimation">@anim/scale_out_ticwear</item>
+        <!--<item name="android:fragmentOpenEnterAnimation">@animator/fragment_open_enter</item>-->
+        <!--<item name="android:fragmentOpenExitAnimation">@animator/fragment_open_exit</item>-->
+        <!--<item name="android:fragmentCloseEnterAnimation">@animator/fragment_close_enter</item>-->
+        <!--<item name="android:fragmentCloseExitAnimation">@animator/fragment_close_exit</item>-->
+        <!--<item name="android:fragmentFadeEnterAnimation">@animator/fragment_fade_enter</item>-->
+        <!--<item name="android:fragmentFadeExitAnimation">@animator/fragment_fade_exit</item>-->
+    </style>
+
+    <!-- animations for a non-full-screen window or activity. -->
+    <style name="Animation.Ticwear.Dialog">
+        <item name="android:windowEnterAnimation">@anim/slide_in_ticwear</item>
+        <item name="android:windowExitAnimation">@anim/slide_out_ticwear</item>
+    </style>
+
+    <!-- Dialog styles -->
+
+    <style name="AlertDialog.Ticwear" parent="android:Theme.Material.Dialog.Alert">
+        <item name="android:layout">@layout/alert_dialog_ticwear</item>
+
     </style>
 
 </resources>

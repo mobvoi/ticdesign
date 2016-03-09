@@ -12,4 +12,8 @@
     <!-- text margin from icon or other widgets -->
     <dimen name="list_item_text_margin_normal">14dp</dimen>
 
+    <!-- Dialog padding for round display -->
+    <dimen name="alert_dialog_round_padding">0dip</dimen>
+    <dimen name="alert_dialog_content_padding_bottom">48dip</dimen>
+
 </resources>
