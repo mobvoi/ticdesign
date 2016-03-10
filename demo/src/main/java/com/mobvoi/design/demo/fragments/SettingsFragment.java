@@ -1,7 +1,7 @@
 package com.mobvoi.design.demo.fragments;
 
 import android.os.Bundle;
-import mobvoi.design.preference.PreferenceFragment;
+import ticwear.design.preference.PreferenceFragment;
 
 import com.ticwear.design.demo.R;
 

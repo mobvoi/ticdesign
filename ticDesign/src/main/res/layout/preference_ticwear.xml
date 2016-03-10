@@ -40,8 +40,8 @@
     <!-- Use a larger frame size to allow image scale animation. -->
     <FrameLayout
         android:id="@+id/icon_frame"
-        android:layout_width="@dimen/list_item_icon_frame_size_large"
-        android:layout_height="@dimen/list_item_icon_frame_size_large"
+        android:layout_width="@dimen/tic_list_item_icon_frame_size_large"
+        android:layout_height="@dimen/tic_list_item_icon_frame_size_large"
         android:layout_weight="0"
         android:layout_marginStart="@dimen/preference_icon_frame_margin_diff"
         android:layout_marginTop="@dimen/preference_icon_frame_margin_diff"
@@ -52,10 +52,10 @@
 
         <ImageView
             android:id="@+id/icon_background"
-            android:layout_width="@dimen/list_item_icon_frame_size_normal"
-            android:layout_height="@dimen/list_item_icon_frame_size_normal"
+            android:layout_width="@dimen/tic_list_item_icon_frame_size_normal"
+            android:layout_height="@dimen/tic_list_item_icon_frame_size_normal"
             android:layout_gravity="center"
-            android:src="@drawable/list_item_icon_background"
+            android:src="@drawable/tic_list_item_icon_background"
             android:contentDescription="@null"
             />
         <ImageView
@@ -64,10 +64,10 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:contentDescription="@null"
-            android:maxWidth="@dimen/list_item_icon_frame_size_normal"
-            android:maxHeight="@dimen/list_item_icon_frame_size_normal"
-            tools:layout_width="@dimen/list_item_icon_src_size"
-            tools:layout_height="@dimen/list_item_icon_src_size"
+            android:maxWidth="@dimen/tic_list_item_icon_frame_size_normal"
+            android:maxHeight="@dimen/tic_list_item_icon_frame_size_normal"
+            tools:layout_width="@dimen/tic_list_item_icon_src_size"
+            tools:layout_height="@dimen/tic_list_item_icon_src_size"
             tools:background="#aaa"/>
     </FrameLayout>
 
@@ -103,7 +103,7 @@
         android:layout_height="match_parent"
         android:layout_weight="0"
         android:gravity="end|center_vertical"
-        android:layout_marginStart="@dimen/list_item_text_margin_normal"
+        android:layout_marginStart="@dimen/tic_list_item_text_margin_normal"
         android:orientation="vertical"/>
 
 </LinearLayout>

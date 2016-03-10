@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<mobvoi.design.preference.PreferenceScreen
+<ticwear.design.preference.PreferenceScreen
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:title="@string/preference.custom_config_mode">
 
-    <mobvoi.design.preference.CheckBoxPreference
+    <ticwear.design.preference.CheckBoxPreference
         android:key="checkbox_preference"
         android:title="@string/preference.long_press_change_watch_face"
         android:summary="@string/preference.enabled" />
@@ -11,34 +11,34 @@
     <!-- This PreferenceScreen tag serves as a screen break (similar to page break
          in word processing). Like for other preference types, we assign a key
          here so it is able to save and restore its instance state. -->
-    <mobvoi.design.preference.PreferenceScreen
+    <ticwear.design.preference.PreferenceScreen
         android:key="screen_preference"
         android:title="@string/preference.locale_service_name">
 
         <!-- You can place more preferences here that will be shown on the next screen. -->
 
-        <mobvoi.design.preference.CheckBoxPreference
+        <ticwear.design.preference.CheckBoxPreference
             android:key="next_screen_checkbox_preference"
             android:title="@string/preference.enable_super_power_save_mode"
             android:summary="@string/preference.enable_super_power_save_summery" />
 
-    </mobvoi.design.preference.PreferenceScreen>
+    </ticwear.design.preference.PreferenceScreen>
 
-    <mobvoi.design.preference.PreferenceScreen
+    <ticwear.design.preference.PreferenceScreen
         android:key="raw_preference"
         android:title="@string/preference.perm_label_change_locale"/>
 
-    <mobvoi.design.preference.SwitchPreference
+    <ticwear.design.preference.SwitchPreference
         android:key="parent_checkbox_preference"
         android:title="@string/preference.wifi_auto"
         android:summary="@string/preference.wifi_closed" />
 
     <!-- The visual style of a child is defined by this styled theme attribute. -->
-    <mobvoi.design.preference.PreferenceScreen
+    <ticwear.design.preference.PreferenceScreen
         android:key="child_checkbox_preference"
         android:dependency="parent_checkbox_preference"
         android:layout="?android:preferenceLayoutChild"
         android:title="@string/preference.wifi_more"
         android:summary="@string/preference.forget_wifi" />
 
-</mobvoi.design.preference.PreferenceScreen>
+</ticwear.design.preference.PreferenceScreen>

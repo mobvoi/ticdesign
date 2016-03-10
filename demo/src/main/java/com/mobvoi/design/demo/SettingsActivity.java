@@ -1,7 +1,7 @@
 package com.mobvoi.design.demo;
 
 import com.mobvoi.design.demo.fragments.SettingsFragment;
-import mobvoi.design.preference.PreferenceActivity;
+import ticwear.design.preference.PreferenceActivity;
 import com.ticwear.design.demo.R;
 
 import java.util.List;

@@ -20,21 +20,21 @@
 
     <style name="PreferenceActivity.Ticwear">
         <item name="android:layout">@layout/preference_list_content</item>
-        <item name="headerLayout">@layout/preference_ticwear</item>
-        <item name="headerRemoveIconIfEmpty">true</item>
+        <item name="tic_headerLayout">@layout/preference_ticwear</item>
+        <item name="tic_headerRemoveIconIfEmpty">true</item>
     </style>
 
     <!--<style name="Preference.Ticwear.Information">-->
-        <!--<item name="layout">@layout/preference_information_material</item>-->
-        <!--<item name="enabled">false</item>-->
-        <!--<item name="shouldDisableView">false</item>-->
+        <!--<item name="tic_layout">@layout/preference_information_material</item>-->
+        <!--<item name="tic_enabled">false</item>-->
+        <!--<item name="tic_shouldDisableView">false</item>-->
     <!--</style>-->
 
     <!--<style name="Preference.Ticwear.Category">-->
-        <!--<item name="layout">@layout/preference_category_material</item>-->
+        <!--<item name="tic_layout">@layout/preference_category_material</item>-->
         <!--&lt;!&ndash; The title should not dim if the category is disabled, instead only the preference children should dim. &ndash;&gt;-->
-        <!--<item name="shouldDisableView">false</item>-->
-        <!--<item name="selectable">false</item>-->
+        <!--<item name="tic_shouldDisableView">false</item>-->
+        <!--<item name="tic_selectable">false</item>-->
     <!--</style>-->
 
     <style name="Preference.Ticwear.CheckBoxPreference">
@@ -50,23 +50,23 @@
     <style name="Preference.Ticwear.PreferenceScreen"/>
 
     <!--<style name="Preference.Ticwear.DialogPreference">-->
-        <!--<item name="positiveButtonText">@string/ok</item>-->
-        <!--<item name="negativeButtonText">@string/cancel</item>-->
+        <!--<item name="tic_positiveButtonText">@string/ok</item>-->
+        <!--<item name="tic_negativeButtonText">@string/cancel</item>-->
     <!--</style>-->
 
     <!--<style name="Preference.Ticwear.DialogPreference.YesNoPreference">-->
-        <!--<item name="positiveButtonText">@string/yes</item>-->
-        <!--<item name="negativeButtonText">@string/no</item>-->
+        <!--<item name="tic_positiveButtonText">@string/yes</item>-->
+        <!--<item name="tic_negativeButtonText">@string/no</item>-->
     <!--</style>-->
 
     <!--<style name="Preference.Ticwear.DialogPreference.EditTextPreference">-->
-        <!--<item name="dialogLayout">@layout/preference_dialog_edittext_material</item>-->
+        <!--<item name="tic_dialogLayout">@layout/preference_dialog_edittext_material</item>-->
     <!--</style>-->
 
     <!--<style name="Preference.Ticwear.RingtonePreference">-->
-        <!--<item name="ringtoneType">ringtone</item>-->
-        <!--<item name="showSilent">true</item>-->
-        <!--<item name="showDefault">true</item>-->
+        <!--<item name="tic_ringtoneType">ringtone</item>-->
+        <!--<item name="tic_showSilent">true</item>-->
+        <!--<item name="tic_showDefault">true</item>-->
     <!--</style>-->
 
     <!-- No margins or background by default. Could be different for x-large screens -->
@@ -106,10 +106,10 @@
     <style name="Widget.Ticwear"/>
 
     <style name="Widget.Ticwear.PreferenceFrameLayout">
-        <item name="borderTop">0dip</item>
-        <item name="borderBottom">0dip</item>
-        <item name="borderLeft">?attr/preferenceFragmentPaddingSide</item>
-        <item name="borderRight">?attr/preferenceFragmentPaddingSide</item>
+        <item name="tic_borderTop">0dip</item>
+        <item name="tic_borderBottom">0dip</item>
+        <item name="tic_borderLeft">?attr/tic_preferenceFragmentPaddingSide</item>
+        <item name="tic_borderRight">?attr/tic_preferenceFragmentPaddingSide</item>
     </style>
 
     <!-- Text styles -->
@@ -120,15 +120,15 @@
         <item name="android:textColorHint">?android:textColorHint</item>
         <item name="android:textColorHighlight">?android:textColorHighlight</item>
         <item name="android:textColorLink">?android:textColorLink</item>
-        <item name="android:textSize">@dimen/text_size_body_1_ticwear</item>
+        <item name="android:textSize">@dimen/tic_text_size_body_1_ticwear</item>
         <item name="android:lineSpacingMultiplier">?android:lineSpacingMultiplier</item>
-        <item name="android:fontFamily">@string/font_family_body_1_ticwear</item>
+        <item name="android:fontFamily">@string/tic_font_family_body_1_ticwear</item>
     </style>
 
 
     <style name="TextAppearance.Ticwear.Title">
-        <item name="android:textSize">@dimen/text_size_title_ticwear</item>
-        <item name="android:fontFamily">@string/font_family_title_ticwear</item>
+        <item name="android:textSize">@dimen/tic_text_size_title_ticwear</item>
+        <item name="android:fontFamily">@string/tic_font_family_title_ticwear</item>
         <item name="android:textColor">?android:textColorPrimary</item>
     </style>
 
@@ -140,32 +140,32 @@
     </style>
 
     <style name="TextAppearance.Ticwear.Body2">
-        <item name="android:textSize">@dimen/text_size_body_2_ticwear</item>
-        <item name="android:fontFamily">@string/font_family_body_2_ticwear</item>
+        <item name="android:textSize">@dimen/tic_text_size_body_2_ticwear</item>
+        <item name="android:fontFamily">@string/tic_font_family_body_2_ticwear</item>
         <item name="android:textColor">?android:textColorPrimary</item>
     </style>
 
     <style name="TextAppearance.Ticwear.Body1">
-        <item name="android:textSize">@dimen/text_size_body_1_ticwear</item>
-        <item name="android:fontFamily">@string/font_family_body_1_ticwear</item>
+        <item name="android:textSize">@dimen/tic_text_size_body_1_ticwear</item>
+        <item name="android:fontFamily">@string/tic_font_family_body_1_ticwear</item>
         <item name="android:textColor">?android:textColorPrimary</item>
     </style>
 
     <style name="TextAppearance.Ticwear.Hint1">
-        <item name="android:textSize">@dimen/text_size_hint_1_ticwear</item>
-        <item name="android:fontFamily">@string/font_family_body_1_ticwear</item>
+        <item name="android:textSize">@dimen/tic_text_size_hint_1_ticwear</item>
+        <item name="android:fontFamily">@string/tic_font_family_body_1_ticwear</item>
         <item name="android:textColor">?android:textColorSecondary</item>
     </style>
 
     <style name="TextAppearance.Ticwear.Hint2">
-        <item name="android:textSize">@dimen/text_size_hint_2_ticwear</item>
-        <item name="android:fontFamily">@string/font_family_body_2_ticwear</item>
+        <item name="android:textSize">@dimen/tic_text_size_hint_2_ticwear</item>
+        <item name="android:fontFamily">@string/tic_font_family_body_2_ticwear</item>
         <item name="android:textColor">?android:textColorSecondary</item>
     </style>
 
     <style name="TextAppearance.Ticwear.Button">
-        <item name="android:textSize">@dimen/text_size_button_ticwear</item>
-        <item name="android:fontFamily">@string/font_family_button_ticwear</item>
+        <item name="android:textSize">@dimen/tic_text_size_button_ticwear</item>
+        <item name="android:fontFamily">@string/tic_font_family_button_ticwear</item>
         <item name="android:textAllCaps">true</item>
         <item name="android:textColor">?android:textColorPrimary</item>
     </style>
@@ -180,7 +180,7 @@
     </style>
 
     <style name="TextAppearance.Ticwear.Large">
-        <item name="android:textSize">@dimen/text_size_large_ticwear</item>
+        <item name="android:textSize">@dimen/tic_text_size_large_ticwear</item>
         <item name="android:textColor">?android:textColorPrimary</item>
     </style>
 
@@ -192,7 +192,7 @@
     </style>
 
     <style name="TextAppearance.Ticwear.Medium">
-        <item name="android:textSize">@dimen/text_size_medium_ticwear</item>
+        <item name="android:textSize">@dimen/tic_text_size_medium_ticwear</item>
         <item name="android:textColor">?android:textColorSecondary</item>
     </style>
 
@@ -204,7 +204,7 @@
     </style>
 
     <style name="TextAppearance.Ticwear.Small">
-        <item name="android:textSize">@dimen/text_size_small_ticwear</item>
+        <item name="android:textSize">@dimen/tic_text_size_small_ticwear</item>
         <item name="android:textColor">?android:textColorTertiary</item>
     </style>
 

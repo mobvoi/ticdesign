@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <item name="view_offset_helper" type="id" />
+    <item name="tic_view_offset_helper" type="id" />
 
 </resources>
 

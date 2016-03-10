@@ -23,7 +23,7 @@
     android:layout_height="match_parent"
     android:layout_width="match_parent"
     android:background="@android:color/transparent"
-    preference:layout_removeBorders="true">
+    preference:tic_layout_removeBorders="true">
 
     <include
         layout="@layout/preference_fragment_list_layout"

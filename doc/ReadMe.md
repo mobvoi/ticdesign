@@ -48,10 +48,10 @@ $$
 需要注意的是，由于文字会进行缩放，所以可能会越出边界。使用时最好指定足量的padding，或者设置无变化的那边为 match_parent。例如，`TitleBar`中的`ScalableTextView`，通常会以如下方式布局：
 
 ``` xml
-<mobvoi.design.widget.AppBarLayout
+<ticwear.design.widget.AppBarLayout
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
-    <mobvoi.design.widget.ScalableTextView
+    <ticwear.design.widget.ScalableTextView
         style="?android:textAppearanceMedium"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -59,11 +59,11 @@ $$
         android:clipToPadding="false"
         android:padding="8dp"
         android:text="Title"
-        app:layout_scrollFlags="scroll|overScrollBounce"
-        app:layout_scrollResistanceFactor="0.5"
-        app:scaleFactor="0.5"
+        app:tic_layout_scrollFlags="scroll|overScrollBounce"
+        app:tic_layout_scrollResistanceFactor="0.5"
+        app:tic_scaleFactor="0.5"
         />
-</mobvoi.design.widget.AppBarLayout>
+</ticwear.design.widget.AppBarLayout>
 ```
 
 #### <a id="fab"></a> 悬浮按钮

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<resources>
+    <public type="attr" name="tic_rippleColor" />
+    <public type="attr" name="tic_fabSize" />
+    <public type="attr" name="tic_pressedTranslationZ" />
+    <public type="attr" name="tic_borderWidth" />
+    <public type="attr" name="tic_keylines" />
+    <public type="attr" name="tic_statusBarBackground" />
+    <public type="attr" name="tic_layout_behavior" />
+    <public type="attr" name="tic_layout_anchor" />
+    <public type="attr" name="tic_layout_keyline" />
+    <public type="attr" name="tic_layout_anchorGravity" />
+    <public type="attr" name="tic_expanded" />
+    <public type="attr" name="tic_layout_scrollFlags" />
+    <public type="attr" name="tic_layout_scrollInterpolator" />
+    <public type="attr" name="tic_layout_scrollResistanceFactor" />
+    <public type="attr" name="tic_behavior_overlapTop" />
+    <public type="attr" name="tic_expandedTitleMargin" />
+    <public type="attr" name="tic_expandedTitleMarginStart" />
+    <public type="attr" name="tic_expandedTitleMarginTop" />
+    <public type="attr" name="tic_expandedTitleMarginEnd" />
+    <public type="attr" name="tic_expandedTitleMarginBottom" />
+    <public type="attr" name="tic_expandedTitleTextAppearance" />
+    <public type="attr" name="tic_collapsedTitleTextAppearance" />
+    <public type="attr" name="tic_contentScrim" />
+    <public type="attr" name="tic_statusBarScrim" />
+    <public type="attr" name="tic_toolbarId" />
+    <public type="attr" name="tic_collapsedTitleGravity" />
+    <public type="attr" name="tic_expandedTitleGravity" />
+    <public type="attr" name="tic_titleEnabled" />
+    <public type="attr" name="tic_layout_collapseMode" />
+    <public type="attr" name="tic_layout_collapseParallaxMultiplier" />
+    <public type="attr" name="tic_behavior_peekHeight" />
+
+    <public type="attr" name="tic_scaleFactor" />
+
+    <public type="id" name="tic_view_offset_helper" />
+</resources>

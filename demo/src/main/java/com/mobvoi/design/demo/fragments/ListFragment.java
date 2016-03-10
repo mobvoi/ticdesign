@@ -18,8 +18,8 @@ import java.util.Map;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
-import mobvoi.design.widget.SimpleRecyclerAdapter;
-import mobvoi.design.widget.TicklableListView;
+import ticwear.design.widget.SimpleRecyclerAdapter;
+import ticwear.design.widget.TicklableListView;
 
 /**
  * Fragment contains a list of title can be clicked.

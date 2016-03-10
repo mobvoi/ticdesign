@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<resources>
+    <public type="dimen" name="tic_list_item_padding_horizontal_ticwear" />
+
+    <public type="dimen" name="tic_list_item_status_box_size_normal" />
+    <public type="dimen" name="tic_list_item_status_box_size_large" />
+    <public type="dimen" name="tic_list_item_status_box_size_small" />
+    <public type="dimen" name="tic_list_item_icon_frame_size_normal" />
+    <public type="dimen" name="tic_list_item_icon_frame_size_large" />
+    <public type="dimen" name="tic_list_item_icon_frame_size_small" />
+    <public type="dimen" name="tic_list_item_icon_src_size" />
+
+
+    <public type="dimen" name="tic_text_size_title_ticwear" />
+    <public type="dimen" name="tic_text_size_title_small_ticwear" />
+    <public type="dimen" name="tic_text_size_body_1_ticwear" />
+    <public type="dimen" name="tic_text_size_body_2_ticwear" />
+    <public type="dimen" name="tic_text_size_hint_1_ticwear" />
+    <public type="dimen" name="tic_text_size_hint_2_ticwear" />
+    <public type="dimen" name="tic_text_size_button_ticwear" />
+    <public type="dimen" name="tic_text_size_large_ticwear" />
+    <public type="dimen" name="tic_text_size_medium_ticwear" />
+    <public type="dimen" name="tic_text_size_small_ticwear" />
+</resources>

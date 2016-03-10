@@ -18,8 +18,8 @@ import java.util.Map;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
-import mobvoi.design.widget.SimpleRecyclerAdapter;
-import mobvoi.design.widget.TicklableListView;
+import ticwear.design.widget.SimpleRecyclerAdapter;
+import ticwear.design.widget.TicklableListView;
 
 public class MainActivity extends Activity {
 

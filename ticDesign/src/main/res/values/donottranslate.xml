@@ -16,6 +16,6 @@
 -->
 <resources>
     <!-- The class name to the ScrollingChildBehavior required for AppBarLayout -->
-    <string name="appbar_scrolling_view_behavior" translatable="false">mobvoi.design.widget.AppBarLayout$ScrollingViewBehavior</string>
+    <string name="tic_appbar_scrolling_view_behavior" translatable="false">ticwear.design.widget.AppBarLayout$ScrollingViewBehavior</string>
 </resources>
 

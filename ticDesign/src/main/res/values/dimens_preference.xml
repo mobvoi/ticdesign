@@ -3,7 +3,7 @@
 
     <!-- = Difference from normal to large -->
     <dimen name="preference_icon_frame_margin_diff">-4dp</dimen>
-    <!-- = list_item_text_margin_normal - 4dp -->
+    <!-- = tic_list_item_text_margin_normal - 4dp -->
     <dimen name="preference_icon_frame_margin_end">10dp</dimen>
     <dimen name="preference_padding_vertical">6dp</dimen>
 </resources>

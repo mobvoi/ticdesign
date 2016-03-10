@@ -38,28 +38,28 @@
 
         <!-- Preference styles -->
         <item name="android:preferenceScreenStyle">@style/Preference.Ticwear.PreferenceScreen</item>
-        <item name="preferenceActivityStyle">@style/PreferenceActivity.Ticwear</item>
-        <item name="preferenceFragmentStyle">@style/PreferenceFragment.Ticwear</item>
+        <item name="tic_preferenceActivityStyle">@style/PreferenceActivity.Ticwear</item>
+        <item name="tic_preferenceFragmentStyle">@style/PreferenceFragment.Ticwear</item>
         <!--<item name="android:preferenceCategoryStyle">@style/Preference.Ticwear.Category</item>-->
         <item name="android:preferenceStyle">@style/Preference.Ticwear</item>
         <!--<item name="android:preferenceInformationStyle">@style/Preference.Ticwear.Information</item>-->
         <item name="android:checkBoxPreferenceStyle">@style/Preference.Ticwear.CheckBoxPreference</item>
         <item name="android:switchPreferenceStyle">@style/Preference.Ticwear.SwitchPreference</item>
-        <!--<item name="seekBarPreferenceStyle">@style/Preference.Ticwear.SeekBarPreference</item>-->
+        <!--<item name="tic_seekBarPreferenceStyle">@style/Preference.Ticwear.SeekBarPreference</item>-->
         <!--<item name="android:yesNoPreferenceStyle">@style/Preference.Ticwear.DialogPreference.YesNoPreference</item>-->
         <!--<item name="android:dialogPreferenceStyle">@style/Preference.Ticwear.DialogPreference</item>-->
         <!--<item name="android:editTextPreferenceStyle">@style/Preference.Ticwear.DialogPreference.EditTextPreference</item>-->
         <!--<item name="android:ringtonePreferenceStyle">@style/Preference.Ticwear.RingtonePreference</item>-->
         <item name="android:preferenceLayoutChild">@layout/preference_ticwear</item>
-        <item name="preferencePanelStyle">@style/PreferencePanel.Ticwear</item>
-        <item name="preferenceHeaderPanelStyle">@style/PreferenceHeaderPanel.Ticwear</item>
-        <item name="preferenceListStyle">@style/PreferenceHeaderList.Ticwear</item>
-        <item name="preferenceFragmentListStyle">@style/PreferenceFragmentList.Ticwear</item>
-        <item name="preferenceFragmentPaddingSide">@dimen/preference_fragment_padding_side_ticwear</item>
-        <!--<item name="android:detailsElementBackground">?attr/colorBackground</item>-->
+        <item name="tic_preferencePanelStyle">@style/PreferencePanel.Ticwear</item>
+        <item name="tic_preferenceHeaderPanelStyle">@style/PreferenceHeaderPanel.Ticwear</item>
+        <item name="tic_preferenceListStyle">@style/PreferenceHeaderList.Ticwear</item>
+        <item name="tic_preferenceFragmentListStyle">@style/PreferenceFragmentList.Ticwear</item>
+        <item name="tic_preferenceFragmentPaddingSide">@dimen/preference_fragment_padding_side_ticwear</item>
+        <!--<item name="android:detailsElementBackground">?attr/tic_colorBackground</item>-->
 
         <!-- PreferenceFrameLayout attributes -->
-        <item name="preferenceFrameLayoutStyle">@style/Widget.Ticwear.PreferenceFrameLayout</item>
+        <item name="tic_preferenceFrameLayoutStyle">@style/Widget.Ticwear.PreferenceFrameLayout</item>
 
 
         <!-- List attributes -->
@@ -69,12 +69,12 @@
         <item name="android:textAppearanceListItem">@style/TextAppearance.Ticwear.Title</item>
         <item name="android:textAppearanceListItemSmall">@style/TextAppearance.Ticwear.Body1</item>
         <item name="android:textAppearanceListItemSecondary">@style/TextAppearance.Ticwear.Body2</item>
-        <item name="android:listPreferredItemPaddingLeft">@dimen/list_item_padding_horizontal_ticwear</item>
-        <item name="android:listPreferredItemPaddingRight">@dimen/list_item_padding_horizontal_ticwear</item>
-        <item name="android:listPreferredItemPaddingStart">@dimen/list_item_padding_horizontal_ticwear</item>
-        <item name="android:listPreferredItemPaddingEnd">@dimen/list_item_padding_horizontal_ticwear</item>
+        <item name="android:listPreferredItemPaddingLeft">@dimen/tic_list_item_padding_horizontal_ticwear</item>
+        <item name="android:listPreferredItemPaddingRight">@dimen/tic_list_item_padding_horizontal_ticwear</item>
+        <item name="android:listPreferredItemPaddingStart">@dimen/tic_list_item_padding_horizontal_ticwear</item>
+        <item name="android:listPreferredItemPaddingEnd">@dimen/tic_list_item_padding_horizontal_ticwear</item>
 
-        <item name="android:colorAccent">@color/design.basic.blue</item>
+        <item name="android:colorAccent">@color/tic.design.basic.blue</item>
         <item name="android:colorControlNormal">?android:textColorSecondary</item>
         <item name="android:colorControlActivated">?android:textColorPrimary</item>
         <item name="android:colorControlHighlight">?android:textColorHighlight</item>

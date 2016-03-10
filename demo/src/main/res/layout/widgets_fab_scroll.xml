@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<mobvoi.design.widget.CoordinatorLayout
+<ticwear.design.widget.CoordinatorLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <mobvoi.design.widget.AppBarLayout
+    <ticwear.design.widget.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <mobvoi.design.widget.ScalableTextView
+        <ticwear.design.widget.ScalableTextView
             style="?android:textAppearanceMedium"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -18,12 +18,12 @@
             android:clipToPadding="false"
             android:padding="8dp"
             android:text="@string/category.widgets.button"
-            app:layout_scrollFlags="scroll|overScrollBounce"
-            app:layout_scrollResistanceFactor="0.5"
-            app:scaleFactor="0.5"
+            app:tic_layout_scrollFlags="scroll|overScrollBounce"
+            app:tic_layout_scrollResistanceFactor="0.5"
+            app:tic_scaleFactor="0.5"
             />
 
-    </mobvoi.design.widget.AppBarLayout>
+    </ticwear.design.widget.AppBarLayout>
 
     <ScrollView
         android:paddingStart="?android:listPreferredItemPaddingStart"
@@ -33,7 +33,7 @@
         android:clipToPadding="false"
         android:scrollbars="none"
         android:nestedScrollingEnabled="true"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+        app:tic_layout_behavior="@string/tic_appbar_scrolling_view_behavior">
 
         <TextView
             android:id="@+id/text_content"
@@ -46,7 +46,7 @@
 
     </ScrollView>
 
-    <mobvoi.design.widget.FloatingActionButton
+    <ticwear.design.widget.FloatingActionButton
         android:id="@+id/fab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -55,4 +55,4 @@
         android:layout_margin="16dp"
         />
 
-</mobvoi.design.widget.CoordinatorLayout>
+</ticwear.design.widget.CoordinatorLayout>

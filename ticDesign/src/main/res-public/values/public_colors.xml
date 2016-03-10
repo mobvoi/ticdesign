@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<resources>
+    <public type="color" name="tic.design.basic.blue" />
+    <public type="color" name="tic_widget_background_dark" />
+</resources>

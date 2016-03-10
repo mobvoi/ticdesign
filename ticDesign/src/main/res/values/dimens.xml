@@ -16,13 +16,13 @@
 -->
 <resources>
 
-    <dimen name="design_fab_elevation">6dp</dimen>
-    <dimen name="design_fab_translation_z_pressed">6dp</dimen>
-    <dimen name="design_fab_image_size">24dp</dimen>
-    <dimen name="design_fab_size_normal">56dp</dimen>
-    <dimen name="design_fab_size_mini">40dp</dimen>
-    <dimen name="design_fab_border_width">0.5dp</dimen>
+    <dimen name="tic_design_fab_elevation">6dp</dimen>
+    <dimen name="tic_design_fab_translation_z_pressed">6dp</dimen>
+    <dimen name="tic_design_fab_image_size">24dp</dimen>
+    <dimen name="tic_design_fab_size_normal">56dp</dimen>
+    <dimen name="tic_design_fab_size_mini">40dp</dimen>
+    <dimen name="tic_design_fab_border_width">0.5dp</dimen>
 
-    <dimen name="design_appbar_elevation">4dp</dimen>
+    <dimen name="tic_design_appbar_elevation">4dp</dimen>
 
 </resources>

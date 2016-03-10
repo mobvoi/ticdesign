@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<resources>
+    <public type="style" name="Widget.Ticwear.FloatingActionButton" />
+    <public type="style" name="Widget.Ticwear.CollapsingToolbar" />
+    <public type="style" name="Widget.Ticwear.AppBarLayout" />
+    <public type="style" name="Widget.Ticwear.CoordinatorLayout" />
+    <public type="style" name="TextAppearance.Ticwear.CollapsingToolbar.Expanded" />
+
+    <public type="style" name="Preference.Ticwear" />
+    <public type="style" name="PreferenceFragment.Ticwear" />
+    <public type="style" name="PreferenceActivity.Ticwear" />
+    <public type="style" name="Preference.Ticwear.CheckBoxPreference" />
+    <public type="style" name="Preference.Ticwear.SwitchPreference" />
+    <public type="style" name="Preference.Ticwear.PreferenceScreen" />
+    <public type="style" name="PreferencePanel.Ticwear" />
+    <public type="style" name="PreferenceHeaderPanel.Ticwear" />
+
+    <public type="style" name="TextAppearance.Ticwear" />
+    <public type="style" name="TextAppearance.Ticwear.Title" />
+    <public type="style" name="TextAppearance.Ticwear.Title.Inverse" />
+    <public type="style" name="TextAppearance.Ticwear.Body2" />
+    <public type="style" name="TextAppearance.Ticwear.Body1" />
+    <public type="style" name="TextAppearance.Ticwear.Hint1" />
+    <public type="style" name="TextAppearance.Ticwear.Hint2" />
+    <public type="style" name="TextAppearance.Ticwear.Button" />
+    <public type="style" name="TextAppearance.Ticwear.Inverse" />
+    <public type="style" name="TextAppearance.Ticwear.Large" />
+    <public type="style" name="TextAppearance.Ticwear.Large.Inverse" />
+    <public type="style" name="TextAppearance.Ticwear.Medium" />
+    <public type="style" name="TextAppearance.Ticwear.Medium.Inverse" />
+    <public type="style" name="TextAppearance.Ticwear.Small" />
+    <public type="style" name="TextAppearance.Ticwear.Small.Inverse" />
+    <public type="style" name="TextAppearance.Ticwear.Widget" />
+    <public type="style" name="TextAppearance.Ticwear.Widget.Button" />
+
+    <public type="style" name="Animation.Ticwear.Activity" />
+    <public type="style" name="Animation.Ticwear.Dialog" />
+    <public type="style" name="AlertDialog.Ticwear" />
+
+    <public type="style" name="Theme.Ticwear" />
+    <public type="style" name="Theme.Ticwear.Fullscreen" />
+    <public type="style" name="Theme.Ticwear.Dialog" />
+    <public type="style" name="Theme.Ticwear.Dialog.Alert" />
+</resources>

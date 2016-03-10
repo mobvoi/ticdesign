@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-  <string name="font_family_title_ticwear" translatable="false">sans-serif-medium</string>
-  <string name="font_family_body_2_ticwear" translatable="false">sans-serif-medium</string>
-  <string name="font_family_body_1_ticwear" translatable="false">sans-serif</string>
-  <string name="font_family_button_ticwear" translatable="false">sans-serif-medium</string>
+  <string name="tic_font_family_title_ticwear" translatable="false">sans-serif-medium</string>
+  <string name="tic_font_family_body_2_ticwear" translatable="false">sans-serif-medium</string>
+  <string name="tic_font_family_body_1_ticwear" translatable="false">sans-serif</string>
+  <string name="tic_font_family_button_ticwear" translatable="false">sans-serif-medium</string>
 </resources>
 

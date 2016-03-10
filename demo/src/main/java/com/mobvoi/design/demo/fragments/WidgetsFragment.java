@@ -11,7 +11,7 @@ import android.view.Window;
 
 import com.ticwear.design.demo.R;
 
-import mobvoi.design.widget.FloatingActionButton;
+import ticwear.design.widget.FloatingActionButton;
 
 /**
  * Created by tankery on 1/12/16.

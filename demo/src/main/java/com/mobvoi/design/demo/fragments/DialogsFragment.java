@@ -10,7 +10,7 @@ import android.view.View;
 
 import com.ticwear.design.demo.R;
 
-import mobvoi.design.app.AlertDialog;
+import ticwear.design.app.AlertDialog;
 
 /**
  * Created by tankery on 1/12/16.

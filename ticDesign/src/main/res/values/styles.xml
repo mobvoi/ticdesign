@@ -16,31 +16,31 @@
 -->
 <resources>
 
-    <style name="Widget.Design.FloatingActionButton" parent="android:Widget">
-        <item name="android:background">@drawable/design_fab_background</item>
+    <style name="Widget.Ticwear.FloatingActionButton" parent="android:Widget">
+        <item name="android:background">@drawable/tic_design_fab_background</item>
         <item name="android:backgroundTint">?android:colorAccent</item>
-        <item name="fabSize">normal</item>
-        <item name="android:elevation">@dimen/design_fab_elevation</item>
-        <item name="pressedTranslationZ">@dimen/design_fab_translation_z_pressed</item>
-        <item name="rippleColor">?android:colorControlHighlight</item>
-        <item name="borderWidth">@dimen/design_fab_border_width</item>
+        <item name="tic_fabSize">normal</item>
+        <item name="android:elevation">@dimen/tic_design_fab_elevation</item>
+        <item name="tic_pressedTranslationZ">@dimen/tic_design_fab_translation_z_pressed</item>
+        <item name="tic_rippleColor">?android:colorControlHighlight</item>
+        <item name="tic_borderWidth">@dimen/tic_design_fab_border_width</item>
     </style>
 
-    <style name="Widget.Design.CollapsingToolbar" parent="android:Widget">
-        <item name="expandedTitleMargin">32dp</item>
-        <item name="statusBarScrim">?android:colorPrimaryDark</item>
+    <style name="Widget.Ticwear.CollapsingToolbar" parent="android:Widget">
+        <item name="tic_expandedTitleMargin">32dp</item>
+        <item name="tic_statusBarScrim">?android:colorPrimaryDark</item>
     </style>
 
-    <style name="Widget.Design.AppBarLayout" parent="android:Widget">
-        <item name="android:elevation">@dimen/design_appbar_elevation</item>
+    <style name="Widget.Ticwear.AppBarLayout" parent="android:Widget">
+        <item name="android:elevation">@dimen/tic_design_appbar_elevation</item>
         <item name="android:background">?android:colorPrimary</item>
     </style>
 
-    <style name="Widget.Design.CoordinatorLayout" parent="android:Widget">
-        <item name="statusBarBackground">?android:colorPrimaryDark</item>
+    <style name="Widget.Ticwear.CoordinatorLayout" parent="android:Widget">
+        <item name="tic_statusBarBackground">?android:colorPrimaryDark</item>
     </style>
 
-    <style name="TextAppearance.Design.CollapsingToolbar.Expanded" parent="android:TextAppearance.Material.Display1">
+    <style name="TextAppearance.Ticwear.CollapsingToolbar.Expanded" parent="android:TextAppearance.Material.Display1">
         <item name="android:textColor">?android:textColorPrimary</item>
     </style>
 

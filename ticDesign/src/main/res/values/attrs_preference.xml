@@ -7,39 +7,39 @@
     <eat-comment />
 
     <!-- Default style for the PreferenceActivity. -->
-    <attr name="preferenceActivityStyle" format="reference" />
+    <attr name="tic_preferenceActivityStyle" format="reference" />
     <!-- Default style for Headers pane in PreferenceActivity. -->
-    <attr name="preferenceFragmentStyle" format="reference" />
+    <attr name="tic_preferenceFragmentStyle" format="reference" />
 
     <!-- Preference panel style -->
-    <attr name="preferencePanelStyle" format="reference" />
+    <attr name="tic_preferencePanelStyle" format="reference" />
     <!-- Preference headers panel style -->
-    <attr name="preferenceHeaderPanelStyle" format="reference" />
+    <attr name="tic_preferenceHeaderPanelStyle" format="reference" />
     <!-- Preference list style -->
-    <attr name="preferenceListStyle" format="reference" />
+    <attr name="tic_preferenceListStyle" format="reference" />
     <!-- Preference fragment list style -->
-    <attr name="preferenceFragmentListStyle" format="reference" />
+    <attr name="tic_preferenceFragmentListStyle" format="reference" />
     <!-- Preference fragment padding side -->
-    <attr name="preferenceFragmentPaddingSide" format="dimension" />
+    <attr name="tic_preferenceFragmentPaddingSide" format="dimension" />
     <!-- Default style for seekbar preferences. -->
-    <attr name="seekBarPreferenceStyle" format="reference" />
+    <attr name="tic_seekBarPreferenceStyle" format="reference" />
 
     <!-- Preference frame layout styles. -->
-    <attr name="preferenceFrameLayoutStyle" format="reference" />
+    <attr name="tic_preferenceFrameLayoutStyle" format="reference" />
 
     <declare-styleable name="PreferenceFrameLayout">
         <!-- Padding to use at the top of the prefs content. -->
-        <attr name="borderTop" format="dimension" />
+        <attr name="tic_borderTop" format="dimension" />
         <!-- Padding to use at the bottom of the prefs content. -->
-        <attr name="borderBottom" format="dimension" />
+        <attr name="tic_borderBottom" format="dimension" />
         <!-- Padding to use at the left of the prefs content. -->
-        <attr name="borderLeft" format="dimension" />
+        <attr name="tic_borderLeft" format="dimension" />
         <!-- Padding to use at the right of the prefs content. -->
-        <attr name="borderRight" format="dimension" />
+        <attr name="tic_borderRight" format="dimension" />
     </declare-styleable>
     <declare-styleable name="PreferenceFrameLayout_Layout">
         <!-- Padding to use at the top of the prefs content. -->
-        <attr name="layout_removeBorders" format="boolean" />
+        <attr name="tic_layout_removeBorders" format="boolean" />
     </declare-styleable>
 
     <!-- **************************************************************** -->
@@ -227,10 +227,10 @@
         <!-- The layout for the Preference Activity. This should rarely need to be changed. -->
         <attr name="android:layout" />
         <!-- The layout for the Preference Header. This should rarely need to be changed. -->
-        <attr name="headerLayout" format="reference" />
+        <attr name="tic_headerLayout" format="reference" />
         <!-- true if the Icon view will be removed when there is none and thus not showing
              the fixed margins. -->
-        <attr name="headerRemoveIconIfEmpty" format="boolean" />
+        <attr name="tic_headerRemoveIconIfEmpty" format="boolean" />
     </declare-styleable>
 
 </resources>

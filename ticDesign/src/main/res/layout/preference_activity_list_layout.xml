@@ -1,15 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<mobvoi.design.widget.CoordinatorLayout
+<ticwear.design.widget.CoordinatorLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:scrollbars="vertical"
-    tools:context="com.mobvoi.design.demo.MainActivity">
+    android:scrollbars="vertical">
 
-    <mobvoi.design.widget.TicklableListView
-        style="?attr/preferenceListStyle"
+    <ticwear.design.widget.TicklableListView
+        style="?attr/tic_preferenceListStyle"
         android:id="@android:id/list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -19,22 +17,22 @@
         android:listPreferredItemHeight="48dp"
         android:scrollbarAlwaysDrawVerticalTrack="true" />
 
-    <mobvoi.design.widget.AppBarLayout
+    <ticwear.design.widget.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <mobvoi.design.widget.ScalableTextView
+        <ticwear.design.widget.ScalableTextView
             style="?android:textAppearanceSmall"
             android:id="@+id/title"
             android:layout_width="match_parent"
             android:layout_height="32dp"
             android:gravity="center"
             android:text="@null"
-            app:layout_scrollFlags="scroll|overScrollBounce"
-            app:layout_scrollResistanceFactor="0.5"
-            app:scaleFactor="0.5"
+            app:tic_layout_scrollFlags="scroll|overScrollBounce"
+            app:tic_layout_scrollResistanceFactor="0.5"
+            app:tic_scaleFactor="0.5"
             />
 
-    </mobvoi.design.widget.AppBarLayout>
+    </ticwear.design.widget.AppBarLayout>
 
-</mobvoi.design.widget.CoordinatorLayout>
+</ticwear.design.widget.CoordinatorLayout>

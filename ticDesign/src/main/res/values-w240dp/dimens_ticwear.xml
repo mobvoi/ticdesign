@@ -2,6 +2,6 @@
 <resources>
 
     <!-- Default padding for list items. -->
-    <dimen name="list_item_padding_horizontal_ticwear">30dp</dimen>
+    <dimen name="tic_list_item_padding_horizontal_ticwear">30dp</dimen>
 
 </resources>

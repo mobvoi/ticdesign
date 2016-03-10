@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <color name="ticwear_widget_background_dark">#2fff</color>
+    <color name="tic_widget_background_dark">#2fff</color>
 
 </resources>

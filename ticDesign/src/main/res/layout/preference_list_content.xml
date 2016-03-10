@@ -30,7 +30,7 @@
         android:layout_weight="1">
 
         <LinearLayout
-            style="?attr/preferenceHeaderPanelStyle"
+            style="?attr/tic_preferenceHeaderPanelStyle"
             android:id="@+id/headers"
             android:orientation="vertical"
             android:layout_width="0px"
@@ -52,7 +52,7 @@
 
         <LinearLayout
             android:id="@+id/prefs_frame"
-            style="?attr/preferencePanelStyle"
+            style="?attr/tic_preferencePanelStyle"
             android:layout_width="0px"
             android:layout_height="match_parent"
             android:layout_weight="@integer/preferences_right_pane_weight_ticwear"
@@ -65,7 +65,7 @@
             <!-- TODO -->
             <!--<include layout="@android:layout/breadcrumbs_in_fragment" />-->
 
-            <mobvoi.design.preference.PreferenceFrameLayout
+            <ticwear.design.preference.PreferenceFrameLayout
                 android:id="@+id/prefs"
                 android:layout_width="match_parent"
                 android:layout_height="0dip"

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<mobvoi.design.widget.TicklableListView
+<ticwear.design.widget.TicklableListView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/list_sub_demo"
@@ -12,4 +12,4 @@
     android:divider="@android:color/transparent"
     tools:context="com.mobvoi.design.demo.DetailsActivity"
     tools:deviceIds="wear_round">
-</mobvoi.design.widget.TicklableListView>
+</ticwear.design.widget.TicklableListView>
