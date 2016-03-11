@@ -852,6 +852,13 @@ public class NumberPicker extends LinearLayout {
         return false;
     }
 
+    @SuppressWarnings("unused")
+    public boolean dispatchTouchSidePanelEvent(MotionEvent ev) {
+        // TODO: avoid passing invalid touch event when side panel event system changed.
+        super.dispatchTouchEvent(ev);
+        return true;
+    }
+
     @Override
     public boolean onInterceptTouchEvent(MotionEvent event) {
         if (!mHasSelectorWheel || !isEnabled()) {

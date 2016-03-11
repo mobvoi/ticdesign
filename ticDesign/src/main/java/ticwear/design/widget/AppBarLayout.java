@@ -224,13 +224,18 @@ public class AppBarLayout extends LinearLayout {
                 }
             }
 
-            if (resistanceFactor > 0) {
+            if (resistanceFactor > 0 &&
+                    overScrollBounceEnabled(childLp)) {
                 mHaveChildWithResistance = true;
                 if (mHaveChildWithInterpolator) {
                     break;
                 }
             }
         }
+    }
+
+    private static boolean overScrollBounceEnabled(LayoutParams childLp) {
+        return (childLp.getScrollFlags() & LayoutParams.FLAG_OVERSCROLL) == LayoutParams.FLAG_OVERSCROLL;
     }
 
     private void invalidateScrollRanges() {
@@ -733,7 +738,8 @@ public class AppBarLayout extends LinearLayout {
         private int mOffsetDelta;
         private int mOverScrollDelta;
 
-        private boolean mInOverScroll;
+        // Track over-scroll down event when scroll, to avoid set offset when pre-scroll.
+        private boolean mSiblingOverScrollDown;
 
         private boolean mSkipNestedPreScroll;
         private boolean mWasFlung;
@@ -769,7 +775,7 @@ public class AppBarLayout extends LinearLayout {
                 for (int i = 0, count = abl.getChildCount(); i < count; i++) {
                     View child = abl.getChildAt(i);
                     final LayoutParams childLp = (LayoutParams) child.getLayoutParams();
-                    if ((childLp.getScrollFlags() & LayoutParams.FLAG_OVERSCROLL) > 0) {
+                    if (overScrollBounceEnabled(childLp)) {
                         if (childLp.mOverScrollOriginalHeight == INVALID_VIEW_HEIGHT) {
                             childLp.mOverScrollOriginalHeight = child.getMeasuredHeight();
                         }
@@ -780,7 +786,7 @@ public class AppBarLayout extends LinearLayout {
             // A new nested scroll has started so clear out the previous ref
             mLastNestedScrollingChildRef = null;
 
-            mInOverScroll = false;
+            mSiblingOverScrollDown = false;
             // Reset over-scroll offset
             // TODO: reset according to current height & original height diff.
             mOverScrollDelta = 0;
@@ -810,8 +816,9 @@ public class AppBarLayout extends LinearLayout {
         public void onNestedScroll(CoordinatorLayout coordinatorLayout, AppBarLayout child,
                 View target, int dxConsumed, int dyConsumed,
                 int dxUnconsumed, int dyUnconsumed) {
-            mInOverScroll = true;
+
             if (dyUnconsumed < 0) {
+                mSiblingOverScrollDown = true;
                 // If the scrolling view is scrolling down but not consuming, it's probably be at
                 // the top of it's content
                 scroll(coordinatorLayout, child, dyUnconsumed,
@@ -942,7 +949,7 @@ public class AppBarLayout extends LinearLayout {
                 for (int i = 0, count = abl.getChildCount(); i < count; i++) {
                     View child = abl.getChildAt(i);
                     final LayoutParams childLp = (LayoutParams) child.getLayoutParams();
-                    if ((childLp.getScrollFlags() & LayoutParams.FLAG_OVERSCROLL) > 0) {
+                    if (overScrollBounceEnabled(childLp)) {
                         deltaHeight += childLp.height - childLp.mOverScrollOriginalHeight;
                     }
                 }
@@ -1057,11 +1064,15 @@ public class AppBarLayout extends LinearLayout {
             int consumed = 0;
             final int newOffset = MathUtils.constrain(targetOffset, minOffset, maxOffset);
 
-            if (mInOverScroll && newOffset >= 0 && targetOffset > 0) {
-                final int resistancedSizeChange = appBarLayout.hasChildWithResistance()
-                        ? resistanceSizeChange(appBarLayout, targetOffset)
-                        : 0;
-                consumed += resistancedSizeChange;
+            final boolean overScrollDown = targetOffset > 0 && newOffset >= 0;
+            // sibling is in over-scroll mode (not pre-scroll) and appbar is in over-scroll
+            // (all content have been offset out), we now can do over-scroll stretch effect.
+            final boolean overScrollStretch = overScrollDown && mSiblingOverScrollDown &&
+                    appBarLayout.hasChildWithResistance();
+
+            if (overScrollStretch) {
+                resistanceSizeChange(appBarLayout, targetOffset);
+                consumed = - (targetOffset - mOverScrollDelta);
 
                 // Update the stored sibling offset
                 mOverScrollDelta = targetOffset - newOffset;
@@ -1174,7 +1185,7 @@ public class AppBarLayout extends LinearLayout {
             for (int i = 0, z = layout.getChildCount(); i < z; i++) {
                 final View child = layout.getChildAt(i);
                 final AppBarLayout.LayoutParams childLp = (LayoutParams) child.getLayoutParams();
-                if ((childLp.getScrollFlags() & LayoutParams.FLAG_OVERSCROLL) > 0) {
+                if (overScrollBounceEnabled(childLp)) {
                     final float factor = childLp.getScrollResistanceFactor();
                     final float averagedFactor = maxResistanceFactor * factor / totalResistanceFactor;
                     final int factoredOffset = (int) (averagedFactor * offset);
@@ -1183,7 +1194,6 @@ public class AppBarLayout extends LinearLayout {
                     child.setLayoutParams(childLp);
                 }
             }
-            layout.requestLayout();
 
             return (int) (offset * maxResistanceFactor);
         }

@@ -473,13 +473,17 @@ public class AlertController {
         mWindow.getDecorView().postDelayed(buttonRestoreRunnable, timeout);
     }
 
+    public void showButtons() {
+        mWindow.getDecorView().removeCallbacks(buttonRestoreRunnable);
+        mButtonBundlePositive.showButton();
+        mButtonBundleNegative.showButton();
+        mButtonBundleNeutral.showButton();
+    }
+
     private Runnable buttonRestoreRunnable = new Runnable() {
         @Override
         public void run() {
-            mWindow.getDecorView().removeCallbacks(this);
-            mButtonBundlePositive.showButton();
-            mButtonBundleNegative.showButton();
-            mButtonBundleNeutral.showButton();
+            showButtons();
         }
     };
 
@@ -647,12 +651,19 @@ public class AlertController {
             if (mMessage != null) {
                 // We're just showing the ScrollView, set up listener.
                 mScrollView.setOnScrollChangeListener(new View.OnScrollChangeListener() {
+                    boolean scrollDown = true;
                     @Override
                     public void onScrollChange(View v, int scrollX, int scrollY,
                                                int oldScrollX, int oldScrollY) {
                         manageScrollIndicators(v, indicatorUp, indicatorDown);
-                        hideButtons();
-                        showButtonsDelayed();
+
+                        boolean newScrollDown = (scrollY - oldScrollY) < 0;
+                        if (newScrollDown && !scrollDown) {
+                            showButtons();
+                        } else if (!newScrollDown && scrollDown) {
+                            hideButtons();
+                        }
+                        scrollDown = newScrollDown;
                     }
                 });
                 // Set up the indicators following layout.
@@ -666,12 +677,14 @@ public class AlertController {
             } else if (mListView != null) {
                 // We're just showing the AbsListView, set up listener.
                 mListView.setOnScrollListener(new AbsListView.OnScrollListener() {
+
+                        boolean scrollDown = true;
+                        int oldScrollY;
+
                         @Override
                         public void onScrollStateChanged(AbsListView view, int scrollState) {
                             if (scrollState == SCROLL_STATE_IDLE) {
                                 showButtonsDelayed();
-                            } else {
-                                hideButtons();
                             }
                         }
 
@@ -679,6 +692,15 @@ public class AlertController {
                         public void onScroll(AbsListView v, int firstVisibleItem,
                                 int visibleItemCount, int totalItemCount) {
                             manageScrollIndicators(v, indicatorUp, indicatorDown);
+
+                            boolean newScrollDown = (v.getScrollY() - oldScrollY) < 0;
+                            oldScrollY = v.getScrollY();
+                            if (newScrollDown && !scrollDown) {
+                                showButtons();
+                            } else if (!newScrollDown && scrollDown) {
+                                hideButtons();
+                            }
+                            scrollDown = newScrollDown;
                         }
                     });
                 // Set up the indicators following layout.

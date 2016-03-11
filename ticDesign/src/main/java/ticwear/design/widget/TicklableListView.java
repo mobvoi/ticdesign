@@ -11,8 +11,7 @@ import android.view.View;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import hugo.weaving.DebugLog;
+;
 import ticwear.design.R;
 
 @TargetApi(20)
@@ -106,7 +105,7 @@ public class TicklableListView extends RecyclerView {
      */
     @Override
     public void setAdapter(RecyclerView.Adapter adapter) {
-        if (adapter != null && !(adapter instanceof Adapter)) {
+        if (adapter != null && !(adapter instanceof Adapter) && !isInEditMode()) {
             throw new IllegalArgumentException("adapter should be instance of TicklableListView.Adapter");
         }
         RecyclerView.Adapter currentAdapter = getAdapter();
@@ -176,20 +175,17 @@ public class TicklableListView extends RecyclerView {
             layoutManager = normalLayoutManager;
         }
 
+        final boolean preInFocusState = getLayoutManager() == focusLayoutManager;
+
         // Save current scroll position.
         int position = saveCurrentScrollPosition();
 
         super.setLayoutManager(layoutManager);
 
-        restoreScrollPosition(position);
+        restoreScrollPosition(position, preInFocusState);
     }
 
     private int saveCurrentScrollPosition() {
-        // First reset the scroll offset
-        if (scrollOffset != INVALID_SCROLL_OFFSET) {
-            // NOTE: the offset is opposite to scroll
-            scrollBy(0, scrollOffset);
-        }
 
         // Then record the current scroll position.
         int position = NO_POSITION;
@@ -202,20 +198,21 @@ public class TicklableListView extends RecyclerView {
         return position;
     }
 
-    @DebugLog
-    private void restoreScrollPosition(int position) {
+    private void restoreScrollPosition(int position, boolean preInFocusState) {
+        // Restore offset
+        if (!preInFocusState && inFocusState) {
+            scrollOffset = getTop();
+            setTop(0);
+        } else if (preInFocusState && !inFocusState) {
+            if (scrollOffset != INVALID_SCROLL_OFFSET) {
+                setTop(scrollOffset);
+                scrollOffset = INVALID_SCROLL_OFFSET;
+            }
+        }
+
         if (position != NO_POSITION) {
             // Restore scroll position.
             scrollToPosition(position);
-
-            // Restore scroll offset
-            if (scrollOffset != INVALID_SCROLL_OFFSET) {
-                if (inFocusState) {
-                    scrollBy(0, -scrollOffset);
-                } else {
-                    scrollOffset = INVALID_SCROLL_OFFSET;
-                }
-            }
         }
     }
 
@@ -336,6 +333,10 @@ public class TicklableListView extends RecyclerView {
                         TicklableListView.FOCUS_STATE_CENTRAL :
                         TicklableListView.FOCUS_STATE_NON_CENTRAL;
             }
+
+            // Child not focus can not click.
+            view.setClickable(focusState == FOCUS_STATE_CENTRAL);
+
             notifyChildFocusStateChanged(focusState, animate, view);
         }
 
@@ -352,6 +353,9 @@ public class TicklableListView extends RecyclerView {
     }
 
     private void notifyChildFocusStateChanged(int focusState, boolean animate, View view) {
+        if (isInEditMode()) {
+            return;
+        }
         ViewHolder viewHolder = getChildViewHolder(view);
 
         // Only call focus state change once.
@@ -391,7 +395,6 @@ public class TicklableListView extends RecyclerView {
         }
     };
 
-    @DebugLog
     public int getScrollOffset() {
         return scrollOffset == INVALID_SCROLL_OFFSET ? 0 : scrollOffset;
     }
@@ -405,7 +408,6 @@ public class TicklableListView extends RecyclerView {
      *
      * @return the unconsumed offset.
      */
-    @DebugLog
     public int updateScrollOffset(int scrollOffset) {
         if (this.scrollOffset == scrollOffset) {
             return 0;

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="app_name">Tic设计</string>
 
     <string name="category.dialog.title">对话框</string>
     <string name="category.dialog.notify">提示对话框</string>

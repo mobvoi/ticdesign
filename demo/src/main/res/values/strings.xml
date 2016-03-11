@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">TicDesignDemo</string>
+    <string name="app_name">TicDesign</string>
 
     <string name="main.title">@string/app_name</string>
 

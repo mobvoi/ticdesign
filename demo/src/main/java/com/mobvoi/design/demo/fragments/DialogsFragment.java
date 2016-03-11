@@ -27,7 +27,7 @@ public class DialogsFragment extends ListFragment {
 
     static {
         initData(new int[]{
-                R.string.category_dialog_notify,
+//                R.string.category_dialog_notify,
                 R.string.category_dialog_confirm,
                 R.string.category_dialog_choose,
                 R.string.category_dialog_number_picker,
@@ -66,6 +66,27 @@ public class DialogsFragment extends ListFragment {
                 };
                 break;
             case R.string.category_dialog_choose:
+                dialogFragment = new DialogFragment() {
+                    @Override
+                    public Dialog onCreateDialog(Bundle savedInstanceState) {
+                        return new AlertDialog.Builder(context)
+                                .setTitle(R.string.category_dialog_choose)
+                                .setMessage(R.string.cheese_content)
+                                .setPositiveButtonIcon(R.drawable.ic_btn_ok, new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        dialog.dismiss();
+                                    }
+                                })
+                                .setNeutralButtonIcon(R.drawable.ic_about, new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        dialog.dismiss();
+                                    }
+                                })
+                                .create();
+                    }
+                };
                 break;
             case R.string.category_dialog_number_picker:
                 dialogFragment = new DialogFragment() {

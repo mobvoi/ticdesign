@@ -5,13 +5,13 @@ import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
 
-import hugo.weaving.DebugLog;
-
 /**
  * Behavior which should be used by {@link TicklableListViewBehavior} which can scroll and support
  * nested scrolling to automatically scroll any {@link AppBarLayout} siblings.
  */
 public class TicklableListViewBehavior extends AppBarLayout.ScrollingViewBehavior {
+
+    final static String TAG = TicklableListView.TAG;
 
     private boolean scrolling = false;
     private View hostView;
@@ -31,7 +31,6 @@ public class TicklableListViewBehavior extends AppBarLayout.ScrollingViewBehavio
     }
 
     @Override
-    @DebugLog
     public boolean setTopAndBottomOffset(int offset) {
         // Avoid re-entry the scrolling path.
         if (scrolling || hostView == null) {
@@ -63,7 +62,6 @@ public class TicklableListViewBehavior extends AppBarLayout.ScrollingViewBehavio
         return super.getTopAndBottomOffset();
     }
 
-    @DebugLog
     public boolean setRawTopAndBottomOffset(int offset) {
         return super.setTopAndBottomOffset(offset);
     }
@@ -84,7 +82,6 @@ public class TicklableListViewBehavior extends AppBarLayout.ScrollingViewBehavio
      *
      * @return If we have successfully set the offset.
      */
-    @DebugLog
     private boolean setOffsetForFocusListView(TicklableListView listView, int offset) {
         // If we have offset, first try to remove it
         offset = reduceRemovableOffset(offset);
@@ -104,7 +101,6 @@ public class TicklableListViewBehavior extends AppBarLayout.ScrollingViewBehavio
      * @param newOffset new offset request
      * @return the offset can't consume (should be apply to scroll offset).
      */
-    @DebugLog
     private int reduceRemovableOffset(int newOffset) {
         int currentRawOffset = getRawTopAndBottomOffset();
         // Current offset already been zero, all offset request can not consume.
@@ -116,7 +112,9 @@ public class TicklableListViewBehavior extends AppBarLayout.ScrollingViewBehavio
 
         Log.v("Ticklable", "reduce offset, raw " + currentRawOffset + ", all " + currentAllOffset + ", new " + newOffset);
 
-        checkOffsetValidation(currentAllOffset, currentRawOffset);
+        if (!offsetValidation(currentAllOffset, currentRawOffset)) {
+            return newOffset;
+        }
 
         boolean sameSign = sameSign(newOffset, currentAllOffset);
         int reduce = Math.abs(currentAllOffset) - Math.abs(newOffset);
@@ -139,13 +137,19 @@ public class TicklableListViewBehavior extends AppBarLayout.ScrollingViewBehavio
         return newOffset - currentRawOffset;
     }
 
-    private void checkOffsetValidation(int allOffset, int rawOffset) {
+    private boolean offsetValidation(int allOffset, int rawOffset) {
         if (Math.abs(allOffset) < Math.abs(rawOffset)) {
-            throw new RuntimeException("total offset should not smaller than raw offset");
+            Log.w(TAG, "total offset should not smaller than raw offset");
+            setRawTopAndBottomOffset(0);
+            return false;
         }
         if (!sameSign(allOffset, rawOffset)) {
-            throw new RuntimeException("total offset has different sign than raw offset");
+            Log.w(TAG, "total offset has different sign than raw offset");
+            setRawTopAndBottomOffset(0);
+            return false;
         }
+
+        return true;
     }
 
     boolean sameSign(int x, int y)

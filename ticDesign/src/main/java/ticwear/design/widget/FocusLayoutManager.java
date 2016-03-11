@@ -2,14 +2,18 @@ package ticwear.design.widget;
 
 import android.content.Context;
 import android.graphics.PointF;
+import android.graphics.drawable.Drawable;
+import android.graphics.drawable.RippleDrawable;
+import android.os.Build;
+import android.os.Handler;
 import android.support.v7.widget.LinearSmoothScroller;
 import android.support.v7.widget.RecyclerView;
 import android.util.DisplayMetrics;
+import android.view.GestureDetector;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewConfiguration;
 import android.widget.Scroller;
-
-import hugo.weaving.DebugLog;
 
 /**
  * Created by tankery on 2/17/16.
@@ -30,6 +34,9 @@ class FocusLayoutManager extends TicklableListView.TicklableLayoutManager {
     private RecyclerView.SmoothScroller mSmoothScroller;
     private RecyclerView.SmoothScroller mDefaultSmoothScroller;
 
+    private final GestureDetector mGestureDetector;
+    private final RecyclerView.OnItemTouchListener mOnItemTouchListener;
+
     FocusLayoutManager(TicklableListView ticklableListView) {
         super(ticklableListView);
 
@@ -38,6 +45,63 @@ class FocusLayoutManager extends TicklableListView.TicklableLayoutManager {
         ViewConfiguration vc = ViewConfiguration.get(ticklableListView.getContext());
         mMinFlingVelocity = vc.getScaledMinimumFlingVelocity();
         mMaxFlingVelocity = vc.getScaledMaximumFlingVelocity();
+
+
+        mGestureDetector = new GestureDetector(ticklableListView.getContext(), new GestureDetector.SimpleOnGestureListener() {
+            @Override
+            public boolean onSingleTapUp(MotionEvent e) {
+                int centerIndex = findCenterViewIndex();
+                View child = getChildAt(centerIndex);
+                child.performClick();
+                float x = e.getX() - child.getX();
+                float y = e.getY() - child.getY();
+                forceRippleAnimation(child, x, y);
+                return true;
+            }
+        });
+
+        mOnItemTouchListener = new RecyclerView.OnItemTouchListener() {
+            @Override
+            public boolean onInterceptTouchEvent(RecyclerView rv, MotionEvent e) {
+                View child = rv.findChildViewUnder(e.getX(), e.getY());
+
+                return child != null && mGestureDetector.onTouchEvent(e);
+
+            }
+
+            @Override
+            public void onTouchEvent(RecyclerView rv, MotionEvent e) {
+
+            }
+
+            @Override
+            public void onRequestDisallowInterceptTouchEvent(boolean disallowIntercept) {
+
+            }
+        };
+    }
+
+    private void forceRippleAnimation(View view, float x, float y)
+    {
+        Drawable background = view.getBackground();
+
+        if(background instanceof RippleDrawable && Build.VERSION.SDK_INT >= 21)
+        {
+            final RippleDrawable rippleDrawable = (RippleDrawable) background;
+
+            rippleDrawable.setHotspot(x, y);
+            rippleDrawable.setState(new int[]{android.R.attr.state_pressed, android.R.attr.state_enabled});
+
+            Handler handler = new Handler();
+
+            handler.postDelayed(new Runnable()
+            {
+                @Override public void run()
+                {
+                    rippleDrawable.setState(new int[]{});
+                }
+            }, 200);
+        }
     }
 
 
@@ -72,6 +136,20 @@ class FocusLayoutManager extends TicklableListView.TicklableLayoutManager {
 
     private void notifyChildrenAboutProximity(boolean animate) {
         ticklableListView.notifyChildrenAboutProximity(findCenterViewIndex(), animate);
+    }
+
+    @Override
+    public void onAttachedToWindow(RecyclerView view) {
+        super.onAttachedToWindow(view);
+
+        view.addOnItemTouchListener(mOnItemTouchListener);
+    }
+
+    @Override
+    public void onDetachedFromWindow(RecyclerView view, RecyclerView.Recycler recycler) {
+        view.removeOnItemTouchListener(mOnItemTouchListener);
+
+        super.onDetachedFromWindow(view, recycler);
     }
 
     @Override
@@ -185,7 +263,6 @@ class FocusLayoutManager extends TicklableListView.TicklableLayoutManager {
     }
 
     @Override
-    @DebugLog
     public int scrollVerticallyBy(int dy, RecyclerView.Recycler recycler, RecyclerView.State state) {
         if (getChildCount() == 0) {
             return 0;
@@ -317,7 +394,6 @@ class FocusLayoutManager extends TicklableListView.TicklableLayoutManager {
     }
 
     @Override
-    @DebugLog
     public int computeVerticalScrollOffset(RecyclerView.State state) {
         return computeScrollOffset(state);
     }
