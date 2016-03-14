@@ -115,7 +115,8 @@ public class PreferenceViewHolder extends TicklableListView.ViewHolder {
     }
 
     @Override
-    protected void onFocusStateChanged(int focusState, boolean animate) {
+    protected void onFocusStateChanged(@TicklableListView.FocusState int focusState,
+                                       boolean animate) {
         float scale = 1.0f;
         float alpha = 1.0f;
         switch (focusState) {

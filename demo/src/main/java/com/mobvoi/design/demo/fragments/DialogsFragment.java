@@ -10,6 +10,7 @@ import android.support.annotation.StringRes;
 import android.text.format.DateFormat;
 import android.view.View;
 import android.widget.TimePicker;
+import android.widget.Toast;
 
 import com.ticwear.design.demo.R;
 
@@ -96,7 +97,15 @@ public class DialogsFragment extends ListFragment {
                                 .minValue(0)
                                 .maxValue(20)
                                 .defaultValue(5)
-                                .build();
+                                .valuePickedlistener(new NumberPickerDialog.OnValuePickedListener() {
+                                    @Override
+                                    public void onValuePicked(NumberPickerDialog dialog, int value) {
+                                        Toast.makeText(dialog.getContext(), "Picked value " + value,
+                                                Toast.LENGTH_SHORT)
+                                                .show();
+                                    }
+                                })
+                                .create();
                     }
                 };
                 break;

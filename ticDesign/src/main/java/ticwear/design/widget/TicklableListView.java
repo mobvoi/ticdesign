@@ -2,6 +2,7 @@ package ticwear.design.widget;
 
 import android.annotation.TargetApi;
 import android.content.Context;
+import android.support.annotation.IntDef;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -9,10 +10,21 @@ import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
 
+import java.lang.annotation.Documented;
+import java.lang.annotation.Retention;
+import java.lang.annotation.Target;
 import java.util.ArrayList;
 import java.util.List;
-;
+
 import ticwear.design.R;
+
+import static java.lang.annotation.ElementType.FIELD;
+import static java.lang.annotation.ElementType.LOCAL_VARIABLE;
+import static java.lang.annotation.ElementType.METHOD;
+import static java.lang.annotation.ElementType.PARAMETER;
+import static java.lang.annotation.RetentionPolicy.SOURCE;
+
+;
 
 @TargetApi(20)
 @CoordinatorLayout.DefaultBehavior(TicklableListViewBehavior.class)
@@ -39,6 +51,16 @@ public class TicklableListView extends RecyclerView {
      * Focus state on non central, means the item is not focused when tickled.
      */
     public static final int FOCUS_STATE_NON_CENTRAL = 2;
+
+    /**
+     * Denotes that an integer parameter, field or method return value is expected
+     * to be a focus state value (e.g. {@link #FOCUS_STATE_CENTRAL}).
+     */
+    @Documented
+    @Retention(SOURCE)
+    @Target({METHOD, PARAMETER, FIELD, LOCAL_VARIABLE})
+    @IntDef({FOCUS_STATE_INVALID, FOCUS_STATE_NORMAL, FOCUS_STATE_CENTRAL, FOCUS_STATE_NON_CENTRAL})
+    public @interface FocusState {}
 
     private final List<TicklableListView.OnCentralPositionChangedListener> mOnCentralPositionChangedListeners;
     private final AdapterDataObserver mObserver;
@@ -479,6 +501,7 @@ public class TicklableListView extends RecyclerView {
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
 
+        @FocusState
         private int prevFocusState;
 
         public ViewHolder(View itemView) {
@@ -486,7 +509,14 @@ public class TicklableListView extends RecyclerView {
             prevFocusState = FOCUS_STATE_INVALID;
         }
 
-        protected void onFocusStateChanged(int focusState, boolean animate) {
+        /**
+         * Focus state of view bind to this ViewHolder is changed.
+         *
+         * @param focusState new focus state of view.
+         * @param animate should apply a animate for this change? If not, just change
+         *                the view immediately.
+         */
+        protected void onFocusStateChanged(@FocusState int focusState, boolean animate) {
             if (itemView instanceof TicklableListView.OnFocusStateChangedListener) {
                 TicklableListView.OnFocusStateChangedListener item = (TicklableListView.OnFocusStateChangedListener) itemView;
                 item.onFocusStateChanged(focusState, animate);
@@ -495,7 +525,7 @@ public class TicklableListView extends RecyclerView {
             }
         }
 
-        private void applyDefaultAnimate(int focusState, boolean animate) {
+        private void applyDefaultAnimate(@FocusState int focusState, boolean animate) {
             float scale = 1.0f;
             float alpha = 1.0f;
             switch (focusState) {
@@ -561,7 +591,7 @@ public class TicklableListView extends RecyclerView {
          *                   {@link #FOCUS_STATE_CENTRAL}, {@link #FOCUS_STATE_NON_CENTRAL}
          * @param animate interact with animation?
          */
-        void onFocusStateChanged(int focusState, boolean animate);
+        void onFocusStateChanged(@FocusState int focusState, boolean animate);
     }
 
 }

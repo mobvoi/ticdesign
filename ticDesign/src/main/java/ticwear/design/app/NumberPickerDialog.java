@@ -157,10 +157,16 @@ public class NumberPickerDialog extends AlertDialog implements DialogInterface.O
             return this;
         }
 
-        public NumberPickerDialog build() {
+        public NumberPickerDialog create() {
             return new NumberPickerDialog(context, themeResId, title,
                     onValuePickedListener, onValuePickCancelListener,
                     minValue, maxValue, defaultValue, displayedValues);
+        }
+
+        public NumberPickerDialog show() {
+            final NumberPickerDialog dialog = create();
+            dialog.show();
+            return dialog;
         }
 
         static int resolveDialogTheme(Context context, int resId) {
