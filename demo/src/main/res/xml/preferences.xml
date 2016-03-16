@@ -41,4 +41,9 @@
         android:title="@string/preference.wifi_more"
         android:summary="@string/preference.forget_wifi" />
 
+    <ticwear.design.preference.Preference
+        android:key="text_preference"
+        android:summary="@string/cheese_content"
+        />
+
 </ticwear.design.preference.PreferenceScreen>

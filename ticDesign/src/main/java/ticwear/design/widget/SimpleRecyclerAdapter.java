@@ -36,7 +36,7 @@ import java.util.Map;
  * An easy adapter to map static data to views defined in an XML file like {@link SimpleAdapter} for
  * {@link RecyclerView}.
  */
-public class SimpleRecyclerAdapter extends TicklableListView.Adapter<SimpleRecyclerAdapter.ViewHolder> {
+public class SimpleRecyclerAdapter extends RecyclerView.Adapter<SimpleRecyclerAdapter.ViewHolder> {
     private final LayoutInflater mInflater;
 
     private int[] mTo;
@@ -70,6 +70,7 @@ public class SimpleRecyclerAdapter extends TicklableListView.Adapter<SimpleRecyc
         mFrom = from;
         mTo = to;
         mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        setHasStableIds(true);
     }
 
     /**

@@ -63,7 +63,6 @@ public class TicklableListView extends RecyclerView {
     public @interface FocusState {}
 
     private final List<TicklableListView.OnCentralPositionChangedListener> mOnCentralPositionChangedListeners;
-    private final AdapterDataObserver mObserver;
 
     /**
      * Flag to indicate if we are in normal state or focus state.
@@ -100,14 +99,6 @@ public class TicklableListView extends RecyclerView {
     public TicklableListView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         mOnCentralPositionChangedListeners = new ArrayList<>();
-        mObserver = new AdapterDataObserver() {
-            public void onChanged() {
-                TicklableLayoutManager layoutManager = getTicklableLayoutManager();
-                if (layoutManager != null) {
-                    layoutManager.onDataSetChanged(TicklableListView.this);
-                }
-            }
-        };
         setHasFixedSize(true);
         setOverScrollMode(OVER_SCROLL_NEVER);
 
@@ -127,19 +118,13 @@ public class TicklableListView extends RecyclerView {
      */
     @Override
     public void setAdapter(RecyclerView.Adapter adapter) {
-        if (adapter != null && !(adapter instanceof Adapter) && !isInEditMode()) {
-            throw new IllegalArgumentException("adapter should be instance of TicklableListView.Adapter");
-        }
-        RecyclerView.Adapter currentAdapter = getAdapter();
-        if (currentAdapter != null) {
-            currentAdapter.unregisterAdapterDataObserver(mObserver);
-        }
-
-        super.setAdapter(adapter);
         if (adapter != null) {
-            adapter.registerAdapterDataObserver(mObserver);
+            RecyclerView.ViewHolder viewHolder = adapter.createViewHolder(this, adapter.getItemViewType(0));
+            if (!(viewHolder instanceof ViewHolder) && !isInEditMode()) {
+                throw new IllegalArgumentException("adapter's ViewHolder should be instance of TicklableListView.ViewHolder");
+            }
         }
-
+        super.setAdapter(adapter);
     }
 
     @Override
@@ -300,29 +285,6 @@ public class TicklableListView extends RecyclerView {
     }
 
     @Override
-    public boolean fling(int velocityX, int velocityY) {
-        if (getChildCount() == 0) {
-            return false;
-        }
-
-        TicklableLayoutManager layoutManager = getTicklableLayoutManager();
-        if (layoutManager != null && layoutManager.onFling(this, velocityY)) {
-            return true;
-        }
-
-        return super.fling(velocityX, velocityY);
-    }
-
-    @Nullable
-    private TicklableLayoutManager getTicklableLayoutManager() {
-        TicklableLayoutManager layoutManager = null;
-        if (getLayoutManager() instanceof TicklableLayoutManager) {
-            layoutManager = (TicklableLayoutManager) getLayoutManager();
-        }
-        return layoutManager;
-    }
-
-    @Override
     public TicklableListView.ViewHolder getChildViewHolder(View child) {
         return (TicklableListView.ViewHolder) super.getChildViewHolder(child);
     }
@@ -466,39 +428,6 @@ public class TicklableListView extends RecyclerView {
         return !skipNestedScroll && super.dispatchNestedScroll(dxConsumed, dyConsumed, dxUnconsumed, dyUnconsumed, offsetInWindow);
     }
 
-    /**
-     * Created by tankery on 2/17/16.
-     *
-     * Layout manager specific for ticklable list view.
-     *
-     * This layout manager will handle more interactions than regular recycler-view's layout manager.
-     * So its sub-classes can have more flexible implements.
-     */
-    abstract static class TicklableLayoutManager extends RecyclerView.LayoutManager {
-
-        protected TicklableListView ticklableListView;
-
-        TicklableLayoutManager(TicklableListView ticklableListView) {
-            this.ticklableListView = ticklableListView;
-        }
-
-        /**
-         * Notify that data-set is changed.
-         */
-        public void onDataSetChanged(TicklableListView ticklableListView) {
-        }
-
-        /**
-         * handle the fling event
-         * @param velocityY Initial vertical velocity in pixels per second
-         * @return true if the fling was consumed by us, false to pass the fling to container view.
-         */
-        public boolean onFling(TicklableListView ticklableListView, int velocityY) {
-            return false;
-        }
-
-    }
-
     public static class ViewHolder extends RecyclerView.ViewHolder {
 
         @FocusState
@@ -552,10 +481,6 @@ public class TicklableListView extends RecyclerView {
                 itemView.setAlpha(alpha);
             }
         }
-    }
-
-    public abstract static class Adapter<VH extends ViewHolder>
-            extends RecyclerView.Adapter<VH> {
     }
 
     /**

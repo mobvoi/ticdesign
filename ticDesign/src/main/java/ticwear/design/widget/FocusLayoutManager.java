@@ -12,17 +12,15 @@ import android.util.DisplayMetrics;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewConfiguration;
-import android.widget.Scroller;
 
 /**
  * Created by tankery on 2/17/16.
  *
  * Layout manager for ticklable list view.
  */
-class FocusLayoutManager extends TicklableListView.TicklableLayoutManager {
-    private final int mMinFlingVelocity;
-    private final int mMaxFlingVelocity;
+class FocusLayoutManager extends RecyclerView.LayoutManager {
+
+    private final TicklableListView ticklableListView;
 
     /**
      * First visible item's adapter position.
@@ -38,13 +36,11 @@ class FocusLayoutManager extends TicklableListView.TicklableLayoutManager {
     private final RecyclerView.OnItemTouchListener mOnItemTouchListener;
 
     FocusLayoutManager(TicklableListView ticklableListView) {
-        super(ticklableListView);
+        super();
 
         mUseOldViewTop = true;
 
-        ViewConfiguration vc = ViewConfiguration.get(ticklableListView.getContext());
-        mMinFlingVelocity = vc.getScaledMinimumFlingVelocity();
-        mMaxFlingVelocity = vc.getScaledMaximumFlingVelocity();
+        this.ticklableListView = ticklableListView;
 
 
         mGestureDetector = new GestureDetector(ticklableListView.getContext(), new GestureDetector.SimpleOnGestureListener() {
@@ -405,46 +401,6 @@ class FocusLayoutManager extends TicklableListView.TicklableLayoutManager {
         View firstChild = getChildAt(0);
         int position = ticklableListView.getChildAdapterPosition(firstChild);
         return position * getItemHeight() - firstChild.getTop();
-    }
-
-    @Override
-    public void onDataSetChanged(final TicklableListView ticklableListView) {
-        ticklableListView.addOnLayoutChangeListener(new View.OnLayoutChangeListener() {
-            public void onLayoutChange(View v, int left, int top, int right, int bottom, int oldLeft, int oldTop, int oldRight, int oldBottom) {
-                ticklableListView.removeOnLayoutChangeListener(this);
-                if (getChildCount() > 0) {
-                    animateToCenter();
-                }
-            }
-        });
-    }
-
-    @Override
-    public boolean onFling(TicklableListView ticklableListView, int velocityY) {
-        int index = findCenterViewIndex();
-        int currentPosition = ticklableListView.getChildAdapterPosition(getChildAt(index));
-        if ((currentPosition != 0 || velocityY >= 0) && (currentPosition != getItemCount() - 1 || velocityY <= 0)) {
-            if (Math.abs(velocityY) < mMinFlingVelocity) {
-                return false;
-            }
-
-            velocityY = Math.max(Math.min(velocityY, mMaxFlingVelocity), -mMaxFlingVelocity);
-
-            Scroller scroller = new Scroller(ticklableListView.getContext(), null, true);
-            scroller.fling(0, 0, 0, velocityY, Integer.MIN_VALUE, Integer.MAX_VALUE, Integer.MIN_VALUE, Integer.MAX_VALUE);
-            int finalY = scroller.getFinalY();
-
-            int delta = finalY / getItemHeight();
-            if (delta == 0) {
-                delta = velocityY > 0 ? 1 : -1;
-            }
-
-            int finalPosition = Math.max(0, Math.min(getItemCount() - 1, currentPosition + delta));
-            ticklableListView.smoothScrollToPosition(finalPosition);
-            return true;
-        }
-
-        return false;
     }
 
     @Override

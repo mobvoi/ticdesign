@@ -18,12 +18,11 @@ package ticwear.design.preference;
 
 import android.os.Handler;
 import android.support.annotation.NonNull;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Adapter;
 import android.widget.ListView;
-
-import ticwear.design.widget.TicklableListView;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -37,7 +36,7 @@ import java.util.List;
  * @hide
  */
 public class PreferenceGroupAdapter
-        extends TicklableListView.Adapter<Preference.ViewHolder>
+        extends RecyclerView.Adapter<Preference.ViewHolder>
         implements Preference.OnPreferenceChangeInternalListener {
 
     private static final String TAG = "PreferenceGroupAdapter";

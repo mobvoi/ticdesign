@@ -1,6 +1,7 @@
 package ticwear.design.widget;
 
 import android.os.Bundle;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 
 import java.util.ArrayList;
@@ -12,7 +13,7 @@ import java.util.List;
  *
  * @author Davide Steduto
  */
-public abstract class SelectableAdapter<VH extends TicklableListView.ViewHolder> extends TicklableListView.Adapter<VH> {
+public abstract class SelectableAdapter<VH extends TicklableListView.ViewHolder> extends RecyclerView.Adapter<VH> {
 
 	private static final String TAG = SelectableAdapter.class.getSimpleName();
 
