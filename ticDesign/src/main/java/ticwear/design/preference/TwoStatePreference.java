@@ -26,6 +26,7 @@ import android.support.annotation.NonNull;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.TextView;
 
 /**
@@ -284,14 +285,14 @@ public abstract class TwoStatePreference extends Preference {
 
     static class ViewHolder extends Preference.ViewHolder {
 
-        public ViewHolder(Context context, @LayoutRes int layoutResId,
+        public ViewHolder(@NonNull ViewGroup parent, @LayoutRes int layoutResId,
                           @LayoutRes int widgetLayoutResId) {
-            this(context, layoutResId, widgetLayoutResId, new PreferenceData());
+            this(parent, layoutResId, widgetLayoutResId, new PreferenceData());
         }
 
-        public ViewHolder(Context context, @LayoutRes int layoutResId,
+        public ViewHolder(@NonNull ViewGroup parent, @LayoutRes int layoutResId,
                           @LayoutRes int widgetLayoutResId, PreferenceData data) {
-            super(context, layoutResId, widgetLayoutResId, data);
+            super(parent, layoutResId, widgetLayoutResId, data);
         }
 
         @Override

@@ -232,6 +232,10 @@
     <style name="TextAppearance.Ticwear.Widget"/>
     <style name="TextAppearance.Ticwear.Widget.Button" parent="TextAppearance.Ticwear.Button" />
 
+
+    <style name="TextAppearance.Ticwear.TitleBar.Title" parent="TextAppearance.Ticwear.Title">
+    </style>
+
     <!-- Animation Styles -->
 
     <style name="Animation"/>

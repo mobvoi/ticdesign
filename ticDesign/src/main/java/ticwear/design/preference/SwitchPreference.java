@@ -22,6 +22,7 @@ import android.support.annotation.CallSuper;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
 import android.util.AttributeSet;
+import android.view.ViewGroup;
 import android.widget.Checkable;
 import android.widget.CompoundButton;
 import android.widget.Switch;
@@ -84,8 +85,10 @@ public class SwitchPreference extends TwoStatePreference {
 
         mViewHolderCreator = new ViewHolderCreator() {
             @Override
-            public Preference.ViewHolder create(Context context, @LayoutRes int layoutResId, @LayoutRes int widgetLayoutResId) {
-                return new ViewHolder(context, layoutResId, widgetLayoutResId);
+            public Preference.ViewHolder create(@NonNull ViewGroup parent,
+                                                @LayoutRes int layoutResId,
+                                                @LayoutRes int widgetLayoutResId) {
+                return new ViewHolder(parent, layoutResId, widgetLayoutResId);
             }
         };
     }
@@ -182,9 +185,9 @@ public class SwitchPreference extends TwoStatePreference {
 
         protected Checkable checkableView;
 
-        public ViewHolder(Context context, @LayoutRes int layoutResId,
+        public ViewHolder(@NonNull ViewGroup parent, @LayoutRes int layoutResId,
                           @LayoutRes int widgetLayoutResId) {
-            super(context, layoutResId, widgetLayoutResId, new PreferenceData());
+            super(parent, layoutResId, widgetLayoutResId, new PreferenceData());
             checkableView = findViewById(R.id.switchWidget);
         }
 

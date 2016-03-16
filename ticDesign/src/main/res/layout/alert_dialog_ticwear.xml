@@ -79,7 +79,8 @@
                 android:layout_height="1dp"
                 android:layout_gravity="top"
                 android:background="@null"/>
-            <ScrollView android:id="@+id/scrollView"
+            <ticwear.design.widget.SubscribedScrollView
+                android:id="@+id/scrollView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingStart="?android:listPreferredItemPaddingStart"
@@ -101,7 +102,7 @@
                         android:layout_width="0dp"
                         android:layout_height="8dp" />
                 </LinearLayout>
-            </ScrollView>
+            </ticwear.design.widget.SubscribedScrollView>
             <View android:id="@+id/scrollIndicatorDown"
                 android:visibility="gone"
                 android:layout_width="match_parent"

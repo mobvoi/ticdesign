@@ -34,7 +34,6 @@ import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewCompat;
 import android.support.v4.view.WindowInsetsCompat;
-import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.Gravity;
@@ -42,6 +41,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewParent;
 import android.widget.FrameLayout;
+import android.widget.Toolbar;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -130,8 +130,6 @@ public class CollapsingToolbarLayout extends FrameLayout {
     public CollapsingToolbarLayout(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
 
-        ThemeUtils.checkAppCompatTheme(context);
-
         mCollapsingTextHelper = new CollapsingTextHelper(this);
         mCollapsingTextHelper.setTextSizeInterpolator(AnimationUtils.DECELERATE_INTERPOLATOR);
 
@@ -174,7 +172,7 @@ public class CollapsingToolbarLayout extends FrameLayout {
         mCollapsingTextHelper.setExpandedTextAppearance(
                 R.style.TextAppearance_Ticwear_CollapsingToolbar_Expanded);
         mCollapsingTextHelper.setCollapsedTextAppearance(
-                R.style.TextAppearance_AppCompat_Widget_ActionBar_Title);
+                R.style.TextAppearance_Ticwear_TitleBar_Title);
 
         // Now overlay any custom text appearances
         if (a.hasValue(R.styleable.CollapsingToolbarLayout_tic_expandedTitleTextAppearance)) {

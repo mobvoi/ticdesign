@@ -228,10 +228,10 @@ public class PreferenceGroupAdapter
         }
         PreferenceLayout preferenceLayout = mPreferenceLayouts.get(viewType);
         if (preferenceLayout.viewHolderCreator != null) {
-            return preferenceLayout.viewHolderCreator.create(parent.getContext(),
+            return preferenceLayout.viewHolderCreator.create(parent,
                     preferenceLayout.resId, preferenceLayout.widgetResId);
         } else {
-            return new Preference.ViewHolder(parent.getContext(),
+            return new Preference.ViewHolder(parent,
                     preferenceLayout.resId, preferenceLayout.widgetResId);
         }
     }

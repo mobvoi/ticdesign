@@ -30,6 +30,7 @@ import android.os.Message;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.support.annotation.LayoutRes;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
 import android.support.annotation.XmlRes;
@@ -43,18 +44,18 @@ import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 
-import ticwear.design.R;
-import ticwear.design.app.RecyclerActivity;
-import ticwear.design.internal.XmlUtils;
-import ticwear.design.widget.SelectableAdapter;
-import ticwear.design.widget.TicklableListView;
-
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+
+import ticwear.design.R;
+import ticwear.design.app.RecyclerActivity;
+import ticwear.design.internal.XmlUtils;
+import ticwear.design.widget.SelectableAdapter;
+import ticwear.design.widget.TicklableListView;
 
 public abstract class PreferenceActivity extends RecyclerActivity implements
         PreferenceFragment.OnPreferenceStartFragmentCallback {
@@ -184,8 +185,8 @@ public abstract class PreferenceActivity extends RecyclerActivity implements
 
             int position;
 
-            public ViewHolder(Context context, @LayoutRes int layoutResId) {
-                super(context, layoutResId);
+            public ViewHolder(@NonNull ViewGroup parent, @LayoutRes int layoutResId) {
+                super(parent, layoutResId);
                 itemView.setOnClickListener(this);
             }
 
@@ -224,7 +225,7 @@ public abstract class PreferenceActivity extends RecyclerActivity implements
 
         @Override
         public HeaderAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-            return new ViewHolder(mContext, mLayoutResId);
+            return new ViewHolder(parent, mLayoutResId);
         }
 
         @Override

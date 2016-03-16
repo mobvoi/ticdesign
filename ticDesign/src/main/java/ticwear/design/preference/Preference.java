@@ -34,14 +34,15 @@ import android.util.AttributeSet;
 import android.view.AbsSavedState;
 import android.view.KeyEvent;
 import android.view.View;
-
-import ticwear.design.R;
-import ticwear.design.internal.CharSequences;
-import ticwear.design.widget.TicklableListView;
+import android.view.ViewGroup;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
+
+import ticwear.design.R;
+import ticwear.design.internal.CharSequences;
+import ticwear.design.widget.TicklableListView;
 
 /**
  * Represents the basic Preference UI building
@@ -106,8 +107,8 @@ public class Preference implements Comparable<Preference> {
 
     ViewHolderCreator mViewHolderCreator = new ViewHolderCreator() {
         @Override
-        public ViewHolder create(Context context, @LayoutRes int layoutResId, @LayoutRes int widgetLayoutResId) {
-            return new ViewHolder(context, layoutResId, widgetLayoutResId);
+        public ViewHolder create(@NonNull ViewGroup parent, @LayoutRes int layoutResId, @LayoutRes int widgetLayoutResId) {
+            return new ViewHolder(parent, layoutResId, widgetLayoutResId);
         }
     };
 
@@ -173,7 +174,7 @@ public class Preference implements Comparable<Preference> {
      * ViewHolder bind with preference.
      */
     interface ViewHolderCreator {
-        ViewHolder create(Context context, @LayoutRes int layoutResId,
+        ViewHolder create(@NonNull ViewGroup parent, @LayoutRes int layoutResId,
                           @LayoutRes int widgetLayoutResId);
     }
 
@@ -1685,17 +1686,17 @@ public class Preference implements Comparable<Preference> {
 
         PreferenceData data;
 
-        public ViewHolder(Context context, @LayoutRes int layoutResId,
+        public ViewHolder(@NonNull ViewGroup parent, @LayoutRes int layoutResId,
                           @LayoutRes int widgetLayoutResId) {
-            this(context, layoutResId, widgetLayoutResId, new PreferenceData());
+            this(parent, layoutResId, widgetLayoutResId, new PreferenceData());
         }
 
         /**
          * Calling this constructor when you have your custom {@link PreferenceData}.
          */
-        ViewHolder(Context context, @LayoutRes int layoutResId,
-                          @LayoutRes int widgetLayoutResId, PreferenceData data) {
-            super(context, layoutResId, widgetLayoutResId);
+        ViewHolder(@NonNull ViewGroup parent, @LayoutRes int layoutResId,
+                   @LayoutRes int widgetLayoutResId, PreferenceData data) {
+            super(parent, layoutResId, widgetLayoutResId);
             this.data = data;
         }
 

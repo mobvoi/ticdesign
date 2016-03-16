@@ -34,13 +34,13 @@ public class PreferenceViewHolder extends TicklableListView.ViewHolder {
 
     protected static final long DEFAULT_ANIMATE_DURATION = 200;
 
-    public PreferenceViewHolder(Context context, @LayoutRes int layoutResId) {
-        this(context, layoutResId, 0);
+    public PreferenceViewHolder(@NonNull ViewGroup parent, @LayoutRes int layoutResId) {
+        this(parent, layoutResId, 0);
     }
 
-    public PreferenceViewHolder(Context context, @LayoutRes int layoutResId,
+    public PreferenceViewHolder(@NonNull ViewGroup parent, @LayoutRes int layoutResId,
                                 @LayoutRes int widgetLayoutResId) {
-        this(inflateView(context, layoutResId), inflateView(context, widgetLayoutResId));
+        this(inflateView(parent, layoutResId), inflateView(parent, widgetLayoutResId));
     }
 
     PreferenceViewHolder(@NonNull View itemView, @Nullable View widgetView) {
@@ -76,11 +76,12 @@ public class PreferenceViewHolder extends TicklableListView.ViewHolder {
     }
 
     @CheckResult
-    public static View inflateView(Context context, @LayoutRes int layoutResId) {
+    public static View inflateView(@NonNull ViewGroup parent, @LayoutRes int layoutResId) {
+        Context context = parent.getContext();
         final LayoutInflater layoutInflater =
                 (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
-        return layoutResId == 0 ? null : layoutInflater.inflate(layoutResId, null);
+        return layoutResId == 0 ? null : layoutInflater.inflate(layoutResId, parent, false);
     }
 
     /**

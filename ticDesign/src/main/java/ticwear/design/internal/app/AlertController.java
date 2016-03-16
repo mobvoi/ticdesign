@@ -50,7 +50,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListAdapter;
 import android.widget.ListView;
-import android.widget.ScrollView;
 import android.widget.SimpleCursorAdapter;
 import android.widget.Space;
 import android.widget.TextView;
@@ -60,6 +59,7 @@ import java.lang.ref.WeakReference;
 import ticwear.design.R;
 import ticwear.design.app.AlertDialog;
 import ticwear.design.widget.FloatingActionButton;
+import ticwear.design.widget.SubscribedScrollView;
 
 import static android.view.ViewGroup.LayoutParams.MATCH_PARENT;
 
@@ -86,7 +86,7 @@ public class AlertController {
     private final ButtonBundle mButtonBundleNegative;
     private final ButtonBundle mButtonBundleNeutral;
 
-    private ScrollView mScrollView;
+    private SubscribedScrollView mScrollView;
 
     private int mIconId = 0;
     private Drawable mIcon;
@@ -618,7 +618,7 @@ public class AlertController {
     // SuppressLint for View.setOnScrollChangeListener, witch is a hidden API before API 23.
     @SuppressLint("NewApi")
     private void setupContent(ViewGroup contentPanel) {
-        mScrollView = (ScrollView) mWindow.findViewById(R.id.scrollView);
+        mScrollView = (SubscribedScrollView) mWindow.findViewById(R.id.scrollView);
         mScrollView.setFocusable(false);
 
         // Special case for users that only want to display a String
@@ -648,24 +648,44 @@ public class AlertController {
         final View indicatorUp = mWindow.findViewById(R.id.scrollIndicatorUp);
         final View indicatorDown = mWindow.findViewById(R.id.scrollIndicatorDown);
         if (indicatorUp != null || indicatorDown != null) {
+            OnViewScrollListener onViewScrollListener = new OnViewScrollListener() {
+
+                int scrollState = SubscribedScrollView.OnScrollListener.SCROLL_STATE_IDLE;
+                boolean scrollDown = true;
+
+                @Override
+                public void onViewScrollStateChanged(View view, int state) {
+                    scrollState = state;
+
+                    if (scrollState == SubscribedScrollView.OnScrollListener.SCROLL_STATE_IDLE) {
+                        showButtonsDelayed();
+                    } else if (!scrollDown) {
+                        hideButtons();
+                    }
+                }
+
+                @Override
+                public void onViewScroll(View view, int l, int t, int oldl, int oldt) {
+                    manageScrollIndicators(view, indicatorUp, indicatorDown);
+
+                    if (t == oldt) {
+                        return;
+                    }
+
+                    boolean newScrollDown = (t - oldt) < 0;
+                    if (newScrollDown && !scrollDown) {
+                        showButtons();
+                        scrollDown = true;
+                    } else if (!newScrollDown && scrollDown &&
+                            scrollState != AbsListView.OnScrollListener.SCROLL_STATE_IDLE) {
+                        hideButtons();
+                        scrollDown = false;
+                    }
+                }
+            };
             if (mMessage != null) {
                 // We're just showing the ScrollView, set up listener.
-                mScrollView.setOnScrollChangeListener(new View.OnScrollChangeListener() {
-                    boolean scrollDown = true;
-                    @Override
-                    public void onScrollChange(View v, int scrollX, int scrollY,
-                                               int oldScrollX, int oldScrollY) {
-                        manageScrollIndicators(v, indicatorUp, indicatorDown);
-
-                        boolean newScrollDown = (scrollY - oldScrollY) < 0;
-                        if (newScrollDown && !scrollDown) {
-                            showButtons();
-                        } else if (!newScrollDown && scrollDown) {
-                            hideButtons();
-                        }
-                        scrollDown = newScrollDown;
-                    }
-                });
+                mScrollView.setOnScrollListener(onViewScrollListener);
                 // Set up the indicators following layout.
                 mScrollView.post(new Runnable() {
                      @Override
@@ -676,33 +696,7 @@ public class AlertController {
 
             } else if (mListView != null) {
                 // We're just showing the AbsListView, set up listener.
-                mListView.setOnScrollListener(new AbsListView.OnScrollListener() {
-
-                        boolean scrollDown = true;
-                        int oldScrollY;
-
-                        @Override
-                        public void onScrollStateChanged(AbsListView view, int scrollState) {
-                            if (scrollState == SCROLL_STATE_IDLE) {
-                                showButtonsDelayed();
-                            }
-                        }
-
-                        @Override
-                        public void onScroll(AbsListView v, int firstVisibleItem,
-                                int visibleItemCount, int totalItemCount) {
-                            manageScrollIndicators(v, indicatorUp, indicatorDown);
-
-                            boolean newScrollDown = (v.getScrollY() - oldScrollY) < 0;
-                            oldScrollY = v.getScrollY();
-                            if (newScrollDown && !scrollDown) {
-                                showButtons();
-                            } else if (!newScrollDown && scrollDown) {
-                                hideButtons();
-                            }
-                            scrollDown = newScrollDown;
-                        }
-                    });
+                mListView.setOnScrollListener(onViewScrollListener);
                 // Set up the indicators following layout.
                 mListView.post(new Runnable() {
                         @Override
@@ -1278,5 +1272,42 @@ public class AlertController {
         private boolean hasIconButton() {
             return buttonIcon != null || iconButton.getVisibility() == View.VISIBLE;
         }
+    }
+
+
+    private abstract class OnViewScrollListener implements
+            AbsListView.OnScrollListener, SubscribedScrollView.OnScrollListener {
+
+        private int oldScrollY = 0;
+        private int oldScrollX = 0;
+
+        @Override
+        public void onScrollStateChanged(AbsListView view, int scrollState) {
+            onViewScrollStateChanged(view, scrollState);
+        }
+
+        @Override
+        public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+            int scrollX = view.getScrollX();
+            int scrollY = view.getScrollY();
+            onViewScroll(view, scrollX, scrollY, oldScrollX, oldScrollY);
+            oldScrollX = scrollX;
+            oldScrollY = scrollY;
+        }
+
+        @Override
+        public void onScrollStateChanged(SubscribedScrollView view, int scrollState) {
+            onViewScrollStateChanged(view, scrollState);
+        }
+
+        @Override
+        public void onScroll(SubscribedScrollView view, int l, int t, int oldl, int oldt) {
+            onViewScroll(view, l, t, oldl, oldt);
+        }
+
+
+        public abstract void onViewScrollStateChanged(View view, int scrollState);
+
+        public abstract void onViewScroll(View view, int l, int t, int oldl, int oldt);
     }
 }

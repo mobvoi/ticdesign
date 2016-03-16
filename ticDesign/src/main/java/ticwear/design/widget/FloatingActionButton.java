@@ -118,8 +118,6 @@ public class FloatingActionButton extends VisibilityAwareImageButton {
     public FloatingActionButton(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
 
-        ThemeUtils.checkAppCompatTheme(context);
-
         mShadowPadding = new Rect();
         mTouchArea = new Rect();
 

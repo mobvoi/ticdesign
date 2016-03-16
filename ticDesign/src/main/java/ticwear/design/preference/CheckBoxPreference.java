@@ -22,6 +22,7 @@ import android.support.annotation.CallSuper;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
 import android.util.AttributeSet;
+import android.view.ViewGroup;
 import android.widget.Checkable;
 
 import ticwear.design.R;
@@ -52,8 +53,10 @@ public class CheckBoxPreference extends TwoStatePreference {
 
         mViewHolderCreator = new ViewHolderCreator() {
             @Override
-            public Preference.ViewHolder create(Context context, @LayoutRes int layoutResId, @LayoutRes int widgetLayoutResId) {
-                return new ViewHolder(context, layoutResId, widgetLayoutResId);
+            public Preference.ViewHolder create(@NonNull ViewGroup parent,
+                                                @LayoutRes int layoutResId,
+                                                @LayoutRes int widgetLayoutResId) {
+                return new ViewHolder(parent, layoutResId, widgetLayoutResId);
             }
         };
     }
@@ -70,9 +73,9 @@ public class CheckBoxPreference extends TwoStatePreference {
 
         protected Checkable checkboxView;
 
-        public ViewHolder(Context context, @LayoutRes int layoutResId,
+        public ViewHolder(@NonNull ViewGroup parent, @LayoutRes int layoutResId,
                           @LayoutRes int widgetLayoutResId) {
-            super(context, layoutResId, widgetLayoutResId);
+            super(parent, layoutResId, widgetLayoutResId);
             checkboxView = findViewById(android.R.id.checkbox);
         }
 

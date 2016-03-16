@@ -25,7 +25,6 @@ import android.graphics.Paint;
 import android.graphics.Paint.Align;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.CallSuper;
 import android.support.annotation.IntDef;
@@ -623,9 +622,10 @@ public class NumberPicker extends LinearLayout {
                 R.styleable.NumberPicker_tic_selectionDivider);
         if (selectionDivider != null) {
             selectionDivider.setCallback(this);
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                selectionDivider.setLayoutDirection(getLayoutDirection());
-            }
+            // TODO: Open this when update Compile SDK Level to 23.
+//            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+//                selectionDivider.setLayoutDirection(getLayoutDirection());
+//            }
             if (selectionDivider.isStateful()) {
                 selectionDivider.setState(getDrawableState());
             }

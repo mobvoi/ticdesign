@@ -28,7 +28,6 @@ import android.support.annotation.StyleRes;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewCompat;
 import android.support.v4.view.WindowInsetsCompat;
-import android.support.v7.widget.Toolbar;
 import android.util.AttributeSet;
 import android.view.Gravity;
 import android.view.View;
@@ -104,8 +103,6 @@ public class StretchingLayout extends FrameLayout {
     public StretchingLayout(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
 
-        ThemeUtils.checkAppCompatTheme(context);
-
         mCollapsingTextHelper = new CollapsingTextHelper(this);
         mCollapsingTextHelper.setTextSizeInterpolator(AnimationUtils.DECELERATE_INTERPOLATOR);
 
@@ -148,7 +145,7 @@ public class StretchingLayout extends FrameLayout {
         mCollapsingTextHelper.setExpandedTextAppearance(
                 R.style.TextAppearance_Ticwear_CollapsingToolbar_Expanded);
         mCollapsingTextHelper.setCollapsedTextAppearance(
-                R.style.TextAppearance_AppCompat_Widget_ActionBar_Title);
+                R.style.TextAppearance_Ticwear_TitleBar_Title);
 
         // Now overlay any custom text appearances
         if (a.hasValue(R.styleable.CollapsingToolbarLayout_tic_expandedTitleTextAppearance)) {
