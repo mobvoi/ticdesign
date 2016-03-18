@@ -37,12 +37,13 @@
             app:tic_layout_scrollFlags="scroll|overScrollBounce"
             app:tic_layout_scrollResistanceFactor="0.5">
             <ImageView android:id="@+id/icon"
-                android:layout_width="32dip"
-                android:layout_height="32dip"
-                android:layout_marginEnd="8dip"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_gravity="center_horizontal"
                 android:scaleType="fitCenter"
                 android:src="@null"
-                android:contentDescription="@null"/>
+                android:contentDescription="@null"
+                tools:background="#aaa"/>
             <TextView
                 style="?android:windowTitleStyle"
                 android:id="@+id/alertTitle"
@@ -51,7 +52,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingTop="4dp"
-                android:textAlignment="center" />
+                android:gravity="center"
+                android:textAlignment="center"
+                tools:text="Title" />
         </LinearLayout>
         <!-- If the client uses a customTitle, it will be added here. -->
     </ticwear.design.widget.AppBarLayout>

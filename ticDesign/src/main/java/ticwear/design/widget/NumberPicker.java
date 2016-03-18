@@ -886,7 +886,6 @@ public class NumberPicker extends LinearLayout {
                     }
                 }
                 // Make sure we support flinging inside scrollables.
-                getParent().requestDisallowInterceptTouchEvent(true);
                 if (!mFlingScroller.isFinished()) {
                     mFlingScroller.forceFinished(true);
                     mAdjustScroller.forceFinished(true);

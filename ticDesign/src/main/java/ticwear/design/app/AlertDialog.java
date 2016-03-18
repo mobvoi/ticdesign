@@ -35,6 +35,7 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 
@@ -222,6 +223,10 @@ public class AlertDialog extends Dialog implements DialogInterface {
         return mAlert.getButton(whichButton);
     }
 
+    public ImageButton getIconButton(int whichButton) {
+        return mAlert.getIconButton(whichButton);
+    }
+
     /**
      * Gets the list view used in the dialog.
      *
@@ -405,6 +410,15 @@ public class AlertDialog extends Dialog implements DialogInterface {
      */
     public void showButtonsDelayed() {
         mAlert.showButtonsDelayed();
+    }
+
+    /**
+     * Show all buttons.
+     *
+     * NOTE: This only work if the buttons are icon button.
+     */
+    public void showButtons() {
+        mAlert.showButtons();
     }
 
     public static class Builder {

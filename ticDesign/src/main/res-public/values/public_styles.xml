@@ -35,6 +35,13 @@
     <public type="style" name="TextAppearance.Ticwear.Widget" />
     <public type="style" name="TextAppearance.Ticwear.Widget.Button" />
 
+    <public type="style" name="TextAppearance.Ticwear.TimePicker.TimeLabel" />
+    <public type="style" name="TextAppearance.Ticwear.TimePicker.AmPmLabel" />
+    <public type="style" name="TextAppearance.Ticwear.WindowTitle" />
+    <public type="style" name="TextAppearance.Ticwear.DialogWindowTitle" />
+
+    <public type="style" name="WindowTitle.Ticwear" />
+
     <public type="style" name="Animation.Ticwear.Activity" />
     <public type="style" name="Animation.Ticwear.Dialog" />
     <public type="style" name="AlertDialog.Ticwear" />
@@ -43,4 +50,10 @@
     <public type="style" name="Theme.Ticwear.Fullscreen" />
     <public type="style" name="Theme.Ticwear.Dialog" />
     <public type="style" name="Theme.Ticwear.Dialog.Alert" />
+
+
+    <public type="style" name="Widget.Ticwear.TimePicker" />
+    <public type="style" name="Widget.Ticwear.DatePicker" />
+
+    <public type="style" name="Widget.Ticwear.CirclePageIndicator" />
 </resources>

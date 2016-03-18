@@ -20,12 +20,13 @@ import ticwear.design.widget.FloatingActionButton;
  */
 public class WidgetsFragment extends ListFragment {
 
-    static {
-        initData(new int[]{
+    @Override
+    protected int[] getItemTitles() {
+        return new int[]{
                 R.string.category_widgets_button,
                 R.string.category_widgets_picker,
                 R.string.category_widgets_progress,
-        });
+        };
     }
 
     @Override

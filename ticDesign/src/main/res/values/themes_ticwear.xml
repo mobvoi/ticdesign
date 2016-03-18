@@ -28,6 +28,8 @@
         <!-- Required to force windowInsets dispatch through application UI. -->
         <item name="android:windowOverscan">true</item>
 
+        <item name="android:windowTitleStyle">@style/WindowTitle.Ticwear</item>
+
         <!-- Dialog attributes -->
         <item name="android:dialogTheme">@style/Theme.Ticwear.Dialog</item>
 
@@ -63,6 +65,18 @@
 
         <!-- Number Picker style attributes -->
         <item name="tic_numberPickerStyle">@style/Widget.Ticwear.NumberPicker</item>
+
+        <!-- TimePicker style -->
+        <item name="android:timePickerStyle">@style/Widget.Ticwear.TimePicker</item>
+
+        <!-- DatePicker style -->
+        <item name="android:datePickerStyle">@style/Widget.Ticwear.DatePicker</item>
+
+        <!-- TimePicker dialog theme -->
+        <item name="android:timePickerDialogTheme">?android:dialogTheme</item>
+
+
+        <item name="tic_CirclePageIndicatorStyle">@style/Widget.Ticwear.CirclePageIndicator</item>
 
 
         <!-- List attributes -->

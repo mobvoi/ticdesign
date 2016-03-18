@@ -32,8 +32,13 @@
     <public type="attr" name="tic_layout_collapseMode" />
     <public type="attr" name="tic_layout_collapseParallaxMultiplier" />
     <public type="attr" name="tic_behavior_peekHeight" />
-
     <public type="attr" name="tic_scaleFactor" />
+
+
+    <public type="attr" name="tic_CirclePageIndicatorStyle" />
+    <public type="attr" name="tic_pageColor" />
+    <public type="attr" name="tic_strokeWidth" />
+    <public type="attr" name="tic_centered" />
 
     <public type="id" name="tic_view_offset_helper" />
 </resources>

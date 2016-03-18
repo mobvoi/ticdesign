@@ -44,7 +44,7 @@ public class NumberPickerDialog extends AlertDialog implements DialogInterface.O
         final View view = inflater.inflate(R.layout.dialog_number_picker, null);
         setView(view);
 
-        numberPicker = (NumberPicker) view.findViewById(R.id.numberPicker);
+        numberPicker = (NumberPicker) view.findViewById(R.id.tic_numberPicker);
         numberPicker.setMinValue(minValue);
         numberPicker.setMaxValue(maxValue);
         if (defaultValue != Integer.MIN_VALUE) {

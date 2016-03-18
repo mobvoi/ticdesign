@@ -8,6 +8,8 @@
     <string name="category.dialog.choose">选择对话框</string>
     <string name="category.dialog.number_picker">数字选择器</string>
     <string name="category.dialog.time_picker">时间选择器</string>
+    <string name="category.dialog.date_picker">日期选择器</string>
+    <string name="category.dialog.datetime_picker">时间日期选择器</string>
 
     <string name="category.widgets.title">控件</string>
     <string name="category.widgets.button">按钮控件</string>

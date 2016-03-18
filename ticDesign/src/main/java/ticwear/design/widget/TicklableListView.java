@@ -281,6 +281,7 @@ public class TicklableListView extends RecyclerView {
                 break;
         }
         super.dispatchTouchEvent(ev);
+        // TODO: should return super.dispatchXXX, so we may need a interface for side-panel event?
         return true;
     }
 

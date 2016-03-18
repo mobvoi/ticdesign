@@ -59,4 +59,118 @@
         <attr name="tic_hideWheelUntilFocused" format="boolean"/>
     </declare-styleable>
 
+    <declare-styleable name="TimePicker">
+        <!-- @hide The layout of the legacy time picker. -->
+        <attr name="tic_legacyLayout" format="reference" />
+        <!-- @hide The layout of the time picker. -->
+        <attr name="tic_internalLayout" />
+        <!-- The text appearance for the AM/PM header. -->
+        <attr name="android:headerAmPmTextAppearance" />
+        <!-- The text appearance for the time header. -->
+        <attr name="android:headerTimeTextAppearance" />
+        <!-- @hide The text color for selected time header of the TimePicker.
+             This will override the value from the text appearance if it does
+             not explicitly have a color set for the selected state. -->
+        <attr name="tic_headerSelectedTextColor" format="color" />
+        <!-- The background for the header containing the currently selected time. -->
+        <attr name="android:headerBackground" />
+        <!-- The color for the hours/minutes numbers. -->
+        <attr name="android:numbersTextColor" />
+        <!-- The background color for the hours/minutes numbers. -->
+        <attr name="android:numbersBackgroundColor" />
+        <!-- The color for the AM/PM selectors. -->
+        <attr name="android:amPmTextColor" />
+        <!-- The background color state list for the AM/PM selectors. -->
+        <attr name="android:amPmBackgroundColor" />
+        <!-- @hide The background color for the AM/PM selectors of the
+             TimePicker when selected. Used if the background color does not
+             explicitly have a color set for the selected state. -->
+        <attr name="tic_amPmSelectedBackgroundColor" format="color" />
+        <!-- The color for the hours/minutes selector. -->
+        <attr name="android:numbersSelectorColor" />
+        <!-- Defines the look of the widget. Prior to the L release, the only choice was
+             spinner. As of L, with the Material theme selected, the default layout is clock,
+             but this attribute can be used to force spinner to be used instead. -->
+        <attr name="android:timePickerMode"/>
+    </declare-styleable>
+
+    <declare-styleable name="DatePicker">
+        <!-- The first year (inclusive), for example "1940".
+             {@deprecated Use minDate instead.} -->
+        <attr name="android:startYear" />
+        <!-- The last year (inclusive), for example "2010".
+             {@deprecated Use maxDate instead.} -->
+        <attr name="android:endYear" />
+        <!-- Whether the spinners are shown. -->
+        <attr name="android:spinnersShown" />
+        <!-- Whether the calendar view is shown. -->
+        <attr name="android:calendarViewShown" />
+        <!-- The minimal date shown by this calendar view in mm/dd/yyyy format. -->
+        <attr name="android:minDate" />
+        <!-- The maximal date shown by this calendar view in mm/dd/yyyy format. -->
+        <attr name="android:maxDate" />
+        <!-- The first day of week according to {@link java.util.Calendar}. -->
+        <attr name="android:firstDayOfWeek" />
+        <!-- @hide The layout of the date picker. -->
+        <attr name="tic_internalLayout" />
+        <!-- @hide The layout of the legacy DatePicker. -->
+        <attr name="tic_legacyLayout" />
+        <!-- The background color for the date selector 's day of week. -->
+        <attr name="android:dayOfWeekBackground" />
+        <!-- The text color for the date selector's day of week. -->
+        <attr name="android:dayOfWeekTextAppearance" />
+        <!-- The month's text appearance in the date selector. -->
+        <attr name="android:headerMonthTextAppearance" />
+        <!-- The day of month's text appearance in the date selector. -->
+        <attr name="android:headerDayOfMonthTextAppearance" />
+        <!-- The year's text appearance in the date selector. -->
+        <attr name="android:headerYearTextAppearance" />
+        <!-- The background for the date selector. -->
+        <attr name="android:headerBackground" />
+        <!-- @hide The selected text color for the date selector. Used as a
+             backup if the text appearance does not explicitly have a color
+             set for the selected state. -->
+        <attr name="tic_headerSelectedTextColor" />
+        <!-- The list year's text appearance in the list. -->
+        <attr name="android:yearListItemTextAppearance" />
+        <!-- The list year's selected circle color in the list. -->
+        <attr name="android:yearListSelectorColor" />
+        <!-- The text color list of the calendar. -->
+        <attr name="android:calendarTextColor" />
+        <!-- @hide The selected text color for the calendar. Used as a backup
+             if the text color does not explicitly have a color set for the
+             selected state. -->
+        <attr name="tic_calendarSelectedTextColor" format="color" />
+        <!-- Defines the look of the widget. Prior to the L release, the only choice was
+             spinner. As of L, with the Material theme selected, the default layout is calendar,
+             but this attribute can be used to force spinner to be used instead. -->
+        <attr name="android:datePickerMode" />
+        <!-- Allow numeric months show, if false, the month may always be a string -->
+        <attr name="tic_allowNumericMonths" format="boolean" />
+    </declare-styleable>
+
+    <!-- Style of the circle indicator. -->
+    <attr name="tic_CirclePageIndicatorStyle" format="reference"/>
+
+    <declare-styleable name="CirclePageIndicator">
+        <!-- Whether or not the indicators should be centered. -->
+        <attr name="tic_centered" format="boolean" />
+        <!-- Color of the filled circle that represents the current page. -->
+        <attr name="android:fillColor" />
+        <!-- Color of the filled circles that represents pages. -->
+        <attr name="tic_pageColor" format="color" />
+        <!-- Orientation of the indicator. -->
+        <attr name="android:orientation"/>
+        <!-- Radius of the circles. This is also the spacing between circles. -->
+        <attr name="android:radius" />
+        <!-- Whether or not the selected indicator snaps to the circles. -->
+        <attr name="tic_snap" format="boolean" />
+        <!-- Color of the open circles. -->
+        <attr name="android:strokeColor" />
+        <!-- Width of the stroke used to draw the circles. -->
+        <attr name="tic_strokeWidth" format="dimension" />
+        <!-- View background -->
+        <attr name="android:background"/>
+    </declare-styleable>
+
 </resources>

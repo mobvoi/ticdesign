@@ -1,0 +1,84 @@
+package ticwear.design.app;
+
+import android.content.Context;
+import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+
+import ticwear.design.R;
+import ticwear.design.widget.TimePicker;
+
+class TimePickerViewHolder {
+
+    private static final String HOUR = "hour";
+    private static final String MINUTE = "minute";
+    private static final String IS_24_HOUR = "is24hour";
+
+    private TimePicker mTimePicker;
+
+    private int mInitialHourOfDay;
+    private int mInitialMinute;
+    private boolean mIs24HourView;
+
+    private final Context mContext;
+
+    public TimePickerViewHolder(Context context) {
+        this.mContext = context;
+    }
+
+    public View init(int hourOfDay, int minute, boolean is24HourView,
+                     TimePicker.OnTimeChangedListener listener,
+                     TimePicker.ValidationCallback callback) {
+
+        mInitialHourOfDay = hourOfDay;
+        mInitialMinute = minute;
+        mIs24HourView = is24HourView;
+
+        final LayoutInflater inflater = LayoutInflater.from(mContext);
+        final View view = inflater.inflate(R.layout.dialog_time_picker, null);
+
+        mTimePicker = (TimePicker) view.findViewById(R.id.tic_timePicker);
+        mTimePicker.setIs24HourView(mIs24HourView);
+        mTimePicker.setCurrentHour(mInitialHourOfDay);
+        mTimePicker.setCurrentMinute(mInitialMinute);
+        mTimePicker.setOnTimeChangedListener(listener);
+        mTimePicker.setValidationCallback(callback);
+
+        return view;
+    }
+
+    /**
+     * Gets the {@link TimePicker} contained in this dialog.
+     *
+     * @return The TimePicker view.
+     */
+    public TimePicker getTimePicker() {
+        return mTimePicker;
+    }
+
+    /**
+     * Sets the current time.
+     *
+     * @param hourOfDay The current hour within the day.
+     * @param minuteOfHour The current minute within the hour.
+     */
+    public void updateTime(int hourOfDay, int minuteOfHour) {
+        mTimePicker.setCurrentHour(hourOfDay);
+        mTimePicker.setCurrentMinute(minuteOfHour);
+    }
+
+    public void onSaveInstanceState(Bundle state) {
+        state.putInt(HOUR, mTimePicker.getCurrentHour());
+        state.putInt(MINUTE, mTimePicker.getCurrentMinute());
+        state.putBoolean(IS_24_HOUR, mTimePicker.is24HourView());
+    }
+
+    public void onRestoreInstanceState(Bundle savedInstanceState) {
+        final int hour = savedInstanceState.getInt(HOUR);
+        final int minute = savedInstanceState.getInt(MINUTE);
+        mTimePicker.setIs24HourView(savedInstanceState.getBoolean(IS_24_HOUR));
+        mTimePicker.setCurrentHour(hour);
+        mTimePicker.setCurrentMinute(minute);
+    }
+
+}

@@ -126,6 +126,43 @@
         <item name="tic_virtualButtonPressedDrawable">?android:selectableItemBackground</item>
     </style>
 
+    <style name="Widget.Ticwear.TimePicker">
+        <item name="android:timePickerMode">spinner</item>
+        <item name="tic_legacyLayout">@layout/time_picker_ticwear</item>
+        <!-- Attributes for new-style TimePicker. -->
+        <item name="tic_internalLayout">@layout/time_picker_ticwear</item>
+        <item name="android:headerTimeTextAppearance">@style/TextAppearance.Ticwear.TimePicker.TimeLabel</item>
+        <item name="android:headerAmPmTextAppearance">@style/TextAppearance.Ticwear.TimePicker.AmPmLabel</item>
+        <item name="tic_headerSelectedTextColor">?android:textColorPrimaryInverse</item>
+        <item name="android:headerBackground">@drawable/time_picker_header_ticwear</item>
+        <item name="android:numbersTextColor">?android:textColorSecondary</item>
+        <item name="android:numbersBackgroundColor">#10ffffff</item>
+        <item name="android:amPmTextColor">?android:textColorSecondary</item>
+        <item name="android:amPmBackgroundColor">@android:color/transparent</item>
+        <item name="tic_amPmSelectedBackgroundColor">?android:colorControlActivated</item>
+        <item name="android:numbersSelectorColor">?android:colorControlActivated</item>
+    </style>
+
+    <style name="Widget.Ticwear.DatePicker">
+        <!-- Attributes for new-style DatePicker. -->
+        <item name="android:datePickerMode">spinner</item>
+        <item name="tic_legacyLayout">@layout/date_picker_ticwear</item>
+        <item name="tic_internalLayout">@layout/date_picker_ticwear</item>
+        <item name="android:calendarViewShown">false</item>
+        <item name="android:dayOfWeekBackground">#10000000</item>
+        <!--<item name="android:dayOfWeekTextAppearance">@style/TextAppearance.Material.DatePicker.DayOfWeekLabel</item>-->
+        <!--<item name="android:headerMonthTextAppearance">@style/TextAppearance.Material.DatePicker.MonthLabel</item>-->
+        <!--<item name="android:headerDayOfMonthTextAppearance">@style/TextAppearance.Material.DatePicker.DayOfMonthLabel</item>-->
+        <!--<item name="android:headerYearTextAppearance">@style/TextAppearance.Material.DatePicker.YearLabel</item>-->
+        <item name="tic_headerSelectedTextColor">?android:textColorPrimaryInverse</item>
+        <item name="android:headerBackground">?android:colorAccent</item>
+        <!--<item name="android:yearListItemTextAppearance">@style/TextAppearance.Material.DatePicker.List.YearLabel</item>-->
+        <item name="android:yearListSelectorColor">?android:colorControlActivated</item>
+        <item name="android:calendarTextColor">?android:textColorSecondary</item>
+        <item name="tic_calendarSelectedTextColor">?android:colorControlActivated</item>
+        <item name="tic_allowNumericMonths">false</item>
+    </style>
+
     <!-- Text styles -->
 
     <style name="TextAppearance"/>
@@ -234,6 +271,32 @@
 
 
     <style name="TextAppearance.Ticwear.TitleBar.Title" parent="TextAppearance.Ticwear.Title">
+    </style>
+
+    <style name="TextAppearance.Ticwear.TimePicker.TimeLabel" parent="TextAppearance.Ticwear">
+        <item name="android:textSize">@dimen/tic_timepicker_time_label_size</item>
+        <item name="android:textColor">?android:textColorSecondaryInverse</item>
+    </style>
+
+    <style name="TextAppearance.Ticwear.TimePicker.AmPmLabel" parent="TextAppearance.Ticwear">
+        <item name="android:textSize">@dimen/tic_timepicker_ampm_label_size</item>
+        <item name="android:textAllCaps">true</item>
+        <item name="android:textColor">?android:textColorSecondaryInverse</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="TextAppearance.Ticwear.WindowTitle" parent="TextAppearance.Ticwear.Small" />
+    <style name="TextAppearance.Ticwear.DialogWindowTitle" parent="TextAppearance.Ticwear.Small" />
+
+
+    <style name="WindowTitle" />
+
+    <style name="WindowTitle.Ticwear" >
+        <item name="android:singleLine">true</item>
+        <item name="android:textAppearance">@style/TextAppearance.Ticwear.WindowTitle</item>
+        <item name="android:shadowRadius">0</item>
+        <item name="android:ellipsize">end</item>
+        <item name="android:textAlignment">center</item>
     </style>
 
     <!-- Animation Styles -->

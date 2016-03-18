@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- The title of the time picker dialog. [CHAR LIMIT=NONE] -->
+    <string name="time_picker_dialog_title">时间</string>
+    <!-- The title of the date picker dialog. [CHAR LIMIT=NONE] -->
+    <string name="date_picker_dialog_title">日期</string>
+</resources>

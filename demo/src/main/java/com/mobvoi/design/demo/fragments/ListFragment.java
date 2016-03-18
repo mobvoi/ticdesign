@@ -36,11 +36,21 @@ public class ListFragment extends Fragment {
     };
     private static List<Map<String, Object>> listData;
 
-    protected static void initData(@StringRes int[] titles) {
-        listData = new ArrayList<>(titles.length);
+    private static List<Map<String, Object>> initData(@StringRes int[] titles) {
+        if (titles == null)
+            return null;
+
+        List<Map<String, Object>> listData = new ArrayList<>(titles.length);
         for (int title : titles) {
             listData.add(createRowData(title));
         }
+
+        return listData;
+    }
+
+    @StringRes
+    protected int[] getItemTitles() {
+        return null;
     }
 
     private static Map<String, Object> createRowData(@StringRes int title) {
@@ -62,6 +72,7 @@ public class ListFragment extends Fragment {
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         ButterKnife.bind(this, view);
+        listData = initData(getItemTitles());
         initViews();
     }
 

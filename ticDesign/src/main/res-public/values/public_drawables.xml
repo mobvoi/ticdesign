@@ -2,4 +2,5 @@
 
 <resources>
     <public type="drawable" name="tic_ic_btn_ok" />
+    <public type="drawable" name="tic_ic_btn_next" />
 </resources>

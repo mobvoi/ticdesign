@@ -6,10 +6,10 @@
     android:layout_height="match_parent"
     android:gravity="center">
 
-    <ticwear.design.widget.NumberPicker
+    <ticwear.design.widget.TimePicker
+        android:id="@+id/tic_timePicker"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/tic_numberPicker"
         android:layout_gravity="center_horizontal"/>
 
 </FrameLayout>

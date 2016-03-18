@@ -217,6 +217,29 @@ new NumberPickerDialog.Builder(context)
 
 #### <a id="date-picker"></a> 日期时间选择器
 
+类似于 Android 的 [`TimePicker`][android-timepicker] 和 [`DatePicker`][android-datepicker]，我们实现了符合Ticwear设计标准的日期和时间选择器。开发者可以像 Android 控件一样使用它们。
+
+为了开发的方便，我们还提供了一个日期时间选择对话框，`DatetimePickerDialog`，可以像使用[`AlertDialog`][android-alert-dialog]一样，显示一个对话框让用户选择日期、时间，或同时选择两者。使用方式如下：
+
+``` Java
+new DatetimePickerDialog.Builder(getActivity())
+        .defaultValue(Calendar.getInstance())
+        .listener(new DatetimePickerDialog.OnCalendarSetListener() {
+            @Override
+            public void onCalendarSet(DatetimePickerDialog dialog,
+                                      Calendar calendar) {
+                Toast.makeText(dialog.getContext(), "Picked datetime: " +
+                                SimpleDateFormat.getDateTimeInstance()
+                                        .format(calendar.getTime()),
+                        Toast.LENGTH_LONG)
+                        .show();
+            }
+        })
+        .show();
+```
+
+如果你只想让用户选择日期，或者只选择时间，那么你需要做的，是在 Building 时，指定 `disableTimePicker()` 或者 `disableDatePicker()`。详情可以参考我们 Demo 中的 `DialogsFragment`。
+
 
 [ticwear-design]: http://developer.ticwear.com/doc/guideline
 [google-design-support]: http://android-developers.blogspot.hk/2015/05/android-design-support-library.html
@@ -226,4 +249,6 @@ new NumberPickerDialog.Builder(context)
 [recycler-view]: http://developer.android.com/reference/android/support/v7/widget/RecyclerView.html
 [simple-adapter]: http://developer.android.com/reference/android/widget/SimpleAdapter.html
 [android-numberpicker]: http://developer.android.com/reference/android/widget/NumberPicker.html
+[android-timepicker]: http://developer.android.com/reference/android/widget/TimePicker.html
+[android-datepicker]: http://developer.android.com/reference/android/widget/DatePicker.html
 

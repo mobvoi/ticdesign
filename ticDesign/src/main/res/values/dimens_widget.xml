@@ -16,4 +16,17 @@
     <dimen name="alert_dialog_round_padding">0dip</dimen>
     <dimen name="alert_dialog_content_padding_bottom">48dip</dimen>
 
+    <!-- TimePicker -->
+    <dimen name="tic_timepicker_time_label_size">60sp</dimen>
+    <dimen name="tic_timepicker_extra_time_label_margin">-30dp</dimen>
+    <dimen name="tic_timepicker_ampm_label_size">16sp</dimen>
+    <dimen name="tic_timepicker_ampm_horizontal_padding">12dp</dimen>
+    <dimen name="tic_timepicker_ampm_vertical_padding">16dp</dimen>
+    <dimen name="tic_timepicker_pm_top_padding">3dp</dimen>
+    <dimen name="tic_timepicker_separator_padding">4dp</dimen>
+    <dimen name="tic_timepicker_header_height">96dp</dimen>
+    <dimen name="tic_timepicker_minimum_margin_sides">48dp</dimen>
+    <dimen name="tic_timepicker_minimum_margin_top_bottom">24dp</dimen>
+    <dimen name="tic_timepicker_radial_picker_dimen">270dp</dimen>
+
 </resources>
