@@ -8,8 +8,7 @@ LOCAL_MODULE := ticwear-design-support
 #LOCAL_FULL_MANIFEST_FILE := $(LOCAL_PATH)/src/main/AndroidManifest.xml
 LOCAL_MANIFEST_FILE := src/main/AndroidManifest.xml
 
-LOCAL_RESOURCE_DIR := $(LOCAL_PATH)/src/main/res \
-	$(LOCAL_PATH)/src/main/res-public
+LOCAL_RESOURCE_DIR := $(LOCAL_PATH)/src/main/res
 
 LOCAL_SRC_FILES := $(call all-java-files-under, src/main/java) \
 	$(call all-Iaidl-files-under, src/main/java)
