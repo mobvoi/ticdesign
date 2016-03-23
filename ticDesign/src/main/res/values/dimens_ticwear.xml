@@ -27,6 +27,9 @@
 
     <!-- Default padding for list items. -->
     <dimen name="tic_list_item_padding_horizontal_ticwear">24dp</dimen>
+    <dimen name="tic_list_item_padding_top_ticwear">8dp</dimen>
+    <dimen name="tic_list_item_padding_bottom_ticwear">16dp</dimen>
+    <dimen name="tic_list_title_padding_top_ticwear">20dp</dimen>
 
     <!-- Dimens for text size -->
     <dimen name="tic_text_size_title_ticwear">18sp</dimen>

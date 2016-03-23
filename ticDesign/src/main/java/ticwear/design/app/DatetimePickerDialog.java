@@ -96,6 +96,9 @@ public class DatetimePickerDialog extends AlertDialog implements OnClickListener
                                 Calendar defaultCalendar) {
         super(context, resolveDialogTheme(context, theme));
 
+        // Use getContext to use wrapper context.
+        context = getContext();
+
         mCurrentCalendar = defaultCalendar;
         mCurrentCalendar.clear(Calendar.SECOND);
 

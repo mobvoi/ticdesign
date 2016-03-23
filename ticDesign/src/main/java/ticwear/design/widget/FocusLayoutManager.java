@@ -106,11 +106,30 @@ class FocusLayoutManager extends RecyclerView.LayoutManager {
     }
 
     int getItemHeight() {
-        return ViewPropertiesHelper.getAdjustedHeight(ticklableListView) / 3 + 1;
+        int visibleHeight = ViewPropertiesHelper.getAdjustedHeight(ticklableListView);
+        if (!ticklableListView.getClipToPadding()) {
+            visibleHeight -= getVerticalPadding() * 2;
+        }
+        return visibleHeight / 3 + 1;
+    }
+
+    @Override
+    public int getPaddingTop() {
+        return ticklableListView.getClipToPadding() ? super.getPaddingTop() : getVerticalPadding();
+    }
+
+    @Override
+    public int getPaddingBottom() {
+        return ticklableListView.getClipToPadding() ? super.getPaddingBottom() : getVerticalPadding();
     }
 
     public int getCentralViewTop() {
         return getPaddingTop() + getItemHeight();
+    }
+
+    // To make sure the focused item is in center of the view, we let the padding top/bottom equals.
+    public int getVerticalPadding() {
+        return Math.max(super.getPaddingTop(), super.getPaddingBottom());
     }
 
     public void animateToCenter() {

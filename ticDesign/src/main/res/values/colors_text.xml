@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- White 50% -->
+    <color name="bright_foreground_disabled_ticwear_dark">#80dddddd</color>
+
+    <color name="hint_foreground_ticwear_dark">@color/bright_foreground_disabled_ticwear_dark</color>
+
+    <color name="primary_text_default_ticwear_dark">#ffdddddd</color>
+    <color name="secondary_text_default_ticwear_dark">#b3dddddd</color>
+
+    <item name="disabled_alpha_ticwear_dark" format="float" type="dimen">0.30</item>
+</resources>

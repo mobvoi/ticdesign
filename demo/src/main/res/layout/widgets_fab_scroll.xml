@@ -10,7 +10,7 @@
         android:layout_height="wrap_content">
 
         <ticwear.design.widget.ScalableTextView
-            style="?android:textAppearanceMedium"
+            style="?android:windowTitleStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"

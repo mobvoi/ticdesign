@@ -40,6 +40,9 @@ public class NumberPickerDialog extends AlertDialog implements DialogInterface.O
                               String[] displayedValues) {
         super(context, themeResId);
 
+        // Use getContext to use wrapper context.
+        context = getContext();
+
         final LayoutInflater inflater = LayoutInflater.from(context);
         final View view = inflater.inflate(R.layout.dialog_number_picker, null);
         setView(view);
@@ -111,7 +114,7 @@ public class NumberPickerDialog extends AlertDialog implements DialogInterface.O
 
         public Builder(Context context) {
             this.context = context;
-            this.themeResId = resolveDialogTheme(context, 0);
+            this.themeResId = 0;
             this.minValue = 0;
             this.maxValue = 0;
             this.defaultValue = Integer.MIN_VALUE;

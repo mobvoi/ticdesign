@@ -84,15 +84,16 @@
         <item name="android:paddingBottom">@dimen/preference_screen_header_vertical_padding_ticwear</item>
     </style>
 
-    <style name="PreferenceHeaderList"/>
-    <style name="PreferenceHeaderList.Ticwear">
+    <style name="PreferenceHeaderList.Ticwear" parent="Widget.Ticwear.ListView">
         <item name="android:paddingStart">@dimen/preference_screen_header_padding_side_ticwear</item>
         <item name="android:paddingEnd">@dimen/preference_screen_header_padding_side_ticwear</item>
         <item name="android:scrollbarStyle">@integer/preference_screen_header_scrollbarStyle_ticwear</item>
+        <item name="android:drawSelectorOnTop">false</item>
+        <item name="android:cacheColorHint">@android:color/transparent</item>
+        <item name="android:scrollbarAlwaysDrawVerticalTrack">true</item>
     </style>
 
-    <style name="PreferenceFragmentList"/>
-    <style name="PreferenceFragmentList.Ticwear">
+    <style name="PreferenceFragmentList.Ticwear" parent="PreferenceHeaderList.Ticwear">
         <item name="android:paddingStart">@dimen/preference_fragment_padding_side_ticwear</item>
         <item name="android:paddingEnd">@dimen/preference_fragment_padding_side_ticwear</item>
     </style>
@@ -161,6 +162,25 @@
         <item name="android:calendarTextColor">?android:textColorSecondary</item>
         <item name="tic_calendarSelectedTextColor">?android:colorControlActivated</item>
         <item name="tic_allowNumericMonths">false</item>
+    </style>
+
+    <style name="Widget.Ticwear.ListView">
+        <item name="android:clipToPadding">false</item>
+        <item name="android:paddingTop">@dimen/tic_list_item_padding_top_ticwear</item>
+        <item name="android:paddingBottom">@dimen/tic_list_item_padding_bottom_ticwear</item>
+        <item name="android:divider">@android:color/transparent</item>
+        <item name="android:dividerHeight">0dp</item>
+        <item name="android:scrollbars">vertical</item>
+        <item name="android:scrollbarStyle">outsideOverlay</item>
+    </style>
+
+    <style name="Widget.Ticwear.ListItem">
+        <item name="android:minHeight">?android:listPreferredItemHeight</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:paddingStart">?android:listPreferredItemPaddingStart</item>
+        <item name="android:paddingEnd">?android:listPreferredItemPaddingEnd</item>
+        <item name="android:background">?android:selectableItemBackground</item>
+        <item name="android:clipToPadding">false</item>
     </style>
 
     <!-- Text styles -->
@@ -292,7 +312,8 @@
     <style name="WindowTitle" />
 
     <style name="WindowTitle.Ticwear" >
-        <item name="android:singleLine">true</item>
+        <!-- TODO: Checkout why this may cause scalable text disappear -->
+        <!--<item name="android:singleLine">true</item>-->
         <item name="android:textAppearance">@style/TextAppearance.Ticwear.WindowTitle</item>
         <item name="android:shadowRadius">0</item>
         <item name="android:ellipsize">end</item>

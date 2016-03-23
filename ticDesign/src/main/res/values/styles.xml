@@ -33,7 +33,7 @@
 
     <style name="Widget.Ticwear.AppBarLayout" parent="android:Widget">
         <item name="android:elevation">@dimen/tic_design_appbar_elevation</item>
-        <item name="android:background">?android:colorPrimary</item>
+        <item name="android:background">@android:color/transparent</item>
     </style>
 
     <style name="Widget.Ticwear.CoordinatorLayout" parent="android:Widget">

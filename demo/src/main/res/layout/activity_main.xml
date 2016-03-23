@@ -41,7 +41,7 @@
             />
 
         <ticwear.design.widget.ScalableTextView
-            style="?android:textAppearanceSmall"
+            style="?android:windowTitleStyle"
             android:layout_width="match_parent"
             android:layout_height="32dp"
             android:gravity="center"

@@ -18,22 +18,17 @@
      Preference is able to place a specific widget for its particular
      type in the "widget_frame" layout. -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/Widget.Ticwear.ListItem"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:minHeight="?android:listPreferredItemHeightSmall"
-    android:gravity="center_vertical"
-    android:paddingStart="?android:listPreferredItemPaddingStart"
-    android:paddingEnd="?android:listPreferredItemPaddingEnd"
     android:paddingTop="@dimen/preference_padding_vertical"
     android:paddingBottom="@dimen/preference_padding_vertical"
-    android:background="?android:selectableItemBackground"
-    android:clipToPadding="false"
     android:orientation="horizontal">
 
     <!-- extra spacing on start of preference -->
     <View
-        android:layout_width="6dp"
+        android:layout_width="12dp"
         android:layout_height="0dp"
         android:layout_weight="0" />
 

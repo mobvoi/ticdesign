@@ -10,24 +10,18 @@
         style="?attr/tic_preferenceFragmentListStyle"
         android:id="@android:id/list"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:paddingTop="0dip"
-        android:paddingBottom="@dimen/preference_fragment_padding_bottom_ticwear"
-        android:scrollbarStyle="@integer/preference_fragment_scrollbarStyle_ticwear"
-        android:clipToPadding="false"
-        android:drawSelectorOnTop="false"
-        android:cacheColorHint="@android:color/transparent"
-        android:scrollbarAlwaysDrawVerticalTrack="true" />
+        android:layout_height="match_parent" />
 
     <ticwear.design.widget.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
         <ticwear.design.widget.ScalableTextView
-            style="?android:textAppearanceSmall"
+            style="?android:windowTitleStyle"
             android:id="@+id/title"
             android:layout_width="match_parent"
-            android:layout_height="32dp"
+            android:layout_height="wrap_content"
+            android:paddingTop="@dimen/tic_list_title_padding_top_ticwear"
             android:gravity="center"
             android:text="@null"
             app:tic_layout_scrollFlags="scroll|overScrollBounce"

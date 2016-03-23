@@ -299,6 +299,7 @@ public class TicklableListView extends RecyclerView {
         } else {
             notifyChildFocusStateChanged(FOCUS_STATE_NORMAL, false, child);
         }
+        child.setClickable(true);
     }
 
     void notifyChildrenAboutProximity(int centerIndex, boolean animate) {
@@ -320,7 +321,7 @@ public class TicklableListView extends RecyclerView {
             }
 
             // Child not focus can not click.
-            view.setClickable(focusState == FOCUS_STATE_CENTRAL);
+            view.setClickable(focusState != FOCUS_STATE_NON_CENTRAL);
 
             notifyChildFocusStateChanged(focusState, animate, view);
         }

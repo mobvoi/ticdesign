@@ -1,4 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="tic.design.basic.blue">#6082dd</color>
+    <color name="tic.design.basic.blue.lighter">#7193ee</color>
+    <color name="tic.design.basic.blue.lighter2">#82a4ff</color>
+
+    <color name="tic.design.control.normal">@color/tic.design.basic.blue</color>
+    <color name="tic.design.control.activated">@color/tic.design.basic.blue.lighter</color>
+    <color name="tic.design.control.highlight">@color/tic.design.basic.blue.lighter2</color>
 </resources>

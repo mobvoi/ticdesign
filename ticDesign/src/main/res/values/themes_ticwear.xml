@@ -2,6 +2,12 @@
 <resources>
     <style name="Theme.Ticwear" parent="android:Theme.Material.NoActionBar">
 
+        <item name="android:textColorPrimary">@color/primary_text_ticwear_dark</item>
+        <item name="android:textColorSecondary">@color/secondary_text_ticwear_dark</item>
+        <item name="android:textColorTertiary">@color/secondary_text_ticwear_dark</item>
+        <item name="android:textColorHint">@color/hint_foreground_ticwear_dark</item>
+        <item name="android:textColorAlertDialogListItem">@color/primary_text_ticwear_dark</item>
+
         <!-- Text styles -->
         <item name="android:textAppearance">@style/TextAppearance.Ticwear</item>
         <item name="android:textAppearanceInverse">@style/TextAppearance.Ticwear.Inverse</item>
@@ -72,8 +78,9 @@
         <!-- DatePicker style -->
         <item name="android:datePickerStyle">@style/Widget.Ticwear.DatePicker</item>
 
-        <!-- TimePicker dialog theme -->
-        <item name="android:timePickerDialogTheme">?android:dialogTheme</item>
+        <!-- TimePicker & DatePicker dialog theme, they must be same in ticwear -->
+        <item name="android:timePickerDialogTheme">?android:alertDialogTheme</item>
+        <item name="android:datePickerDialogTheme">?android:alertDialogTheme</item>
 
 
         <item name="tic_CirclePageIndicatorStyle">@style/Widget.Ticwear.CirclePageIndicator</item>
@@ -92,9 +99,9 @@
         <item name="android:listPreferredItemPaddingEnd">@dimen/tic_list_item_padding_horizontal_ticwear</item>
 
         <item name="android:colorAccent">@color/tic.design.basic.blue</item>
-        <item name="android:colorControlNormal">?android:textColorSecondary</item>
-        <item name="android:colorControlActivated">?android:textColorPrimary</item>
-        <item name="android:colorControlHighlight">?android:textColorHighlight</item>
+        <!--<item name="android:colorControlNormal">@color/tic.design.basic.blue</item>-->
+        <!--<item name="android:colorControlActivated">@color/tic.design.basic.blue.lighter</item>-->
+        <!--<item name="android:colorControlHighlight">@color/tic.design.basic.blue.lighter2</item>-->
     </style>
 
     <style name="Theme.Ticwear.Fullscreen">
@@ -132,7 +139,8 @@
          make an activity that looks like a Dialog. -->
     <style name="Theme.Ticwear.Dialog" parent="Theme.Ticwear.BaseDialog"/>
 
-    <style name="Theme.Ticwear.Dialog.BaseAlert"/>
+    <style name="Theme.Ticwear.Dialog.BaseAlert">
+    </style>
 
     <!-- Material theme for alert dialog windows, which is used by the
          {@link android.app.AlertDialog} class.  This is basically a dialog

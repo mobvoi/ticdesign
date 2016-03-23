@@ -2,6 +2,7 @@
 <ticwear.design.widget.CoordinatorLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:scrollbars="vertical">
@@ -10,27 +11,24 @@
         style="?attr/tic_preferenceListStyle"
         android:id="@android:id/list"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:clipToPadding="false"
-        android:drawSelectorOnTop="false"
-        android:cacheColorHint="@android:color/transparent"
-        android:listPreferredItemHeight="48dp"
-        android:scrollbarAlwaysDrawVerticalTrack="true" />
+        android:layout_height="match_parent" />
 
     <ticwear.design.widget.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
         <ticwear.design.widget.ScalableTextView
-            style="?android:textAppearanceSmall"
+            style="?android:windowTitleStyle"
             android:id="@+id/title"
             android:layout_width="match_parent"
-            android:layout_height="32dp"
+            android:layout_height="wrap_content"
+            android:paddingTop="@dimen/tic_list_title_padding_top_ticwear"
             android:gravity="center"
             android:text="@null"
             app:tic_layout_scrollFlags="scroll|overScrollBounce"
             app:tic_layout_scrollResistanceFactor="0.5"
             app:tic_scaleFactor="0.5"
+            tools:text="Settings"
             />
 
     </ticwear.design.widget.AppBarLayout>
