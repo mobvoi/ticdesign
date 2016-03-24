@@ -126,6 +126,8 @@ public class AppBarLayout extends LinearLayout {
     private int mDownPreScrollRange = INVALID_SCROLL_RANGE;
     private int mDownScrollRange = INVALID_SCROLL_RANGE;
 
+    private boolean mShouldConsumePreScroll = false;
+
     boolean mHaveChildWithInterpolator;
     boolean mHaveChildWithResistance;
 
@@ -371,6 +373,13 @@ public class AppBarLayout extends LinearLayout {
      * Return the scroll range when scrolling down from a nested pre-scroll.
      */
     private int getDownNestedPreScrollRange() {
+        return getDownNestedPreScrollRange(false);
+    }
+    private int getDownNestedPreScrollRange(boolean consumePreScroll) {
+        if (consumePreScroll != mShouldConsumePreScroll) {
+            mDownPreScrollRange = INVALID_SCROLL_RANGE;
+            mShouldConsumePreScroll = consumePreScroll;
+        }
         if (mDownPreScrollRange != INVALID_SCROLL_RANGE) {
             // If we already have a valid value, return it
             return mDownPreScrollRange;
@@ -383,7 +392,7 @@ public class AppBarLayout extends LinearLayout {
             final int childHeight = child.getMeasuredHeight();
             final int flags = lp.mScrollFlags;
 
-            if ((flags & LayoutParams.FLAG_QUICK_RETURN) == LayoutParams.FLAG_QUICK_RETURN) {
+            if (consumePreScroll || (flags & LayoutParams.FLAG_QUICK_RETURN) == LayoutParams.FLAG_QUICK_RETURN) {
                 // First take the margin into account
                 range += lp.topMargin + lp.bottomMargin;
                 // The view has the quick return flag combination...
@@ -800,7 +809,8 @@ public class AppBarLayout extends LinearLayout {
                 if (dy < 0) {
                     // We're scrolling down
                     min = -child.getTotalScrollRange();
-                    max = min + child.getDownNestedPreScrollRange();
+                    max = min + child.getDownNestedPreScrollRange(
+                            consumePreScroll(coordinatorLayout, target));
                 } else {
                     // We're scrolling up
                     min = -child.getUpNestedPreScrollRange();
@@ -808,6 +818,17 @@ public class AppBarLayout extends LinearLayout {
                 }
                 consumed[1] = scroll(coordinatorLayout, child, dy, min, max);
             }
+        }
+
+        private boolean consumePreScroll(CoordinatorLayout coordinatorLayout, View target) {
+            ViewGroup.LayoutParams lp = target.getLayoutParams();
+            if (lp instanceof CoordinatorLayout.LayoutParams) {
+                CoordinatorLayout.Behavior behavior = ((CoordinatorLayout.LayoutParams) lp).getBehavior();
+                if (behavior != null) {
+                    return behavior.requestInterceptPreScroll(coordinatorLayout);
+                }
+            }
+            return false;
         }
 
         @Override

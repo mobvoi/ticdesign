@@ -198,11 +198,21 @@ public class TicklableListView extends RecyclerView {
         int position = NO_POSITION;
         if (getChildCount() > 0) {
             int centerIndex = findCenterViewIndex();
+            // When hole first child is visible, we what to scroll to it, instead of second item.
+            boolean useCenterIndex = inFocusState && !firstChildAllVisible();
             // If in focus state, get child position in center, or, get child position in top.
-            int index = inFocusState ? centerIndex : Math.max(0, centerIndex - 1);
+            int index = useCenterIndex ? centerIndex : Math.max(0, centerIndex - 1);
             position = getChildAdapterPosition(getChildAt(index));
         }
         return position;
+    }
+
+    private boolean firstChildAllVisible() {
+        View firstChild = getChildAt(0);
+        return firstChild != null &&
+                getChildAdapterPosition(firstChild) == 0 &&
+                firstChild.getTop() >= getPaddingTop();
+
     }
 
     private void restoreScrollPosition(int position, boolean preInFocusState) {
@@ -262,6 +272,13 @@ public class TicklableListView extends RecyclerView {
 
     @Override
     public boolean dispatchTouchEvent(MotionEvent e) {
+        // Fix touch offset according to scroll-offset
+        // When exit focus state, scroll of this view will transfer to offset.
+        // So we must calculate the offset change into touch event.
+        if (isInFocusState() && scrollOffset != INVALID_SCROLL_OFFSET &&
+                e.getAction() == MotionEvent.ACTION_DOWN) {
+            e.offsetLocation(0, -scrollOffset);
+        }
         exitFocusStateIfNeed();
         return super.dispatchTouchEvent(e);
     }
@@ -270,7 +287,14 @@ public class TicklableListView extends RecyclerView {
     public boolean dispatchTouchSidePanelEvent(MotionEvent ev) {
         switch (ev.getAction()) {
             case MotionEvent.ACTION_DOWN:
+                boolean previousInFocus = isInFocusState();
                 enterFocusStateIfNeed();
+                // Fix touch offset according to scroll-offset
+                // When enter focus state, offset of this view will transfer to scroll.
+                // So we must calculate the offset change into touch event.
+                if (!previousInFocus && scrollOffset != INVALID_SCROLL_OFFSET) {
+                    ev.offsetLocation(0, scrollOffset);
+                }
                 break;
             case MotionEvent.ACTION_UP:
             case MotionEvent.ACTION_CANCEL:

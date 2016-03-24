@@ -2159,6 +2159,18 @@ public class CoordinatorLayout extends ViewGroup implements NestedScrollingParen
         public Parcelable onSaveInstanceState(CoordinatorLayout parent, V child) {
             return BaseSavedState.EMPTY_STATE;
         }
+
+        /**
+         * Allow parent to intercept/consume pre-scroll event when this behaviour is on
+         * scrolling view.
+         *
+         * @param parent the parent CoordinatorLayout
+         *
+         * @return allow to intercept pre-scroll or not.
+         */
+        public boolean requestInterceptPreScroll(CoordinatorLayout parent) {
+            return false;
+        }
     }
 
     /**
