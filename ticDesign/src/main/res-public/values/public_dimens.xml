@@ -13,6 +13,16 @@
     <public type="dimen" name="tic_list_item_icon_frame_size_small" />
     <public type="dimen" name="tic_list_item_icon_src_size" />
 
+    <public type="dimen" name="tic_text_size_extra_extra_large" />
+    <public type="dimen" name="tic_text_size_extra_large" />
+    <public type="dimen" name="tic_text_size_large_1" />
+    <public type="dimen" name="tic_text_size_large_2" />
+    <public type="dimen" name="tic_text_size_medium_1" />
+    <public type="dimen" name="tic_text_size_medium_2" />
+    <public type="dimen" name="tic_text_size_small_1" />
+    <public type="dimen" name="tic_text_size_small_2" />
+    <public type="dimen" name="tic_text_size_extra_small" />
+    <public type="dimen" name="tic_text_line_spacing_multiplier" />
 
     <public type="dimen" name="tic_text_size_title_ticwear" />
     <public type="dimen" name="tic_text_size_title_small_ticwear" />

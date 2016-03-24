@@ -4,9 +4,11 @@
 
 除挠挠之类 Ticwear 特有的交互外，设计库的其他部分也可以工作在 Android Wear 上。
 
+使用 Ticwear 设计辅助库。你需要首先将你的 Application theme，设置为 `Theme.Ticwear` 或其衍生主题。然后就可以开始使用 Ticwear 设计库的各类组件了。
+
 设计库包含下面几个部分：
 
-1. [样式和主题](#style-and-theme)：定义了一些列文字、页面和控件的样式，已经页面切换等动效支持。
+1. [样式和主题](#style-and-theme)：定义了一些列文字、页面和控件的样式，以及页面切换等动效支持。
 2. [可拉伸、响应内容滚动的标题](#title-bar)：基于 [Android Design Support][google-design-support]，构建了一套适合手表展示的页面结构，除了 Google Design 中的跟随滚动等效果，我们还为标题栏增加了可拉伸等效果。
 3. [支持挠挠的 Listview](#ticklable-listview)：基于 `RecyclerView`，我们创造了一个列表展示控件，使其在触摸操作时与普通线性布局的列表操作无异，而使用挠挠交互时，具有聚焦效果（聚焦效果类似 `WearableListView`），方便挠挠的操作。
 4. [设置](#preference)：提供一套类似 [Android Settings][android-settings] 的、符合 [Ticwear Design][ticwear-design] 的设置系统，更适合手表展示，并支持挠挠交互。
@@ -20,6 +22,89 @@ Ticwear为开发者提供了一套符合Ticwear设计规范的主题。开发者
 2. `Theme.Ticwear.Dialog`，适用于手表的对话框。全屏显示、滑动方式的进入、退出动画。
 
 除了主题，开发者可以使用我们定义好的一系列样式。详情参看`styles_ticwear.xml`代码。
+
+#### <a id="list-styles"></a> 列表样式
+
+要获得更好的用户体验，请：
+
+1. 为你的 `ListView` （或 `TickableListView` 等）设置一个style，指向 `Widget.Ticwear.ListView`。
+2. 为你的列表项容器设置style，指向 `Widget.Ticwear.ListItem`。
+
+这两个样式，已经较好的处理了手表上列表的显示，包括列表顶部、底部的边距、列表项左右边距，列表项点击效果等等。
+
+
+#### <a id="text-styles"></a> 文本样式
+
+Ticwear 定义了一系列适用于手表的文本样式，包括文本大小、行间距、字体等。并使之兼容了 [Material Design Typography](https://www.google.com/design/spec/style/typography.html#typography-styles) 的文本样式（Display字体对于手表来说太大，故没有做定义）。
+
+Ticwear Design 定义了以下文本样式：
+
+``` xml
+TextAppearance.Ticwear
+TextAppearance.Ticwear.Headline
+TextAppearance.Ticwear.Title
+TextAppearance.Ticwear.Title.Inverse
+TextAppearance.Ticwear.Body2
+TextAppearance.Ticwear.Body1
+TextAppearance.Ticwear.Hint1
+TextAppearance.Ticwear.Hint2
+TextAppearance.Ticwear.Button
+TextAppearance.Ticwear.Inverse
+
+TextAppearance.Ticwear.Large
+TextAppearance.Ticwear.Large.Inverse
+TextAppearance.Ticwear.Medium
+TextAppearance.Ticwear.Medium.Inverse
+TextAppearance.Ticwear.Small
+TextAppearance.Ticwear.Small.Inverse
+TextAppearance.Ticwear.Widget
+TextAppearance.Ticwear.Widget.Button
+```
+
+除此之外，还定义了一些列基础字体大小：
+
+``` xml
+<dimen name="tic_text_size_extra_extra_large">27sp</dimen>
+<dimen name="tic_text_size_extra_large">20sp</dimen>
+<dimen name="tic_text_size_large_1">18sp</dimen>
+<dimen name="tic_text_size_large_2">17sp</dimen>
+<dimen name="tic_text_size_medium_1">16sp</dimen>
+<dimen name="tic_text_size_medium_2">15sp</dimen>
+<dimen name="tic_text_size_small_1">14sp</dimen>
+<dimen name="tic_text_size_small_2">13sp</dimen>
+<dimen name="tic_text_size_extra_small">12sp</dimen>
+```
+
+开发者可以随意使用和组合这些样式以及字体大小。
+
+#### <a id="color-styles"></a> Ticwear 调色板
+
+我们为开发者定义了一套 Ticwear 风格的调色板资源。开发者可以通过资源直接使用某种颜色。基础颜色命名符合下面的规范：
+
+```
+R.color.tic_basic_<name>{_<decorate>}
+```
+
+其中，`name` 是颜色名称，所有可用的颜色名称，定义在 `ColorPalette.ColorName` 中，标识了一种特定的颜色。而 `decorate` 则是对改颜色的修饰，是可选的，其值可用是 `darken`，`lighten` 和 `normal`，未指定 `decorate` 时，默认为 `normal`。
+
+除了直接只用资源文件外，开发者也可用通过 `ColorPalette` 这一辅助类来获取 Ticwear 颜色。
+
+1. 调用 `ColorPalette.from(Context)` 并传入 `Context` 来获取调色板对象。
+2. 使用 `ColorPalette.color(ColorName)` 来获取 `ColorName` 对应的颜色对象。
+3. 如果需要修饰，调用 `ColorPalette.Color.lighten()` 或 `ColorPalette.Color.darken()` 来获取修饰后的颜色对象。
+
+  > 如果当前颜色不能做指定的修饰，将返回其本身，比如 'Indigo'.darken().darken() 将等于 'Indigo Darken'。
+
+4. 最后，通过 `ColorPalette.Color.value()` 来获取最终的颜色值。
+
+例如，我们需要获取 `Indigo Darken` 这个修饰后的颜色值，我们需要调用以下代码：
+
+``` Java
+int color = ColorPalette.from(context)
+                .color(ColorPalette.ColorName.INDIGO)
+                .darken()
+                .value();
+```
 
 ### <a id="title-bar"></a> 响应内容滚动操作的标题栏
 

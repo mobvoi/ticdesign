@@ -19,6 +19,11 @@
 
     <string name="category.settings.title">Settings</string>
 
+    <string name="category.spec.title">Specification</string>
+    <string name="category.spec.text">Text Style</string>
+    <string name="category.spec.color">Default Color</string>
+    <string name="category.spec.layout">Common Layout</string>
+
     <string name="category.showcase.title">Showcase</string>
 
     <string name="cheese_content">Jarlsberg lancashire edam. Dolcelatte hard cheese brie st. agur blue
@@ -26,4 +31,47 @@
     bergkase cream cheese fromage frais cheesy feet port-salut airedale. St. agur blue cheese rubber
     cheese caerphilly cheddar cheesecake cream cheese manchego lancashire. Roquefort squirty cheese
     the big cheese.</string>
+
+    <string name="spec.text_size.line_height">All text with line spacing 1.4</string>
+
+    <string name="spec.text_size.base">Base Text Size</string>
+    <string name="spec.text_size.xxl.name">Ex-Ex Large</string>
+    <string name="spec.text_size.xxl.desc">27sp Regular</string>
+    <string name="spec.text_size.xl.name">Extra Large</string>
+    <string name="spec.text_size.xl.desc">20sp Regular</string>
+    <string name="spec.text_size.l1.name">Large 1</string>
+    <string name="spec.text_size.l1.desc">18sp Regular</string>
+    <string name="spec.text_size.l2.name">Large 2</string>
+    <string name="spec.text_size.l2.desc">17sp Regular</string>
+    <string name="spec.text_size.m1.name">Medium 1</string>
+    <string name="spec.text_size.m1.desc">16sp Regular</string>
+    <string name="spec.text_size.m2.name">Medium 2</string>
+    <string name="spec.text_size.m2.desc">15sp Regular</string>
+    <string name="spec.text_size.s1.name">Small 1</string>
+    <string name="spec.text_size.s1.desc">14sp Regular</string>
+    <string name="spec.text_size.s2.name">Small 2</string>
+    <string name="spec.text_size.s2.desc">13sp Regular</string>
+    <string name="spec.text_size.xs.name">Extra Small</string>
+    <string name="spec.text_size.xs.desc">12sp Regular</string>
+
+    <string name="spec.text_size.material">Material Text Size</string>
+    <string name="spec.text_size.headline.name">Headline</string>
+    <string name="spec.text_size.headline.desc">20sp Regular</string>
+    <string name="spec.text_size.title.name">Title</string>
+    <string name="spec.text_size.title.desc">18sp Medium</string>
+    <string name="spec.text_size.subhead.name">Subhead</string>
+    <string name="spec.text_size.subhead.desc">17sp Regular</string>
+    <string name="spec.text_size.body2.name">Body 2</string>
+    <string name="spec.text_size.body2.desc">14sp Medium</string>
+    <string name="spec.text_size.body1.name">Body 1</string>
+    <string name="spec.text_size.body1.desc">14sp Regular</string>
+    <string name="spec.text_size.caption.name">Caption</string>
+    <string name="spec.text_size.caption.desc">12sp Regular</string>
+    <string name="spec.text_size.button.name">Button</string>
+    <string name="spec.text_size.button.desc">14sp MEDIUM</string>
+
+    <string name="spec.color.decorate.darken">D</string>
+    <string name="spec.color.decorate.normal">N</string>
+    <string name="spec.color.decorate.lighten">L</string>
+
 </resources>

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="TextAppearance.ColorFrame" parent="TextAppearance.Ticwear.Body1">
+        <item name="android:paddingTop">4dp</item>
+        <item name="android:paddingBottom">4dp</item>
+        <item name="android:paddingLeft">8dp</item>
+        <item name="android:paddingRight">8dp</item>
+        <item name="android:minWidth">84dp</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textSize">@dimen/tic_text_size_small_2</item>
+        <item name="android:fontFamily">monospace</item>
+    </style>
+
+</resources>

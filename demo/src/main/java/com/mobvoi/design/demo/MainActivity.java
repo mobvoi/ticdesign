@@ -33,6 +33,7 @@ public class MainActivity extends Activity {
             R.id.text1
     };
     private final static List<Map<String, Object>> listData = Arrays.asList(
+            createRowData(R.string.category_spec_title),
             createRowData(R.string.category_dialog_title),
             createRowData(R.string.category_settings_title),
             createRowData(R.string.category_widgets_title),

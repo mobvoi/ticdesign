@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import com.mobvoi.design.demo.fragments.DialogsFragment;
+import com.mobvoi.design.demo.fragments.SpecFragment;
 import com.mobvoi.design.demo.fragments.TransitionsFragment;
 import com.mobvoi.design.demo.fragments.WidgetsFragment;
 import com.ticwear.design.demo.R;
@@ -37,6 +38,9 @@ public class DetailsActivity extends Activity {
                 break;
             case R.string.category_showcase_title:
                 detailFragment = new TransitionsFragment();
+                break;
+            case R.string.category_spec_title:
+                detailFragment = new SpecFragment();
                 break;
             default:
                 detailFragment = null;

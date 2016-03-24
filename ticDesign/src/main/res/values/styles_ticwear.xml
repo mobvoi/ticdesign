@@ -197,6 +197,12 @@
     </style>
 
 
+    <style name="TextAppearance.Ticwear.Headline">
+        <item name="android:textSize">@dimen/tic_text_size_headline_ticwear</item>
+        <item name="android:fontFamily">@string/tic_font_family_headline_ticwear</item>
+        <item name="android:textColor">?android:textColorPrimary</item>
+    </style>
+
     <style name="TextAppearance.Ticwear.Title">
         <item name="android:textSize">@dimen/tic_text_size_title_ticwear</item>
         <item name="android:fontFamily">@string/tic_font_family_title_ticwear</item>
@@ -205,6 +211,19 @@
 
     <style name="TextAppearance.Ticwear.Title.Inverse">
         <item name="android:textColor">?android:textColorPrimaryInverse</item>
+        <item name="android:textColorHint">?android:textColorHintInverse</item>
+        <item name="android:textColorHighlight">?android:textColorHighlightInverse</item>
+        <item name="android:textColorLink">?android:textColorLinkInverse</item>
+    </style>
+
+    <style name="TextAppearance.Ticwear.Subhead">
+        <item name="android:textSize">@dimen/tic_text_size_subhead_ticwear</item>
+        <item name="android:fontFamily">@string/tic_font_family_subhead_ticwear</item>
+        <item name="android:textColor">?android:textColorPrimary</item>
+    </style>
+
+    <style name="TextAppearance.Ticwear.Subhead.Inverse">
+        <item name="android:textColor">?android:textColorSecondaryInverse</item>
         <item name="android:textColorHint">?android:textColorHintInverse</item>
         <item name="android:textColorHighlight">?android:textColorHighlightInverse</item>
         <item name="android:textColorLink">?android:textColorLinkInverse</item>
@@ -222,15 +241,9 @@
         <item name="android:textColor">?android:textColorPrimary</item>
     </style>
 
-    <style name="TextAppearance.Ticwear.Hint1">
-        <item name="android:textSize">@dimen/tic_text_size_hint_1_ticwear</item>
-        <item name="android:fontFamily">@string/tic_font_family_body_1_ticwear</item>
-        <item name="android:textColor">?android:textColorSecondary</item>
-    </style>
-
-    <style name="TextAppearance.Ticwear.Hint2">
-        <item name="android:textSize">@dimen/tic_text_size_hint_2_ticwear</item>
-        <item name="android:fontFamily">@string/tic_font_family_body_2_ticwear</item>
+    <style name="TextAppearance.Ticwear.Caption">
+        <item name="android:textSize">@dimen/tic_text_size_caption_ticwear</item>
+        <item name="android:fontFamily">@string/tic_font_family_caption_ticwear</item>
         <item name="android:textColor">?android:textColorSecondary</item>
     </style>
 
@@ -305,8 +318,8 @@
         <item name="android:textStyle">bold</item>
     </style>
 
-    <style name="TextAppearance.Ticwear.WindowTitle" parent="TextAppearance.Ticwear.Small" />
-    <style name="TextAppearance.Ticwear.DialogWindowTitle" parent="TextAppearance.Ticwear.Small" />
+    <style name="TextAppearance.Ticwear.WindowTitle" parent="TextAppearance.Ticwear.Body2" />
+    <style name="TextAppearance.Ticwear.DialogWindowTitle" parent="TextAppearance.Ticwear.Body2" />
 
 
     <style name="WindowTitle" />

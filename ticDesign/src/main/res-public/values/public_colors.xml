@@ -1,6 +1,57 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <resources>
-    <public type="color" name="tic.design.basic.blue" />
+    <!-- Ticwear designed basic color palette -->
+    <public type="color" name="tic_basic_light_green_darken" />
+    <public type="color" name="tic_basic_light_green" />
+    <public type="color" name="tic_basic_light_green_lighten" />
+    <public type="color" name="tic_basic_green_darken" />
+    <public type="color" name="tic_basic_green" />
+    <public type="color" name="tic_basic_green_lighten" />
+    <public type="color" name="tic_basic_cyan_darken" />
+    <public type="color" name="tic_basic_cyan" />
+    <public type="color" name="tic_basic_cyan_lighten" />
+    <public type="color" name="tic_basic_dark_cyan_darken" />
+    <public type="color" name="tic_basic_dark_cyan" />
+    <public type="color" name="tic_basic_dark_cyan_lighten" />
+    <public type="color" name="tic_basic_indigo_darken" />
+    <public type="color" name="tic_basic_indigo" />
+    <public type="color" name="tic_basic_indigo_lighten" />
+    <public type="color" name="tic_basic_deep_purple_darken" />
+    <public type="color" name="tic_basic_deep_purple" />
+    <public type="color" name="tic_basic_deep_purple_lighten" />
+    <public type="color" name="tic_basic_deep_blue_darken" />
+    <public type="color" name="tic_basic_deep_blue" />
+    <public type="color" name="tic_basic_deep_blue_lighten" />
+    <public type="color" name="tic_basic_gold_grey_darken" />
+    <public type="color" name="tic_basic_gold_grey" />
+    <public type="color" name="tic_basic_gold_grey_lighten" />
+    <public type="color" name="tic_basic_pink_darken" />
+    <public type="color" name="tic_basic_pink" />
+    <public type="color" name="tic_basic_pink_lighten" />
+    <public type="color" name="tic_basic_red_darken" />
+    <public type="color" name="tic_basic_red" />
+    <public type="color" name="tic_basic_red_lighten" />
+    <public type="color" name="tic_basic_deep_orange_darken" />
+    <public type="color" name="tic_basic_deep_orange" />
+    <public type="color" name="tic_basic_deep_orange_lighten" />
+    <public type="color" name="tic_basic_orange_darken" />
+    <public type="color" name="tic_basic_orange" />
+    <public type="color" name="tic_basic_orange_lighten" />
+    <public type="color" name="tic_basic_amber_darken" />
+    <public type="color" name="tic_basic_amber" />
+    <public type="color" name="tic_basic_amber_lighten" />
+    <public type="color" name="tic_basic_yellow_darken" />
+    <public type="color" name="tic_basic_yellow" />
+    <public type="color" name="tic_basic_yellow_lighten" />
+    <public type="color" name="tic_basic_brown_darken" />
+    <public type="color" name="tic_basic_brown" />
+    <public type="color" name="tic_basic_brown_lighten" />
+    <public type="color" name="tic_basic_warm_grey_darken" />
+    <public type="color" name="tic_basic_warm_grey" />
+    <public type="color" name="tic_basic_warm_grey_lighten" />
+
     <public type="color" name="tic_widget_background_dark" />
+    <public type="color" name="primary_text_ticwear_dark" />
+    <public type="color" name="secondary_text_ticwear_dark" />
 </resources>

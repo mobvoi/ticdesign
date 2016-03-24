@@ -3,8 +3,13 @@
 <resources>
     <public type="string" name="tic_appbar_scrolling_view_behavior" />
 
+    <public type="string" name="tic_font_family_ticwear" />
+    <public type="string" name="tic_font_family_headline_ticwear" />
     <public type="string" name="tic_font_family_title_ticwear" />
+    <public type="string" name="tic_font_family_subhead_ticwear" />
+    <public type="string" name="tic_font_family_menu_ticwear" />
     <public type="string" name="tic_font_family_body_2_ticwear" />
     <public type="string" name="tic_font_family_body_1_ticwear" />
+    <public type="string" name="tic_font_family_caption_ticwear" />
     <public type="string" name="tic_font_family_button_ticwear" />
 </resources>

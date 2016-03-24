@@ -18,6 +18,7 @@
     <public type="style" name="PreferenceHeaderPanel.Ticwear" />
 
     <public type="style" name="TextAppearance.Ticwear" />
+    <public type="style" name="TextAppearance.Ticwear.Headline" />
     <public type="style" name="TextAppearance.Ticwear.Title" />
     <public type="style" name="TextAppearance.Ticwear.Title.Inverse" />
     <public type="style" name="TextAppearance.Ticwear.Body2" />

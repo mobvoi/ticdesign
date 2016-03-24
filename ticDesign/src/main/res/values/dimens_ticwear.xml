@@ -31,17 +31,4 @@
     <dimen name="tic_list_item_padding_bottom_ticwear">16dp</dimen>
     <dimen name="tic_list_title_padding_top_ticwear">20dp</dimen>
 
-    <!-- Dimens for text size -->
-    <dimen name="tic_text_size_title_ticwear">18sp</dimen>
-    <dimen name="tic_text_size_title_small_ticwear">17sp</dimen>
-    <dimen name="tic_text_size_body_1_ticwear">16sp</dimen>
-    <dimen name="tic_text_size_body_2_ticwear">15sp</dimen>
-    <dimen name="tic_text_size_hint_1_ticwear">14sp</dimen>
-    <dimen name="tic_text_size_hint_2_ticwear">13sp</dimen>
-    <dimen name="tic_text_size_button_ticwear">14sp</dimen>
-
-    <dimen name="tic_text_size_large_ticwear">22sp</dimen>
-    <dimen name="tic_text_size_medium_ticwear">18sp</dimen>
-    <dimen name="tic_text_size_small_ticwear">14sp</dimen>
-
 </resources>

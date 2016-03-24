@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            style="@style/TextAppearance.Ticwear.Caption"
+            android:layout_width="@dimen/spec_text_style_name_width"
+            android:layout_height="wrap_content"
+            android:layout_margin="4dp"
+            android:singleLine="true"
+            android:gravity="end"
+            android:alpha="0.7"
+            android:text="@string/spec.text_size.headline.name"
+            />
+
+        <TextView
+            style="@style/TextAppearance.Ticwear.Headline"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="4dp"
+            android:singleLine="true"
+            android:text="@string/spec.text_size.headline.desc"
+            />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            style="@style/TextAppearance.Ticwear.Caption"
+            android:layout_width="@dimen/spec_text_style_name_width"
+            android:layout_height="wrap_content"
+            android:layout_margin="4dp"
+            android:singleLine="true"
+            android:gravity="end"
+            android:alpha="0.7"
+            android:text="@string/spec.text_size.title.name"
+            />
+
+        <TextView
+            style="@style/TextAppearance.Ticwear.Title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="4dp"
+            android:singleLine="true"
+            android:text="@string/spec.text_size.title.desc"
+            />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            style="@style/TextAppearance.Ticwear.Caption"
+            android:layout_width="@dimen/spec_text_style_name_width"
+            android:layout_height="wrap_content"
+            android:layout_margin="4dp"
+            android:singleLine="true"
+            android:gravity="end"
+            android:alpha="0.7"
+            android:text="@string/spec.text_size.subhead.name"
+            />
+
+        <TextView
+            style="@style/TextAppearance.Ticwear.Subhead"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="4dp"
+            android:singleLine="true"
+            android:text="@string/spec.text_size.subhead.desc"
+            />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            style="@style/TextAppearance.Ticwear.Caption"
+            android:layout_width="@dimen/spec_text_style_name_width"
+            android:layout_height="wrap_content"
+            android:layout_margin="4dp"
+            android:singleLine="true"
+            android:gravity="end"
+            android:alpha="0.7"
+            android:text="@string/spec.text_size.body2.name"
+            />
+
+        <TextView
+            style="@style/TextAppearance.Ticwear.Body2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="4dp"
+            android:singleLine="true"
+            android:text="@string/spec.text_size.body2.desc"
+            />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            style="@style/TextAppearance.Ticwear.Caption"
+            android:layout_width="@dimen/spec_text_style_name_width"
+            android:layout_height="wrap_content"
+            android:layout_margin="4dp"
+            android:singleLine="true"
+            android:gravity="end"
+            android:alpha="0.7"
+            android:text="@string/spec.text_size.body1.name"
+            />
+
+        <TextView
+            style="@style/TextAppearance.Ticwear.Body1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="4dp"
+            android:singleLine="true"
+            android:text="@string/spec.text_size.body1.desc"
+            />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            style="@style/TextAppearance.Ticwear.Caption"
+            android:layout_width="@dimen/spec_text_style_name_width"
+            android:layout_height="wrap_content"
+            android:layout_margin="4dp"
+            android:singleLine="true"
+            android:gravity="end"
+            android:alpha="0.7"
+            android:text="@string/spec.text_size.caption.name"
+            />
+
+        <TextView
+            style="@style/TextAppearance.Ticwear.Caption"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="4dp"
+            android:singleLine="true"
+            android:text="@string/spec.text_size.caption.desc"
+            />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            style="@style/TextAppearance.Ticwear.Caption"
+            android:layout_width="@dimen/spec_text_style_name_width"
+            android:layout_height="wrap_content"
+            android:layout_margin="4dp"
+            android:singleLine="true"
+            android:gravity="end"
+            android:alpha="0.7"
+            android:text="@string/spec.text_size.button.name"
+            />
+
+        <TextView
+            style="@style/TextAppearance.Ticwear.Button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="4dp"
+            android:singleLine="true"
+            android:text="@string/spec.text_size.button.desc"
+            />
+
+    </LinearLayout>
+
+
+</merge>

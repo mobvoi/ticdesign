@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    android:paddingTop="4dp"
+    android:paddingBottom="4dp"
+    android:clipToPadding="false"
+    android:gravity="center">
+
+    <TextView
+        style="@style/TextAppearance.Ticwear.Body2"
+        android:id="@+id/color_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/color_darken"
+        android:layout_alignEnd="@+id/color_darken"
+        android:layout_marginBottom="8dp"
+        android:gravity="center"
+        android:singleLine="true"
+        android:textStyle="bold"
+        tools:textColor="@color/tic_basic_indigo"
+        tools:text="Indigo"/>
+
+    <!--<TextView-->
+        <!--style="@style/TextAppearance.Ticwear.Body2"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_alignBaseline="@id/color_darken"-->
+        <!--android:layout_toStartOf="@id/color_darken"-->
+        <!--android:layout_marginEnd="16dp"-->
+        <!--tools:text="D"/>-->
+
+    <!--<TextView-->
+        <!--style="@style/TextAppearance.Ticwear.Body2"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_alignBaseline="@id/color_normal"-->
+        <!--android:layout_toStartOf="@id/color_normal"-->
+        <!--android:layout_marginEnd="16dp"-->
+        <!--tools:text="N"/>-->
+
+    <!--<TextView-->
+        <!--style="@style/TextAppearance.Ticwear.Body2"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_alignBaseline="@id/color_lighten"-->
+        <!--android:layout_toStartOf="@id/color_lighten"-->
+        <!--android:layout_marginEnd="16dp"-->
+        <!--tools:text="L"/>-->
+
+    <TextView
+        style="@style/TextAppearance.ColorFrame"
+        android:id="@+id/color_darken"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/color_name"
+        tools:background="@color/tic_basic_indigo_darken"
+        tools:text="\#3c5db3"/>
+
+    <TextView
+        style="@style/TextAppearance.ColorFrame"
+        android:id="@+id/color_normal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/color_darken"
+        tools:background="@color/tic_basic_indigo"
+        tools:text="\#5e83e1"/>
+
+    <TextView
+        style="@style/TextAppearance.ColorFrame"
+        android:id="@+id/color_lighten"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/color_normal"
+        tools:background="@color/tic_basic_indigo_lighten"
+        tools:text="\#8aabf6"/>
+
+
+
+</RelativeLayout>
