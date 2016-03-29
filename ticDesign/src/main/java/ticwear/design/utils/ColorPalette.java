@@ -3,7 +3,6 @@ package ticwear.design.utils;
 import android.content.Context;
 import android.support.annotation.NonNull;
 
-import ticwear.design.BuildConfig;
 import ticwear.design.R;
 
 /**
@@ -169,15 +168,13 @@ public class ColorPalette {
         private int colorDecIndex;
 
         static {
-            if (BuildConfig.DEBUG) {
-                if (COLORS_COUNT != colorList.length) {
-                    throw new RuntimeException("ColorPalette is broken!" +
-                            " Make sure the color names matches the color list.");
-                }
-                if (colorList.length > 0 && DECORATES_COUNT != colorList[0].length) {
-                    throw new RuntimeException("ColorPalette is broken!" +
-                            " Make sure the color decorates matches the color list.");
-                }
+            if (COLORS_COUNT != colorList.length) {
+                throw new RuntimeException("ColorPalette is broken!" +
+                        " Make sure the color names matches the color list.");
+            }
+            if (colorList.length > 0 && DECORATES_COUNT != colorList[0].length) {
+                throw new RuntimeException("ColorPalette is broken!" +
+                        " Make sure the color decorates matches the color list.");
             }
         }
 
