@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<animated-vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:drawable="@drawable/tic_ic_switch_full" >
+    <target
+        android:name="bgOnPath"
+        android:animation="@animator/widget_two_state_expose_delay" />
+    <target
+        android:name="bgOffPath"
+        android:animation="@animator/widget_two_state_cover_delay" />
+
+    <target
+        android:name="fgOff"
+        android:animation="@animator/widget_two_state_scale_small" />
+    <target
+        android:name="fgOn"
+        android:animation="@animator/widget_two_state_scale_vertical_large" />
+</animated-vector>

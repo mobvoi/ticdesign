@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<set xmlns:android="http://schemas.android.com/apk/res/android"
+    android:ordering="sequentially">
+    <objectAnimator
+        android:duration="0"
+        android:propertyName="scaleY"
+        android:valueFrom="1"
+        android:valueTo="0" />
+    <objectAnimator
+        android:interpolator="@android:interpolator/decelerate_cubic"
+        android:startOffset="@integer/design.anim.button_state_half"
+        android:duration="@integer/design.anim.button_state_half"
+        android:propertyName="scaleY"
+        android:valueFrom="0"
+        android:valueTo="1" />
+</set>

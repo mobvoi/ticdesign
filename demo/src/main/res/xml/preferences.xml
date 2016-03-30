@@ -6,7 +6,8 @@
     <ticwear.design.preference.CheckBoxPreference
         android:key="checkbox_preference"
         android:title="@string/preference.long_press_change_watch_face"
-        android:summary="@string/preference.enabled" />
+        android:summaryOn="@string/preference.enabled"
+        android:summaryOff="@string/preference.disabled" />
 
     <!-- This PreferenceScreen tag serves as a screen break (similar to page break
          in word processing). Like for other preference types, we assign a key
@@ -31,7 +32,8 @@
     <ticwear.design.preference.SwitchPreference
         android:key="parent_checkbox_preference"
         android:title="@string/preference.wifi_auto"
-        android:summary="@string/preference.wifi_closed" />
+        android:summaryOn="@string/preference.wifi_successful"
+        android:summaryOff="@string/preference.wifi_closed" />
 
     <!-- The visual style of a child is defined by this styled theme attribute. -->
     <ticwear.design.preference.PreferenceScreen

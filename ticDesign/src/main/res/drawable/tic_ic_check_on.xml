@@ -1,0 +1,14 @@
+<vector
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="36dp"
+    android:height="36dp"
+    android:viewportHeight="104.0"
+    android:viewportWidth="104.0">
+    <path
+        android:fillColor="?android:colorControlActivated"
+        android:pathData="@string/tic.svg.btn.two_state.bg" />
+    <path
+        android:pathData="@string/tic.svg.btn.check.on"
+        android:strokeColor="#FFFFFF"
+        android:strokeWidth="7" />
+</vector>

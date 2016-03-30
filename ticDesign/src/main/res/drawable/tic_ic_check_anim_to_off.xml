@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<animated-vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:drawable="@drawable/tic_ic_check_full" >
+    <target
+        android:name="bgOffPath"
+        android:animation="@animator/widget_two_state_expose_delay" />
+    <target
+        android:name="bgOnPath"
+        android:animation="@animator/widget_two_state_cover_delay" />
+
+    <target
+        android:name="fgOnPath"
+        android:animation="@animator/widget_check_disappear" />
+</animated-vector>

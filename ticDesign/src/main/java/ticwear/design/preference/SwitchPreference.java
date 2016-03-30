@@ -208,8 +208,8 @@ public class SwitchPreference extends TwoStatePreference {
         public void bind(@NonNull PreferenceViewHolder.PreferenceData preferenceData) {
             super.bind(preferenceData);
             if (checkableView != null) {
-                if (checkableView instanceof Switch) {
-                    final Switch switchView = (Switch) checkableView;
+                if (checkableView instanceof CompoundButton) {
+                    final CompoundButton switchView = (CompoundButton) checkableView;
                     switchView.setOnCheckedChangeListener(null);
                 }
 
@@ -221,6 +221,10 @@ public class SwitchPreference extends TwoStatePreference {
                     final Switch switchView = (Switch) checkableView;
                     switchView.setTextOn(myData.switchOn);
                     switchView.setTextOff(myData.switchOff);
+                }
+
+                if (checkableView instanceof CompoundButton) {
+                    final CompoundButton switchView = (CompoundButton) checkableView;
                     switchView.setOnCheckedChangeListener(myData.listener);
                 }
             }

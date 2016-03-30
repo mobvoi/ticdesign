@@ -17,7 +17,7 @@
             android:gravity="center"
             android:clipToPadding="false"
             android:padding="8dp"
-            android:text="@string/category.widgets.button"
+            android:text="@string/category.widgets.fab"
             app:tic_layout_scrollFlags="scroll|overScrollBounce"
             app:tic_layout_scrollResistanceFactor="0.5"
             app:tic_scaleFactor="0.5"

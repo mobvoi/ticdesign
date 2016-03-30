@@ -3,4 +3,7 @@
 <resources>
     <public type="drawable" name="tic_ic_btn_ok" />
     <public type="drawable" name="tic_ic_btn_next" />
+    <public type="drawable" name="tic_ic_check" />
+    <public type="drawable" name="tic_ic_radio" />
+    <public type="drawable" name="tic_ic_switch" />
 </resources>

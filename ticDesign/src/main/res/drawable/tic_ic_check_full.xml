@@ -1,0 +1,27 @@
+<vector
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="36dp"
+    android:height="36dp"
+    android:viewportHeight="104.0"
+    android:viewportWidth="104.0">
+    <path
+        android:name="bgOffPath"
+        android:pathData="@string/tic.svg.btn.two_state.half_bg"
+        android:strokeColor="?android:colorControlNormal"
+        android:strokeWidth="@integer/tic.svg.btn.radius" />
+    <path
+        android:name="bgOnPath"
+        android:pathData="@string/tic.svg.btn.two_state.half_bg"
+        android:strokeColor="?android:colorControlActivated"
+        android:strokeWidth="@integer/tic.svg.btn.radius" />
+
+    <group android:name="fgOn"
+        android:pivotX="49.0"
+        android:pivotY="61.0">
+        <path
+            android:name="fgOnPath"
+            android:pathData="@string/tic.svg.btn.check.on"
+            android:strokeColor="#FFFFFF"
+            android:strokeWidth="7" />
+    </group>
+</vector>
