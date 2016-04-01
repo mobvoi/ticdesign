@@ -26,8 +26,8 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.IdRes;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
-import android.util.AttributeSet;
 import android.util.TypedValue;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -38,19 +38,13 @@ import android.view.Window;
 import android.view.WindowInsets;
 import android.view.WindowManager;
 import android.widget.AbsListView;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckedTextView;
-import android.widget.CursorAdapter;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ListAdapter;
 import android.widget.ListView;
-import android.widget.SimpleCursorAdapter;
 import android.widget.Space;
 import android.widget.TextView;
 
@@ -58,8 +52,12 @@ import java.lang.ref.WeakReference;
 
 import ticwear.design.R;
 import ticwear.design.app.AlertDialog;
+import ticwear.design.widget.CursorRecyclerViewAdapter;
 import ticwear.design.widget.FloatingActionButton;
 import ticwear.design.widget.SubscribedScrollView;
+import ticwear.design.widget.TicklableListView;
+import ticwear.design.widget.TrackSelectionAdapterWrapper;
+import ticwear.design.widget.TrackSelectionAdapterWrapper.OnItemClickListener;
 
 import static android.view.ViewGroup.LayoutParams.MATCH_PARENT;
 
@@ -71,7 +69,7 @@ public class AlertController {
 
     private CharSequence mTitle;
     private CharSequence mMessage;
-    private ListView mListView;
+    private TicklableListView mListView;
     private View mView;
 
     private int mViewLayoutResId;
@@ -98,9 +96,7 @@ public class AlertController {
 
     private boolean mForceInverseBackground;
 
-    private ListAdapter mAdapter;
-
-    private int mCheckedItem = -1;
+    private TrackSelectionAdapterWrapper mAdapter;
 
     private int mAlertDialogLayout;
     private int mButtonPanelSideLayout;
@@ -179,16 +175,16 @@ public class AlertController {
                 R.styleable.AlertDialog_android_buttonPanelSideLayout, 0);
 
         mListLayout = a.getResourceId(
-                R.styleable.AlertDialog_android_listLayout,
+                R.styleable.AlertDialog_tic_listLayout,
                 R.layout.select_dialog_ticwear);
         mMultiChoiceItemLayout = a.getResourceId(
-                R.styleable.AlertDialog_android_multiChoiceItemLayout,
+                R.styleable.AlertDialog_tic_multiChoiceItemLayout,
                 android.R.layout.select_dialog_multichoice);
         mSingleChoiceItemLayout = a.getResourceId(
-                R.styleable.AlertDialog_android_singleChoiceItemLayout,
+                R.styleable.AlertDialog_tic_singleChoiceItemLayout,
                 android.R.layout.select_dialog_singlechoice);
         mListItemLayout = a.getResourceId(
-                R.styleable.AlertDialog_android_listItemLayout,
+                R.styleable.AlertDialog_tic_listItemLayout,
                 android.R.layout.select_dialog_item);
 
         a.recycle();
@@ -397,7 +393,7 @@ public class AlertController {
         mForceInverseBackground = forceInverseBackground;
     }
 
-    public ListView getListView() {
+    public TicklableListView getListView() {
         return mListView;
     }
 
@@ -560,9 +556,12 @@ public class AlertController {
             customPanel.setVisibility(View.GONE);
         }
 
-        setBackground(a, topPanel, contentPanel, customPanel, buttonPanel, hasTitle, hasCustomView,
-                hasButtons);
         a.recycle();
+
+        final TicklableListView listView = mListView;
+        if (listView != null && mAdapter != null) {
+            listView.setAdapter(mAdapter);
+        }
     }
 
     private boolean setupTitle(ViewGroup topPanel) {
@@ -798,153 +797,6 @@ public class AlertController {
         return Integer.bitCount(whichButtons);
     }
 
-    private void setBackground(TypedArray a, View topPanel, View contentPanel, View customPanel,
-            View buttonPanel, boolean hasTitle, boolean hasCustomView, boolean hasButtons) {
-        int fullDark = 0;
-        int topDark = 0;
-        int centerDark = 0;
-        int bottomDark = 0;
-        int fullBright = 0;
-        int topBright = 0;
-        int centerBright = 0;
-        int bottomBright = 0;
-        int bottomMedium = 0;
-
-//        // If the needsDefaultBackgrounds attribute is set, we know we're
-//        // inheriting from a framework style.
-//        final boolean needsDefaultBackgrounds = a.getBoolean(
-//                R.styleable.AlertDialog_tic_needsDefaultBackgrounds, true);
-//        if (needsDefaultBackgrounds) {
-//            fullDark = R.drawable.popup_full_dark;
-//            topDark = R.drawable.popup_top_dark;
-//            centerDark = R.drawable.popup_center_dark;
-//            bottomDark = R.drawable.popup_bottom_dark;
-//            fullBright = R.drawable.popup_full_bright;
-//            topBright = R.drawable.popup_top_bright;
-//            centerBright = R.drawable.popup_center_bright;
-//            bottomBright = R.drawable.popup_bottom_bright;
-//            bottomMedium = R.drawable.popup_bottom_medium;
-//        }
-//
-//        topBright = a.getResourceId(R.styleable.AlertDialog_tic_topBright, topBright);
-//        topDark = a.getResourceId(R.styleable.AlertDialog_tic_topDark, topDark);
-//        centerBright = a.getResourceId(R.styleable.AlertDialog_tic_centerBright, centerBright);
-//        centerDark = a.getResourceId(R.styleable.AlertDialog_tic_centerDark, centerDark);
-
-        /* We now set the background of all of the sections of the alert.
-         * First collect together each section that is being displayed along
-         * with whether it is on a light or dark background, then run through
-         * them setting their backgrounds.  This is complicated because we need
-         * to correctly use the full, top, middle, and bottom graphics depending
-         * on how many views they are and where they appear.
-         */
-
-        final View[] views = new View[4];
-        final boolean[] light = new boolean[4];
-        View lastView = null;
-        boolean lastLight = false;
-
-        int pos = 0;
-        if (hasTitle) {
-            views[pos] = topPanel;
-            light[pos] = false;
-            pos++;
-        }
-
-        /* The contentPanel displays either a custom text message or
-         * a ListView. If it's text we should use the dark background
-         * for ListView we should use the light background. If neither
-         * are there the contentPanel will be hidden so set it as null.
-         */
-        views[pos] = contentPanel.getVisibility() == View.GONE ? null : contentPanel;
-        light[pos] = mListView != null;
-        pos++;
-
-        if (hasCustomView) {
-            views[pos] = customPanel;
-            light[pos] = mForceInverseBackground;
-            pos++;
-        }
-
-        if (hasButtons) {
-            views[pos] = buttonPanel;
-            light[pos] = true;
-        }
-
-        boolean setView = false;
-        for (pos = 0; pos < views.length; pos++) {
-            final View v = views[pos];
-            if (v == null) {
-                continue;
-            }
-
-            if (lastView != null) {
-                if (!setView) {
-                    lastView.setBackgroundResource(lastLight ? topBright : topDark);
-                } else {
-                    lastView.setBackgroundResource(lastLight ? centerBright : centerDark);
-                }
-                setView = true;
-            }
-
-            lastView = v;
-            lastLight = light[pos];
-        }
-
-//        if (lastView != null) {
-//            if (setView) {
-//                bottomBright = a.getResourceId(R.styleable.AlertDialog_tic_bottomBright, bottomBright);
-//                bottomMedium = a.getResourceId(R.styleable.AlertDialog_tic_bottomMedium, bottomMedium);
-//                bottomDark = a.getResourceId(R.styleable.AlertDialog_tic_bottomDark, bottomDark);
-//
-//                // ListViews will use the Bright background, but buttons use the
-//                // Medium background.
-//                lastView.setBackgroundResource(
-//                        lastLight ? (hasButtons ? bottomMedium : bottomBright) : bottomDark);
-//            } else {
-//                fullBright = a.getResourceId(R.styleable.AlertDialog_tic_fullBright, fullBright);
-//                fullDark = a.getResourceId(R.styleable.AlertDialog_tic_fullDark, fullDark);
-//
-//                lastView.setBackgroundResource(lastLight ? fullBright : fullDark);
-//            }
-//        }
-
-        final ListView listView = mListView;
-        if (listView != null && mAdapter != null) {
-            listView.setAdapter(mAdapter);
-            final int checkedItem = mCheckedItem;
-            if (checkedItem > -1) {
-                listView.setItemChecked(checkedItem, true);
-                listView.setSelection(checkedItem);
-            }
-        }
-    }
-
-    public static class RecycleListView extends ListView {
-        boolean mRecycleOnMeasure = true;
-
-        public RecycleListView(Context context) {
-            super(context);
-        }
-
-        public RecycleListView(Context context, AttributeSet attrs) {
-            super(context, attrs);
-        }
-
-        public RecycleListView(Context context, AttributeSet attrs, int defStyleAttr) {
-            super(context, attrs, defStyleAttr);
-        }
-
-        public RecycleListView(
-                Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
-            super(context, attrs, defStyleAttr, defStyleRes);
-        }
-
-        protected boolean recycleOnMeasure() {
-            return mRecycleOnMeasure;
-        }
-    }
-
     public static class AlertParams {
         public final Context mContext;
         public final LayoutInflater mInflater;
@@ -969,7 +821,7 @@ public class AlertController {
         public DialogInterface.OnDismissListener mOnDismissListener;
         public DialogInterface.OnKeyListener mOnKeyListener;
         public CharSequence[] mItems;
-        public ListAdapter mAdapter;
+        public RecyclerView.Adapter mAdapter;
         public DialogInterface.OnClickListener mOnClickListener;
         public int mViewLayoutResId;
         public View mView;
@@ -987,9 +839,8 @@ public class AlertController {
         public String mLabelColumn;
         public String mIsCheckedColumn;
         public boolean mForceInverseBackground;
-        public AdapterView.OnItemSelectedListener mOnItemSelectedListener;
+        public TrackSelectionAdapterWrapper.OnItemSelectedListener mOnItemSelectedListener;
         public OnPrepareListViewListener mOnPrepareListViewListener;
-        public boolean mRecycleOnMeasure = true;
 
         /**
          * Interface definition for a callback to be invoked before the ListView
@@ -1001,7 +852,7 @@ public class AlertController {
              * Called before the ListView is bound to an adapter.
              * @param listView The ListView that will be shown in the dialog.
              */
-            void onPrepareListView(ListView listView);
+            void onPrepareListView(TicklableListView listView);
         }
 
         public AlertParams(Context context) {
@@ -1061,73 +912,40 @@ public class AlertController {
                 dialog.setView(mViewLayoutResId);
             }
 
-            /*
-            dialog.setCancelable(mCancelable);
-            dialog.setOnCancelListener(mOnCancelListener);
-            if (mOnKeyListener != null) {
-                dialog.setOnKeyListener(mOnKeyListener);
-            }
-            */
         }
 
         private void createListView(final AlertController dialog) {
-            final RecycleListView listView = (RecycleListView)
+            final TicklableListView listView = (TicklableListView)
                     mInflater.inflate(dialog.mListLayout, null);
-            ListAdapter adapter;
+            RecyclerView.Adapter adapter;
 
-            if (mIsMultiChoice) {
-                if (mCursor == null) {
-                    adapter = new ArrayAdapter<CharSequence>(
-                            mContext, dialog.mMultiChoiceItemLayout, android.R.id.text1, mItems) {
-                        @Override
-                        public View getView(int position, View convertView, ViewGroup parent) {
-                            View view = super.getView(position, convertView, parent);
-                            if (mCheckedItems != null) {
-                                boolean isItemChecked = mCheckedItems[position];
-                                if (isItemChecked) {
-                                    listView.setItemChecked(position, true);
-                                }
-                            }
-                            return view;
-                        }
-                    };
-                } else {
-                    adapter = new CursorAdapter(mContext, mCursor, false) {
-                        private final int mLabelIndex;
-                        private final int mIsCheckedIndex;
-
-                        {
-                            final Cursor cursor = getCursor();
-                            mLabelIndex = cursor.getColumnIndexOrThrow(mLabelColumn);
-                            mIsCheckedIndex = cursor.getColumnIndexOrThrow(mIsCheckedColumn);
-                        }
-
-                        @Override
-                        public void bindView(View view, Context context, Cursor cursor) {
-                            CheckedTextView text = (CheckedTextView) view.findViewById(android.R.id.text1);
-                            text.setText(cursor.getString(mLabelIndex));
-                            listView.setItemChecked(cursor.getPosition(),
-                                    cursor.getInt(mIsCheckedIndex) == 1);
-                        }
-
-                        @Override
-                        public View newView(Context context, Cursor cursor, ViewGroup parent) {
-                            return mInflater.inflate(dialog.mMultiChoiceItemLayout,
-                                    parent, false);
-                        }
-
-                    };
-                }
+            final int layout = mIsSingleChoice
+                    ? dialog.mSingleChoiceItemLayout
+                    : (mIsMultiChoice ? dialog.mMultiChoiceItemLayout : dialog.mListItemLayout);
+            if (mCursor == null) {
+                adapter = (mAdapter != null) ? mAdapter
+                        : new CheckedItemAdapter(mContext, layout, android.R.id.text1, mItems);
             } else {
-                int layout = mIsSingleChoice
-                        ? dialog.mSingleChoiceItemLayout : dialog.mListItemLayout;
-                if (mCursor == null) {
-                    adapter = (mAdapter != null) ? mAdapter
-                            : new CheckedItemAdapter(mContext, layout, android.R.id.text1, mItems);
-                } else {
-                    adapter = new SimpleCursorAdapter(mContext, layout,
-                            mCursor, new String[]{mLabelColumn}, new int[]{android.R.id.text1});
-                }
+                adapter = new CursorRecyclerViewAdapter(mContext, mCursor) {
+                    private final int mLabelIndex;
+
+                    {
+                        final Cursor cursor = getCursor();
+                        mLabelIndex = cursor.getColumnIndexOrThrow(mLabelColumn);
+                    }
+
+                    @Override
+                    public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, Cursor cursor) {
+                        CheckedTextView text = (CheckedTextView) viewHolder.itemView.findViewById(android.R.id.text1);
+                        text.setText(cursor.getString(mLabelIndex));
+                    }
+
+                    @Override
+                    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+                        View itemView = mInflater.inflate(layout, parent, false);
+                        return new TicklableListView.ViewHolder(itemView);
+                    }
+                };
             }
 
             if (mOnPrepareListViewListener != null) {
@@ -1137,13 +955,48 @@ public class AlertController {
             /* Don't directly set the adapter on the ListView as we might
              * want to add a footer to the ListView later.
              */
-            dialog.mAdapter = adapter;
-            dialog.mCheckedItem = mCheckedItem;
+            dialog.mAdapter = new TrackSelectionAdapterWrapper<RecyclerView.ViewHolder>(adapter) {
+                private final int mIsCheckedIndex;
+
+                {
+                    if (useCursorCheckedColumn()) {
+                        final Cursor cursor = ((CursorRecyclerViewAdapter) getAdapter()).getCursor();
+                        mIsCheckedIndex = cursor.getColumnIndexOrThrow(mIsCheckedColumn);
+                    } else {
+                        mIsCheckedIndex = -1;
+                    }
+                }
+                @Override
+                public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, int position) {
+                    if (useCursorCheckedColumn() && mIsCheckedIndex != -1) {
+                        final Cursor cursor = ((CursorRecyclerViewAdapter) getAdapter()).getCursor();
+                        setItemChecked(cursor.getPosition(), cursor.getInt(mIsCheckedIndex) == 1);
+                    } else if (mCheckedItems != null) {
+                        boolean isItemChecked = mCheckedItems[position];
+                        if (isItemChecked != isItemChecked(position)) {
+                            if (isItemChecked) {
+                                setItemChecked(position, true);
+                            }
+                        }
+                    } else if (mCheckedItem > -1) {
+                        setItemChecked(mCheckedItem, true);
+//                        setSelection(checkedItem);
+                    }
+
+                    // Update checked state then bind, so we can update the view state in this bind.
+                    super.onBindViewHolder(viewHolder, position);
+                }
+
+                private boolean useCursorCheckedColumn() {
+                    return mIsMultiChoice && getAdapter() instanceof CursorRecyclerViewAdapter;
+                }
+            };
 
             if (mOnClickListener != null) {
-                listView.setOnItemClickListener(new OnItemClickListener() {
+                dialog.mAdapter.setOnItemClickListener(new OnItemClickListener() {
                     @Override
-                    public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
+                    public void onItemClick(TrackSelectionAdapterWrapper<?> parent, View v, int position, long id) {
+                        mCheckedItem = position;
                         mOnClickListener.onClick(dialog.mDialogInterface, position);
                         if (!mIsSingleChoice) {
                             dialog.mDialogInterface.dismiss();
@@ -1151,42 +1004,66 @@ public class AlertController {
                     }
                 });
             } else if (mOnCheckboxClickListener != null) {
-                listView.setOnItemClickListener(new OnItemClickListener() {
+                dialog.mAdapter.setOnItemClickListener(new OnItemClickListener() {
                     @Override
-                    public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
+                    public void onItemClick(TrackSelectionAdapterWrapper<?> parent, View v, int position, long id) {
                         if (mCheckedItems != null) {
-                            mCheckedItems[position] = listView.isItemChecked(position);
+                            mCheckedItems[position] = dialog.mAdapter.isItemChecked(position);
                         }
                         mOnCheckboxClickListener.onClick(
-                                dialog.mDialogInterface, position, listView.isItemChecked(position));
+                                dialog.mDialogInterface, position, dialog.mAdapter.isItemChecked(position));
                     }
                 });
             }
 
             // Attach a given OnItemSelectedListener to the ListView
             if (mOnItemSelectedListener != null) {
-                listView.setOnItemSelectedListener(mOnItemSelectedListener);
+                dialog.mAdapter.setOnItemSelectedListener(mOnItemSelectedListener);
             }
 
             if (mIsSingleChoice) {
-                listView.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
+                dialog.mAdapter.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
             } else if (mIsMultiChoice) {
-                listView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
+                dialog.mAdapter.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
             }
-            listView.mRecycleOnMeasure = mRecycleOnMeasure;
             dialog.mListView = listView;
         }
     }
 
-    private static class CheckedItemAdapter extends ArrayAdapter<CharSequence> {
+    private static class CheckedItemAdapter extends RecyclerView.Adapter<TicklableListView.ViewHolder> {
+
+        private final Context mContext;
+        private final int mLayoutResource;
+        private final int mTextViewResourceId;
+        private final CharSequence[] mObjects;
+
         public CheckedItemAdapter(Context context, int resource, int textViewResourceId,
                 CharSequence[] objects) {
-            super(context, resource, textViewResourceId, objects);
+            super();
+
+            this.mContext = context;
+            this.mLayoutResource = resource;
+            this.mTextViewResourceId = textViewResourceId;
+            this.mObjects = objects;
+
+            setHasStableIds(true);
         }
 
         @Override
-        public boolean hasStableIds() {
-            return true;
+        public TicklableListView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+            View itemView = LayoutInflater.from(mContext).inflate(mLayoutResource, parent, false);
+            return new TicklableListView.ViewHolder(itemView);
+        }
+
+        @Override
+        public void onBindViewHolder(TicklableListView.ViewHolder viewHolder, int position) {
+            TextView text1 = (TextView) viewHolder.itemView.findViewById(mTextViewResourceId);
+            text1.setText(mObjects[position]);
+        }
+
+        @Override
+        public int getItemCount() {
+            return mObjects.length;
         }
 
         @Override
@@ -1275,19 +1152,19 @@ public class AlertController {
     }
 
 
-    private abstract class OnViewScrollListener implements
-            AbsListView.OnScrollListener, SubscribedScrollView.OnScrollListener {
+    private abstract class OnViewScrollListener extends RecyclerView.OnScrollListener implements
+            SubscribedScrollView.OnScrollListener {
 
         private int oldScrollY = 0;
         private int oldScrollX = 0;
 
         @Override
-        public void onScrollStateChanged(AbsListView view, int scrollState) {
+        public void onScrollStateChanged(RecyclerView view, int scrollState) {
             onViewScrollStateChanged(view, scrollState);
         }
 
         @Override
-        public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+        public void onScrolled(RecyclerView view, int dx, int dy) {
             int scrollX = view.getScrollX();
             int scrollY = view.getScrollY();
             onViewScroll(view, scrollX, scrollY, oldScrollX, oldScrollY);

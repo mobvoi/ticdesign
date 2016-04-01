@@ -28,6 +28,7 @@ import android.support.annotation.AttrRes;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.StringRes;
 import android.support.annotation.StyleRes;
+import android.support.v7.widget.RecyclerView;
 import android.util.TypedValue;
 import android.view.ContextThemeWrapper;
 import android.view.KeyEvent;
@@ -40,6 +41,8 @@ import android.widget.ListAdapter;
 import android.widget.ListView;
 
 import ticwear.design.internal.app.AlertController;
+import ticwear.design.widget.TicklableListView;
+import ticwear.design.widget.TrackSelectionAdapterWrapper;
 
 /**
  * A subclass of Dialog that can display one, two or three buttons. If you only want to
@@ -131,7 +134,7 @@ public class AlertDialog extends Dialog implements DialogInterface {
      * Creates an alert dialog that uses the default alert dialog theme.
      * <p>
      * The default alert dialog theme is defined by
-     * {@link android.R.attr#tic_alertDialogTheme} within the parent
+     * {@link android.R.attr#alertDialogTheme} within the parent
      * {@code context}'s theme.
      *
      * @param context the parent context
@@ -152,7 +155,7 @@ public class AlertDialog extends Dialog implements DialogInterface {
      * </pre>
      * <p>
      * The default alert dialog theme is defined by
-     * {@link android.R.attr#tic_alertDialogTheme} within the parent
+     * {@link android.R.attr#alertDialogTheme} within the parent
      * {@code context}'s theme.
      *
      * @param context the parent context
@@ -176,13 +179,13 @@ public class AlertDialog extends Dialog implements DialogInterface {
      * <p>
      * To preserve attributes such as primary and accent colors, the
      * {@code themeResId} may instead be specified as an overlay theme such as
-     * {@link android.R.style#ThemeOverlay_Material_Dialog}. This will override
+     * {@link android.R.style#ThemeOverlay_Material}. This will override
      * only the window attributes necessary to style the alert window as a
      * dialog.
      * <p>
      * Alternatively, the {@code themeResId} may be specified as {@code 0} to
      * use the parent {@code context}'s resolved value for
-     * {@link android.R.attr#tic_alertDialogTheme}.
+     * {@link android.R.attr#alertDialogTheme}.
      *
      * @param context the parent context
      * @param themeResId the resource ID of the theme against which to inflate
@@ -232,7 +235,7 @@ public class AlertDialog extends Dialog implements DialogInterface {
      *
      * @return The {@link ListView} from the dialog.
      */
-    public ListView getListView() {
+    public TicklableListView getListView() {
         return mAlert.getListView();
     }
 
@@ -429,7 +432,7 @@ public class AlertDialog extends Dialog implements DialogInterface {
          * dialog theme.
          * <p>
          * The default alert dialog theme is defined by
-         * {@link android.R.attr#tic_alertDialogTheme} within the parent
+         * {@link android.R.attr#alertDialogTheme} within the parent
          * {@code context}'s theme.
          *
          * @param context the parent context
@@ -451,13 +454,13 @@ public class AlertDialog extends Dialog implements DialogInterface {
          * <p>
          * To preserve attributes such as primary and accent colors, the
          * {@code themeResId} may instead be specified as an overlay theme such
-         * as {@link android.R.style#ThemeOverlay_Material_Dialog}. This will
+         * as {@link android.R.style#ThemeOverlay_Material}. This will
          * override only the window attributes necessary to style the alert
          * window as a dialog.
          * <p>
          * Alternatively, the {@code themeResId} may be specified as {@code 0}
          * to use the parent {@code context}'s resolved value for
-         * {@link android.R.attr#tic_alertDialogTheme}.
+         * {@link android.R.attr#alertDialogTheme}.
          *
          * @param context the parent context
          * @param themeResId the resource ID of the theme against which to inflate
@@ -571,7 +574,7 @@ public class AlertDialog extends Dialog implements DialogInterface {
 
         /**
          * Set an icon as supplied by a theme attribute. e.g.
-         * {@link android.R.attr#tic_alertDialogIcon}.
+         * {@link android.R.attr#alertDialogIcon}.
          * <p>
          * Takes precedence over values set using {@link #setIcon(int)} or
          * {@link #setIcon(Drawable)}.
@@ -823,7 +826,7 @@ public class AlertDialog extends Dialog implements DialogInterface {
          *
          * @return This Builder object to allow for chaining of calls to set methods
          */
-        public Builder setAdapter(final ListAdapter adapter, final OnClickListener listener) {
+        public Builder setAdapter(final RecyclerView.Adapter adapter, final OnClickListener listener) {
             P.mAdapter = adapter;
             P.mOnClickListener = listener;
             return this;
@@ -1017,7 +1020,7 @@ public class AlertDialog extends Dialog implements DialogInterface {
          *
          * @return This Builder object to allow for chaining of calls to set methods
          */
-        public Builder setSingleChoiceItems(ListAdapter adapter, int checkedItem, final OnClickListener listener) {
+        public Builder setSingleChoiceItems(RecyclerView.Adapter adapter, int checkedItem, final OnClickListener listener) {
             P.mAdapter = adapter;
             P.mOnClickListener = listener;
             P.mCheckedItem = checkedItem;
@@ -1032,7 +1035,7 @@ public class AlertDialog extends Dialog implements DialogInterface {
          * @return this Builder object to allow for chaining of calls to set methods
          * @see AdapterView#setOnItemSelectedListener(android.widget.AdapterView.OnItemSelectedListener)
          */
-        public Builder setOnItemSelectedListener(final AdapterView.OnItemSelectedListener listener) {
+        public Builder setOnItemSelectedListener(final TrackSelectionAdapterWrapper.OnItemSelectedListener listener) {
             P.mOnItemSelectedListener = listener;
             return this;
         }
@@ -1125,14 +1128,6 @@ public class AlertDialog extends Dialog implements DialogInterface {
         @Deprecated
         public Builder setInverseBackgroundForced(boolean useInverseBackground) {
             P.mForceInverseBackground = useInverseBackground;
-            return this;
-        }
-
-        /**
-         * @hide
-         */
-        public Builder setRecycleOnMeasureEnabled(boolean enabled) {
-            P.mRecycleOnMeasure = enabled;
             return this;
         }
 

@@ -53,6 +53,10 @@
 
     <style name="AlertDialog.Ticwear" parent="android:Theme.Material.Dialog.Alert">
         <item name="android:layout">@layout/alert_dialog_ticwear</item>
+        <item name="tic_listLayout">@layout/list_content_ticklable</item>
+        <item name="tic_multiChoiceItemLayout">@layout/select_dialog_multichoice_ticwear</item>
+        <item name="tic_singleChoiceItemLayout">@layout/select_dialog_singlechoice_ticwear</item>
+        <item name="tic_listItemLayout">@layout/select_dialog_item_ticwear</item>
 
     </style>
 

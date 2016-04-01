@@ -326,6 +326,12 @@ public class TicklableListView extends RecyclerView {
         child.setClickable(true);
     }
 
+    @Override
+    protected void onDetachedFromWindow() {
+        getHandler().removeCallbacks(exitFocusStateRunnable);
+        super.onDetachedFromWindow();
+    }
+
     void notifyChildrenAboutProximity(int centerIndex, boolean animate) {
         childrenFocusStateChanged(centerIndex, animate);
     }

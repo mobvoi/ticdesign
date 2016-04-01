@@ -92,17 +92,18 @@
     <style name="Widget.Ticwear.ListItem">
         <item name="android:minHeight">?android:listPreferredItemHeight</item>
         <item name="android:gravity">center_vertical</item>
-        <item name="android:paddingStart">?android:listPreferredItemPaddingStart</item>
-        <item name="android:paddingEnd">?android:listPreferredItemPaddingEnd</item>
+        <item name="android:paddingStart">@dimen/tic_list_item_padding_horizontal_large_ticwear</item>
+        <item name="android:paddingEnd">@dimen/tic_list_item_padding_horizontal_ticwear</item>
         <item name="android:background">?android:selectableItemBackground</item>
         <item name="android:clipToPadding">false</item>
     </style>
 
 
-    <style name="Widget.Ticwear.CompoundButton" parent="android:Widget.CompoundButton"/>
+    <style name="Widget.Ticwear.CompoundButton" parent="android:Widget.CompoundButton">
+        <item name="android:background">?android:selectableItemBackgroundBorderless</item>
+    </style>
 
     <style name="Widget.Ticwear.CompoundButton.Switch">
-        <item name="android:background">?android:selectableItemBackgroundBorderless</item>
         <item name="android:button">@drawable/tic_ic_switch</item>
     </style>
 

@@ -12,7 +12,8 @@
 2. [可拉伸、响应内容滚动的标题](#title-bar)：基于 [Android Design Support][google-design-support]，构建了一套适合手表展示的页面结构，除了 Google Design 中的跟随滚动等效果，我们还为标题栏增加了可拉伸等效果。
 3. [支持挠挠的 Listview](#ticklable-listview)：基于 `RecyclerView`，我们创造了一个列表展示控件，使其在触摸操作时与普通线性布局的列表操作无异，而使用挠挠交互时，具有聚焦效果（聚焦效果类似 `WearableListView`），方便挠挠的操作。
 4. [设置](#preference)：提供一套类似 [Android Settings][android-settings] 的、符合 [Ticwear Design][ticwear-design] 的设置系统，更适合手表展示，并支持挠挠交互。
-5. [其他小控件](#widgets)：Ticwear提供了一系列适合手表使用的小控件，包括[可缩放文本框](#scale-textview)、[悬浮按钮](#fab)、[弹出式对话框](#alert-dialog)、[数值选择器](#number-picker)、[日期时间选择器](#date-picker)等。
+5. [其他小控件](#widgets)：Ticwear提供了一系列适合手表使用的小控件，包括[可缩放文本框](#scale-textview)、[悬浮按钮](#fab)、[数值选择器](#number-picker)、[日期时间选择器](#date-picker)、[Checkbox、RadioButton、SimpleSwitch](#two-state-button)等。
+6. [对话框](#dialogs)：对应 Android 的 [AlertDialog][android-alert-dialog]，我们也提供了一系列适合手表展示的对话框。包括[普通弹出式对话框](#alert-dialog)、[数值选择对话框](#number-picker-dialog)、[日期时间选择对话框](#date-picker-dialog)、[列表选择对话框](#list-choice-dialog)等。
 
 ### <a id="style-and-theme"></a> 样式和主题
 
@@ -258,6 +259,22 @@ $$
 
 使用方式类似`show()`和`hide()`，调用`minimize()`可以最小化按钮，按钮在完成最小化以后，会触发 `OnVisibilityChangedListener.onMinimum` 回调。
 
+#### <a id="number-picker"></a> 数值选择器
+
+类似 Android 的 [`NumberPicker`][android-numberpicker]，我们实现了符合Ticwear设计标准的数值选择器。开发者可以直接使用到其 layout 中。如果你只是需要一个页面来获取用户输入的数值。我们还提供了一个便于使用的[`NumberPickerDialog`](#number-picker-dialog)，方便你快速开发。
+
+#### <a id="date-picker"></a> 日期时间选择器
+
+类似于 Android 的 [`TimePicker`][android-timepicker] 和 [`DatePicker`][android-datepicker]，我们实现了符合Ticwear设计标准的日期和时间选择器。开发者可以像 Android 控件一样使用它们。同样的，我们也提供了[`DateTimePickerDialog`](#date-picker-dialog)来快速获取用户的时间、日期输入。
+
+#### <a id="two-state-button"></a> Checkbox、RadioButton 和 SimpleSwitch
+
+我们为 [Ticwear Theme](#style-and-theme) 设置了符合Ticwear设计风格的 `Checkbox` 和 `RadioButton`，并提供了一个 `SimpleSwitch`，简化 `Switch` 按钮的操作，并与其他两个状态切换Button统一了风格。以提供一套美观的状态切换按钮。
+
+### <a id="dialogs"></a> 对话框
+
+我们深知Dialog使用的便捷性，因此我们改造了Dialog，使Dialog也能适合展示在手表上，并扩展了对话框的按钮、列表展示，也提供了一些数值选择对话框，所有这些，在保持Android接口的便捷性同时，也提供了手表上较为便捷的用户体验。
+
 #### <a id="alert-dialog"></a> 弹出式对话框
 
 移植并扩展了 Android 的 [`AlertDialog`][android-alert-dialog]。为其定制了适用于手表的主题。并提供了利于手表显示的圆形图标按钮，以替代原生的文字按钮。
@@ -280,9 +297,42 @@ new AlertDialog.Builder(context)
         .show();
 ```
 
-#### <a id="number-picker"></a> 数值选择器
+#### <a id="list-choice-dialog"></a> 列表选择对话框
 
-类似 Android 的 [`NumberPicker`][android-numberpicker]，我们实现了符合Ticwear设计标准的数值选择器。并提供了一个便于使用的`NumberPickerDialog`，开发者可以像使用[`AlertDialog`][android-alert-dialog]一样，显示一个对话框让用户选择一个值。使用方式如下：
+类似 Android 的 [`AlertDialog`][android-alert-dialog]，你也可以通过设置Dialog的items、singleChoiceItems 和 multipleChoiceItems 来创建一个列表选择对话框，来获取用户对于一个列表的选择结果。
+
+使用方式与[弹出式对话框](#alert-dialog)一致，类似下面的代码：
+
+``` Java
+final List<Integer> selection = new ArrayList<>();
+dialog = new AlertDialog.Builder(getActivity())
+        .setTitle(R.string.category_dialog_multiple_choice)
+        .setMultiChoiceItems(listItems, null, new DialogInterface.OnMultiChoiceClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which, boolean isChecked) {
+                if (isChecked) {
+                    selection.add(which);
+                } else {
+                    selection.remove((Integer) which);
+                }
+            }
+        })
+        .setOnDismissListener(new DialogInterface.OnDismissListener() {
+            @Override
+            public void onDismiss(DialogInterface dialog) {
+                String message = "Picked item:\n";
+                for (int which : selection) {
+                    message += listItems[which] + ";\n";
+                }
+                Toast.makeText(getActivity(), message, Toast.LENGTH_SHORT).show();
+            }
+        })
+        .show();
+```
+
+#### <a id="number-picker-dialog"></a> 数值选择对话框
+
+通过内嵌 [`NumberPicker`](#number-picker)，开发者可以使用[`AlertDialog`][android-alert-dialog]来显示一个对话框让用户选择一个值。使用方式如下：
 
 ``` Java
 new NumberPickerDialog.Builder(context)
@@ -300,11 +350,9 @@ new NumberPickerDialog.Builder(context)
         .show();
 ```
 
-#### <a id="date-picker"></a> 日期时间选择器
+#### <a id="date-picker-dialog"></a> 日期时间选择器
 
-类似于 Android 的 [`TimePicker`][android-timepicker] 和 [`DatePicker`][android-datepicker]，我们实现了符合Ticwear设计标准的日期和时间选择器。开发者可以像 Android 控件一样使用它们。
-
-为了开发的方便，我们还提供了一个日期时间选择对话框，`DatetimePickerDialog`，可以像使用[`AlertDialog`][android-alert-dialog]一样，显示一个对话框让用户选择日期、时间，或同时选择两者。使用方式如下：
+为了开发的方便，我们封装了[`DatePicker`和`TimePicker`](#date-picker)，提供了一个日期时间选择对话框，`DatetimePickerDialog`，可以像使用[`AlertDialog`][android-alert-dialog]一样，显示一个对话框让用户选择日期、时间，或同时选择两者。使用方式如下：
 
 ``` Java
 new DatetimePickerDialog.Builder(getActivity())
@@ -324,6 +372,7 @@ new DatetimePickerDialog.Builder(getActivity())
 ```
 
 如果你只想让用户选择日期，或者只选择时间，那么你需要做的，是在 Building 时，指定 `disableTimePicker()` 或者 `disableDatePicker()`。详情可以参考我们 Demo 中的 `DialogsFragment`。
+
 
 
 [ticwear-design]: http://developer.ticwear.com/doc/guideline

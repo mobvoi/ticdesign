@@ -6,10 +6,15 @@
     <string name="category.dialog.notify">提示对话框</string>
     <string name="category.dialog.confirm">确认对话框</string>
     <string name="category.dialog.choose">选择对话框</string>
+    <string name="category.dialog.value_picker">数值选择器</string>
     <string name="category.dialog.number_picker">数字选择器</string>
     <string name="category.dialog.time_picker">时间选择器</string>
     <string name="category.dialog.date_picker">日期选择器</string>
     <string name="category.dialog.datetime_picker">时间日期选择器</string>
+    <string name="category.dialog.choice">项目选择</string>
+    <string name="category.dialog.single_selection">选择后退出</string>
+    <string name="category.dialog.single_choice">单选对话框</string>
+    <string name="category.dialog.multiple_choice">多选对话框</string>
 
     <string name="category.widgets.title">控件</string>
     <string name="category.widgets.fab">悬浮按钮</string>

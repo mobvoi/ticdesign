@@ -7,10 +7,15 @@
     <string name="category.dialog.notify">Notify Dialog</string>
     <string name="category.dialog.confirm">Confirm Dialog</string>
     <string name="category.dialog.choose">Choose Dialog</string>
+    <string name="category.dialog.value_picker">Value Picker</string>
     <string name="category.dialog.number_picker">Number Picker</string>
     <string name="category.dialog.time_picker">Time Picker</string>
     <string name="category.dialog.date_picker">Date Picker</string>
     <string name="category.dialog.datetime_picker">Datetime Picker</string>
+    <string name="category.dialog.choice">Make Choice</string>
+    <string name="category.dialog.single_selection">Single Selection</string>
+    <string name="category.dialog.single_choice">Single Choice</string>
+    <string name="category.dialog.multiple_choice">Multiple Choice</string>
 
     <string name="category.widgets.title">Widgets</string>
     <string name="category.widgets.fab">FAB</string>

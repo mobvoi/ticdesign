@@ -22,15 +22,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:baselineAligned="false"
     android:paddingTop="@dimen/preference_padding_vertical"
     android:paddingBottom="@dimen/preference_padding_vertical"
     android:orientation="horizontal">
-
-    <!-- extra spacing on start of preference -->
-    <View
-        android:layout_width="12dp"
-        android:layout_height="0dp"
-        android:layout_weight="0" />
 
     <!-- Use a larger frame size to allow image scale animation. -->
     <FrameLayout

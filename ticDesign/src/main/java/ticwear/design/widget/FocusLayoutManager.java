@@ -46,12 +46,14 @@ class FocusLayoutManager extends RecyclerView.LayoutManager {
         mGestureDetector = new GestureDetector(ticklableListView.getContext(), new GestureDetector.SimpleOnGestureListener() {
             @Override
             public boolean onSingleTapUp(MotionEvent e) {
-                int centerIndex = findCenterViewIndex();
-                View child = getChildAt(centerIndex);
-                child.performClick();
-                float x = e.getX() - child.getX();
-                float y = e.getY() - child.getY();
-                forceRippleAnimation(child, x, y);
+                if (getChildCount() > 0) {
+                    int centerIndex = findCenterViewIndex();
+                    View child = getChildAt(centerIndex);
+                    child.performClick();
+                    float x = e.getX() - child.getX();
+                    float y = e.getY() - child.getY();
+                    forceRippleAnimation(child, x, y);
+                }
                 return true;
             }
         });
@@ -165,6 +167,13 @@ class FocusLayoutManager extends RecyclerView.LayoutManager {
         view.removeOnItemTouchListener(mOnItemTouchListener);
 
         super.onDetachedFromWindow(view, recycler);
+    }
+
+    @Override
+    public void onMeasure(RecyclerView.Recycler recycler, RecyclerView.State state, int widthSpec, int heightSpec) {
+        // Always set height as most as possible.
+        int height = View.MeasureSpec.makeMeasureSpec(View.MeasureSpec.getSize(heightSpec), View.MeasureSpec.EXACTLY);
+        super.onMeasure(recycler, state, widthSpec, height);
     }
 
     @Override
@@ -291,7 +300,9 @@ class FocusLayoutManager extends RecyclerView.LayoutManager {
         }
 
         recycleViewsOutOfBounds(recycler);
-        notifyChildrenAboutProximity(true);
+        if (getChildCount() > 0) {
+            notifyChildrenAboutProximity(true);
+        }
         return scrolled;
     }
 
@@ -424,7 +435,7 @@ class FocusLayoutManager extends RecyclerView.LayoutManager {
 
     @Override
     public void onScrollStateChanged(int state) {
-        if (state == RecyclerView.SCROLL_STATE_IDLE) {
+        if (state == RecyclerView.SCROLL_STATE_IDLE && getChildCount() > 0) {
             animateToCenter();
         }
     }

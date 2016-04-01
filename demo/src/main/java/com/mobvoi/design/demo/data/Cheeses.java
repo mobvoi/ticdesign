@@ -21,6 +21,14 @@ public class Cheeses {
         return sCheeseStrings[RANDOM.nextInt(sCheeseStrings.length)];
     }
 
+    public static String[] getRandomCheesesList() {
+        String[] cheeses = new String[RANDOM.nextInt(20) + 3];
+        for (int i = 0; i < cheeses.length; i++) {
+            cheeses[i] = getRandomCheeseString();
+        }
+        return cheeses;
+    }
+
     public final static int[] sIconResources = {
             R.drawable.avatar_2,
             R.drawable.avatar_3,
