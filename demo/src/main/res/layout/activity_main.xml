@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:scrollbars="vertical"
+    app:tic_overScrollEffect="bounce"
     tools:context="com.mobvoi.design.demo.MainActivity">
 
     <include layout="@layout/content_main" />

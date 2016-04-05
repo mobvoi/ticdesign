@@ -183,7 +183,7 @@ public final class PreferenceScreen extends PreferenceGroup implements
                 R.layout.preference_list_fragment, null);
         mListView = (TicklableListView) childPrefScreen.findViewById(android.R.id.list);
         bind(mListView);
-        final TextView titleView = (TextView) childPrefScreen.findViewById(R.id.title);
+        final TextView titleView = (TextView) childPrefScreen.findViewById(android.R.id.title);
         bindTitle(titleView);
 
         // Set the title bar if title is available, else no title bar

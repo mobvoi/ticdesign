@@ -7,6 +7,7 @@ import android.support.annotation.StringRes;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.ticwear.design.demo.R;
 
@@ -36,6 +37,8 @@ public class ListFragment extends Fragment {
     };
     private static List<Map<String, Object>> listData;
 
+    private CharSequence title;
+
     private static List<Map<String, Object>> initData(@StringRes int[] titles) {
         if (titles == null)
             return null;
@@ -48,6 +51,21 @@ public class ListFragment extends Fragment {
         return listData;
     }
 
+    public void setTitle(CharSequence title) {
+        this.title = title;
+        updateTitle();
+    }
+
+    public CharSequence getTitle() {
+        return title;
+    }
+
+    private void updateTitle() {
+        if (textTitle != null) {
+            textTitle.setText(title);
+        }
+    }
+
     @StringRes
     protected int[] getItemTitles() {
         return null;
@@ -58,6 +76,9 @@ public class ListFragment extends Fragment {
         map.put(fromList[0], title);
         return map;
     }
+
+    @Bind(android.R.id.title)
+    TextView textTitle;
 
     @Bind(R.id.list_sub_demo)
     TicklableListView listSubDemo;
@@ -89,6 +110,8 @@ public class ListFragment extends Fragment {
             }
         });
         listSubDemo.setAdapter(adapter);
+
+        updateTitle();
     }
 
     public void onTitleClicked(View view, @StringRes int titleResId) {

@@ -16,6 +16,7 @@
 
 package ticwear.design.widget;
 
+import android.animation.ValueAnimator;
 import android.content.Context;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
@@ -42,6 +43,7 @@ import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.util.SparseArray;
+import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
@@ -116,6 +118,15 @@ public class CoordinatorLayout extends ViewGroup implements NestedScrollingParen
     static final ThreadLocal<Map<String, Constructor<Behavior>>> sConstructors =
             new ThreadLocal<>();
 
+    public enum OverScrollEffect {
+        // No effect when over-scroll
+        NONE,
+        // Content been dragged away and bounced back when release.
+        BOUNCE,
+        // TODO: Content been scaled when over-scroll
+        // SCALE,
+    }
+
     final Comparator<View> mLayoutDependencyComparator = new Comparator<View>() {
         @Override
         public int compare(View lhs, View rhs) {
@@ -162,6 +173,9 @@ public class CoordinatorLayout extends ViewGroup implements NestedScrollingParen
 
     private OnHierarchyChangeListener mOnHierarchyChangeListener;
 
+    private OverScrollEffect mOverScrollEffect;
+    private ValueAnimator mAnimator;
+
     private final NestedScrollingParentHelper mNestedScrollingParentHelper =
             new NestedScrollingParentHelper(this);
 
@@ -189,6 +203,10 @@ public class CoordinatorLayout extends ViewGroup implements NestedScrollingParen
             }
         }
         mStatusBarBackground = a.getDrawable(R.styleable.CoordinatorLayout_tic_statusBarBackground);
+
+        int effect = a.getInt(R.styleable.CoordinatorLayout_tic_overScrollEffect, OverScrollEffect.BOUNCE.ordinal());
+        mOverScrollEffect = OverScrollEffect.values()[effect];
+
         a.recycle();
 
         if (INSETS_HELPER != null) {
@@ -1422,6 +1440,12 @@ public class CoordinatorLayout extends ViewGroup implements NestedScrollingParen
                 lp.acceptNestedScroll(false);
             }
         }
+
+        if (handled && mAnimator != null) {
+            // Cancel any offset animation
+            mAnimator.cancel();
+        }
+
         return handled;
     }
 
@@ -1466,12 +1490,17 @@ public class CoordinatorLayout extends ViewGroup implements NestedScrollingParen
 
         mNestedScrollingDirectChild = null;
         mNestedScrollingTarget = null;
+
+        releaseEdgeEffects();
     }
 
     public void onNestedScroll(View target, int dxConsumed, int dyConsumed,
             int dxUnconsumed, int dyUnconsumed) {
         final int childCount = getChildCount();
         boolean accepted = false;
+
+        int xConsumed = 0;
+        int yConsumed = 0;
 
         for (int i = 0; i < childCount; i++) {
             final View view = getChildAt(i);
@@ -1482,11 +1511,23 @@ public class CoordinatorLayout extends ViewGroup implements NestedScrollingParen
 
             final Behavior viewBehavior = lp.getBehavior();
             if (viewBehavior != null) {
+                mTempIntPair[0] = mTempIntPair[1] = 0;
                 viewBehavior.onNestedScroll(this, view, target, dxConsumed, dyConsumed,
-                        dxUnconsumed, dyUnconsumed);
+                        dxUnconsumed, dyUnconsumed, mTempIntPair);
+                xConsumed = dxUnconsumed > 0 ? Math.max(xConsumed, mTempIntPair[0])
+                        : Math.min(xConsumed, mTempIntPair[0]);
+                yConsumed = dyUnconsumed > 0 ? Math.max(yConsumed, mTempIntPair[1])
+                        : Math.min(yConsumed, mTempIntPair[1]);
+
                 accepted = true;
             }
         }
+
+        int xFinalUnconsumed = dxUnconsumed - xConsumed;
+        int yFinalUnconsumed = dyUnconsumed - yConsumed;
+
+        consumeFinalUnconsumedScroll(dxUnconsumed, dyUnconsumed,
+                xFinalUnconsumed, yFinalUnconsumed);
 
         if (accepted) {
             dispatchOnDependentViewChanged(true);
@@ -1572,6 +1613,63 @@ public class CoordinatorLayout extends ViewGroup implements NestedScrollingParen
 
     public int getNestedScrollAxes() {
         return mNestedScrollingParentHelper.getNestedScrollAxes();
+    }
+
+    public void setOverScrollEffect(OverScrollEffect overScrollEffect) {
+        releaseEdgeEffects();
+        mOverScrollEffect = overScrollEffect;
+    }
+
+    public OverScrollEffect getOverScrollEffect() {
+        return mOverScrollEffect;
+    }
+
+    private void consumeFinalUnconsumedScroll(int dxUnconsumed, int dyUnconsumed,
+                                              int dxFinalUnconsumed, int dyFinalUnconsumed) {
+        if (mOverScrollEffect == OverScrollEffect.BOUNCE && dyFinalUnconsumed != 0) {
+            TypedValue typedValue = new TypedValue();
+            getResources().getValue(R.integer.design_factor_over_scroll_bounce, typedValue, true);
+            float factor = typedValue.getFloat();
+            offsetTopAndBottom((int) (-dyFinalUnconsumed * factor));
+        }
+    }
+
+    private void releaseEdgeEffects() {
+        if (mOverScrollEffect == OverScrollEffect.BOUNCE) {
+            animateOffsetTo(0);
+        }
+    }
+
+    private void animateOffsetTo(final int offset) {
+        animateOffsetTo(getTop(), offset);
+    }
+
+    private void animateOffsetTo(final int currentOffset, final int offset) {
+        if (currentOffset == offset) {
+            if (mAnimator != null && mAnimator.isRunning()) {
+                mAnimator.cancel();
+            }
+            return;
+        }
+
+        if (mAnimator == null) {
+            mAnimator = new ValueAnimator();
+            mAnimator.setInterpolator(AnimationUtils.DECELERATE_INTERPOLATOR);
+            mAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+                @Override
+                public void onAnimationUpdate(ValueAnimator animator) {
+                    int offset = (int) animator.getAnimatedValue();
+                    offsetTopAndBottom(offset - getTop());
+                }
+            });
+        } else {
+            mAnimator.cancel();
+        }
+
+        mAnimator.setDuration(getResources().getInteger(android.R.integer.config_shortAnimTime));
+
+        mAnimator.setIntValues(currentOffset, offset);
+        mAnimator.start();
     }
 
     class OnPreDrawListener implements ViewTreeObserver.OnPreDrawListener {
@@ -2002,11 +2100,12 @@ public class CoordinatorLayout extends ViewGroup implements NestedScrollingParen
          *                     operation, but requested by the user
          * @param dyUnconsumed vertical pixels not consumed by the target's own scrolling operation,
          *                     but requested by the user
+         * @param consumed vertical pixels consumed by the behaviour.
          *
          * @see NestedScrollingParent#onNestedScroll(View, int, int, int, int)
          */
         public void onNestedScroll(CoordinatorLayout coordinatorLayout, V child, View target,
-                int dxConsumed, int dyConsumed, int dxUnconsumed, int dyUnconsumed) {
+                int dxConsumed, int dyConsumed, int dxUnconsumed, int dyUnconsumed, int[] consumed) {
             // Do nothing
         }
 

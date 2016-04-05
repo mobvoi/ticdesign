@@ -331,7 +331,7 @@ public abstract class PreferenceFragment extends Fragment implements
                             + "that is not a TicklableListView class");
         }
         mList = (TicklableListView)rawListView;
-        mTitleView = (TextView) root.findViewById(R.id.title);
+        mTitleView = (TextView) root.findViewById(android.R.id.title);
         mHandler.post(mRequestFocus);
     }
 

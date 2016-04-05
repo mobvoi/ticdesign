@@ -3,12 +3,6 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:title="@string/preference.custom_config_mode">
 
-    <ticwear.design.preference.CheckBoxPreference
-        android:key="checkbox_preference"
-        android:title="@string/preference.long_press_change_watch_face"
-        android:summaryOn="@string/preference.enabled"
-        android:summaryOff="@string/preference.disabled" />
-
     <!-- This PreferenceScreen tag serves as a screen break (similar to page break
          in word processing). Like for other preference types, we assign a key
          here so it is able to save and restore its instance state. -->
@@ -25,9 +19,11 @@
 
     </ticwear.design.preference.PreferenceScreen>
 
-    <ticwear.design.preference.PreferenceScreen
-        android:key="raw_preference"
-        android:title="@string/preference.perm_label_change_locale"/>
+    <ticwear.design.preference.CheckBoxPreference
+        android:key="checkbox_preference"
+        android:title="@string/preference.long_press_change_watch_face"
+        android:summaryOn="@string/preference.enabled"
+        android:summaryOff="@string/preference.disabled" />
 
     <ticwear.design.preference.SwitchPreference
         android:key="parent_checkbox_preference"
@@ -42,10 +38,5 @@
         android:layout="?android:preferenceLayoutChild"
         android:title="@string/preference.wifi_more"
         android:summary="@string/preference.forget_wifi" />
-
-    <ticwear.design.preference.Preference
-        android:key="text_preference"
-        android:summary="@string/cheese_content"
-        />
 
 </ticwear.design.preference.PreferenceScreen>

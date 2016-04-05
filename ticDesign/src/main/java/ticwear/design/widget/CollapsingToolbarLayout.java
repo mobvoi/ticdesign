@@ -16,6 +16,7 @@
 
 package ticwear.design.widget;
 
+import android.animation.ValueAnimator;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Canvas;
@@ -111,7 +112,7 @@ public class CollapsingToolbarLayout extends FrameLayout {
     private Drawable mStatusBarScrim;
     private int mScrimAlpha;
     private boolean mScrimsAreShown;
-    private ValueAnimatorCompat mScrimAnimator;
+    private ValueAnimator mScrimAnimator;
 
     private AppBarLayout.OnOffsetChangedListener mOnOffsetChangedListener;
 
@@ -501,16 +502,16 @@ public class CollapsingToolbarLayout extends FrameLayout {
     private void animateScrim(int targetAlpha) {
         ensureToolbar();
         if (mScrimAnimator == null) {
-            mScrimAnimator = ViewUtils.createAnimator();
+            mScrimAnimator = new ValueAnimator();
             mScrimAnimator.setDuration(SCRIM_ANIMATION_DURATION);
             mScrimAnimator.setInterpolator(
                     targetAlpha > mScrimAlpha
                             ? AnimationUtils.FAST_OUT_LINEAR_IN_INTERPOLATOR
                             : AnimationUtils.LINEAR_OUT_SLOW_IN_INTERPOLATOR);
-            mScrimAnimator.setUpdateListener(new ValueAnimatorCompat.AnimatorUpdateListener() {
+            mScrimAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
                 @Override
-                public void onAnimationUpdate(ValueAnimatorCompat animator) {
-                    setScrimAlpha(animator.getAnimatedIntValue());
+                public void onAnimationUpdate(ValueAnimator animator) {
+                    setScrimAlpha((int) animator.getAnimatedValue());
                 }
             });
         } else if (mScrimAnimator.isRunning()) {

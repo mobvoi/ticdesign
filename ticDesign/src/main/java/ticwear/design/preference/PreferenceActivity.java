@@ -492,7 +492,7 @@ public abstract class PreferenceActivity extends RecyclerActivity implements
 
         setContentView(layoutResId);
 
-        mTitleView = (TextView) findViewById(R.id.title);
+        mTitleView = (TextView) findViewById(android.R.id.title);
         mListFooter = (FrameLayout)findViewById(R.id.list_footer);
         mPrefsContainer = (ViewGroup) findViewById(R.id.prefs_frame);
         boolean hidingHeaders = onIsHidingHeaders();

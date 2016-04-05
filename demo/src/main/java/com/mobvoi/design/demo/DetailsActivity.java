@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import com.mobvoi.design.demo.fragments.DialogsFragment;
+import com.mobvoi.design.demo.fragments.ListFragment;
 import com.mobvoi.design.demo.fragments.SpecFragment;
 import com.mobvoi.design.demo.fragments.TransitionsFragment;
 import com.mobvoi.design.demo.fragments.WidgetsFragment;
@@ -24,7 +25,8 @@ public class DetailsActivity extends Activity {
         setContentView(R.layout.activity_details);
 
         Fragment detailFragment;
-        switch (getIntent().getIntExtra("case", -1)) {
+        int titleRes = getIntent().getIntExtra("case", -1);
+        switch (titleRes) {
             case R.string.category_dialog_title:
                 detailFragment = new DialogsFragment();
                 break;
@@ -45,6 +47,10 @@ public class DetailsActivity extends Activity {
             default:
                 detailFragment = null;
                 break;
+        }
+
+        if (detailFragment instanceof ListFragment) {
+            ((ListFragment) detailFragment).setTitle(getString(titleRes));
         }
 
         if (detailFragment != null) {

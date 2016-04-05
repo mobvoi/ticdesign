@@ -16,6 +16,7 @@
 
 package ticwear.design.widget;
 
+import android.animation.ValueAnimator;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.os.Parcel;
@@ -28,8 +29,10 @@ import android.support.v4.os.ParcelableCompatCreatorCallbacks;
 import android.support.v4.view.ViewCompat;
 import android.support.v4.view.WindowInsetsCompat;
 import android.util.AttributeSet;
+import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewOutlineProvider;
 import android.view.animation.Interpolator;
 import android.widget.LinearLayout;
 
@@ -157,7 +160,7 @@ public class AppBarLayout extends LinearLayout {
         a.recycle();
 
         // Use the bounds view outline provider so that we cast a shadow, even without a background
-        ViewUtils.setBoundsViewOutlineProvider(this);
+        setOutlineProvider(ViewOutlineProvider.BOUNDS);
 
         mListeners = new ArrayList<>();
 
@@ -300,7 +303,7 @@ public class AppBarLayout extends LinearLayout {
 
     @Override
     public LayoutParams generateLayoutParams(AttributeSet attrs) {
-        return new LayoutParams(getContext(), attrs);
+        return new LayoutParams(getContext(), attrs, isInEditMode());
     }
 
     @Override
@@ -594,7 +597,7 @@ public class AppBarLayout extends LinearLayout {
         float mScrollResistanceFactor;
         int mOverScrollOriginalHeight = INVALID_VIEW_HEIGHT;
 
-        public LayoutParams(Context c, AttributeSet attrs) {
+        public LayoutParams(Context c, AttributeSet attrs, boolean isInEditMode) {
             super(c, attrs);
             TypedArray a = c.obtainStyledAttributes(attrs, R.styleable.AppBarLayout_LayoutParams);
             mScrollFlags = a.getInt(R.styleable.AppBarLayout_LayoutParams_tic_layout_scrollFlags, 0);
@@ -604,8 +607,16 @@ public class AppBarLayout extends LinearLayout {
                 mScrollInterpolator = android.view.animation.AnimationUtils.loadInterpolator(
                         c, resId);
             }
+            float defaultFactor;
+            if (isInEditMode) {
+                defaultFactor = 0;
+            } else {
+                TypedValue typedValue = new TypedValue();
+                c.getResources().getValue(R.integer.design_factor_over_scroll_bounce, typedValue, true);
+                defaultFactor = typedValue.getFloat();
+            }
             mScrollResistanceFactor = MathUtils.constrain(
-                    a.getFloat(R.styleable.AppBarLayout_LayoutParams_tic_layout_scrollResistanceFactor, 0),
+                    a.getFloat(R.styleable.AppBarLayout_LayoutParams_tic_layout_scrollResistanceFactor, defaultFactor),
                     0, 1);
             a.recycle();
         }
@@ -751,7 +762,7 @@ public class AppBarLayout extends LinearLayout {
         private boolean mSkipNestedPreScroll;
         private boolean mWasFlung;
 
-        private ValueAnimatorCompat mAnimator;
+        private ValueAnimator mAnimator;
 
         private int mOffsetToChildIndexOnLayout = INVALID_POSITION;
         private boolean mOffsetToChildIndexOnLayoutIsMinHeight;
@@ -834,13 +845,13 @@ public class AppBarLayout extends LinearLayout {
         @Override
         public void onNestedScroll(CoordinatorLayout coordinatorLayout, AppBarLayout child,
                 View target, int dxConsumed, int dyConsumed,
-                int dxUnconsumed, int dyUnconsumed) {
+                int dxUnconsumed, int dyUnconsumed, int[] consumed) {
 
             if (dyUnconsumed < 0) {
                 mSiblingOverScrollDown = true;
                 // If the scrolling view is scrolling down but not consuming, it's probably be at
                 // the top of it's content
-                scroll(coordinatorLayout, child, dyUnconsumed,
+                consumed[1] = scroll(coordinatorLayout, child, dyUnconsumed,
                         -child.getDownNestedScrollRange(), 0);
                 // Set the expanding flag so that onNestedPreScroll doesn't handle any events
                 mSkipNestedPreScroll = true;
@@ -929,13 +940,13 @@ public class AppBarLayout extends LinearLayout {
             }
 
             if (mAnimator == null) {
-                mAnimator = ViewUtils.createAnimator();
+                mAnimator = new ValueAnimator();
                 mAnimator.setInterpolator(AnimationUtils.DECELERATE_INTERPOLATOR);
-                mAnimator.setUpdateListener(new ValueAnimatorCompat.AnimatorUpdateListener() {
+                mAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
                     @Override
-                    public void onAnimationUpdate(ValueAnimatorCompat animator) {
+                    public void onAnimationUpdate(ValueAnimator animator) {
                         setHeaderTopBottomOffset(coordinatorLayout, child,
-                                animator.getAnimatedIntValue());
+                                (int) animator.getAnimatedValue());
                     }
                 });
             } else {

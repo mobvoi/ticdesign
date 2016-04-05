@@ -40,6 +40,9 @@ public class TransitionsFragment extends Fragment {
         return inflater.inflate(R.layout.fragment_simple_list, container, false);
     }
 
+    @Bind(android.R.id.title)
+    TextView textTitle;
+
     @Bind(R.id.list_sub_demo)
     TicklableListView listSubDemo;
 
@@ -88,6 +91,8 @@ public class TransitionsFragment extends Fragment {
             }
         });
         listSubDemo.setAdapter(adapter);
+
+        textTitle.setText(R.string.category_showcase_title);
     }
 
 

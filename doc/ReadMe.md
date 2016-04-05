@@ -122,7 +122,8 @@ int color = ColorPalette.from(context)
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:scrollbars="vertical">
+    android:scrollbars="vertical"
+    app:tic_overScrollEffect="bounce">
 
     <include layout="@layout/content_main" />
 
@@ -148,8 +149,9 @@ int color = ColorPalette.from(context)
 
 通过多种效果的配合，此布局实现了标题快速进入（页面滚动到底部后下拉，标题马上出现，而不用滚动到顶部才出现），和拉伸回弹效果（页面滚动到顶部后，继续下拉，标题会随滚动操作被拉大，松手后弹回原状）。
 
-其中，`tic_layout_XXX`，类似于`android:layout_XXX`，表示此View在parent中的布局行为，与内容无关。而其他非`tic_layout_`开头的熟悉，则是View本身的属性。下面对这些属性做详细解释：
+其中，`tic_layout_XXX`，类似于`android:layout_XXX`，表示此View在parent中的布局行为，与内容无关。而其他非`tic_layout_`开头的属性，则是View本身的属性。下面对这些属性做详细解释：
 
+* `app:tic_overScrollEffect` 指定了页面内容滚动到头时的效果，当 `CoordinatorLayout` 的子元素没能消耗掉 nested scroll 事件时，将触发此处定义的效果。目前仅支持 `none`，无效果；以及 `bounce`，拉伸回弹效果。
 * `app:tic_layout_scrollFlags` 指定了标题的滚动响应行为，可以根据需要组合不同的行为。
 * `app:tic_layout_scrollResistanceFactor` 指定了标题在拉伸时，整体高度的变化倍数。为1时，标题高度变化与滚动距离对应，没有阻尼效果。越接近0，阻尼效果越大，高度变化越小。
 * `app:tic_scaleFactor` 指定了可缩放文字的缩放倍数。为1时，文字会跟随文本框大小做等比缩放，约接近0则缩放效果越不明显。详情可以参考[可缩放文本框](#scale-textview)。

@@ -45,6 +45,15 @@
         <attr name="tic_keylines" format="reference"/>
         <!-- Drawable to display behind the status bar when the view is set to draw behind it. -->
         <attr name="tic_statusBarBackground" format="reference"/>
+        <!-- Effect to show when over-scroll. -->
+        <attr name="tic_overScrollEffect">
+            <!-- No effect when over-scroll. -->
+            <enum name="none" value="0"/>
+            <!-- Content been dragged away and bounced back when release. -->
+            <enum name="bounce" value="1"/>
+            <!-- TODO: Content been scaled when over-scroll -->
+            <!--<enum name="scale" value="2"/>-->
+        </attr>
     </declare-styleable>
 
     <declare-styleable name="CoordinatorLayout_LayoutParams">
