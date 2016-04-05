@@ -29,4 +29,8 @@
     <dimen name="tic_timepicker_minimum_margin_top_bottom">24dp</dimen>
     <dimen name="tic_timepicker_radial_picker_dimen">270dp</dimen>
 
+    <!-- Buttons -->
+    <dimen name="tic_primary_button_width">132dp</dimen>
+    <dimen name="tic_primary_button_height">56dp</dimen>
+
 </resources>

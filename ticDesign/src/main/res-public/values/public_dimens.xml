@@ -35,4 +35,7 @@
     <public type="dimen" name="tic_text_size_large_ticwear" />
     <public type="dimen" name="tic_text_size_medium_ticwear" />
     <public type="dimen" name="tic_text_size_small_ticwear" />
+
+    <public type="dimen" name="tic_primary_button_width" />
+    <public type="dimen" name="tic_primary_button_height" />
 </resources>

@@ -40,5 +40,7 @@
     <public type="attr" name="tic_strokeWidth" />
     <public type="attr" name="tic_centered" />
 
+    <public type="attr" name="tic_primaryButtonStyle" />
+
     <public type="id" name="tic_view_offset_helper" />
 </resources>

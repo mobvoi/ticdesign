@@ -63,4 +63,6 @@
     <public type="style" name="Widget.Ticwear.ListItem" />
 
     <public type="style" name="Widget.Ticwear.CirclePageIndicator" />
+
+    <public type="style" name="Widget.Ticwear.PrimaryButton" />
 </resources>

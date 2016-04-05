@@ -89,6 +89,8 @@
         <item name="android:timePickerDialogTheme">?android:alertDialogTheme</item>
         <item name="android:datePickerDialogTheme">?android:alertDialogTheme</item>
 
+        <item name="tic_primaryButtonStyle">@style/Widget.Ticwear.PrimaryButton</item>
+
 
         <item name="tic_CirclePageIndicatorStyle">@style/Widget.Ticwear.CirclePageIndicator</item>
 

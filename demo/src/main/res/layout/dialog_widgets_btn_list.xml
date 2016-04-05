@@ -2,33 +2,48 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingTop="16dp"
-    android:gravity="center"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:gravity="bottom">
 
-    <CheckBox
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="4dp"
-        android:layout_marginBottom="4dp" />
+        android:layout_weight="1"
+        android:paddingTop="16dp"
+        android:gravity="center"
+        android:orientation="vertical">
 
-    <CheckBox
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="4dp"
-        android:layout_marginBottom="4dp"
-        android:button="@drawable/tic_ic_radio"/>
+        <CheckBox
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:layout_marginBottom="4dp" />
 
-    <!--<RadioButton-->
+        <CheckBox
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:layout_marginBottom="4dp"
+            android:button="@drawable/tic_ic_radio"/>
+
+        <!--<RadioButton-->
         <!--android:layout_width="wrap_content"-->
         <!--android:layout_height="wrap_content"-->
         <!--android:layout_marginTop="4dp"-->
         <!--android:layout_marginBottom="4dp" />-->
 
-    <ticwear.design.widget.SimpleSwitch
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="4dp"
-        android:layout_marginBottom="4dp"/>
+        <ticwear.design.widget.SimpleSwitch
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:layout_marginBottom="4dp"/>
+
+    </LinearLayout>
+
+    <ticwear.design.widget.PrimaryButton
+        style="@style/Widget.Ticwear.PrimaryButton"
+        android:layout_weight="0"
+        android:src="@drawable/ic_plane"
+        android:contentDescription="@null"/>
 
 </LinearLayout>
