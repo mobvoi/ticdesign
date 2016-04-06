@@ -130,7 +130,7 @@ public class TicklableListViewBehavior extends AppBarLayout.ScrollingViewBehavio
             return newOffset;
         }
 
-        boolean sameSign = sameSign(newOffset, currentAllOffset);
+        boolean sameSign = MathUtils.sameSign(newOffset, currentAllOffset);
         int reduce = Math.abs(currentAllOffset) - Math.abs(newOffset);
 
         // offsets on same side, and new offset is little,
@@ -157,18 +157,13 @@ public class TicklableListViewBehavior extends AppBarLayout.ScrollingViewBehavio
             setRawTopAndBottomOffset(0);
             return false;
         }
-        if (!sameSign(allOffset, rawOffset)) {
+        if (!MathUtils.sameSign(allOffset, rawOffset)) {
             Log.w(TAG, "total offset has different sign than raw offset");
             setRawTopAndBottomOffset(0);
             return false;
         }
 
         return true;
-    }
-
-    boolean sameSign(int x, int y)
-    {
-        return (x >= 0) ^ (y < 0);
     }
 
 }

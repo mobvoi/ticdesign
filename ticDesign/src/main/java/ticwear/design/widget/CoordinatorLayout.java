@@ -176,6 +176,12 @@ public class CoordinatorLayout extends ViewGroup implements NestedScrollingParen
     private OverScrollEffect mOverScrollEffect;
     private ValueAnimator mAnimator;
 
+    private int mOverScrollOffset;
+    private int mUnconsumedOverScrollOffset;
+    private float mOverScrollOffsetFactor;
+    private EdgeEffect mEdgeGlowTop;
+    private EdgeEffect mEdgeGlowBottom;
+
     private final NestedScrollingParentHelper mNestedScrollingParentHelper =
             new NestedScrollingParentHelper(this);
 
@@ -209,10 +215,26 @@ public class CoordinatorLayout extends ViewGroup implements NestedScrollingParen
 
         a.recycle();
 
+        ViewCompat.setFitsSystemWindows(this, true);
         if (INSETS_HELPER != null) {
             INSETS_HELPER.setupForWindowInsets(this, new ApplyInsetsListener());
         }
         super.setOnHierarchyChangeListener(new HierarchyChangeListener());
+
+        if (mEdgeGlowTop == null) {
+            mEdgeGlowTop = new ClassicEdgeEffect(context);
+            mEdgeGlowBottom = new ClassicEdgeEffect(context);
+        }
+
+        if (isInEditMode()) {
+            mOverScrollOffsetFactor = 0.5f;
+        } else {
+            TypedValue typedValue = new TypedValue();
+            getResources().getValue(R.integer.design_factor_over_scroll_bounce, typedValue, true);
+            mOverScrollOffsetFactor = typedValue.getFloat();
+        }
+
+        setWillNotDraw(false);
     }
 
     @Override
@@ -298,7 +320,22 @@ public class CoordinatorLayout extends ViewGroup implements NestedScrollingParen
         if (mLastInsets != insets) {
             mLastInsets = insets;
             mDrawStatusBarBackground = insets != null && insets.getSystemWindowInsetTop() > 0;
-            setWillNotDraw(!mDrawStatusBarBackground && getBackground() == null);
+
+            if (insets != null) {
+                if (insets.isRound()) {
+                    if (!(mEdgeGlowTop instanceof CrescentEdgeEffect)) {
+                        mEdgeGlowTop = new CrescentEdgeEffect(getContext());
+                        mEdgeGlowBottom = new CrescentEdgeEffect(getContext());
+                    }
+                } else {
+                    if (!(mEdgeGlowTop instanceof ClassicEdgeEffect)) {
+                        mEdgeGlowTop = new ClassicEdgeEffect(getContext());
+                        mEdgeGlowBottom = new ClassicEdgeEffect(getContext());
+                    }
+                }
+            }
+
+            setWillNotDraw(!mDrawStatusBarBackground && getBackground() == null && mEdgeGlowTop == null);
             dispatchChildApplyWindowInsets(insets);
             requestLayout();
         }
@@ -776,6 +813,43 @@ public class CoordinatorLayout extends ViewGroup implements NestedScrollingParen
 
             if (behavior == null || !behavior.onLayoutChild(this, child, layoutDirection)) {
                 onLayoutChild(child, layoutDirection);
+            }
+        }
+    }
+
+    @Override
+    public void draw(Canvas canvas) {
+        super.draw(canvas);
+        if (mEdgeGlowTop != null) {
+            if (!mEdgeGlowTop.isFinished()) {
+                final int restoreCount = canvas.save();
+                final int width = getWidth();
+
+                int edgeY = Math.min(0, getScrollY());
+                canvas.translate(0, edgeY);
+                mEdgeGlowTop.setSize(width, getHeight());
+                if (mEdgeGlowTop.draw(canvas)) {
+                    invalidate(0, 0, getWidth(),
+                            mEdgeGlowTop.getMaxHeight() + getPaddingTop());
+                }
+                canvas.restoreToCount(restoreCount);
+            }
+            if (!mEdgeGlowBottom.isFinished()) {
+                final int restoreCount = canvas.save();
+                final int width = getWidth();
+                final int height = getHeight();
+
+                int edgeX = -width;
+                int edgeY = Math.max(height, getScrollY() + height);
+                canvas.translate(edgeX, edgeY);
+                canvas.rotate(180, width, 0);
+                mEdgeGlowBottom.setSize(width, height);
+                if (mEdgeGlowBottom.draw(canvas)) {
+                    invalidate(0, getHeight() - getPaddingBottom() -
+                                    mEdgeGlowBottom.getMaxHeight(), getWidth(),
+                            getHeight());
+                }
+                canvas.restoreToCount(restoreCount);
             }
         }
     }
@@ -1444,6 +1518,10 @@ public class CoordinatorLayout extends ViewGroup implements NestedScrollingParen
         if (handled && mAnimator != null) {
             // Cancel any offset animation
             mAnimator.cancel();
+
+            // Reset over-scroll distance
+            mOverScrollOffset = 0;
+            mUnconsumedOverScrollOffset = 0;
         }
 
         return handled;
@@ -1526,8 +1604,7 @@ public class CoordinatorLayout extends ViewGroup implements NestedScrollingParen
         int xFinalUnconsumed = dxUnconsumed - xConsumed;
         int yFinalUnconsumed = dyUnconsumed - yConsumed;
 
-        consumeFinalUnconsumedScroll(dxUnconsumed, dyUnconsumed,
-                xFinalUnconsumed, yFinalUnconsumed);
+        consumeNestedScroll(dxUnconsumed, dyUnconsumed, xFinalUnconsumed, yFinalUnconsumed);
 
         if (accepted) {
             dispatchOnDependentViewChanged(true);
@@ -1538,6 +1615,10 @@ public class CoordinatorLayout extends ViewGroup implements NestedScrollingParen
         int xConsumed = 0;
         int yConsumed = 0;
         boolean accepted = false;
+
+        consumePreNestedScroll(dx, dy, consumed);
+        dx -= consumed[0];
+        dy -= consumed[1];
 
         final int childCount = getChildCount();
         for (int i = 0; i < childCount; i++) {
@@ -1561,8 +1642,8 @@ public class CoordinatorLayout extends ViewGroup implements NestedScrollingParen
             }
         }
 
-        consumed[0] = xConsumed;
-        consumed[1] = yConsumed;
+        consumed[0] += xConsumed;
+        consumed[1] += yConsumed;
 
         if (accepted) {
             dispatchOnDependentViewChanged(true);
@@ -1624,27 +1705,101 @@ public class CoordinatorLayout extends ViewGroup implements NestedScrollingParen
         return mOverScrollEffect;
     }
 
-    private void consumeFinalUnconsumedScroll(int dxUnconsumed, int dyUnconsumed,
-                                              int dxFinalUnconsumed, int dyFinalUnconsumed) {
+
+    /**
+     * Consume the pre nested scroll before all behaviors if need.
+     *
+     * @param dx delta x scroll of scrolling view.
+     * @param dy delta y scroll of scrolling view.
+     * @param consumed x, y that consumed by us.
+     */
+    private void consumePreNestedScroll(int dx, int dy, int[] consumed) {
+        if (mOverScrollEffect == OverScrollEffect.BOUNCE && mUnconsumedOverScrollOffset != 0) {
+            int destOffset = mUnconsumedOverScrollOffset - dy;
+            if (!MathUtils.sameSign(destOffset, mUnconsumedOverScrollOffset)) {
+                destOffset = 0;
+            } else if (Math.abs(destOffset) > Math.abs(mUnconsumedOverScrollOffset)) {
+                destOffset = mUnconsumedOverScrollOffset;
+            }
+
+            consumed[0] = 0;
+            consumed[1] = mUnconsumedOverScrollOffset - destOffset;
+
+            mUnconsumedOverScrollOffset = destOffset;
+            setScrollingOffset(getUnconsumedScrollingOffset());
+        }
+    }
+
+    /**
+     * Consume the final unconsumed nested scroll after all behaviors done.
+     *
+     * @param dxUnconsumed unconsumed x passing to hehaviors.
+     * @param dyUnconsumed unconsumed y passing to hehaviors.
+     * @param dxFinalUnconsumed x that unconsumed by hehaviors.
+     * @param dyFinalUnconsumed y that unconsumed by hehaviors.
+     */
+    private void consumeNestedScroll(int dxUnconsumed, int dyUnconsumed,
+                                     int dxFinalUnconsumed, int dyFinalUnconsumed) {
+
+        if (!MathUtils.sameSign(mOverScrollOffset, -dyUnconsumed)) {
+            mOverScrollOffset = 0;
+        }
+        mOverScrollOffset += -dyUnconsumed;
+
         if (mOverScrollEffect == OverScrollEffect.BOUNCE && dyFinalUnconsumed != 0) {
-            TypedValue typedValue = new TypedValue();
-            getResources().getValue(R.integer.design_factor_over_scroll_bounce, typedValue, true);
-            float factor = typedValue.getFloat();
-            offsetTopAndBottom((int) (-dyFinalUnconsumed * factor));
+            mUnconsumedOverScrollOffset += -dyFinalUnconsumed;
+            setScrollingOffset(getUnconsumedScrollingOffset());
+        }
+
+        if (dyUnconsumed < 0) {
+            mEdgeGlowTop.onPull((float) mOverScrollOffset / getHeight());
+            if (!mEdgeGlowBottom.isFinished()) {
+                mEdgeGlowBottom.onRelease();
+            }
+            invalidate(0, 0, getWidth(),
+                    mEdgeGlowTop.getMaxHeight() + getPaddingTop());
+        } else if (dyUnconsumed > 0) {
+            mEdgeGlowBottom.onPull((float) -mOverScrollOffset / getHeight());
+            if (!mEdgeGlowTop.isFinished()) {
+                mEdgeGlowTop.onRelease();
+            }
+            invalidate(0, getHeight() - getPaddingBottom() -
+                            mEdgeGlowBottom.getMaxHeight(), getWidth(),
+                    getHeight());
+        }
+    }
+
+    private int getUnconsumedScrollingOffset() {
+        return (int) (mUnconsumedOverScrollOffset * mOverScrollOffsetFactor);
+    }
+
+    private void setScrollingOffset(int scrollOffset) {
+        for (int i = 0; i < getChildCount(); i++) {
+            final View child = getChildAt(i);
+            final LayoutParams lp = (LayoutParams) child.getLayoutParams();
+            final Behavior viewBehavior = lp.getBehavior();
+            if (viewBehavior instanceof AppBarLayout.ScrollingViewBehavior) {
+                AppBarLayout.ScrollingViewBehavior svb = (AppBarLayout.ScrollingViewBehavior) viewBehavior;
+                svb.setScrollOffset(this, child, scrollOffset);
+                break;
+            }
         }
     }
 
     private void releaseEdgeEffects() {
         if (mOverScrollEffect == OverScrollEffect.BOUNCE) {
-            animateOffsetTo(0);
+            animateScrollingOffsetTo(0);
+        }
+
+        if (mEdgeGlowTop != null) {
+            mEdgeGlowTop.onRelease();
+            mEdgeGlowBottom.onRelease();
         }
     }
 
-    private void animateOffsetTo(final int offset) {
-        animateOffsetTo(getTop(), offset);
-    }
+    private void animateScrollingOffsetTo(final int offset) {
+        final int currentOffset = getUnconsumedScrollingOffset();
 
-    private void animateOffsetTo(final int currentOffset, final int offset) {
         if (currentOffset == offset) {
             if (mAnimator != null && mAnimator.isRunning()) {
                 mAnimator.cancel();
@@ -1659,7 +1814,7 @@ public class CoordinatorLayout extends ViewGroup implements NestedScrollingParen
                 @Override
                 public void onAnimationUpdate(ValueAnimator animator) {
                     int offset = (int) animator.getAnimatedValue();
-                    offsetTopAndBottom(offset - getTop());
+                    setScrollingOffset(offset);
                 }
             });
         } else {

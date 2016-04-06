@@ -17,7 +17,6 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import ticwear.design.app.AlertDialog;
 import ticwear.design.utils.ColorPalette;
-import ticwear.design.widget.MetricsUtils;
 
 /**
  * Created by tankery on 3/24/16.
@@ -53,11 +52,8 @@ public class SpecFragment extends ListFragment {
                         .create();
                 break;
             case R.string.category_spec_color:
-                RecyclerView recyclerView = new RecyclerView(context);
-                int padding = (int) MetricsUtils.convertDpToPixel(12, context);
-                int pb = (int) MetricsUtils.convertDpToPixel(32, context);
-                recyclerView.setPadding(padding, padding, padding, pb);
-                recyclerView.setClipToPadding(false);
+                RecyclerView recyclerView = (RecyclerView) LayoutInflater.from(context)
+                        .inflate(R.layout.dialog_spec_color, null);
                 recyclerView.setNestedScrollingEnabled(true);
                 recyclerView.setLayoutManager(new GridLayoutManager(context, 2));
                 recyclerView.setAdapter(new ColorAdapter(ColorPalette.ColorName.values()));

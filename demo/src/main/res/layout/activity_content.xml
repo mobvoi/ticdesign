@@ -1,16 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    style="@style/Widget.Ticwear.ListView"
     tools:context="com.mobvoi.design.demo.ContentActivity"
     android:id="@+id/layout_container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingTop="16dp"
-    android:paddingBottom="32dp"
     android:paddingStart="24dp"
-    android:paddingEnd="24dp"
-    android:clipToPadding="false"
-    android:scrollbars="none">
+    android:paddingEnd="24dp">
 
     <LinearLayout
         android:layout_width="match_parent"

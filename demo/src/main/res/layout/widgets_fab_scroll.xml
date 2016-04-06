@@ -26,12 +26,11 @@
     </ticwear.design.widget.AppBarLayout>
 
     <ScrollView
+        style="@style/Widget.Ticwear.ListView"
         android:paddingStart="?android:listPreferredItemPaddingStart"
         android:paddingEnd="?android:listPreferredItemPaddingEnd"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:clipToPadding="false"
-        android:scrollbars="none"
         android:nestedScrollingEnabled="true"
         app:tic_layout_behavior="@string/tic_appbar_scrolling_view_behavior">
 

@@ -815,7 +815,9 @@ public class AppBarLayout extends LinearLayout {
         @Override
         public void onNestedPreScroll(CoordinatorLayout coordinatorLayout, AppBarLayout child,
                 View target, int dx, int dy, int[] consumed) {
-            if (dy != 0 && !mSkipNestedPreScroll) {
+            // Nested scroll only handle when dy < 0, so we only skip pre-scroll when dy < 0;
+            boolean shouldSkipNestedPreScroll = mSkipNestedPreScroll && dy < 0;
+            if (dy != 0 && !shouldSkipNestedPreScroll) {
                 int min, max;
                 if (dy < 0) {
                     // We're scrolling down
@@ -1322,6 +1324,7 @@ public class AppBarLayout extends LinearLayout {
      */
     public static class ScrollingViewBehavior extends HeaderScrollingViewBehavior {
         private int mOverlayTop;
+        private int mAdditionalOffset;
 
         public ScrollingViewBehavior() {}
 
@@ -1333,6 +1336,8 @@ public class AppBarLayout extends LinearLayout {
             mOverlayTop = a.getDimensionPixelSize(
                     R.styleable.ScrollingViewBehavior_Params_tic_behavior_overlapTop, 0);
             a.recycle();
+
+            mAdditionalOffset = 0;
         }
 
         @Override
@@ -1346,15 +1351,7 @@ public class AppBarLayout extends LinearLayout {
             // First lay out the child as normal
             super.onLayoutChild(parent, child, layoutDirection);
 
-            // Now offset us correctly to be in the correct position. This is important for things
-            // like activity transitions which rely on accurate positioning after the first layout.
-            final List<View> dependencies = parent.getDependencies(child);
-            for (int i = 0, z = dependencies.size(); i < z; i++) {
-                if (updateOffset(parent, child, dependencies.get(i))) {
-                    // If we updated the offset, break out of the loop now
-                    break;
-                }
-            }
+            updateOffset(parent, child);
             return true;
         }
 
@@ -1365,6 +1362,23 @@ public class AppBarLayout extends LinearLayout {
             return false;
         }
 
+        void setScrollOffset(CoordinatorLayout parent, View child, int additionalOffset) {
+            mAdditionalOffset = additionalOffset;
+            updateOffset(parent, child);
+        }
+
+        private void updateOffset(CoordinatorLayout parent, View child) {
+            // Now offset us correctly to be in the correct position. This is important for things
+            // like activity transitions which rely on accurate positioning after the first layout.
+            final List<View> dependencies = parent.getDependencies(child);
+            for (int i = 0, z = dependencies.size(); i < z; i++) {
+                if (updateOffset(parent, child, dependencies.get(i))) {
+                    // If we updated the offset, break out of the loop now
+                    break;
+                }
+            }
+        }
+
         private boolean updateOffset(CoordinatorLayout parent, View child, View dependency) {
             final CoordinatorLayout.Behavior behavior =
                     ((CoordinatorLayout.LayoutParams) dependency.getLayoutParams()).getBehavior();
@@ -1373,7 +1387,7 @@ public class AppBarLayout extends LinearLayout {
                 final int offset = ((Behavior) behavior).getTopBottomOffsetForScrollingSibling();
                 final int dependencyHeight = dependency.getHeight() + offset
                         - getOverlapForOffset(dependency, offset);
-                setTopAndBottomOffset(dependencyHeight);
+                setTopAndBottomOffset(dependencyHeight + mAdditionalOffset);
                 return true;
             }
             return false;

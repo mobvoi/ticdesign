@@ -173,4 +173,9 @@
         <attr name="android:background"/>
     </declare-styleable>
 
+    <!-- Used as a filter array on the theme to pull out only the EdgeEffect-relevant bits. -->
+    <declare-styleable name="EdgeEffect">
+        <attr name="android:colorEdgeEffect" />
+    </declare-styleable>
+
 </resources>

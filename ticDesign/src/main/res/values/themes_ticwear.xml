@@ -108,6 +108,7 @@
         <item name="android:colorAccent">@color/tic_basic_indigo</item>
         <item name="android:colorControlNormal">@color/tic_widget_background_dark</item>
         <item name="android:colorControlActivated">?android:colorAccent</item>
+        <item name="android:colorEdgeEffect">?android:colorAccent</item>
     </style>
 
     <style name="Theme.Ticwear.Fullscreen">
