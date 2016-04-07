@@ -103,10 +103,8 @@ public class CoordinatorLayout extends ViewGroup implements NestedScrollingParen
     static {
         if (Build.VERSION.SDK_INT >= 21) {
             TOP_SORTED_CHILDREN_COMPARATOR = new ViewElevationComparator();
-            INSETS_HELPER = new CoordinatorLayoutInsetsHelperLollipop();
         } else {
             TOP_SORTED_CHILDREN_COMPARATOR = null;
-            INSETS_HELPER = null;
         }
     }
 
@@ -145,7 +143,6 @@ public class CoordinatorLayout extends ViewGroup implements NestedScrollingParen
     };
 
     static final Comparator<View> TOP_SORTED_CHILDREN_COMPARATOR;
-    static final CoordinatorLayoutInsetsHelper INSETS_HELPER;
 
     private final List<View> mDependencySortedChildren = new ArrayList<View>();
     private final List<View> mTempList1 = new ArrayList<>();
@@ -215,16 +212,30 @@ public class CoordinatorLayout extends ViewGroup implements NestedScrollingParen
 
         a.recycle();
 
-        ViewCompat.setFitsSystemWindows(this, true);
-        if (INSETS_HELPER != null) {
-            INSETS_HELPER.setupForWindowInsets(this, new ApplyInsetsListener());
-        }
         super.setOnHierarchyChangeListener(new HierarchyChangeListener());
 
         if (mEdgeGlowTop == null) {
             mEdgeGlowTop = new ClassicEdgeEffect(context);
             mEdgeGlowBottom = new ClassicEdgeEffect(context);
         }
+
+        ViewCompat.setOnApplyWindowInsetsListener(this,
+                new android.support.v4.view.OnApplyWindowInsetsListener() {
+                    @Override
+                    public WindowInsetsCompat onApplyWindowInsets(View v,
+                                                                  WindowInsetsCompat insets) {
+                        if (mLastInsets == null) {
+                            setupForWindowInsets();
+                        }
+
+                        if (isShown()) {
+                            setWindowInsets(insets);
+                            return insets.consumeSystemWindowInsets();
+                        } else {
+                            return insets;
+                        }
+                    }
+                });
 
         if (isInEditMode()) {
             mOverScrollOffsetFactor = 0.5f;
@@ -235,6 +246,14 @@ public class CoordinatorLayout extends ViewGroup implements NestedScrollingParen
         }
 
         setWillNotDraw(false);
+    }
+
+    private void setupForWindowInsets() {
+        if (ViewCompat.getFitsSystemWindows(this)) {
+            // Now set the sys ui flags to enable us to lay out in the window insets
+            setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                    | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
+        }
     }
 
     @Override

@@ -168,9 +168,13 @@ public class StretchingLayout extends FrameLayout {
                     @Override
                     public WindowInsetsCompat onApplyWindowInsets(View v,
                             WindowInsetsCompat insets) {
-                        mLastInsets = insets;
-                        requestLayout();
-                        return insets.consumeSystemWindowInsets();
+                        if (isShown()) {
+                            mLastInsets = insets;
+                            requestLayout();
+                            return insets.consumeSystemWindowInsets();
+                        } else {
+                            return insets;
+                        }
                     }
                 });
     }

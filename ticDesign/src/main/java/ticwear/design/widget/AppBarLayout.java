@@ -171,8 +171,12 @@ public class AppBarLayout extends LinearLayout {
                     @Override
                     public WindowInsetsCompat onApplyWindowInsets(View v,
                                                                   WindowInsetsCompat insets) {
-                        setWindowInsets(insets);
-                        return insets.consumeSystemWindowInsets();
+                        if (isShown()) {
+                            setWindowInsets(insets);
+                            return insets.consumeSystemWindowInsets();
+                        } else {
+                            return insets;
+                        }
                     }
                 });
     }
