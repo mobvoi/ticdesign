@@ -161,6 +161,8 @@ abstract class HeaderBehavior<V extends View> extends ViewOffsetBehavior<V> {
                     mLastMotionY = y;
                     // We're being dragged so scroll the ABL
                     scroll(parent, child, dy, getMaxDragOffset(child), 0);
+                    // when we scrolling the header, we are scrolling to edge of container.
+                    parent.pullEdgeEffects(0, dy);
                 }
                 break;
             }
@@ -182,6 +184,7 @@ abstract class HeaderBehavior<V extends View> extends ViewOffsetBehavior<V> {
                     mVelocityTracker.recycle();
                     mVelocityTracker = null;
                 }
+                parent.releaseEdgeEffects();
                 break;
             }
         }

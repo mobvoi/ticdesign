@@ -58,7 +58,7 @@ abstract public class EdgeEffect {
     // Time it will take in ms for a pulled glow to decay to partial strength before release
     private static final int PULL_DECAY_TIME = 2000;
 
-    private static final float MAX_ALPHA = 0.5f;
+    private static final float MAX_ALPHA = 1f;
 
     private static final float MAX_GLOW_SCALE = 2.f;
 

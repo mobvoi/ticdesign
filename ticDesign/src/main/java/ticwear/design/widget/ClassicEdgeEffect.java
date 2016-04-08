@@ -102,7 +102,7 @@ public class ClassicEdgeEffect extends EdgeEffect {
 
         canvas.clipRect(bounds);
         canvas.translate(translateX, 0);
-        mPaint.setAlpha((int) (0xff * getGlowAlpha()));
+        mPaint.setAlpha((int) (0x7f * getGlowAlpha()));
         canvas.drawCircle(centerX, centerY, mRadius, mPaint);
         canvas.restoreToCount(count);
     }

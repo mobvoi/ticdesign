@@ -23,11 +23,12 @@ public class CrescentEdgeEffect extends EdgeEffect {
     /**
      * glow-scale = glow-height / container-height
      */
-    private static final float GLOW_SCALE = 0.2f;
+    private static final float GLOW_SCALE = 0.1f;
     /**
      * crescent edge stop is the distribute stop between the center and edge.
      */
     private static final float CRESCENT_EDGE_STOP = 0.5f / (0.5f + GLOW_SCALE);
+    private static final float CRESCENT_EDGE_MIDDLE_STOP = 1 - ((1 - CRESCENT_EDGE_STOP) * 0.2f);
 
     private final Paint mPaint = new Paint();
 
@@ -73,11 +74,13 @@ public class CrescentEdgeEffect extends EdgeEffect {
     }
 
     private void updatePaint() {
-        int deepColor = (getColor() & 0xffffff) | 0xaa000000;
+        int deepColor = (getColor() & 0xffffff) | 0xff000000;
+        int middleColor = (getColor() & 0xffffff) | 0x7f000000;
 
         RadialGradient radialGradient = new RadialGradient(
                 mGlowCenterX, mGlowCenterY, mGlowRadius,
-                new int[] {0, 0, deepColor}, new float[] {0, CRESCENT_EDGE_STOP, 1f},
+                new int[] {0, 0, middleColor, deepColor},
+                new float[] {0, CRESCENT_EDGE_STOP, CRESCENT_EDGE_MIDDLE_STOP, 1f},
                 Shader.TileMode.CLAMP
         );
 

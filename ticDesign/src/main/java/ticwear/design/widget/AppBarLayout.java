@@ -599,6 +599,7 @@ public class AppBarLayout extends LinearLayout {
         Interpolator mScrollInterpolator;
 
         float mScrollResistanceFactor;
+        int mScrollOffsetLimit;
         int mOverScrollOriginalHeight = INVALID_VIEW_HEIGHT;
 
         public LayoutParams(Context c, AttributeSet attrs, boolean isInEditMode) {
@@ -611,6 +612,7 @@ public class AppBarLayout extends LinearLayout {
                 mScrollInterpolator = android.view.animation.AnimationUtils.loadInterpolator(
                         c, resId);
             }
+
             float defaultFactor;
             if (isInEditMode) {
                 defaultFactor = 0;
@@ -620,8 +622,15 @@ public class AppBarLayout extends LinearLayout {
                 defaultFactor = typedValue.getFloat();
             }
             mScrollResistanceFactor = MathUtils.constrain(
-                    a.getFloat(R.styleable.AppBarLayout_LayoutParams_tic_layout_scrollResistanceFactor, defaultFactor),
+                    a.getFloat(R.styleable.AppBarLayout_LayoutParams_tic_layout_scrollResistanceFactor,
+                            defaultFactor),
                     0, 1);
+
+            int defaultLimitFactor = c.getResources().getDimensionPixelOffset(R.dimen.design_over_scroll_limit);
+            mScrollOffsetLimit = a.getDimensionPixelOffset(
+                    R.styleable.AppBarLayout_LayoutParams_tic_layout_overScrollLimit,
+                    defaultLimitFactor);
+
             a.recycle();
         }
 
@@ -650,6 +659,7 @@ public class AppBarLayout extends LinearLayout {
             mScrollFlags = source.mScrollFlags;
             mScrollInterpolator = source.mScrollInterpolator;
             mScrollResistanceFactor = source.mScrollResistanceFactor;
+            mScrollOffsetLimit = source.mScrollOffsetLimit;
         }
 
         /**
@@ -662,7 +672,7 @@ public class AppBarLayout extends LinearLayout {
          *
          * @see #getScrollFlags()
          *
-         * @attr ref ticwear.design.R.styleable#AppBarLayout_LayoutParams_layout_scrollFlags
+         * @attr ref ticwear.design.R.styleable#AppBarLayout_LayoutParams_tic_layout_scrollFlags
          */
         public void setScrollFlags(@ScrollFlags int flags) {
             mScrollFlags = flags;
@@ -673,7 +683,7 @@ public class AppBarLayout extends LinearLayout {
          *
          * @see #setScrollFlags(int)
          *
-         * @attr ref ticwear.design.R.styleable#AppBarLayout_LayoutParams_layout_scrollFlags
+         * @attr ref ticwear.design.R.styleable#AppBarLayout_LayoutParams_tic_layout_scrollFlags
          */
         @ScrollFlags
         public int getScrollFlags() {
@@ -686,7 +696,7 @@ public class AppBarLayout extends LinearLayout {
          *
          * @param interpolator the interpolator to use, or null to use normal 1-to-1 scrolling.
          *
-         * @attr ref ticwear.design.R.styleable#AppBarLayout_LayoutParams_layout_scrollInterpolator
+         * @attr ref ticwear.design.R.styleable#AppBarLayout_LayoutParams_tic_layout_scrollInterpolator
          * @see #getScrollInterpolator()
          */
         public void setScrollInterpolator(Interpolator interpolator) {
@@ -697,7 +707,7 @@ public class AppBarLayout extends LinearLayout {
          * Returns the {@link Interpolator} being used for scrolling the view associated with this
          * {@link LayoutParams}. Null indicates 'normal' 1-to-1 scrolling.
          *
-         * @attr ref ticwear.design.R.styleable#AppBarLayout_LayoutParams_layout_scrollInterpolator
+         * @attr ref ticwear.design.R.styleable#AppBarLayout_LayoutParams_tic_layout_scrollInterpolator
          * @see #setScrollInterpolator(Interpolator)
          */
         public Interpolator getScrollInterpolator() {
@@ -709,7 +719,7 @@ public class AppBarLayout extends LinearLayout {
          * Returns the resistance factor being used for over-scroll resistance effect, the value is
          * between [0, 1] 1 indicates 'normal' 1-to-1 scrolling, 0 indicates no scrolling at all.
          *
-         * @attr ref ticwear.design.R.styleable#AppBarLayout_LayoutParams_layout_scrollResistanceFactor
+         * @attr ref ticwear.design.R.styleable#AppBarLayout_LayoutParams_tic_layout_scrollResistanceFactor
          * @see #setScrollResistanceFactor(float)
          */
         public float getScrollResistanceFactor() {
@@ -725,11 +735,36 @@ public class AppBarLayout extends LinearLayout {
          *                         1 indicates 'normal' 1-to-1 scrolling, 0 indicates no scrolling
          *                         at all.
          *
-         * @attr ref ticwear.design.R.styleable#AppBarLayout_LayoutParams_layout_scrollResistanceFactor
+         * @attr ref ticwear.design.R.styleable#AppBarLayout_LayoutParams_tic_layout_scrollResistanceFactor
          * @see #getScrollResistanceFactor()
          */
         public void setScrollResistanceFactor(float resistanceFactor) {
             this.mScrollResistanceFactor = MathUtils.constrain(resistanceFactor, 0, 1);
+        }
+
+        /**
+         * Returns the limit factor being used for over-scroll offset limit.
+         *
+         * @attr ref ticwear.design.R.styleable#AppBarLayout_LayoutParams_tic_layout_overScrollLimit
+         * @see #setScrollOffsetLimit(int)
+         */
+        public int getScrollOffsetLimit() {
+            return mScrollOffsetLimit;
+        }
+
+
+        /**
+         * Set the over scroll limit when overScrollBounce is set.
+         * {@link LayoutParams}.
+         *
+         * @param offsetLimit the over scroll limit. default value is defined in
+         *                    {@link R.dimen.design_over_scroll_limit}.
+         *
+         * @attr ref ticwear.design.R.styleable#AppBarLayout_LayoutParams_tic_layout_overScrollLimit
+         * @see #getScrollOffsetLimit()
+         */
+        public void setScrollOffsetLimit(int offsetLimit) {
+            this.mScrollOffsetLimit = MathUtils.constrain(offsetLimit, 0, 1);
         }
     }
 
@@ -1211,27 +1246,34 @@ public class AppBarLayout extends LinearLayout {
 
             float maxResistanceFactor = 0;
             float totalResistanceFactor = 0;
+            int maxOffsetLimit = 0;
             for (int i = 0, z = layout.getChildCount(); i < z; i++) {
                 final View child = layout.getChildAt(i);
                 final AppBarLayout.LayoutParams childLp = (LayoutParams) child.getLayoutParams();
                 final float factor = childLp.getScrollResistanceFactor();
+                final int offsetLimit = childLp.getScrollOffsetLimit();
                 totalResistanceFactor += factor;
                 maxResistanceFactor = Math.max(factor, maxResistanceFactor);
+                maxOffsetLimit = Math.max(offsetLimit, maxOffsetLimit);
             }
+            final int limitedOffset = Math.min(maxOffsetLimit, offset);
+            int totalOffset = 0;
             for (int i = 0, z = layout.getChildCount(); i < z; i++) {
                 final View child = layout.getChildAt(i);
                 final AppBarLayout.LayoutParams childLp = (LayoutParams) child.getLayoutParams();
                 if (overScrollBounceEnabled(childLp)) {
                     final float factor = childLp.getScrollResistanceFactor();
                     final float averagedFactor = maxResistanceFactor * factor / totalResistanceFactor;
-                    final int factoredOffset = (int) (averagedFactor * offset);
+                    final int factoredOffset = (int) (averagedFactor * limitedOffset);
+
+                    totalOffset+= factoredOffset;
 
                     childLp.height = childLp.mOverScrollOriginalHeight + factoredOffset;
                     child.setLayoutParams(childLp);
                 }
             }
 
-            return (int) (offset * maxResistanceFactor);
+            return totalOffset;
         }
 
         @Override

@@ -5,5 +5,6 @@
     <integer name="design.anim.button_state_half">150</integer>
 
     <item name="design.factor.over_scroll_bounce" format="float" type="integer">0.5</item>
+    <dimen name="design.over_scroll_limit">64dp</dimen>
 
 </resources>

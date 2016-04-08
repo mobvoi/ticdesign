@@ -173,9 +173,9 @@ public class CoordinatorLayout extends ViewGroup implements NestedScrollingParen
     private OverScrollEffect mOverScrollEffect;
     private ValueAnimator mAnimator;
 
-    private int mOverScrollOffset;
     private int mUnconsumedOverScrollOffset;
     private float mOverScrollOffsetFactor;
+    private int mOverScrollOffsetLimit;
     private EdgeEffect mEdgeGlowTop;
     private EdgeEffect mEdgeGlowBottom;
 
@@ -244,6 +244,7 @@ public class CoordinatorLayout extends ViewGroup implements NestedScrollingParen
             getResources().getValue(R.integer.design_factor_over_scroll_bounce, typedValue, true);
             mOverScrollOffsetFactor = typedValue.getFloat();
         }
+        mOverScrollOffsetLimit = getResources().getDimensionPixelOffset(R.dimen.design_over_scroll_limit);
 
         setWillNotDraw(false);
     }
@@ -1539,7 +1540,6 @@ public class CoordinatorLayout extends ViewGroup implements NestedScrollingParen
             mAnimator.cancel();
 
             // Reset over-scroll distance
-            mOverScrollOffset = 0;
             mUnconsumedOverScrollOffset = 0;
         }
 
@@ -1588,7 +1588,7 @@ public class CoordinatorLayout extends ViewGroup implements NestedScrollingParen
         mNestedScrollingDirectChild = null;
         mNestedScrollingTarget = null;
 
-        releaseEdgeEffects();
+        releaseOverScrollEffects();
     }
 
     public void onNestedScroll(View target, int dxConsumed, int dyConsumed,
@@ -1716,7 +1716,7 @@ public class CoordinatorLayout extends ViewGroup implements NestedScrollingParen
     }
 
     public void setOverScrollEffect(OverScrollEffect overScrollEffect) {
-        releaseEdgeEffects();
+        releaseOverScrollEffects();
         mOverScrollEffect = overScrollEffect;
     }
 
@@ -1760,32 +1760,29 @@ public class CoordinatorLayout extends ViewGroup implements NestedScrollingParen
     private void consumeNestedScroll(int dxUnconsumed, int dyUnconsumed,
                                      int dxFinalUnconsumed, int dyFinalUnconsumed) {
 
-        if (!MathUtils.sameSign(mOverScrollOffset, -dyUnconsumed)) {
-            mOverScrollOffset = 0;
-        }
-        mOverScrollOffset += -dyUnconsumed;
-
         if (mOverScrollEffect == OverScrollEffect.BOUNCE && dyFinalUnconsumed != 0) {
             mUnconsumedOverScrollOffset += -dyFinalUnconsumed;
+
+            // Make a limit for over scroll.
+            int maxOffset = mOverScrollOffsetLimit;
+            if (mUnconsumedOverScrollOffset > 0) {
+                mUnconsumedOverScrollOffset = Math.min(maxOffset, mUnconsumedOverScrollOffset);
+            } else if (mUnconsumedOverScrollOffset < 0) {
+                mUnconsumedOverScrollOffset = Math.max(-maxOffset, mUnconsumedOverScrollOffset);
+            }
+
             setScrollingOffset(getUnconsumedScrollingOffset());
         }
 
-        if (dyUnconsumed < 0) {
-            mEdgeGlowTop.onPull((float) mOverScrollOffset / getHeight());
-            if (!mEdgeGlowBottom.isFinished()) {
-                mEdgeGlowBottom.onRelease();
-            }
-            invalidate(0, 0, getWidth(),
-                    mEdgeGlowTop.getMaxHeight() + getPaddingTop());
-        } else if (dyUnconsumed > 0) {
-            mEdgeGlowBottom.onPull((float) -mOverScrollOffset / getHeight());
-            if (!mEdgeGlowTop.isFinished()) {
-                mEdgeGlowTop.onRelease();
-            }
-            invalidate(0, getHeight() - getPaddingBottom() -
-                            mEdgeGlowBottom.getMaxHeight(), getWidth(),
-                    getHeight());
+        pullEdgeEffects(dxUnconsumed, dyUnconsumed);
+    }
+
+    private void releaseOverScrollEffects() {
+        if (mOverScrollEffect == OverScrollEffect.BOUNCE) {
+            animateScrollingOffsetTo(0);
         }
+
+        releaseEdgeEffects();
     }
 
     private int getUnconsumedScrollingOffset() {
@@ -1802,17 +1799,6 @@ public class CoordinatorLayout extends ViewGroup implements NestedScrollingParen
                 svb.setScrollOffset(this, child, scrollOffset);
                 break;
             }
-        }
-    }
-
-    private void releaseEdgeEffects() {
-        if (mOverScrollEffect == OverScrollEffect.BOUNCE) {
-            animateScrollingOffsetTo(0);
-        }
-
-        if (mEdgeGlowTop != null) {
-            mEdgeGlowTop.onRelease();
-            mEdgeGlowBottom.onRelease();
         }
     }
 
@@ -1844,6 +1830,41 @@ public class CoordinatorLayout extends ViewGroup implements NestedScrollingParen
 
         mAnimator.setIntValues(currentOffset, offset);
         mAnimator.start();
+    }
+
+    public void pullEdgeEffects(int dxUnconsumed, int dyUnconsumed) {
+        int maxPullEffectDistance = getHeight() / 2;
+        if (dyUnconsumed < 0) {
+            mEdgeGlowTop.onPull((float) -dyUnconsumed / maxPullEffectDistance);
+            if (!mEdgeGlowBottom.isFinished()) {
+                mEdgeGlowBottom.onRelease();
+            }
+            invalidate(0, 0, getWidth(),
+                    mEdgeGlowTop.getMaxHeight() + getPaddingTop());
+        } else if (dyUnconsumed > 0) {
+            mEdgeGlowBottom.onPull((float) dyUnconsumed / maxPullEffectDistance);
+            if (!mEdgeGlowTop.isFinished()) {
+                mEdgeGlowTop.onRelease();
+            }
+            invalidate(0, getHeight() - getPaddingBottom() -
+                            mEdgeGlowBottom.getMaxHeight(), getWidth(),
+                    getHeight());
+        }
+    }
+
+    public void absorbEdgeEffects(int velX, int velY) {
+        if (velY > 0) {
+            mEdgeGlowTop.onAbsorb(velY);
+        } else if (velY < 0) {
+            mEdgeGlowBottom.onAbsorb(velY);
+        }
+    }
+
+    public void releaseEdgeEffects() {
+        if (mEdgeGlowTop != null) {
+            mEdgeGlowTop.onRelease();
+            mEdgeGlowBottom.onRelease();
+        }
     }
 
     class OnPreDrawListener implements ViewTreeObserver.OnPreDrawListener {
