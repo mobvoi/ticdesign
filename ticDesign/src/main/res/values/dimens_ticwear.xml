@@ -15,6 +15,8 @@
 
     <dimen name="preference_screen_header_padding_side_ticwear">0dp</dimen>
 
+    <dimen name="preference_list_focused_padding_ticwear">16dp</dimen>
+
     <!-- Weight of the left pane in a multi-pane preference layout. -->
     <integer name="preferences_left_pane_weight_ticwear">4</integer>
     <!-- Weight of the right pane in a multi-pane preference layout. So the split is 40:60 -->
@@ -28,8 +30,10 @@
     <!-- Default padding for list items. -->
     <dimen name="tic_list_item_padding_horizontal_large_ticwear">36dp</dimen>
     <dimen name="tic_list_item_padding_horizontal_ticwear">24dp</dimen>
-    <dimen name="tic_list_item_padding_top_ticwear">8dp</dimen>
-    <dimen name="tic_list_item_padding_bottom_ticwear">16dp</dimen>
+
+    <dimen name="tic_list_focused_padding_ticwear">8dp</dimen>
+    <dimen name="tic_list_padding_top_ticwear">8dp</dimen>
+    <dimen name="tic_list_padding_bottom_ticwear">20dp</dimen>
     <dimen name="tic_list_title_padding_top_ticwear">20dp</dimen>
 
 </resources>

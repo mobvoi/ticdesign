@@ -2,6 +2,7 @@ package ticwear.design.widget;
 
 import android.annotation.TargetApi;
 import android.content.Context;
+import android.content.res.TypedArray;
 import android.support.annotation.IntDef;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
@@ -79,6 +80,8 @@ public class TicklableListView extends RecyclerView {
 
     private int previousCentral;
 
+    private int focusedPadding;
+
     /**
      * To make-sure we have focus change when coordinate with {@link AppBarLayout},
      * We should use a scroll to mock the offset.
@@ -97,7 +100,22 @@ public class TicklableListView extends RecyclerView {
     }
 
     public TicklableListView(Context context, AttributeSet attrs, int defStyleAttr) {
+        this(context, attrs, defStyleAttr, 0);
+    }
+
+    public TicklableListView(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr);
+
+        int defaultFocusedPadding = isInEditMode() ?
+                0 : getResources().getDimensionPixelOffset(R.dimen.tic_list_focused_padding_ticwear);
+
+        TypedArray a = context.obtainStyledAttributes(attrs,
+                R.styleable.TicklableListView, defStyleAttr, defStyleRes);
+        focusedPadding = a.getDimensionPixelOffset(
+                R.styleable.TicklableListView_tic_focusedStatePadding,
+                defaultFocusedPadding);
+        a.recycle();
+
         mOnCentralPositionChangedListeners = new ArrayList<>();
         setHasFixedSize(true);
         setOverScrollMode(OVER_SCROLL_NEVER);
@@ -173,6 +191,7 @@ public class TicklableListView extends RecyclerView {
         if (inFocusState) {
             if (focusLayoutManager == null) {
                 focusLayoutManager = new FocusLayoutManager(this);
+                ((FocusLayoutManager) focusLayoutManager).setVerticalPadding(focusedPadding);
             }
             layoutManager = focusLayoutManager;
         } else {
@@ -247,6 +266,17 @@ public class TicklableListView extends RecyclerView {
     public void setFocusLayoutManager(@Nullable LayoutManager layout) {
         focusLayoutManager = layout;
         resetLayoutManager();
+    }
+
+    public int getFocusedPadding() {
+        return focusedPadding;
+    }
+
+    public void setFocusedPadding(int focusedPadding) {
+        this.focusedPadding = focusedPadding;
+        if (focusLayoutManager instanceof FocusLayoutManager) {
+            ((FocusLayoutManager) focusLayoutManager).setVerticalPadding(focusedPadding);
+        }
     }
 
     /**

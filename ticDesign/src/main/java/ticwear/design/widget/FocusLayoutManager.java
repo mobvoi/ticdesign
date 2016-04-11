@@ -29,6 +29,8 @@ class FocusLayoutManager extends RecyclerView.LayoutManager {
     private boolean mPushFirstHigher;
     private boolean mUseOldViewTop;
 
+    private int mVerticalPadding;
+
     private RecyclerView.SmoothScroller mSmoothScroller;
     private RecyclerView.SmoothScroller mDefaultSmoothScroller;
 
@@ -131,7 +133,11 @@ class FocusLayoutManager extends RecyclerView.LayoutManager {
 
     // To make sure the focused item is in center of the view, we let the padding top/bottom equals.
     public int getVerticalPadding() {
-        return Math.max(super.getPaddingTop(), super.getPaddingBottom());
+        return mVerticalPadding;
+    }
+
+    public void setVerticalPadding(int verticalPadding) {
+        mVerticalPadding = verticalPadding;
     }
 
     public void animateToCenter() {

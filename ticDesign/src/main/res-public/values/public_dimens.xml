@@ -3,8 +3,8 @@
 <resources>
     <public type="dimen" name="tic_list_item_padding_horizontal_ticwear" />
     <public type="dimen" name="tic_list_item_padding_horizontal_large_ticwear" />
-    <public type="dimen" name="tic_list_item_padding_top_ticwear" />
-    <public type="dimen" name="tic_list_item_padding_bottom_ticwear" />
+    <public type="dimen" name="tic_list_padding_top_ticwear" />
+    <public type="dimen" name="tic_list_padding_bottom_ticwear" />
 
     <public type="dimen" name="tic_list_item_status_box_size_normal" />
     <public type="dimen" name="tic_list_item_status_box_size_large" />
