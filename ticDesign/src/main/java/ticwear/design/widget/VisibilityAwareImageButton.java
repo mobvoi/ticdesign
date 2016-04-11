@@ -29,11 +29,15 @@ class VisibilityAwareImageButton extends ImageButton {
     }
 
     public VisibilityAwareImageButton(Context context, AttributeSet attrs) {
-        this(context, attrs, 0);
+        this(context, attrs, android.R.attr.imageButtonStyle);
     }
 
     public VisibilityAwareImageButton(Context context, AttributeSet attrs, int defStyleAttr) {
-        super(context, attrs, defStyleAttr);
+        this(context, attrs, defStyleAttr, 0);
+    }
+
+    public VisibilityAwareImageButton(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
+        super(context, attrs, defStyleAttr, defStyleRes);
         mUserSetVisibility = getVisibility();
     }
 

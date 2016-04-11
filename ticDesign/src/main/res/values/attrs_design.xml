@@ -17,10 +17,6 @@
 <resources>
 
     <declare-styleable name="FloatingActionButton">
-        <!-- Background for the FloatingActionButton -->
-        <attr name="android:backgroundTint"/>
-        <attr name="android:backgroundTintMode"/>
-
         <!-- Ripple color for the FAB. -->
         <attr name="tic_rippleColor" format="color"/>
         <!-- Size for the FAB. -->
@@ -28,11 +24,10 @@
             <enum name="normal" value="0"/>
             <enum name="mini" value="1"/>
         </attr>
-        <!-- Elevation value for the FAB -->
-        <attr name="android:elevation"/>
         <!-- TranslationZ value for the FAB when pressed-->
         <attr name="tic_pressedTranslationZ" format="dimension"/>
         <!-- The width of the border around the FAB. -->
+        <!-- NOTE: not supported -->
         <attr name="tic_borderWidth" format="dimension"/>
     </declare-styleable>
 

@@ -78,13 +78,10 @@
 
         <!-- Number Picker style attributes -->
         <item name="tic_numberPickerStyle">@style/Widget.Ticwear.NumberPicker</item>
-
         <!-- TimePicker style -->
         <item name="android:timePickerStyle">@style/Widget.Ticwear.TimePicker</item>
-
         <!-- DatePicker style -->
         <item name="android:datePickerStyle">@style/Widget.Ticwear.DatePicker</item>
-
         <!-- TimePicker & DatePicker dialog theme, they must be same in ticwear -->
         <item name="android:timePickerDialogTheme">?android:alertDialogTheme</item>
         <item name="android:datePickerDialogTheme">?android:alertDialogTheme</item>

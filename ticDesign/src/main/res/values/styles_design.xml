@@ -17,10 +17,9 @@
 <resources>
 
     <style name="Widget.Ticwear.FloatingActionButton" parent="android:Widget">
-        <item name="android:background">@drawable/tic_design_fab_background</item>
         <item name="android:backgroundTint">?android:colorAccent</item>
-        <item name="tic_fabSize">normal</item>
         <item name="android:elevation">@dimen/tic_design_fab_elevation</item>
+        <item name="tic_fabSize">normal</item>
         <item name="tic_pressedTranslationZ">@dimen/tic_design_fab_translation_z_pressed</item>
         <item name="tic_rippleColor">?android:colorControlHighlight</item>
         <item name="tic_borderWidth">@dimen/tic_design_fab_border_width</item>

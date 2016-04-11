@@ -16,14 +16,15 @@
 
 package ticwear.design.widget;
 
-import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.res.ColorStateList;
 import android.content.res.TypedArray;
-import android.graphics.PorterDuff;
+import android.graphics.Color;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
-import android.os.Build;
+import android.graphics.drawable.RippleDrawable;
+import android.graphics.drawable.ShapeDrawable;
+import android.graphics.drawable.shapes.OvalShape;
 import android.support.annotation.ColorInt;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -37,7 +38,7 @@ import android.widget.ImageView;
 import java.util.List;
 
 import ticwear.design.R;
-import ticwear.design.widget.FloatingActionButtonImpl.InternalVisibilityChangedListener;
+import ticwear.design.widget.FloatingActionButtonAnimator.InternalVisibilityChangedListener;
 
 /**
  * Floating action buttons are used for a special type of promoted action. They are distinguished
@@ -94,18 +95,17 @@ public class FloatingActionButton extends VisibilityAwareImageButton {
     private static final int SIZE_MINI = 1;
     private static final int SIZE_NORMAL = 0;
 
-    private ColorStateList mBackgroundTint;
-    private PorterDuff.Mode mBackgroundTintMode;
-
-    private int mBorderWidth;
-    private int mRippleColor;
     private int mSize;
     private int mImagePadding;
     private Rect mTouchArea;
 
-    private final Rect mShadowPadding;
+    private Drawable mShapeDrawable;
+    private RippleDrawable mRippleDrawable;
 
-    private final FloatingActionButtonImpl mImpl;
+    // Padding for circular progress bar.
+    private final Rect mProgressPadding;
+
+    private final FloatingActionButtonAnimator mImpl;
 
     public FloatingActionButton(Context context) {
         this(context, null);
@@ -113,56 +113,39 @@ public class FloatingActionButton extends VisibilityAwareImageButton {
 
     public FloatingActionButton(Context context, AttributeSet attrs) {
         this(context, attrs, 0);
+
     }
 
     public FloatingActionButton(Context context, AttributeSet attrs, int defStyleAttr) {
-        super(context, attrs, defStyleAttr);
+        this(context, attrs, defStyleAttr, R.style.Widget_Ticwear_FloatingActionButton);
+    }
 
-        mShadowPadding = new Rect();
+    public FloatingActionButton(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
+        super(context, attrs, defStyleAttr, defStyleRes);
+
+        mProgressPadding = new Rect();
         mTouchArea = new Rect();
 
         TypedArray a = context.obtainStyledAttributes(attrs,
-                R.styleable.FloatingActionButton, defStyleAttr,
-                R.style.Widget_Ticwear_FloatingActionButton);
-        mBackgroundTint = a.getColorStateList(R.styleable.FloatingActionButton_android_backgroundTint);
-        mBackgroundTintMode = parseTintMode(a.getInt(
-                R.styleable.FloatingActionButton_android_backgroundTintMode, -1), null);
-        mRippleColor = a.getColor(R.styleable.FloatingActionButton_tic_rippleColor, 0);
+                R.styleable.FloatingActionButton, defStyleAttr, defStyleRes);
+        int rippleColor = a.getColor(R.styleable.FloatingActionButton_tic_rippleColor, 0);
         mSize = a.getInt(R.styleable.FloatingActionButton_tic_fabSize, SIZE_NORMAL);
-        mBorderWidth = a.getDimensionPixelSize(R.styleable.FloatingActionButton_tic_borderWidth, 0);
-        final float elevation = a.getDimension(R.styleable.FloatingActionButton_android_elevation, 0f);
         final float pressedTranslationZ = a.getDimension(
                 R.styleable.FloatingActionButton_tic_pressedTranslationZ, 0f);
         a.recycle();
 
-        final ShadowViewDelegate delegate = new ShadowViewDelegate() {
-            @Override
-            public float getRadius() {
-                return getSizeDimension() / 2f;
-            }
-
-            @Override
-            public void setShadowPadding(int left, int top, int right, int bottom) {
-                mShadowPadding.set(left, top, right, bottom);
-
-                setPadding(left + mImagePadding, top + mImagePadding,
-                        right + mImagePadding, bottom + mImagePadding);
-            }
-
-            @Override
-            public void setBackgroundDrawable(Drawable background) {
-                FloatingActionButton.super.setBackgroundDrawable(background);
-            }
-        };
-
-        mImpl = new FloatingActionButtonLollipop(this, delegate);
+        mImpl = new FloatingActionButtonAnimator(this);
 
         final int maxImageSize = (int) getResources().getDimension(R.dimen.tic_design_fab_image_size);
         mImagePadding = (getSizeDimension() - maxImageSize) / 2;
+        setPadding(mImagePadding, mImagePadding, mImagePadding, mImagePadding);
 
-        mImpl.setBackgroundDrawable(mBackgroundTint, mBackgroundTintMode,
-                mRippleColor, mBorderWidth);
-        mImpl.setElevation(elevation);
+        mShapeDrawable = createShapeDrawable();
+        mRippleDrawable = new RippleDrawable(ColorStateList.valueOf(rippleColor),
+                mShapeDrawable, null);
+
+        super.setBackgroundDrawable(mRippleDrawable);
+
         mImpl.setPressedTranslationZ(pressedTranslationZ);
     }
 
@@ -179,8 +162,8 @@ public class FloatingActionButton extends VisibilityAwareImageButton {
 
         // We add the shadow's padding to the measured dimension
         setMeasuredDimension(
-                d + mShadowPadding.left + mShadowPadding.right,
-                d + mShadowPadding.top + mShadowPadding.bottom);
+                d + mProgressPadding.left + mProgressPadding.right,
+                d + mProgressPadding.top + mProgressPadding.bottom);
     }
 
     /**
@@ -191,80 +174,34 @@ public class FloatingActionButton extends VisibilityAwareImageButton {
      * @param color ARGB color to use for the ripple.
      */
     public void setRippleColor(@ColorInt int color) {
-        if (mRippleColor != color) {
-            mRippleColor = color;
-            mImpl.setRippleColor(color);
-        }
-    }
-
-    /**
-     * Return the tint applied to the background drawable, if specified.
-     *
-     * @return the tint applied to the background drawable
-     * @see #setBackgroundTintList(ColorStateList)
-     */
-    @Nullable
-    @Override
-    public ColorStateList getBackgroundTintList() {
-        return mBackgroundTint;
-    }
-
-    /**
-     * Applies a tint to the background drawable. Does not modify the current tint
-     * mode, which is {@link PorterDuff.Mode#SRC_IN} by default.
-     *
-     * @param tint the tint to apply, may be {@code null} to clear tint
-     */
-    public void setBackgroundTintList(@Nullable ColorStateList tint) {
-        if (mBackgroundTint != tint) {
-            mBackgroundTint = tint;
-            mImpl.setBackgroundTintList(tint);
-        }
-    }
-
-
-    /**
-     * Return the blending mode used to apply the tint to the background
-     * drawable, if specified.
-     *
-     * @return the blending mode used to apply the tint to the background
-     *         drawable
-     * @see #setBackgroundTintMode(PorterDuff.Mode)
-     */
-    @Nullable
-    @Override
-    public PorterDuff.Mode getBackgroundTintMode() {
-        return mBackgroundTintMode;
-    }
-
-    /**
-     * Specifies the blending mode used to apply the tint specified by
-     * {@link #setBackgroundTintList(ColorStateList)}} to the background
-     * drawable. The default mode is {@link PorterDuff.Mode#SRC_IN}.
-     *
-     * @param tintMode the blending mode used to apply the tint, may be
-     *                 {@code null} to clear tint
-     */
-    public void setBackgroundTintMode(@Nullable PorterDuff.Mode tintMode) {
-        if (mBackgroundTintMode != tintMode) {
-            mBackgroundTintMode = tintMode;
-            mImpl.setBackgroundTintMode(tintMode);
-        }
+        mRippleDrawable.setColor(ColorStateList.valueOf(color));
     }
 
     @Override
     public void setBackgroundDrawable(Drawable background) {
-        Log.i(LOG_TAG, "Setting a custom background is not supported.");
+        Log.e(LOG_TAG, "Setting a custom background is not supported.");
     }
 
     @Override
     public void setBackgroundResource(int resid) {
-        Log.i(LOG_TAG, "Setting a custom background is not supported.");
+        Log.e(LOG_TAG, "Setting a custom background is not supported.");
     }
 
     @Override
     public void setBackgroundColor(int color) {
-        Log.i(LOG_TAG, "Setting a custom background is not supported.");
+        Log.e(LOG_TAG, "Setting a custom background is not supported.");
+    }
+
+    @Override
+    public void setBackground(Drawable background) {
+        Log.e(LOG_TAG, "Setting a custom background is not supported.");
+    }
+
+    Drawable createShapeDrawable() {
+        ShapeDrawable d = new ShapeDrawable();
+        d.setShape(new OvalShape());
+        d.getPaint().setColor(Color.WHITE);
+        return d;
     }
 
     /**
@@ -368,31 +305,6 @@ public class FloatingActionButton extends VisibilityAwareImageButton {
         }
     }
 
-    @Override
-    protected void onAttachedToWindow() {
-        super.onAttachedToWindow();
-        mImpl.onAttachedToWindow();
-    }
-
-    @Override
-    protected void onDetachedFromWindow() {
-        super.onDetachedFromWindow();
-        mImpl.onDetachedFromWindow();
-    }
-
-    @Override
-    protected void drawableStateChanged() {
-        super.drawableStateChanged();
-        mImpl.onDrawableStateChanged(getDrawableState());
-    }
-
-    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
-    @Override
-    public void jumpDrawablesToCurrentState() {
-        super.jumpDrawablesToCurrentState();
-        mImpl.jumpDrawableToCurrentState();
-    }
-
     /**
      * Return in {@code rect} the bounds of the actual floating action button content in view-local
      * coordinates. This is defined as anything within any visible shadow.
@@ -402,10 +314,10 @@ public class FloatingActionButton extends VisibilityAwareImageButton {
     public boolean getContentRect(@NonNull Rect rect) {
         if (ViewCompat.isLaidOut(this)) {
             rect.set(0, 0, getWidth(), getHeight());
-            rect.left += mShadowPadding.left;
-            rect.top += mShadowPadding.top;
-            rect.right -= mShadowPadding.right;
-            rect.bottom -= mShadowPadding.bottom;
+            rect.left += mProgressPadding.left;
+            rect.top += mProgressPadding.top;
+            rect.right -= mProgressPadding.right;
+            rect.bottom -= mProgressPadding.bottom;
             return true;
         } else {
             return false;
@@ -436,26 +348,12 @@ public class FloatingActionButton extends VisibilityAwareImageButton {
         return result;
     }
 
-    static PorterDuff.Mode parseTintMode(int value, PorterDuff.Mode defaultMode) {
-        switch (value) {
-            case 3:
-                return PorterDuff.Mode.SRC_OVER;
-            case 5:
-                return PorterDuff.Mode.SRC_IN;
-            case 9:
-                return PorterDuff.Mode.SRC_ATOP;
-            case 14:
-                return PorterDuff.Mode.MULTIPLY;
-            case 15:
-                return PorterDuff.Mode.SCREEN;
-            default:
-                return defaultMode;
-        }
-    }
-
     @Override
     public boolean onTouchEvent(MotionEvent ev) {
-        if(getContentRect(mTouchArea) && !mTouchArea.contains((int) ev.getX(), (int) ev.getY())) {
+        //noinspection SimplifiableIfStatement
+        if (ev.getAction() == MotionEvent.ACTION_DOWN &&
+                getContentRect(mTouchArea) &&
+                !mTouchArea.contains((int) ev.getX(), (int) ev.getY())) {
             return false;
         }
 
@@ -473,7 +371,7 @@ public class FloatingActionButton extends VisibilityAwareImageButton {
 
         @Override
         public boolean onDependentViewChanged(CoordinatorLayout parent, FloatingActionButton child,
-                View dependency) {
+                                              View dependency) {
             if (dependency instanceof AppBarLayout) {
                 // If we're depending on an AppBarLayout we will show/hide it automatically
                 // if the FAB is anchored to the AppBarLayout
@@ -483,7 +381,7 @@ public class FloatingActionButton extends VisibilityAwareImageButton {
         }
 
         private boolean updateFabVisibility(CoordinatorLayout parent,
-                AppBarLayout appBarLayout, FloatingActionButton child) {
+                                            AppBarLayout appBarLayout, FloatingActionButton child) {
             final CoordinatorLayout.LayoutParams lp =
                     (CoordinatorLayout.LayoutParams) child.getLayoutParams();
             if (lp.getAnchorId() != appBarLayout.getId()) {
@@ -517,7 +415,7 @@ public class FloatingActionButton extends VisibilityAwareImageButton {
 
         @Override
         public boolean onLayoutChild(CoordinatorLayout parent, FloatingActionButton child,
-                int layoutDirection) {
+                                     int layoutDirection) {
             // First, lets make sure that the visibility of the FAB is consistent
             final List<View> dependencies = parent.getDependencies(child);
             for (int i = 0, count = dependencies.size(); i < count; i++) {
@@ -540,9 +438,9 @@ public class FloatingActionButton extends VisibilityAwareImageButton {
          * our parent's edges.
          */
         private void offsetIfNeeded(CoordinatorLayout parent, FloatingActionButton fab) {
-            final Rect padding = fab.mShadowPadding;
+            final Rect padding = fab.mProgressPadding;
 
-            if (padding != null && padding.centerX() > 0 && padding.centerY() > 0) {
+            if (padding.centerX() > 0 && padding.centerY() > 0) {
                 final CoordinatorLayout.LayoutParams lp =
                         (CoordinatorLayout.LayoutParams) fab.getLayoutParams();
 
@@ -567,5 +465,6 @@ public class FloatingActionButton extends VisibilityAwareImageButton {
                 fab.offsetLeftAndRight(offsetLR);
             }
         }
+
     }
 }
