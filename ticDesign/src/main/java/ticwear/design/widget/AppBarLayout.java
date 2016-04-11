@@ -271,7 +271,7 @@ public class AppBarLayout extends LinearLayout {
      * @param expanded true if the layout should be fully expanded, false if it should
      *                 be fully collapsed
      *
-     * @attr ref ticwear.design.R.styleable#AppBarLayout_expanded
+     * @attr ref R.styleable#AppBarLayout_expanded
      */
     public void setExpanded(boolean expanded) {
         setExpanded(expanded, ViewCompat.isLaidOut(this));
@@ -287,7 +287,7 @@ public class AppBarLayout extends LinearLayout {
      *                 be fully collapsed
      * @param animate Whether to animate to the new state
      *
-     * @attr ref ticwear.design.R.styleable#AppBarLayout_expanded
+     * @attr ref R.styleable#AppBarLayout_expanded
      */
     public void setExpanded(boolean expanded, boolean animate) {
         mPendingAction = (expanded ? PENDING_ACTION_EXPANDED : PENDING_ACTION_COLLAPSED)
@@ -614,22 +614,23 @@ public class AppBarLayout extends LinearLayout {
             }
 
             float defaultFactor;
+            int defaultOffsetLimit;
             if (isInEditMode) {
                 defaultFactor = 0;
+                defaultOffsetLimit = Integer.MAX_VALUE;
             } else {
                 TypedValue typedValue = new TypedValue();
                 c.getResources().getValue(R.integer.design_factor_over_scroll_bounce, typedValue, true);
                 defaultFactor = typedValue.getFloat();
+                defaultOffsetLimit = c.getResources().getDimensionPixelOffset(R.dimen.design_over_scroll_limit);
             }
             mScrollResistanceFactor = MathUtils.constrain(
                     a.getFloat(R.styleable.AppBarLayout_LayoutParams_tic_layout_scrollResistanceFactor,
                             defaultFactor),
                     0, 1);
-
-            int defaultLimitFactor = c.getResources().getDimensionPixelOffset(R.dimen.design_over_scroll_limit);
             mScrollOffsetLimit = a.getDimensionPixelOffset(
                     R.styleable.AppBarLayout_LayoutParams_tic_layout_overScrollLimit,
-                    defaultLimitFactor);
+                    defaultOffsetLimit);
 
             a.recycle();
         }
@@ -672,7 +673,7 @@ public class AppBarLayout extends LinearLayout {
          *
          * @see #getScrollFlags()
          *
-         * @attr ref ticwear.design.R.styleable#AppBarLayout_LayoutParams_tic_layout_scrollFlags
+         * @attr ref R.styleable#AppBarLayout_LayoutParams_tic_layout_scrollFlags
          */
         public void setScrollFlags(@ScrollFlags int flags) {
             mScrollFlags = flags;
@@ -683,7 +684,7 @@ public class AppBarLayout extends LinearLayout {
          *
          * @see #setScrollFlags(int)
          *
-         * @attr ref ticwear.design.R.styleable#AppBarLayout_LayoutParams_tic_layout_scrollFlags
+         * @attr ref R.styleable#AppBarLayout_LayoutParams_tic_layout_scrollFlags
          */
         @ScrollFlags
         public int getScrollFlags() {
@@ -696,7 +697,7 @@ public class AppBarLayout extends LinearLayout {
          *
          * @param interpolator the interpolator to use, or null to use normal 1-to-1 scrolling.
          *
-         * @attr ref ticwear.design.R.styleable#AppBarLayout_LayoutParams_tic_layout_scrollInterpolator
+         * @attr ref R.styleable#AppBarLayout_LayoutParams_tic_layout_scrollInterpolator
          * @see #getScrollInterpolator()
          */
         public void setScrollInterpolator(Interpolator interpolator) {
@@ -707,7 +708,7 @@ public class AppBarLayout extends LinearLayout {
          * Returns the {@link Interpolator} being used for scrolling the view associated with this
          * {@link LayoutParams}. Null indicates 'normal' 1-to-1 scrolling.
          *
-         * @attr ref ticwear.design.R.styleable#AppBarLayout_LayoutParams_tic_layout_scrollInterpolator
+         * @attr ref R.styleable#AppBarLayout_LayoutParams_tic_layout_scrollInterpolator
          * @see #setScrollInterpolator(Interpolator)
          */
         public Interpolator getScrollInterpolator() {
@@ -719,7 +720,7 @@ public class AppBarLayout extends LinearLayout {
          * Returns the resistance factor being used for over-scroll resistance effect, the value is
          * between [0, 1] 1 indicates 'normal' 1-to-1 scrolling, 0 indicates no scrolling at all.
          *
-         * @attr ref ticwear.design.R.styleable#AppBarLayout_LayoutParams_tic_layout_scrollResistanceFactor
+         * @attr ref R.styleable#AppBarLayout_LayoutParams_tic_layout_scrollResistanceFactor
          * @see #setScrollResistanceFactor(float)
          */
         public float getScrollResistanceFactor() {
@@ -735,7 +736,7 @@ public class AppBarLayout extends LinearLayout {
          *                         1 indicates 'normal' 1-to-1 scrolling, 0 indicates no scrolling
          *                         at all.
          *
-         * @attr ref ticwear.design.R.styleable#AppBarLayout_LayoutParams_tic_layout_scrollResistanceFactor
+         * @attr ref R.styleable#AppBarLayout_LayoutParams_tic_layout_scrollResistanceFactor
          * @see #getScrollResistanceFactor()
          */
         public void setScrollResistanceFactor(float resistanceFactor) {
@@ -745,7 +746,7 @@ public class AppBarLayout extends LinearLayout {
         /**
          * Returns the limit factor being used for over-scroll offset limit.
          *
-         * @attr ref ticwear.design.R.styleable#AppBarLayout_LayoutParams_tic_layout_overScrollLimit
+         * @attr ref R.styleable#AppBarLayout_LayoutParams_tic_layout_overScrollLimit
          * @see #setScrollOffsetLimit(int)
          */
         public int getScrollOffsetLimit() {
@@ -758,9 +759,9 @@ public class AppBarLayout extends LinearLayout {
          * {@link LayoutParams}.
          *
          * @param offsetLimit the over scroll limit. default value is defined in
-         *                    {@link R.dimen.design_over_scroll_limit}.
+         *                    {@link R.dimen#design_over_scroll_limit}.
          *
-         * @attr ref ticwear.design.R.styleable#AppBarLayout_LayoutParams_tic_layout_overScrollLimit
+         * @attr ref R.styleable#AppBarLayout_LayoutParams_tic_layout_overScrollLimit
          * @see #getScrollOffsetLimit()
          */
         public void setScrollOffsetLimit(int offsetLimit) {
@@ -1369,8 +1370,15 @@ public class AppBarLayout extends LinearLayout {
      * nested scrolling to automatically scroll any {@link AppBarLayout} siblings.
      */
     public static class ScrollingViewBehavior extends HeaderScrollingViewBehavior {
+
+        private static final int INVALID_PADDING = Integer.MIN_VALUE;
+
         private int mOverlayTop;
         private int mAdditionalOffset;
+
+        private View mScrollingView;
+        private int mOriginalPaddingTop;
+        private int mOriginalPaddingBottom;
 
         public ScrollingViewBehavior() {}
 
@@ -1384,6 +1392,8 @@ public class AppBarLayout extends LinearLayout {
             a.recycle();
 
             mAdditionalOffset = 0;
+            mOriginalPaddingTop = INVALID_PADDING;
+            mOriginalPaddingBottom = INVALID_PADDING;
         }
 
         @Override
@@ -1397,8 +1407,58 @@ public class AppBarLayout extends LinearLayout {
             // First lay out the child as normal
             super.onLayoutChild(parent, child, layoutDirection);
 
+            if (mScrollingView == null) {
+                mScrollingView = findScrollingView(child);
+            }
+
+            if (mOriginalPaddingTop == INVALID_PADDING) {
+                mOriginalPaddingTop = child.getPaddingTop();
+            }
+            if (mOriginalPaddingBottom == INVALID_PADDING) {
+                mOriginalPaddingBottom = child.getPaddingBottom();
+            }
+
             updateOffset(parent, child);
             return true;
+        }
+
+        private View findScrollingView(View root) {
+            if (root.canScrollVertically(1) || root.canScrollVertically(-1)) {
+                return root;
+            }
+
+            if (root instanceof ViewGroup) {
+                ViewGroup parent = (ViewGroup) root;
+                View highestChild = null;
+                List<View> largerChildren = new ArrayList<>(1);
+                largerChildren.clear();
+
+                for (int i = 0, c = parent.getChildCount(); i < c; i++) {
+                    View child = parent.getChildAt(i);
+
+                    // We only interested in the view is visible.
+                    if (!child.isShown()) {
+                        continue;
+                    }
+
+                    // We only interested in the larger view.
+                    largerChildren.add(child);
+                    if (highestChild != null && child.getHeight() < highestChild.getHeight()) {
+                        largerChildren.remove(child);
+                    } else {
+                        highestChild = child;
+                    }
+                }
+
+                for (View largerChild : largerChildren) {
+                    View scrolling = findScrollingView(largerChild);
+                    if (scrolling != null) {
+                        return scrolling;
+                    }
+                }
+            }
+
+            return null;
         }
 
         @Override
@@ -1433,7 +1493,31 @@ public class AppBarLayout extends LinearLayout {
                 final int offset = ((Behavior) behavior).getTopBottomOffsetForScrollingSibling();
                 final int dependencyHeight = dependency.getHeight() + offset
                         - getOverlapForOffset(dependency, offset);
-                setTopAndBottomOffset(dependencyHeight + mAdditionalOffset);
+                int totalOffset = dependencyHeight + mAdditionalOffset;
+                setTopAndBottomOffset(totalOffset);
+
+                if (totalOffset != 0) {
+                    int left = child.getPaddingLeft();
+                    int top = child.getPaddingTop();
+                    int right = child.getPaddingRight();
+                    int bottom = child.getPaddingBottom();
+
+                    // Set a additional padding for the content at top/bottom that can't scroll, so
+                    // they won't be pushed out of the screen.
+                    boolean canScroll = mScrollingView != null &&
+                            mScrollingView.canScrollVertically(totalOffset);
+                    if (!canScroll && totalOffset < 0) {
+                        top = mOriginalPaddingTop == INVALID_PADDING ?
+                                -totalOffset : mOriginalPaddingTop - totalOffset;
+                    } else if (!canScroll && totalOffset > 0) {
+                        bottom = mOriginalPaddingBottom == INVALID_PADDING ?
+                                totalOffset : mOriginalPaddingBottom + totalOffset;
+                    }
+
+                    if (!canScroll) {
+                        child.setPadding(left, top, right, bottom);
+                    }
+                }
                 return true;
             }
             return false;

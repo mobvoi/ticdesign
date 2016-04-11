@@ -239,12 +239,13 @@ public class CoordinatorLayout extends ViewGroup implements NestedScrollingParen
 
         if (isInEditMode()) {
             mOverScrollOffsetFactor = 0.5f;
+            mOverScrollOffsetLimit = Integer.MAX_VALUE;
         } else {
             TypedValue typedValue = new TypedValue();
             getResources().getValue(R.integer.design_factor_over_scroll_bounce, typedValue, true);
             mOverScrollOffsetFactor = typedValue.getFloat();
+            mOverScrollOffsetLimit = getResources().getDimensionPixelOffset(R.dimen.design_over_scroll_limit);
         }
-        mOverScrollOffsetLimit = getResources().getDimensionPixelOffset(R.dimen.design_over_scroll_limit);
 
         setWillNotDraw(false);
     }
