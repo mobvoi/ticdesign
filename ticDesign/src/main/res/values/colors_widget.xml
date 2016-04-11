@@ -3,4 +3,6 @@
 
     <color name="tic_widget_background_dark">#3fff</color>
 
+    <item name="tic_alert_dialog_button_alpha" format="float" type="dimen">0.9</item>
+
 </resources>

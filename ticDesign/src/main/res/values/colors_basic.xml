@@ -49,4 +49,7 @@
     <color name="tic_basic_warm_grey_darken">#1d1d1f</color>
     <color name="tic_basic_warm_grey">#473c37</color>
     <color name="tic_basic_warm_grey_lighten">#796a65</color>
+
+
+    <item name="tic_disabled_alpha" format="float" type="dimen">0.30</item>
 </resources>

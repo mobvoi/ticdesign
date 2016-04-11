@@ -7,6 +7,7 @@
     <string name="category.dialog.notify">Notify Dialog</string>
     <string name="category.dialog.confirm">Confirm Dialog</string>
     <string name="category.dialog.choose">Choose Dialog</string>
+    <string name="category.dialog.long">Long Message Dialog</string>
     <string name="category.dialog.value_picker">Value Picker</string>
     <string name="category.dialog.number_picker">Number Picker</string>
     <string name="category.dialog.time_picker">Time Picker</string>
@@ -31,6 +32,9 @@
     <string name="category.spec.layout">Common Layout</string>
 
     <string name="category.showcase.title">Showcase</string>
+
+    <string name="dialog_content">By setting icons for button, you can use the circular button,
+    that can make the word a better place.</string>
 
     <string name="cheese_content">Jarlsberg lancashire edam. Dolcelatte hard cheese brie st. agur blue
     cheese caerphilly bavarian bergkase cheese and biscuits mascarpone. Cheeseburger swiss bavarian

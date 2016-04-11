@@ -181,13 +181,13 @@
         android:layoutDirection="locale"
         android:baselineAligned="false"
         android:gravity="bottom|center_horizontal"
-        android:alpha="0.8"
+        android:alpha="@dimen/tic_alert_dialog_button_alpha"
         android:orientation="horizontal"
         android:clipToPadding="false"
         android:paddingStart="?android:listPreferredItemPaddingStart"
         android:paddingEnd="?android:listPreferredItemPaddingEnd"
         android:paddingTop="8dp"
-        android:paddingBottom="12dp">
+        android:paddingBottom="@dimen/alert_dialog_round_padding_bottom">
         <Space
             android:layout_width="0dp"
             android:layout_height="0dp"

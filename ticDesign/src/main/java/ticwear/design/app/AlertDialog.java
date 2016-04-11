@@ -74,51 +74,6 @@ public class AlertDialog extends Dialog implements DialogInterface {
     private AlertController mAlert;
 
     /**
-     * Special theme constant for {@link #AlertDialog(Context, int)}: use
-     * the traditional (pre-Holo) alert dialog theme.
-     *
-     * @deprecated Use {@link android.R.style#Theme_Material_Dialog_Alert}.
-     */
-    @Deprecated
-    public static final int THEME_TRADITIONAL = 1;
-
-    /**
-     * Special theme constant for {@link #AlertDialog(Context, int)}: use
-     * the holographic alert theme with a dark background.
-     *
-     * @deprecated Use {@link android.R.style#Theme_Material_Dialog_Alert}.
-     */
-    @Deprecated
-    public static final int THEME_HOLO_DARK = 2;
-
-    /**
-     * Special theme constant for {@link #AlertDialog(Context, int)}: use
-     * the holographic alert theme with a light background.
-     *
-     * @deprecated Use {@link android.R.style#Theme_Material_Light_Dialog_Alert}.
-     */
-    @Deprecated
-    public static final int THEME_HOLO_LIGHT = 3;
-
-    /**
-     * Special theme constant for {@link #AlertDialog(Context, int)}: use
-     * the device's default alert theme with a dark background.
-     *
-     * @deprecated Use {@link android.R.style#Theme_DeviceDefault_Dialog_Alert}.
-     */
-    @Deprecated
-    public static final int THEME_DEVICE_DEFAULT_DARK = 4;
-
-    /**
-     * Special theme constant for {@link #AlertDialog(Context, int)}: use
-     * the device's default alert theme with a light background.
-     *
-     * @deprecated Use {@link android.R.style#Theme_DeviceDefault_Light_Dialog_Alert}.
-     */
-    @Deprecated
-    public static final int THEME_DEVICE_DEFAULT_LIGHT = 5;
-
-    /**
      * No layout hint.
      * @hide
      */
@@ -202,7 +157,8 @@ public class AlertDialog extends Dialog implements DialogInterface {
         mAlert = new AlertController(getContext(), this, getWindow());
     }
 
-    static int resolveDialogTheme(Context context, int themeResId) {
+    @StyleRes
+    static int resolveDialogTheme(Context context, @StyleRes int themeResId) {
         if (themeResId >= 0x01000000) {   // start of real resource IDs.
             return themeResId;
         } else {

@@ -6,6 +6,7 @@
     <string name="category.dialog.notify">提示对话框</string>
     <string name="category.dialog.confirm">确认对话框</string>
     <string name="category.dialog.choose">选择对话框</string>
+    <string name="category.dialog.long">长文本对话框</string>
     <string name="category.dialog.value_picker">数值选择器</string>
     <string name="category.dialog.number_picker">数字选择器</string>
     <string name="category.dialog.time_picker">时间选择器</string>
@@ -31,11 +32,13 @@
 
     <string name="category.showcase.title">眼前一亮</string>
 
+    <string name="dialog_content">通过指定按钮的图标，你就可以使用圆形按钮，让这个世界变得美好一些。</string>
+
     <string name="cheese_content">中国拥有众多的人口，也拥有世界上最丰富多元的自然景观，高原、山林、湖泊、海岸
         线，这种地理和气候的跨度有助于物种的形成和保存，任何一个国家都没有这样多潜在的食物原材料。人们采集、捡拾、
         挖掘、捕捞，为的是得到这份自然的馈赠。穿越四季，我们即将看到美味背后人和自然的故事。</string>
 
     <string name="spec.text_size.line_height">所有文字设置 line spacing 为 1.4</string>
     <string name="spec.text_size.base">基础文本样式</string>
-    <string name="spec.text_size.material">纸墨规范文本样式</string>
+    <string name="spec.text_size.material">材料设计文本样式</string>
 </resources>

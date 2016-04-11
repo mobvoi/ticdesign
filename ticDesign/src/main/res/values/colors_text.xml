@@ -8,5 +8,5 @@
     <color name="primary_text_default_ticwear_dark">#ffdddddd</color>
     <color name="secondary_text_default_ticwear_dark">#b3dddddd</color>
 
-    <item name="disabled_alpha_ticwear_dark" format="float" type="dimen">0.30</item>
+    <item name="disabled_alpha_ticwear_dark" format="float" type="dimen">@dimen/tic_disabled_alpha</item>
 </resources>

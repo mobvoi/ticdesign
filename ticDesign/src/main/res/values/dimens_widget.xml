@@ -15,6 +15,7 @@
     <!-- Dialog padding for round display -->
     <dimen name="alert_dialog_round_padding">0dip</dimen>
     <dimen name="alert_dialog_content_padding_bottom">48dip</dimen>
+    <dimen name="alert_dialog_round_padding_bottom">14dp</dimen>
 
     <!-- TimePicker -->
     <dimen name="tic_timepicker_time_label_size">60sp</dimen>

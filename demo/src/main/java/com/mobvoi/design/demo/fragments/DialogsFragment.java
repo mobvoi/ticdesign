@@ -38,6 +38,7 @@ public class DialogsFragment extends ListFragment {
 //                R.string.category_dialog_notify,
                 R.string.category_dialog_confirm,
                 R.string.category_dialog_choose,
+                R.string.category_dialog_long,
                 R.string.category_dialog_value_picker,
                 R.string.category_dialog_choice,
         };
@@ -218,8 +219,8 @@ public class DialogsFragment extends ListFragment {
             case R.string.category_dialog_confirm:
                 dialog = new AlertDialog.Builder(context)
                         .setTitle(R.string.category_dialog_confirm)
-                        .setMessage(R.string.cheese_content)
-                        .setPositiveButtonIcon(R.drawable.ic_btn_ok, new DialogInterface.OnClickListener() {
+                        .setMessage(R.string.dialog_content)
+                        .setPositiveButtonIcon(ticwear.design.R.drawable.tic_ic_btn_ok, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 dialog.dismiss();
@@ -230,14 +231,32 @@ public class DialogsFragment extends ListFragment {
             case R.string.category_dialog_choose:
                 dialog = new AlertDialog.Builder(context)
                         .setTitle(R.string.category_dialog_choose)
-                        .setMessage(R.string.cheese_content)
-                        .setPositiveButtonIcon(R.drawable.ic_btn_ok, new DialogInterface.OnClickListener() {
+                        .setMessage(R.string.dialog_content)
+                        .setPositiveButtonIcon(ticwear.design.R.drawable.tic_ic_btn_ok, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 dialog.dismiss();
                             }
                         })
-                        .setNeutralButtonIcon(R.drawable.ic_about, new DialogInterface.OnClickListener() {
+                        .setNegativeButtonIcon(ticwear.design.R.drawable.tic_ic_btn_cancel, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                            }
+                        })
+                        .create();
+                break;
+            case R.string.category_dialog_long:
+                dialog = new AlertDialog.Builder(context)
+                        .setTitle(R.string.category_dialog_choose)
+                        .setMessage(R.string.cheese_content)
+                        .setPositiveButtonIcon(ticwear.design.R.drawable.tic_ic_btn_ok, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                            }
+                        })
+                        .setNegativeButtonIcon(ticwear.design.R.drawable.tic_ic_btn_cancel, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 dialog.dismiss();

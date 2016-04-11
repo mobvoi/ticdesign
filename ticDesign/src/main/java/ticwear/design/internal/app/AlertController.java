@@ -19,12 +19,15 @@ package ticwear.design.internal.app;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.res.ColorStateList;
 import android.content.res.TypedArray;
 import android.database.Cursor;
 import android.graphics.drawable.Drawable;
+import android.graphics.drawable.StateListDrawable;
 import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.IdRes;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
@@ -62,6 +65,10 @@ import ticwear.design.widget.TrackSelectionAdapterWrapper.OnItemClickListener;
 import static android.view.ViewGroup.LayoutParams.MATCH_PARENT;
 
 public class AlertController {
+
+    static final int[] ENABLED_STATE_SET = {android.R.attr.state_enabled};
+    static final int[] DISABLED_STATE_SET = {-android.R.attr.state_enabled};
+    static final int[] EMPTY_STATE_SET = new int[0];
 
     private final Context mContext;
     private final DialogInterface mDialogInterface;
@@ -465,7 +472,7 @@ public class AlertController {
     public void showButtonsDelayed() {
         mWindow.getDecorView().removeCallbacks(buttonRestoreRunnable);
         long timeout = mContext.getResources()
-                .getInteger(R.integer.design_time_action_idle_timeout);
+                .getInteger(R.integer.design_time_action_idle_timeout_short);
         mWindow.getDecorView().postDelayed(buttonRestoreRunnable, timeout);
     }
 
@@ -659,7 +666,7 @@ public class AlertController {
                     if (scrollState == SubscribedScrollView.OnScrollListener.SCROLL_STATE_IDLE) {
                         showButtonsDelayed();
                     } else if (!scrollDown) {
-                        hideButtons();
+                        minimizeButtons();
                     }
                 }
 
@@ -677,7 +684,7 @@ public class AlertController {
                         scrollDown = true;
                     } else if (!newScrollDown && scrollDown &&
                             scrollState != AbsListView.OnScrollListener.SCROLL_STATE_IDLE) {
-                        hideButtons();
+                        minimizeButtons();
                         scrollDown = false;
                     }
                 }
@@ -746,6 +753,15 @@ public class AlertController {
         } else {
             textButtonPanel.setVisibility(View.GONE);
             iconButtonPanel.setVisibility(View.VISIBLE);
+            int paddingBottom = mContext.getResources()
+                    .getDimensionPixelOffset(R.dimen.alert_dialog_round_padding_bottom);
+            paddingBottom = paddingBottom * iconButtonCount;
+            iconButtonPanel.setPadding(
+                    iconButtonPanel.getPaddingLeft(),
+                    iconButtonPanel.getPaddingTop(),
+                    iconButtonPanel.getPaddingRight(),
+                    paddingBottom
+            );
             buttonPanel = iconButtonPanel;
         }
 
@@ -1121,7 +1137,7 @@ public class AlertController {
                 iconSpace.setVisibility(View.GONE);
                 return false;
             } else {
-                iconButton.setImageDrawable(buttonIcon);
+                setupIconContent();
                 iconButton.setVisibility(View.VISIBLE);
                 iconSpace.setVisibility(View.INVISIBLE);
                 return true;
@@ -1148,6 +1164,62 @@ public class AlertController {
 
         private boolean hasIconButton() {
             return buttonIcon != null || iconButton.getVisibility() == View.VISIBLE;
+        }
+
+        private void setupIconContent() {
+            iconButton.setImageDrawable(
+                    getStatefulDrawable(iconButton.getContext(), buttonIcon));
+            ColorStateList stateList = iconButton.getBackgroundTintList();
+            iconButton.setBackgroundTintList(
+                    getStatefulColorList(iconButton.getContext(), stateList));
+        }
+
+        private static Drawable getStatefulDrawable(@NonNull  Context context,
+                                                    @Nullable Drawable drawable) {
+            StateListDrawable stateful = null;
+            if (drawable != null) {
+                if (drawable instanceof StateListDrawable) {
+                    stateful = (StateListDrawable) drawable;
+                } else {
+                    stateful = new StateListDrawable();
+                    stateful.addState(ENABLED_STATE_SET, drawable);
+                }
+
+                int alpha = getAlphaValue(context);
+
+                Drawable disabled = drawable.getConstantState().newDrawable().mutate();
+                disabled.setAlpha(alpha);
+                stateful.addState(DISABLED_STATE_SET, disabled);
+            }
+
+            return stateful;
+        }
+
+        private static ColorStateList getStatefulColorList(@NonNull  Context context,
+                                                           @Nullable ColorStateList stateList) {
+            ColorStateList filledList = stateList;
+            if (stateList != null) {
+                int normalColor = stateList.getDefaultColor();
+                int[][] states = {
+                        ENABLED_STATE_SET,
+                        DISABLED_STATE_SET
+                };
+                int[] colors = {
+                        normalColor,
+                        normalColor & 0xffffff | (getAlphaValue(context) << 24)
+                };
+                filledList = new ColorStateList(states, colors);
+            }
+
+            return filledList;
+        }
+
+        private static int getAlphaValue(@NonNull  Context context) {
+            TypedValue typedValue = new TypedValue();
+            context.getResources().getValue(R.dimen.tic_disabled_alpha, typedValue, true);
+            float disabledAlpha = typedValue.getFloat();
+
+            return (int) (0xff * disabledAlpha);
         }
     }
 
