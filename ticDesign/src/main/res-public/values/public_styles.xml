@@ -48,6 +48,7 @@
     <public type="style" name="WindowIcon.Ticwear" />
 
     <public type="style" name="Animation.Ticwear.Activity" />
+    <public type="style" name="Animation.Ticwear.Activity.Translucent" />
     <public type="style" name="Animation.Ticwear.Dialog" />
     <public type="style" name="AlertDialog.Ticwear" />
 

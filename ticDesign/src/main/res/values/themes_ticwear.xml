@@ -30,13 +30,15 @@
 
         <item name="android:listViewStyle">@style/Widget.Ticwear.ListView</item>
 
-        <item name="android:windowAnimationStyle">@style/Animation.Ticwear.Activity</item>
+        <item name="android:windowAnimationStyle">@style/Animation.Ticwear.Activity.Translucent</item>
         <item name="android:windowBackground">@android:color/black</item>
         <item name="android:windowContentOverlay">@null</item>
         <item name="android:windowIsFloating">false</item>
         <!-- We need the windows to be translucent for SwipeToDismiss layout
              to work properly. -->
-        <item name="android:windowIsTranslucent">false</item>   <!-- TODO: use translucent background with swipe to dismiss is set -->
+        <!-- TODO: translucent makes animation of activity wrong, try to find a way to disable
+             translucent, but show background activity content when swipe to dismiss. -->
+        <item name="android:windowIsTranslucent">true</item>
         <item name="android:windowSwipeToDismiss">true</item>
         <!-- Required to force windowInsets dispatch through application UI. -->
         <item name="android:windowOverscan">true</item>
