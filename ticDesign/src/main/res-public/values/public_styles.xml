@@ -45,6 +45,7 @@
     <public type="style" name="TextAppearance.Ticwear.DialogWindowTitle" />
 
     <public type="style" name="WindowTitle.Ticwear" />
+    <public type="style" name="WindowIcon.Ticwear" />
 
     <public type="style" name="Animation.Ticwear.Activity" />
     <public type="style" name="Animation.Ticwear.Dialog" />
@@ -65,4 +66,8 @@
     <public type="style" name="Widget.Ticwear.CirclePageIndicator" />
 
     <public type="style" name="Widget.Ticwear.PrimaryButton" />
+
+    <public type="style" name="Widget.Ticwear.ButtonBar" />
+    <public type="style" name="Widget.Ticwear.FloatingActionButton.ButtonBar" />
+
 </resources>

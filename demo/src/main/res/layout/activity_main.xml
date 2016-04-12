@@ -28,14 +28,12 @@
         <!--</mobvoi.design.widget.StretchingLayout>-->
 
         <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="24dp"
+            style="?tic_windowIconStyle"
             android:layout_marginTop="4dp"
             android:paddingTop="4dp"
             android:paddingBottom="4dp"
             android:gravity="bottom"
             android:src="@mipmap/ic_launcher"
-            android:scaleType="fitCenter"
             android:contentDescription="@null"
             app:tic_layout_scrollFlags="scroll|overScrollBounce"
             app:tic_layout_scrollResistanceFactor="0.5"

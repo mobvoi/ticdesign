@@ -36,17 +36,14 @@
             android:paddingTop="4dp"
             app:tic_layout_scrollFlags="scroll|overScrollBounce"
             app:tic_layout_scrollResistanceFactor="0.5">
-            <ImageView android:id="@+id/icon"
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:layout_gravity="center_horizontal"
-                android:scaleType="fitCenter"
+            <ImageView android:id="@android:id/icon"
+                style="?tic_windowIconStyle"
                 android:src="@null"
                 android:contentDescription="@null"
                 tools:background="#aaa"/>
             <TextView
                 style="?android:windowTitleStyle"
-                android:id="@+id/alertTitle"
+                android:id="@android:id/title"
                 android:singleLine="true"
                 android:ellipsize="end"
                 android:layout_width="match_parent"
@@ -174,14 +171,13 @@
     </LinearLayout>
 
     <LinearLayout android:id="@+id/iconButtonPanel"
-        style="?android:buttonBarStyle"
+        style="?tic_iconButtonBarStyle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
         android:layoutDirection="locale"
         android:baselineAligned="false"
         android:gravity="bottom|center_horizontal"
-        android:alpha="@dimen/tic_alert_dialog_button_alpha"
         android:orientation="horizontal"
         android:clipToPadding="false"
         android:paddingStart="?android:listPreferredItemPaddingStart"
@@ -193,6 +189,7 @@
             android:layout_height="0dp"
             android:layout_weight="1" />
         <ticwear.design.widget.FloatingActionButton
+            style="?tic_iconButtonBarNegativeButtonStyle"
             android:id="@+id/iconButton2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -204,6 +201,7 @@
             android:layout_height="0dp"
             android:layout_weight="1" />
         <ticwear.design.widget.FloatingActionButton
+            style="?tic_iconButtonBarNeutralButtonStyle"
             android:id="@+id/iconButton3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -217,6 +215,7 @@
             android:layout_weight="1"
             tools:visibility="gone" />
         <ticwear.design.widget.FloatingActionButton
+            style="?tic_iconButtonBarPositiveButtonStyle"
             android:id="@+id/iconButton1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

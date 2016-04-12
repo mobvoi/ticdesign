@@ -230,7 +230,7 @@ public class DialogsFragment extends ListFragment {
                 break;
             case R.string.category_dialog_choose:
                 dialog = new AlertDialog.Builder(context)
-                        .setTitle(R.string.category_dialog_choose)
+                        .setIcon(R.drawable.ic_reset)
                         .setMessage(R.string.dialog_content)
                         .setPositiveButtonIcon(ticwear.design.R.drawable.tic_ic_btn_ok, new DialogInterface.OnClickListener() {
                             @Override

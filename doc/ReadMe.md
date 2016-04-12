@@ -10,9 +10,9 @@
 
 1. [样式和主题](#style-and-theme)：定义了一些列文字、页面和控件的样式，以及页面切换等动效支持。
 2. [可拉伸、响应内容滚动的标题](#title-bar)：基于 [Android Design Support][google-design-support]，构建了一套适合手表展示的页面结构，除了 Google Design 中的跟随滚动等效果，我们还为标题栏增加了可拉伸等效果。
-3. [支持挠挠的 Listview](#ticklable-listview)：基于 `RecyclerView`，我们创造了一个列表展示控件，使其在触摸操作时与普通线性布局的列表操作无异，而使用挠挠交互时，具有聚焦效果（聚焦效果类似 `WearableListView`），方便挠挠的操作。
+3. [对侧面挠挠的支持](#support-tickle)：我们提供了一套较为便捷的方式为开发者提供了对挠挠的支持，并增加了一些对挠挠有较好交互的控件。比如[支持挠挠的 Listview](#ticklable-listview)等。
 4. [设置](#preference)：提供一套类似 [Android Settings][android-settings] 的、符合 [Ticwear Design][ticwear-design] 的设置系统，更适合手表展示，并支持挠挠交互。
-5. [其他小控件](#widgets)：Ticwear提供了一系列适合手表使用的小控件，包括[可缩放文本框](#scale-textview)、[悬浮按钮](#fab)、[数值选择器](#number-picker)、[日期时间选择器](#date-picker)、[Checkbox、RadioButton、SimpleSwitch](#two-state-button)等。
+5. [其他小控件](#widgets)：Ticwear提供了一系列适合手表使用的小控件，包括[可缩放文本框](#scale-textview)、[悬浮按钮](#fab)、[重要按钮](#primary-button)、[数值选择器](#number-picker)、[日期时间选择器](#date-picker)、[Checkbox、RadioButton、SimpleSwitch](#two-state-button)等。
 6. [对话框](#dialogs)：对应 Android 的 [AlertDialog][android-alert-dialog]，我们也提供了一系列适合手表展示的对话框。包括[普通弹出式对话框](#alert-dialog)、[数值选择对话框](#number-picker-dialog)、[日期时间选择对话框](#date-picker-dialog)、[列表选择对话框](#list-choice-dialog)等。
 
 ### <a id="style-and-theme"></a> 样式和主题
@@ -156,9 +156,24 @@ int color = ColorPalette.from(context)
 * `app:tic_layout_scrollResistanceFactor` 指定了标题在拉伸时，整体高度的变化倍数。为1时，标题高度变化与滚动距离对应，没有阻尼效果。越接近0，阻尼效果越大，高度变化越小。
 * `app:tic_scaleFactor` 指定了可缩放文字的缩放倍数。为1时，文字会跟随文本框大小做等比缩放，约接近0则缩放效果越不明显。详情可以参考[可缩放文本框](#scale-textview)。
 
-### <a id="ticklable-listview"></a> 支持挠挠交互的 Listview
+### <a id="support-tickle"></a> 对挠挠的支持
+
+通过实现 `SidePanelEventTarget` 或 `SidePanelGestureTarget`，开发者可以方便的为其自定义view增加对挠挠的支持。
+
+`SidePanelEventTarget` 接口，包含了挠挠的基础事件的处理函数，类似 touch event，挠挠也包含下面步处理流程：
+
+1. `dispatchTouchSidePanelEvent`，在分发步骤，决定是使用当前 View 处理挠挠事件，还是分发下去。
+2. `onTouchSidePanel`，决定是否由当前 View 处理挠挠
+
+`SidePanelGestureTarget` 接口，封装了常见的挠挠手势，如单击、双击、长按，滚动、抛掷等。如果没有 `SidePanelEventTarget` 来处理挠挠事件，则挠挠事件会被封装成挠挠手势，分发给各个 `SidePanelGestureTarget` 来处理。
+
+对挠挠事件派发的详细说明，可以参看[挠挠API](http://developer.ticwear.com/doc/tickle-api)。
+
+#### <a id="ticklable-listview"></a> 支持挠挠交互的 Listview
 
 `TickableListView` 结合了`ListView`和`WearableListView`的优势，使得列表控件在正常状态时表现的像普通的ListView，以呈现较丰富、美观的视觉效果，且可以任意点击视图中的列表项；而在挠挠触碰上去之后，转变成聚焦态，内容变大，聚焦在页面中部的元素，使得操作变得准确有目标。
+
+通过设置 `tic_focusedStatePadding` 你可以在 `clipToPadding=false` 时，指定聚焦态的上线padding，以获得更好的视觉效果。
 
 我们为`TickableListView`做了特别的设计，使得它能与`AppBarLayout`相互配合，在聚焦态时，也能较好的实现TitleBar的各种效果。详情可以阅读源码中的`TickableListViewBehavior`代码。
 
@@ -261,6 +276,12 @@ $$
 
 使用方式类似`show()`和`hide()`，调用`minimize()`可以最小化按钮，按钮在完成最小化以后，会触发 `OnVisibilityChangedListener.onMinimum` 回调。
 
+#### <a id="primary-button"></a> 主要按钮（PrimaryButton）
+
+手表界面开发的一项原则，是精简内容和选择，让用户能迅速明白自己需要做什么。为此，我们经常需要一个放置在页面底部，占用较大区域的主要按钮。而 `PrimaryButton` 则提供这样一个按钮。
+
+`PrimaryButton` 是一个特殊的 `ImageButton`，它的背景是一个半圆的色块，放置在圆表底部时，会显得非常和谐。
+
 #### <a id="number-picker"></a> 数值选择器
 
 类似 Android 的 [`NumberPicker`][android-numberpicker]，我们实现了符合Ticwear设计标准的数值选择器。开发者可以直接使用到其 layout 中。如果你只是需要一个页面来获取用户输入的数值。我们还提供了一个便于使用的[`NumberPickerDialog`](#number-picker-dialog)，方便你快速开发。
@@ -298,6 +319,18 @@ new AlertDialog.Builder(context)
         })
         .show();
 ```
+
+使用对话框时，可通过指定 `android:alertDialogTheme` 来自定义对话框的样式，以实现想要的效果。
+
+`AlertDialog` 中，有如下样式可以在主题中覆盖：
+
+1. `tic_windowIconStyle`：指定弹出对话框标题图标的样式。
+2. `android:windowTitleStyle`：指定对话框标题样式。
+3. `tic_iconButtonBarStyle`：指定按钮条样式。
+4. `tic_iconButtonBarPositiveButtonStyle`：指定正面选项的按钮样式。
+5. `tic_iconButtonBarNegativeButtonStyle`：指定负面选项的按钮样式。
+6. `tic_iconButtonBarNeutralButtonStyle`：指定中立选项的按钮样式，由于手表的屏幕较小，我们不推荐为对话框指定中立选项的按钮。
+
 
 #### <a id="list-choice-dialog"></a> 列表选择对话框
 

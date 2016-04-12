@@ -17,8 +17,6 @@
         <attr name="tic_focusedStatePadding" format="dimension" />
     </declare-styleable>
 
-    <attr name="tic_numberPickerStyle" format="reference" />
-
     <!-- The set of attributes that describe a AlertDialog's theme. -->
     <declare-styleable name="AlertDialog">
         <attr name="android:fullDark" />
@@ -185,7 +183,5 @@
     <declare-styleable name="EdgeEffect">
         <attr name="android:colorEdgeEffect" />
     </declare-styleable>
-
-    <attr name="tic_primaryButtonStyle" format="reference" />
 
 </resources>

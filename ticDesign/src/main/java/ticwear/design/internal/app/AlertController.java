@@ -585,13 +585,18 @@ public class AlertController {
             View titleTemplate = mWindow.findViewById(R.id.title_template);
             titleTemplate.setVisibility(View.GONE);
         } else {
-            mIconView = (ImageView) mWindow.findViewById(R.id.icon);
-
             final boolean hasTextTitle = !TextUtils.isEmpty(mTitle);
-            if (hasTextTitle) {
-                // Display the title if a title is supplied, else hide it.
-                mTitleView = (TextView) mWindow.findViewById(R.id.alertTitle);
-                mTitleView.setText(mTitle);
+            final boolean hasIconTitle = mIconId != 0 || mIcon != null;
+            if (hasTextTitle || hasIconTitle) {
+                mTitleView = (TextView) mWindow.findViewById(android.R.id.title);
+                mIconView = (ImageView) mWindow.findViewById(android.R.id.icon);
+
+                if (hasTextTitle) {
+                    // Display the title if a title is supplied, else hide it.
+                    mTitleView.setText(mTitle);
+                } else {
+                    mTitleView.setVisibility(View.GONE);
+                }
 
                 // Do this last so that if the user has supplied any icons we
                 // use them instead of the default ones. If the user has
@@ -601,19 +606,12 @@ public class AlertController {
                 } else if (mIcon != null) {
                     mIconView.setImageDrawable(mIcon);
                 } else {
-                    // Apply the padding from the icon to ensure the title is
-                    // aligned correctly.
-                    mTitleView.setPadding(mIconView.getPaddingLeft(),
-                            mIconView.getPaddingTop(),
-                            mIconView.getPaddingRight(),
-                            mIconView.getPaddingBottom());
                     mIconView.setVisibility(View.GONE);
                 }
             } else {
                 // Hide the title template
                 final View titleTemplate = mWindow.findViewById(R.id.title_template);
                 titleTemplate.setVisibility(View.GONE);
-                mIconView.setVisibility(View.GONE);
                 topPanel.setVisibility(View.GONE);
                 hasTitle = false;
             }

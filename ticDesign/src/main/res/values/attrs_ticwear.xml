@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <attr name="tic_numberPickerStyle" format="reference" />
+
+    <!-- Semi-circle primary button style. -->
+    <attr name="tic_primaryButtonStyle" format="reference" />
+
+    <!-- Style for icon in window, like AlertDialog icon or icon in AppBar. -->
+    <attr name="tic_windowIconStyle" format="reference" />
+
+    <!-- Style for icon button bars -->
+    <attr name="tic_iconButtonBarStyle" format="reference" />
+
+    <!-- Style for buttons within icon button bars -->
+    <attr name="tic_iconButtonBarButtonStyle" format="reference" />
+
+    <!-- Style for the "positive" buttons within icon button bars -->
+    <attr name="tic_iconButtonBarPositiveButtonStyle" format="reference" />
+
+    <!-- Style for the "negative" buttons within icon button bars -->
+    <attr name="tic_iconButtonBarNegativeButtonStyle" format="reference" />
+
+    <!-- Style for the "neutral" buttons within icon button bars -->
+    <attr name="tic_iconButtonBarNeutralButtonStyle" format="reference" />
+
+</resources>

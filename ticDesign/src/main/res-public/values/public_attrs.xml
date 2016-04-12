@@ -40,7 +40,15 @@
     <public type="attr" name="tic_strokeWidth" />
     <public type="attr" name="tic_centered" />
 
+    <public type="attr" name="tic_windowIconStyle" />
+
     <public type="attr" name="tic_primaryButtonStyle" />
+
+    <public type="attr" name="tic_iconButtonBarStyle" />
+    <public type="attr" name="tic_iconButtonBarButtonStyle" />
+    <public type="attr" name="tic_iconButtonBarPositiveButtonStyle" />
+    <public type="attr" name="tic_iconButtonBarNegativeButtonStyle" />
+    <public type="attr" name="tic_iconButtonBarNeutralButtonStyle" />
 
     <public type="id" name="tic_view_offset_helper" />
 </resources>

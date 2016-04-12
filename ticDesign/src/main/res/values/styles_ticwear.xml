@@ -13,6 +13,15 @@
         <item name="android:textAlignment">center</item>
     </style>
 
+    <style name="WindowIcon" />
+    <style name="WindowIcon.Ticwear" >
+        <item name="android:layout_width">24dp</item>
+        <item name="android:layout_height">24dp</item>
+        <item name="android:layout_gravity">center_horizontal</item>
+        <item name="android:scaleType">fitCenter</item>
+        <item name="android:gravity">center</item>
+    </style>
+
     <!-- Animation Styles -->
 
     <style name="Animation"/>

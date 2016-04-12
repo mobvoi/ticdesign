@@ -126,14 +126,14 @@ public class DatetimePickerDialog extends AlertDialog implements OnClickListener
             mDatePickerViewHolder = new DatePickerViewHolder(context);
             View dateView = mDatePickerViewHolder.init(year, month, day,
                     this, validationCallback);
-            dateView.setTag(R.id.alertTitle, R.string.date_picker_dialog_title);
+            dateView.setTag(R.id.title_template, R.string.date_picker_dialog_title);
             pages.add(dateView);
         }
         if (hasTimeView) {
             mTimePickerViewHolder = new TimePickerViewHolder(context);
             View timeView = mTimePickerViewHolder.init(hour, minute, DateFormat.is24HourFormat(context),
                     this, validationCallback);
-            timeView.setTag(R.id.alertTitle, R.string.time_picker_dialog_title);
+            timeView.setTag(R.id.title_template, R.string.time_picker_dialog_title);
             pages.add(timeView);
         }
 
@@ -352,7 +352,7 @@ public class DatetimePickerDialog extends AlertDialog implements OnClickListener
         @Override
         public CharSequence getPageTitle(int position) {
             View page = mPickerPages.get(position);
-            Object tagTitle = page.getTag(R.id.alertTitle);
+            Object tagTitle = page.getTag(R.id.title_template);
             return tagTitle instanceof Integer ? getContext().getString((int) tagTitle) : null;
         }
     }
