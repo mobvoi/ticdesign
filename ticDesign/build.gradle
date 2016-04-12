@@ -5,6 +5,7 @@ android {
     compileSdkVersion rootProject.ext.compileSdkVersion
     buildToolsVersion rootProject.ext.buildToolsVersion
 
+    defaultPublishConfig "release"
     publishNonDefault true
 
     defaultConfig {
@@ -14,9 +15,8 @@ android {
         versionName "1.0"
     }
     buildTypes {
-        release {
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        all {
+            consumerProguardFiles 'proguard-rules.pro'
         }
     }
     sourceSets {

@@ -18,6 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ticwear.design.R;
+import ticwear.design.view.SidePanelEventTarget;
 
 import static java.lang.annotation.ElementType.FIELD;
 import static java.lang.annotation.ElementType.LOCAL_VARIABLE;
@@ -29,7 +30,7 @@ import static java.lang.annotation.RetentionPolicy.SOURCE;
 
 @TargetApi(20)
 @CoordinatorLayout.DefaultBehavior(TicklableListViewBehavior.class)
-public class TicklableListView extends RecyclerView {
+public class TicklableListView extends RecyclerView implements SidePanelEventTarget {
 
     static final String TAG = "TicklableListView";
 
@@ -313,7 +314,7 @@ public class TicklableListView extends RecyclerView {
         return super.dispatchTouchEvent(e);
     }
 
-    @SuppressWarnings("unused")
+    @Override
     public boolean dispatchTouchSidePanelEvent(MotionEvent ev) {
         switch (ev.getAction()) {
             case MotionEvent.ACTION_DOWN:
@@ -337,6 +338,11 @@ public class TicklableListView extends RecyclerView {
         super.dispatchTouchEvent(ev);
         // TODO: should return super.dispatchXXX, so we may need a interface for side-panel event?
         return true;
+    }
+
+    @Override
+    public boolean onTouchSidePanel(MotionEvent ev) {
+        return false;
     }
 
     @Override

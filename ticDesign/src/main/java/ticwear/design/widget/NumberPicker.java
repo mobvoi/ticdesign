@@ -66,6 +66,7 @@ import java.util.List;
 import java.util.Locale;
 
 import ticwear.design.R;
+import ticwear.design.view.SidePanelEventTarget;
 
 /**
  * A widget that enables the user to select a number from a predefined range.
@@ -95,7 +96,7 @@ import ticwear.design.R;
  * For an example of using this widget, see {@link android.widget.TimePicker}.
  * </p>
  */
-public class NumberPicker extends LinearLayout {
+public class NumberPicker extends LinearLayout implements SidePanelEventTarget {
 
     /**
      * The number of items show in the selector wheel.
@@ -852,11 +853,16 @@ public class NumberPicker extends LinearLayout {
         return false;
     }
 
-    @SuppressWarnings("unused")
+    @Override
     public boolean dispatchTouchSidePanelEvent(MotionEvent ev) {
         // TODO: avoid passing invalid touch event when side panel event system changed.
         super.dispatchTouchEvent(ev);
         return true;
+    }
+
+    @Override
+    public boolean onTouchSidePanel(MotionEvent event) {
+        return false;
     }
 
     @Override
