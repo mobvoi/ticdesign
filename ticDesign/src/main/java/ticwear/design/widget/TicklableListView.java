@@ -4,12 +4,18 @@ import android.annotation.TargetApi;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.content.res.TypedArray;
+import android.graphics.Canvas;
+import android.graphics.drawable.Drawable;
+import android.support.annotation.IntDef;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.MotionEvent;
+import android.view.View;
+import android.view.WindowInsets;
 
 import com.mobvoi.ticwear.view.SidePanelEventDispatcher;
 
@@ -27,8 +33,9 @@ public class TicklableListView extends RecyclerView implements SidePanelEventDis
     @Nullable
     private TicklableLayoutManager mTicklableLayoutManager;
 
-
     private boolean mSkipNestedScroll;
+
+    private ScrollBarHelper mScrollBarHelper;
 
     public TicklableListView(Context context) {
         this(context, null);
@@ -56,11 +63,28 @@ public class TicklableListView extends RecyclerView implements SidePanelEventDis
             long itemAnimDuration = defaultAnimDuration / 4;
             getItemAnimator().setMoveDuration(itemAnimDuration);
         }
+
+        mScrollBarHelper = new ScrollBarHelper(context);
     }
 
     @Override
     public LinearLayoutManager getLayoutManager() {
         return (LinearLayoutManager) super.getLayoutManager();
+    }
+
+    @Override
+    public WindowInsets onApplyWindowInsets(WindowInsets insets) {
+        mScrollBarHelper.setIsRound(insets.isRound());
+        return super.onApplyWindowInsets(insets);
+    }
+
+    //@hide api @Override
+    //use this hide api to draw scrollbar
+    protected void onDrawVerticalScrollBar(Canvas canvas, Drawable scrollBar, int l, int t, int r, int b) {
+        int range = computeVerticalScrollRange();
+        int offset = computeVerticalScrollOffset();
+        int extent = computeVerticalScrollExtent();
+        mScrollBarHelper.onDrawScrollBar(canvas, range, offset, extent, scrollBar.getAlpha());
     }
 
     /**

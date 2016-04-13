@@ -24,6 +24,10 @@
     public <init>();
 }
 
+-keep class ticwear.design.widget.TicklableListView {
+    protected void onDrawVerticalScrollBar(Canvas canvas, Drawable scrollBar, int l, int t, int r, int b);
+}
+
 # Side panel event target should keep for system call.
 -keep interface com.mobvoi.ticwear.view.SidePanelEventDispatcher {
     <methods>;

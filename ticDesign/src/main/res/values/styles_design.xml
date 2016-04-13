@@ -16,6 +16,13 @@
 -->
 <resources>
 
+    <style name="Widget.Ticwear.ScrollBar" parent="android:Widget">
+        <item name="tic_scroll_bar_strokeWidth">2.3dp</item>
+        <item name="tic_scroll_bar_margin">7.6dp</item>
+        <item name="tic_scroll_bar_bgColor">?android:colorControlNormal</item>
+        <item name="tic_scroll_bar_sweepColor">?android:colorAccent</item>
+    </style>
+
     <style name="Widget.Ticwear.VolumeBar" parent="android:Widget">
         <item name="tic_vb_valueColor">?android:colorAccent</item>
         <item name="tic_vb_bgColor">@color/tic_basic_gold_grey_darken</item>

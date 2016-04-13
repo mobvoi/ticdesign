@@ -16,6 +16,13 @@
 -->
 <resources>
 
+    <declare-styleable name="ScrollBar">
+        <attr name="tic_scroll_bar_strokeWidth" format="dimension"/>
+        <attr name="tic_scroll_bar_margin" format="dimension"/>
+        <attr name="tic_scroll_bar_bgColor" format="color"/>
+        <attr name="tic_scroll_bar_sweepColor" format="color"/>
+    </declare-styleable>
+
     <declare-styleable name="VolumeBar">
         <attr name="tic_vb_valueColor" format="color"/>
         <attr name="tic_vb_bgColor" format="color"/>
