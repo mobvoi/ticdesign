@@ -28,12 +28,15 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.CallSuper;
 import android.support.annotation.IntDef;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.text.InputFilter;
 import android.text.InputType;
 import android.text.Spanned;
 import android.text.TextUtils;
 import android.text.method.NumberKeyListener;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.util.SparseArray;
 import android.util.TypedValue;
 import android.view.KeyEvent;
@@ -57,6 +60,8 @@ import android.widget.LinearLayout;
 import android.widget.Scroller;
 import android.widget.TextView;
 
+import com.mobvoi.ticwear.view.SidePanelEventDispatcher;
+
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.text.DecimalFormatSymbols;
@@ -65,8 +70,8 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 
+import ticwear.design.DesignConfig;
 import ticwear.design.R;
-import ticwear.design.view.SidePanelEventTarget;
 
 /**
  * A widget that enables the user to select a number from a predefined range.
@@ -96,7 +101,9 @@ import ticwear.design.view.SidePanelEventTarget;
  * For an example of using this widget, see {@link android.widget.TimePicker}.
  * </p>
  */
-public class NumberPicker extends LinearLayout implements SidePanelEventTarget {
+public class NumberPicker extends LinearLayout implements SidePanelEventDispatcher {
+
+    static final String LOG_TAG = "NumPicker";
 
     /**
      * The number of items show in the selector wheel.
@@ -728,10 +735,19 @@ public class NumberPicker extends LinearLayout implements SidePanelEventTarget {
             mDecrementButton = null;
         }
 
+        // Don't set focus to child view if we don't have any input method.
+        if (getValidInputMethodManager() == null) {
+            setDescendantFocusability(FOCUS_BLOCK_DESCENDANTS);
+        }
+
         // input text
         mInputText = (EditText) findViewById(R.id.numberpicker_input);
         mInputText.setOnFocusChangeListener(new OnFocusChangeListener() {
             public void onFocusChange(View v, boolean hasFocus) {
+                if (getValidInputMethodManager() == null) {
+                    return;
+                }
+
                 if (hasFocus) {
                     mInputText.selectAll();
                 } else {
@@ -854,15 +870,19 @@ public class NumberPicker extends LinearLayout implements SidePanelEventTarget {
     }
 
     @Override
-    public boolean dispatchTouchSidePanelEvent(MotionEvent ev) {
-        // TODO: avoid passing invalid touch event when side panel event system changed.
-        super.dispatchTouchEvent(ev);
-        return true;
+    protected void onFocusChanged(boolean gainFocus, int direction, Rect previouslyFocusedRect) {
+        super.onFocusChanged(gainFocus, direction, previouslyFocusedRect);
+
+        if (DesignConfig.DEBUG_PICKERS && gainFocus) {
+            Log.i(LOG_TAG, "Picker " + this + " focused.");
+        }
     }
 
     @Override
-    public boolean onTouchSidePanel(MotionEvent event) {
-        return false;
+    public boolean dispatchTouchSidePanelEvent(MotionEvent ev, @NonNull SuperCallback superCallback) {
+        // TODO: avoid passing invalid touch event when side panel event system changed.
+        super.dispatchTouchEvent(ev);
+        return true;
     }
 
     @Override
@@ -1166,6 +1186,13 @@ public class NumberPicker extends LinearLayout implements SidePanelEventTarget {
         }
     }
 
+    private void focusThisIfNeed() {
+        if (getValidInputMethodManager() == null &&
+                hasFocusable() && !hasFocus()) {
+            requestFocus();
+        }
+    }
+
     @Override
     protected int computeVerticalScrollOffset() {
         return mCurrentScrollOffset;
@@ -1281,14 +1308,15 @@ public class NumberPicker extends LinearLayout implements SidePanelEventTarget {
      * Shows the soft input for its input text.
      */
     private void showSoftInput() {
-        InputMethodManager inputMethodManager = (InputMethodManager) getContext().getSystemService(
-                Context.INPUT_METHOD_SERVICE);
+        InputMethodManager inputMethodManager = getValidInputMethodManager();
         if (inputMethodManager != null) {
             if (mHasSelectorWheel) {
                 mInputText.setVisibility(View.VISIBLE);
             }
             mInputText.requestFocus();
             inputMethodManager.showSoftInput(mInputText, 0);
+        } else {
+            focusThisIfNeed();
         }
     }
 
@@ -1296,14 +1324,26 @@ public class NumberPicker extends LinearLayout implements SidePanelEventTarget {
      * Hides the soft input if it is active for the input text.
      */
     private void hideSoftInput() {
-        InputMethodManager inputMethodManager = (InputMethodManager) getContext().getSystemService(
-                Context.INPUT_METHOD_SERVICE);
+        InputMethodManager inputMethodManager = getValidInputMethodManager();
         if (inputMethodManager != null && inputMethodManager.isActive(mInputText)) {
             inputMethodManager.hideSoftInputFromWindow(getWindowToken(), 0);
             if (mHasSelectorWheel) {
                 mInputText.setVisibility(View.INVISIBLE);
             }
         }
+    }
+
+    @Nullable
+    private InputMethodManager getValidInputMethodManager() {
+        InputMethodManager inputMethodManager = (InputMethodManager) getContext().getSystemService(
+                Context.INPUT_METHOD_SERVICE);
+
+        if (inputMethodManager != null &&
+                !inputMethodManager.getEnabledInputMethodList().isEmpty()) {
+            return inputMethodManager;
+        }
+
+        return null;
     }
 
     /**
@@ -1820,6 +1860,12 @@ public class NumberPicker extends LinearLayout implements SidePanelEventTarget {
         if (mScrollState == scrollState) {
             return;
         }
+
+        if (scrollState == OnScrollListener.SCROLL_STATE_TOUCH_SCROLL ||
+                scrollState == OnScrollListener.SCROLL_STATE_FLING) {
+            focusThisIfNeed();
+        }
+
         mScrollState = scrollState;
         if (mOnScrollListener != null) {
             mOnScrollListener.onScrollStateChange(this, scrollState);

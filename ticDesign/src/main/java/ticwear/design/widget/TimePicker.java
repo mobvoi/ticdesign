@@ -20,11 +20,19 @@ import android.content.Context;
 import android.content.res.Configuration;
 import android.content.res.TypedArray;
 import android.os.Parcelable;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
+import android.view.GestureDetector;
+import android.view.MotionEvent;
+import android.view.View;
 import android.view.accessibility.AccessibilityEvent;
 import android.view.accessibility.AccessibilityNodeInfo;
+import android.view.inputmethod.EditorInfo;
 import android.widget.FrameLayout;
+import android.widget.TextView;
+
+import com.mobvoi.ticwear.view.SidePanelEventDispatcher;
 
 import java.util.Locale;
 
@@ -44,11 +52,18 @@ import ticwear.design.R;
  * guide.
  * </p>
  */
-public class TimePicker extends FrameLayout {
+public class TimePicker extends FrameLayout implements MultiPickerContainer,
+        SidePanelEventDispatcher, View.OnFocusChangeListener {
+
     private static final int MODE_SPINNER = 1;
 //    private static final int MODE_CLOCK = 2;
 
     private final TimePickerDelegate mDelegate;
+
+    private MultiPickerClient mMultiPickerClient;
+
+    private final GestureDetector mGestureDetector;
+    private final OnGestureListener mOnGestureListener = new OnGestureListener();
 
     /**
      * The callback interface used to indicate the time has been adjusted.
@@ -94,6 +109,13 @@ public class TimePicker extends FrameLayout {
                         this, context, attrs, defStyleAttr, defStyleRes);
                 break;
         }
+
+        mGestureDetector = new GestureDetector(context, mOnGestureListener);
+    }
+
+    @Override
+    public void setMultiPickerClient(MultiPickerClient client) {
+        mMultiPickerClient = client;
     }
 
     /**
@@ -217,6 +239,66 @@ public class TimePicker extends FrameLayout {
         mDelegate.onInitializeAccessibilityNodeInfo(info);
     }
 
+    @Override
+    public boolean dispatchTouchSidePanelEvent(MotionEvent ev, @NonNull SuperCallback superCallback) {
+        mGestureDetector.onTouchEvent(ev);
+        return superCallback.superDispatchTouchSidePanelEvent(ev);
+    }
+
+    @Override
+    public void onFocusChange(View v, boolean hasFocus) {
+        if (mMultiPickerClient != null && hasFocus) {
+            mMultiPickerClient.onPickerPostFocus((NumberPicker) v);
+        }
+    }
+
+    /**
+     * Change to next focus.
+     *
+     * @return true if focused to last picker.
+     */
+    private boolean nextFocus() {
+        View focusedView = mDelegate.getCurrentFocusedPicker();
+        View nextView = mDelegate.getNextFocusPicker(focusedView);
+
+        if (nextView == null) {
+            return false;
+        }
+
+        boolean fromLast = false;
+        if (focusedView instanceof NumberPicker) {
+            TextView input = (TextView) focusedView.findViewById(R.id.numberpicker_input);
+            int options = input.getImeOptions();
+            fromLast = options == EditorInfo.IME_ACTION_DONE;
+        }
+
+        boolean handled = false;
+        if (mMultiPickerClient != null) {
+            handled = mMultiPickerClient.onPickerPreFocus((NumberPicker) nextView, fromLast);
+        }
+
+        if (!handled) {
+            nextView.requestFocus();
+        }
+
+        if (nextView instanceof NumberPicker) {
+            TextView input = (TextView) nextView.findViewById(R.id.numberpicker_input);
+            int options = input.getImeOptions();
+            return options == EditorInfo.IME_ACTION_DONE;
+        }
+
+        return false;
+    }
+
+    private class OnGestureListener extends GestureDetector.SimpleOnGestureListener {
+
+        @Override
+        public boolean onSingleTapConfirmed(MotionEvent e) {
+            nextFocus();
+            return true;
+        }
+    }
+
     /**
      * A delegate interface that defined the public API of the TimePicker. Allows different
      * TimePicker implementations. This would need to be implemented by the TimePicker delegates
@@ -249,6 +331,9 @@ public class TimePicker extends FrameLayout {
         void onPopulateAccessibilityEvent(AccessibilityEvent event);
         void onInitializeAccessibilityEvent(AccessibilityEvent event);
         void onInitializeAccessibilityNodeInfo(AccessibilityNodeInfo info);
+
+        View getCurrentFocusedPicker();
+        View getNextFocusPicker(View current);
     }
 
     /**
@@ -302,6 +387,16 @@ public class TimePicker extends FrameLayout {
             if (mValidationCallback != null) {
                 mValidationCallback.onValidationChanged(valid);
             }
+        }
+
+        @Override
+        public View getCurrentFocusedPicker() {
+            return null;
+        }
+
+        @Override
+        public View getNextFocusPicker(View current) {
+            return null;
         }
     }
 }

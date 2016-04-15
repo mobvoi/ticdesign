@@ -267,7 +267,7 @@ public class DialogsFragment extends ListFragment {
             case R.string.category_dialog_value_picker: {
                 dialog = new AlertDialog.Builder(getActivity())
                         .setTitle(R.string.category_dialog_value_picker)
-                        .setItems(valuePickers, new DialogInterface.OnClickListener() {
+                        .setSingleChoiceItems(valuePickers, -1, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 Dialog dlg = createValuePickerDialog(getActivity(), which);
@@ -282,7 +282,7 @@ public class DialogsFragment extends ListFragment {
             case R.string.category_dialog_choice: {
                 dialog = new AlertDialog.Builder(getActivity())
                         .setTitle(R.string.category_dialog_choice)
-                        .setItems(listChoices, new DialogInterface.OnClickListener() {
+                        .setSingleChoiceItems(listChoices, -1, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 Dialog dlg = createListChoiceDialog(getActivity(), which);

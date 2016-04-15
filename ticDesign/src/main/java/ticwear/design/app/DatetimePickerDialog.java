@@ -20,10 +20,12 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.StyleRes;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.text.format.DateFormat;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -32,14 +34,20 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
 
+import com.mobvoi.ticwear.view.SidePanelEventDispatcher;
+
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
+import ticwear.design.DesignConfig;
 import ticwear.design.R;
 import ticwear.design.widget.CirclePageIndicator;
 import ticwear.design.widget.DatePicker;
 import ticwear.design.widget.DatePicker.OnDateChangedListener;
+import ticwear.design.widget.MultiPickerContainer;
+import ticwear.design.widget.NumberPicker;
+import ticwear.design.widget.TicklableFrameLayout;
 import ticwear.design.widget.TimePicker;
 
 /**
@@ -47,7 +55,10 @@ import ticwear.design.widget.TimePicker;
  */
 public class DatetimePickerDialog extends AlertDialog implements OnClickListener,
         OnDateChangedListener, TimePicker.OnTimeChangedListener,
-        ViewPager.OnPageChangeListener, View.OnClickListener {
+        ViewPager.OnPageChangeListener, View.OnClickListener,
+        MultiPickerContainer.MultiPickerClient, SidePanelEventDispatcher {
+
+    static final String LOG_TAG = "DTPDialog";
 
     public static final int PAGE_FLAG_DATE = 1;
     public static final int PAGE_FLAG_TIME = 1 << 1;
@@ -58,13 +69,13 @@ public class DatetimePickerDialog extends AlertDialog implements OnClickListener
     private TimePickerViewHolder mTimePickerViewHolder;
 
     private ViewPager mViewPager;
-    private PagerAdapter mPagerAdapter;
+    private PickerPagerAdapter mPagerAdapter;
     private CirclePageIndicator mPageIndicator;
 
     private boolean mOnLastPage = false;
+    private boolean mIsSidePanelTouching = false;
 
-    // User is changing the time.
-    private boolean mUserInAction = false;
+    private NumberPicker mFocusedPicker;
 
     /**
      * @param context The context the dialog is to run in.
@@ -121,27 +132,34 @@ public class DatetimePickerDialog extends AlertDialog implements OnClickListener
             }
         };
 
+        final Context themeContext = getContext();
+        final LayoutInflater inflater = LayoutInflater.from(themeContext);
+        TicklableFrameLayout container = (TicklableFrameLayout)
+                inflater.inflate(R.layout.dialog_datetime_picker, null);
+
+        container.setSidePanelEventDispatcher(this);
+
+        mViewPager = (ViewPager) container.findViewById(R.id.tic_datetimeContainer);
+
         List<View> pages = new ArrayList<>(Integer.bitCount(pageFlag));
         if (hasDateView) {
             mDatePickerViewHolder = new DatePickerViewHolder(context);
-            View dateView = mDatePickerViewHolder.init(year, month, day,
+            DatePicker dateView = mDatePickerViewHolder.init(mViewPager,
+                    year, month, day,
                     this, validationCallback);
+            dateView.setMultiPickerClient(this);
             dateView.setTag(R.id.title_template, R.string.date_picker_dialog_title);
             pages.add(dateView);
         }
         if (hasTimeView) {
             mTimePickerViewHolder = new TimePickerViewHolder(context);
-            View timeView = mTimePickerViewHolder.init(hour, minute, DateFormat.is24HourFormat(context),
+            TimePicker timeView = mTimePickerViewHolder.init(mViewPager,
+                    hour, minute, DateFormat.is24HourFormat(context),
                     this, validationCallback);
+            timeView.setMultiPickerClient(this);
             timeView.setTag(R.id.title_template, R.string.time_picker_dialog_title);
             pages.add(timeView);
         }
-
-        final Context themeContext = getContext();
-        final LayoutInflater inflater = LayoutInflater.from(themeContext);
-        View container = inflater.inflate(R.layout.dialog_datetime_picker, null);
-
-        mViewPager = (ViewPager) container.findViewById(R.id.tic_datetimeContainer);
         mPagerAdapter = new PickerPagerAdapter(pages);
         mViewPager.setAdapter(mPagerAdapter);
 
@@ -243,27 +261,13 @@ public class DatetimePickerDialog extends AlertDialog implements OnClickListener
 
     @Override
     public void onPageScrollStateChanged(int state) {
-        if (state == ViewPager.SCROLL_STATE_IDLE) {
-            showButtons();
+        if (!mIsSidePanelTouching) {
+            if (state == ViewPager.SCROLL_STATE_IDLE) {
+                showButtons();
+            } else {
+                minimizeButtons();
+            }
         }
-    }
-
-    @Override
-    public boolean dispatchTouchEvent(MotionEvent event) {
-        switch (event.getAction()) {
-            case MotionEvent.ACTION_MOVE:
-                if (!mUserInAction) {
-                    mUserInAction = true;
-                    minimizeButtons();
-                }
-                break;
-            case MotionEvent.ACTION_UP:
-            case MotionEvent.ACTION_CANCEL:
-                mUserInAction = false;
-                showButtonsDelayed();
-                break;
-        }
-        return super.dispatchTouchEvent(event);
     }
 
     /**
@@ -319,9 +323,57 @@ public class DatetimePickerDialog extends AlertDialog implements OnClickListener
         mDatePickerViewHolder.onRestoreInstanceState(savedInstanceState);
     }
 
+    @Override
+    public boolean onPickerPreFocus(NumberPicker numberPicker, boolean fromLast) {
+        if (DesignConfig.DEBUG_PICKERS) {
+            Log.d(LOG_TAG, "pre focus from last? " + fromLast + ", for " + numberPicker);
+        }
+        if (fromLast) {
+            ImageButton button = getIconButton(BUTTON_POSITIVE);
+            onClick(button);
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    public void onPickerPostFocus(@NonNull NumberPicker numberPicker) {
+        if (DesignConfig.DEBUG_PICKERS) {
+            Log.d(LOG_TAG, "focused on " + numberPicker);
+        }
+        if (mFocusedPicker != null) {
+            mFocusedPicker.setOnScrollListener(null);
+        }
+        mFocusedPicker = numberPicker;
+        mFocusedPicker.setOnScrollListener(new NumberPicker.OnScrollListener() {
+            @Override
+            public void onScrollStateChange(NumberPicker view, @ScrollState int scrollState) {
+                if (!mIsSidePanelTouching) {
+                    if (scrollState == SCROLL_STATE_IDLE) {
+                        showButtonsDelayed();
+                    } else {
+                        minimizeButtons();
+                    }
+                }
+            }
+        });
+    }
+
+    @Override
+    public boolean dispatchTouchSidePanelEvent(MotionEvent event, @NonNull SuperCallback superCallback) {
+        if (event.getAction() == MotionEvent.ACTION_DOWN) {
+            mIsSidePanelTouching = true;
+            minimizeButtons();
+        } else if (event.getAction() == MotionEvent.ACTION_CANCEL || event.getAction() == MotionEvent.ACTION_UP) {
+            mIsSidePanelTouching = false;
+            showButtonsDelayed();
+        }
+        return superCallback.superDispatchTouchSidePanelEvent(event);
+    }
+
     private class PickerPagerAdapter extends PagerAdapter {
 
-        List<View> mPickerPages;
+        private List<View> mPickerPages;
 
         public PickerPagerAdapter(List<View> pages) {
             mPickerPages = pages;
@@ -354,6 +406,10 @@ public class DatetimePickerDialog extends AlertDialog implements OnClickListener
             View page = mPickerPages.get(position);
             Object tagTitle = page.getTag(R.id.title_template);
             return tagTitle instanceof Integer ? getContext().getString((int) tagTitle) : null;
+        }
+
+        public View getItemPage(int position) {
+            return mPickerPages.get(position);
         }
     }
 

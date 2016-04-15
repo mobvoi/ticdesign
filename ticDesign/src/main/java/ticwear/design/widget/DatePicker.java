@@ -21,6 +21,7 @@ import android.content.res.Configuration;
 import android.content.res.TypedArray;
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.text.InputType;
 import android.text.TextUtils;
@@ -29,7 +30,9 @@ import android.text.format.DateUtils;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.util.SparseArray;
+import android.view.GestureDetector;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.accessibility.AccessibilityEvent;
 import android.view.accessibility.AccessibilityNodeInfo;
@@ -39,8 +42,9 @@ import android.widget.CalendarView;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
-import ticwear.design.widget.NumberPicker.OnValueChangeListener;
 import android.widget.TextView;
+
+import com.mobvoi.ticwear.view.SidePanelEventDispatcher;
 
 import java.text.DateFormatSymbols;
 import java.text.ParseException;
@@ -50,19 +54,21 @@ import java.util.Calendar;
 import java.util.Locale;
 import java.util.TimeZone;
 
+import ticwear.design.DesignConfig;
 import ticwear.design.R;
+import ticwear.design.widget.NumberPicker.OnValueChangeListener;
 
 /**
  * Provides a widget for selecting a date.
  * <p>
- * When the {@link android.R.styleable#DatePicker_datePickerMode} attribute is
+ * When the {@link android.R.attr#datePickerMode} attribute is
  * set to {@code spinner}, the date can be selected using year, month, and day
  * spinners or a {@link CalendarView}. The set of spinners and the calendar
  * view are automatically synchronized. The client can customize whether only
  * the spinners, or only the calendar view, or both to be displayed.
  * </p>
  * <p>
- * When the {@link android.R.styleable#DatePicker_datePickerMode} attribute is
+ * When the {@link android.R.attr#datePickerMode} attribute is
  * set to {@code calendar}, the month and day can be selected using a
  * calendar-style view while the year can be selected separately using a list.
  * </p>
@@ -91,13 +97,19 @@ import ticwear.design.R;
  * @attr ref android.R.styleable#DatePicker_calendarTextColor
  * @attr ref android.R.styleable#DatePicker_datePickerMode
  */
-public class DatePicker extends FrameLayout {
-    private static final String LOG_TAG = DatePicker.class.getSimpleName();
+public class DatePicker extends FrameLayout implements MultiPickerContainer,
+        SidePanelEventDispatcher, View.OnFocusChangeListener {
+    private static final String LOG_TAG = "DatePicker";
 
     private static final int MODE_SPINNER = 1;
     private static final int MODE_CALENDAR = 2;
 
     private final DatePickerDelegate mDelegate;
+
+    private MultiPickerClient mMultiPickerClient;
+
+    private final GestureDetector mGestureDetector;
+    private final OnGestureListener mOnGestureListener = new OnGestureListener();
 
     /**
      * The callback used to indicate the user changes\d the date.
@@ -150,6 +162,8 @@ public class DatePicker extends FrameLayout {
         if (firstDayOfWeek != 0) {
             setFirstDayOfWeek(firstDayOfWeek);
         }
+
+        mGestureDetector = new GestureDetector(context, mOnGestureListener);
     }
 
     private DatePickerDelegate createSpinnerUIDelegate(Context context, AttributeSet attrs,
@@ -170,6 +184,11 @@ public class DatePicker extends FrameLayout {
     public void init(int year, int monthOfYear, int dayOfMonth,
                      OnDateChangedListener onDateChangedListener) {
         mDelegate.init(year, monthOfYear, dayOfMonth, onDateChangedListener);
+    }
+
+    @Override
+    public void setMultiPickerClient(MultiPickerClient client) {
+        mMultiPickerClient = client;
     }
 
     /**
@@ -362,7 +381,7 @@ public class DatePicker extends FrameLayout {
      * Gets the {@link CalendarView}.
      * <p>
      * This method returns {@code null} when the
-     * {@link android.R.styleable#DatePicker_datePickerMode} attribute is set
+     * {@link android.R.attr#datePickerMode} attribute is set
      * to {@code calendar}.
      *
      * @return The calendar view.
@@ -376,7 +395,7 @@ public class DatePicker extends FrameLayout {
      * Sets whether the {@link CalendarView} is shown.
      * <p>
      * Calling this method has no effect when the
-     * {@link android.R.styleable#DatePicker_datePickerMode} attribute is set
+     * {@link android.R.attr#datePickerMode} attribute is set
      * to {@code calendar}.
      *
      * @param shown True if the calendar view is to be shown.
@@ -419,6 +438,70 @@ public class DatePicker extends FrameLayout {
         BaseSavedState ss = (BaseSavedState) state;
         super.onRestoreInstanceState(ss.getSuperState());
         mDelegate.onRestoreInstanceState(ss);
+    }
+
+    @Override
+    public boolean dispatchTouchSidePanelEvent(MotionEvent ev, @NonNull SuperCallback superCallback) {
+        mGestureDetector.onTouchEvent(ev);
+        return superCallback.superDispatchTouchSidePanelEvent(ev);
+    }
+
+    /**
+     * Change to next focus.
+     *
+     * @return true if focused to last picker.
+     */
+    private boolean nextFocus() {
+        View focusedView = mDelegate.getCurrentFocusedPicker();
+        View nextView = mDelegate.getNextFocusPicker(focusedView);
+
+        if (DesignConfig.DEBUG_PICKERS) {
+            Log.d(LOG_TAG, "change focus from " + focusedView + ", to " + nextView);
+        }
+
+        if (nextView == null) {
+            return false;
+        }
+
+        boolean fromLast = false;
+        if (focusedView instanceof NumberPicker) {
+            TextView input = (TextView) focusedView.findViewById(R.id.numberpicker_input);
+            int options = input.getImeOptions();
+            fromLast = options == EditorInfo.IME_ACTION_DONE;
+        }
+
+        boolean handled = false;
+        if (mMultiPickerClient != null) {
+            handled = mMultiPickerClient.onPickerPreFocus((NumberPicker) nextView, fromLast);
+        }
+
+        if (!handled) {
+            nextView.requestFocus();
+        }
+
+        if (nextView instanceof NumberPicker) {
+            TextView input = (TextView) nextView.findViewById(R.id.numberpicker_input);
+            int options = input.getImeOptions();
+            return options == EditorInfo.IME_ACTION_DONE;
+        }
+
+        return false;
+    }
+
+    private class OnGestureListener extends GestureDetector.SimpleOnGestureListener {
+
+        @Override
+        public boolean onSingleTapConfirmed(MotionEvent e) {
+            nextFocus();
+            return true;
+        }
+    }
+
+    @Override
+    public void onFocusChange(View v, boolean hasFocus) {
+        if (mMultiPickerClient != null && hasFocus) {
+            mMultiPickerClient.onPickerPostFocus((NumberPicker) v);
+        }
     }
 
     /**
@@ -469,6 +552,9 @@ public class DatePicker extends FrameLayout {
         void onPopulateAccessibilityEvent(AccessibilityEvent event);
         void onInitializeAccessibilityEvent(AccessibilityEvent event);
         void onInitializeAccessibilityNodeInfo(AccessibilityNodeInfo info);
+
+        View getCurrentFocusedPicker();
+        View getNextFocusPicker(View current);
     }
 
     /**
@@ -512,6 +598,16 @@ public class DatePicker extends FrameLayout {
             if (mValidationCallback != null) {
                 mValidationCallback.onValidationChanged(valid);
             }
+        }
+
+        @Override
+        public View getCurrentFocusedPicker() {
+            return null;
+        }
+
+        @Override
+        public View getNextFocusPicker(View current) {
+            return null;
         }
     }
 
@@ -659,6 +755,7 @@ public class DatePicker extends FrameLayout {
             mDaySpinner.setFormatter(NumberPicker.getTwoDigitFormatter());
             mDaySpinner.setOnLongPressUpdateInterval(100);
             mDaySpinner.setOnValueChangedListener(onChangeListener);
+            mDaySpinner.setOnFocusChangeListener(delegator);
             mDaySpinnerInput = (EditText) mDaySpinner.findViewById(R.id.numberpicker_input);
 
             // month
@@ -668,12 +765,14 @@ public class DatePicker extends FrameLayout {
             mMonthSpinner.setDisplayedValues(mShortMonths);
             mMonthSpinner.setOnLongPressUpdateInterval(200);
             mMonthSpinner.setOnValueChangedListener(onChangeListener);
+            mMonthSpinner.setOnFocusChangeListener(delegator);
             mMonthSpinnerInput = (EditText) mMonthSpinner.findViewById(R.id.numberpicker_input);
 
             // year
             mYearSpinner = (NumberPicker) mDelegator.findViewById(R.id.tic_year);
             mYearSpinner.setOnLongPressUpdateInterval(100);
             mYearSpinner.setOnValueChangedListener(onChangeListener);
+            mYearSpinner.setOnFocusChangeListener(delegator);
             mYearSpinnerInput = (EditText) mYearSpinner.findViewById(R.id.numberpicker_input);
 
             // show only what the user required but make sure we
@@ -921,6 +1020,26 @@ public class DatePicker extends FrameLayout {
                     mShortMonths[i] = String.format("%d", i + 1);
                 }
             }
+        }
+
+        @Override
+        public View getCurrentFocusedPicker() {
+            if (mSpinners == null || mSpinners.getChildCount() == 0) {
+                return null;
+            }
+            return mSpinners.getFocusedChild();
+        }
+
+        @Override
+        public View getNextFocusPicker(View current) {
+            if (mSpinners == null || mSpinners.getChildCount() == 0) {
+                return null;
+            }
+            if (current == null) {
+                current = getCurrentFocusedPicker();
+            }
+
+            return current == null ? null : mSpinners.focusSearch(current, View.FOCUS_FORWARD);
         }
 
         /**

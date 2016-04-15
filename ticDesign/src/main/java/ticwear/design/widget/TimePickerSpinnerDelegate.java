@@ -93,6 +93,7 @@ class TimePickerSpinnerDelegate extends TimePicker.AbstractTimePickerDelegate {
 
         // hour
         mHourSpinner = (NumberPicker) delegator.findViewById(R.id.tic_hour);
+        mHourSpinner.setOnFocusChangeListener(mDelegator);
         mHourSpinner.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
             public void onValueChange(NumberPicker spinner, int oldVal, int newVal) {
                 updateInputState();
@@ -121,6 +122,7 @@ class TimePickerSpinnerDelegate extends TimePicker.AbstractTimePickerDelegate {
         mMinuteSpinner.setMaxValue(59);
         mMinuteSpinner.setOnLongPressUpdateInterval(100);
         mMinuteSpinner.setFormatter(NumberPicker.getTwoDigitFormatter());
+        mMinuteSpinner.setOnFocusChangeListener(mDelegator);
         mMinuteSpinner.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
             public void onValueChange(NumberPicker spinner, int oldVal, int newVal) {
                 updateInputState();
@@ -170,6 +172,7 @@ class TimePickerSpinnerDelegate extends TimePicker.AbstractTimePickerDelegate {
             mAmPmSpinner.setMinValue(0);
             mAmPmSpinner.setMaxValue(1);
             mAmPmSpinner.setDisplayedValues(mAmPmStrings);
+            mAmPmSpinner.setOnFocusChangeListener(mDelegator);
             mAmPmSpinner.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
                 public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
                     updateInputState();
@@ -180,7 +183,8 @@ class TimePickerSpinnerDelegate extends TimePicker.AbstractTimePickerDelegate {
                 }
             });
             mAmPmSpinnerInput = (EditText) mAmPmSpinner.findViewById(R.id.numberpicker_input);
-            mAmPmSpinnerInput.setImeOptions(EditorInfo.IME_ACTION_DONE);
+            mAmPmSpinnerInput.setImeOptions(isAmPmAtStart() ?
+                    EditorInfo.IME_ACTION_NEXT : EditorInfo.IME_ACTION_DONE);
         }
 
         if (isAmPmAtStart()) {
@@ -436,6 +440,39 @@ class TimePickerSpinnerDelegate extends TimePicker.AbstractTimePickerDelegate {
         info.setClassName(TimePicker.class.getName());
     }
 
+    @Override
+    public View getCurrentFocusedPicker() {
+        if (mDelegator == null || mDelegator.getChildCount() == 0) {
+            return null;
+        }
+        return getFocusedLeafChild(mDelegator);
+    }
+
+    @Override
+    public View getNextFocusPicker(View current) {
+        if (mDelegator == null || mDelegator.getChildCount() == 0) {
+            return null;
+        }
+        if (current == null) {
+            current = getCurrentFocusedPicker();
+        }
+
+        return current == null ? null : mDelegator.focusSearch(current, View.FOCUS_FORWARD);
+    }
+
+    private View getFocusedLeafChild(View root) {
+        if (root instanceof NumberPicker) {
+            return root.hasFocus() ? root : null;
+        }
+
+        if (root instanceof ViewGroup) {
+            ViewGroup parent = (ViewGroup) root;
+            return getFocusedLeafChild(parent.getFocusedChild());
+        }
+
+        return null;
+    }
+
     private void updateInputState() {
         // Make sure that if the user changes the value and the IME is active
         // for one of the inputs if this widget, the IME is closed. If the user
@@ -521,7 +558,7 @@ class TimePickerSpinnerDelegate extends TimePicker.AbstractTimePickerDelegate {
     }
 
     private void updateMinuteControl() {
-        if (is24HourView()) {
+        if (is24HourView() || isAmPmAtStart()) {
             mMinuteSpinnerInput.setImeOptions(EditorInfo.IME_ACTION_DONE);
         } else {
             mMinuteSpinnerInput.setImeOptions(EditorInfo.IME_ACTION_NEXT);

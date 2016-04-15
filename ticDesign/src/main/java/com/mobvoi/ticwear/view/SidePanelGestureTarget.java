@@ -1,4 +1,4 @@
-package ticwear.design.view;
+package com.mobvoi.ticwear.view;
 
 import android.view.MotionEvent;
 

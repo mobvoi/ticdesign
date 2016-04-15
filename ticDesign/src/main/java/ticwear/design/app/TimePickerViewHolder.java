@@ -3,7 +3,7 @@ package ticwear.design.app;
 import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
-import android.view.View;
+import android.view.ViewGroup;
 
 import ticwear.design.R;
 import ticwear.design.widget.TimePicker;
@@ -26,25 +26,24 @@ class TimePickerViewHolder {
         this.mContext = context;
     }
 
-    public View init(int hourOfDay, int minute, boolean is24HourView,
-                     TimePicker.OnTimeChangedListener listener,
-                     TimePicker.ValidationCallback callback) {
+    public TimePicker init(ViewGroup parent, int hourOfDay, int minute, boolean is24HourView,
+                           TimePicker.OnTimeChangedListener listener,
+                           TimePicker.ValidationCallback callback) {
 
         mInitialHourOfDay = hourOfDay;
         mInitialMinute = minute;
         mIs24HourView = is24HourView;
 
         final LayoutInflater inflater = LayoutInflater.from(mContext);
-        final View view = inflater.inflate(R.layout.dialog_time_picker, null);
 
-        mTimePicker = (TimePicker) view.findViewById(R.id.tic_timePicker);
+        mTimePicker = (TimePicker) inflater.inflate(R.layout.dialog_time_picker, parent, false);
         mTimePicker.setIs24HourView(mIs24HourView);
         mTimePicker.setCurrentHour(mInitialHourOfDay);
         mTimePicker.setCurrentMinute(mInitialMinute);
         mTimePicker.setOnTimeChangedListener(listener);
         mTimePicker.setValidationCallback(callback);
 
-        return view;
+        return mTimePicker;
     }
 
     /**

@@ -14,8 +14,22 @@
      limitations under the License.
 -->
 
-<shape xmlns:android="http://schemas.android.com/apk/res/android"
-    android:tint="?android:colorControlNormal"
-    android:shape="rectangle">
-     <solid android:color="@android:color/black" />
-</shape>
+<animated-selector xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:state_focused="true">
+        <shape
+            android:tint="?android:colorControlActivated"
+            android:shape="rectangle">
+            <solid android:color="@android:color/black" />
+        </shape>
+    </item>
+
+    <item>
+        <shape
+            android:tint="?android:colorControlNormal"
+            android:shape="rectangle">
+            <solid android:color="@android:color/black" />
+        </shape>
+    </item>
+
+</animated-selector>

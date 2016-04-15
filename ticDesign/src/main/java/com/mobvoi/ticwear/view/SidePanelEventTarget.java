@@ -1,4 +1,4 @@
-package ticwear.design.view;
+package com.mobvoi.ticwear.view;
 
 import android.view.MotionEvent;
 
@@ -13,21 +13,11 @@ import android.view.MotionEvent;
  * The y value will match the screen position and relative to the view
  * coordinator (like touch event).
  *
+ * @see SidePanelEventDispatcher
+ *
  * Created by tankery on 4/12/16.
  */
 public interface SidePanelEventTarget {
-
-    /**
-     * Pass the side panel tickle event down to the target view, or this
-     * view if it is the target.
-     *
-     * @param event The tickle event.
-     * @return true if this view is the target, false to allow pass it down.
-     *
-     * @see #onTouchSidePanel(MotionEvent)
-     * @see android.view.View#dispatchTouchEvent(MotionEvent)
-     */
-    boolean dispatchTouchSidePanelEvent(MotionEvent event);
 
     /**
      * Implement this method to handle side panel tickle events.
@@ -35,7 +25,7 @@ public interface SidePanelEventTarget {
      * @param event The tickle event.
      * @return True if the event was handled, false otherwise.
      *
-     * @see #dispatchTouchSidePanelEvent(MotionEvent)
+     * @see SidePanelEventDispatcher#dispatchTouchSidePanelEvent(MotionEvent, SidePanelEventDispatcher.SuperCallback)
      * @see android.view.View#onTouchEvent(MotionEvent)
      */
     boolean onTouchSidePanel(MotionEvent event);

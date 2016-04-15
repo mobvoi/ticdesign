@@ -25,9 +25,15 @@
 }
 
 # Side panel event target should keep for system call.
--keep interface ticwear.design.view.SidePanelEventTarget {
+-keep interface com.mobvoi.ticwear.view.SidePanelEventDispatcher {
     <methods>;
 }
--keep interface ticwear.design.view.SidePanelGestureTarget {
+-keep interface com.mobvoi.ticwear.view.SidePanelEventDispatcher$SuperCallback {
+    <methods>;
+}
+-keep interface com.mobvoi.ticwear.view.SidePanelEventTarget {
+    <methods>;
+}
+-keep interface com.mobvoi.ticwear.view.SidePanelGestureTarget {
     <methods>;
 }

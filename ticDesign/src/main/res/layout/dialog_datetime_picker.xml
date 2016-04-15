@@ -17,7 +17,7 @@
 */
 -->
 
-<FrameLayout
+<ticwear.design.widget.TicklableFrameLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_gravity="center_horizontal"
     android:layout_width="wrap_content"
@@ -38,5 +38,5 @@
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="10dp"/>
 
-</FrameLayout>
+</ticwear.design.widget.TicklableFrameLayout>
 

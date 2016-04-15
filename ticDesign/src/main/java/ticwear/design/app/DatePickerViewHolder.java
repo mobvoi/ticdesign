@@ -3,7 +3,7 @@ package ticwear.design.app;
 import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
-import android.view.View;
+import android.view.ViewGroup;
 
 import ticwear.design.R;
 import ticwear.design.widget.DatePicker;
@@ -21,17 +21,15 @@ class DatePickerViewHolder {
         this.mContext = context;
     }
 
-    public View init(int year, int monthOfYear, int dayOfMonth,
-                     DatePicker.OnDateChangedListener listener,
-                     DatePicker.ValidationCallback callback) {
+    public DatePicker init(ViewGroup parent, int year, int monthOfYear, int dayOfMonth,
+                           DatePicker.OnDateChangedListener listener,
+                           DatePicker.ValidationCallback callback) {
         final LayoutInflater inflater = LayoutInflater.from(mContext);
-        final View view = inflater.inflate(R.layout.dialog_date_picker, null);
-
-        mDatePicker = (DatePicker) view.findViewById(R.id.tic_datePicker);
+        mDatePicker = (DatePicker) inflater.inflate(R.layout.dialog_date_picker, parent, false);
         mDatePicker.init(year, monthOfYear, dayOfMonth, listener);
         mDatePicker.setValidationCallback(callback);
 
-        return view;
+        return mDatePicker;
     }
 
     /**

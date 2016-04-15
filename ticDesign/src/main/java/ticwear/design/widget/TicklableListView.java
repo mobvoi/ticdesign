@@ -4,12 +4,15 @@ import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.support.annotation.IntDef;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
+
+import com.mobvoi.ticwear.view.SidePanelEventDispatcher;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.Retention;
@@ -18,7 +21,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ticwear.design.R;
-import ticwear.design.view.SidePanelEventTarget;
 
 import static java.lang.annotation.ElementType.FIELD;
 import static java.lang.annotation.ElementType.LOCAL_VARIABLE;
@@ -26,11 +28,9 @@ import static java.lang.annotation.ElementType.METHOD;
 import static java.lang.annotation.ElementType.PARAMETER;
 import static java.lang.annotation.RetentionPolicy.SOURCE;
 
-;
-
 @TargetApi(20)
 @CoordinatorLayout.DefaultBehavior(TicklableListViewBehavior.class)
-public class TicklableListView extends RecyclerView implements SidePanelEventTarget {
+public class TicklableListView extends RecyclerView implements SidePanelEventDispatcher {
 
     static final String TAG = "TicklableListView";
 
@@ -315,7 +315,7 @@ public class TicklableListView extends RecyclerView implements SidePanelEventTar
     }
 
     @Override
-    public boolean dispatchTouchSidePanelEvent(MotionEvent ev) {
+    public boolean dispatchTouchSidePanelEvent(MotionEvent ev, @NonNull SuperCallback superCallback) {
         switch (ev.getAction()) {
             case MotionEvent.ACTION_DOWN:
                 boolean previousInFocus = isInFocusState();
@@ -336,13 +336,7 @@ public class TicklableListView extends RecyclerView implements SidePanelEventTar
                 break;
         }
         super.dispatchTouchEvent(ev);
-        // TODO: should return super.dispatchXXX, so we may need a interface for side-panel event?
-        return true;
-    }
-
-    @Override
-    public boolean onTouchSidePanel(MotionEvent ev) {
-        return false;
+        return superCallback.superDispatchTouchSidePanelEvent(ev);
     }
 
     @Override
