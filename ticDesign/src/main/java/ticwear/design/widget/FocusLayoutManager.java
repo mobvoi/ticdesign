@@ -6,12 +6,15 @@ import android.graphics.drawable.Drawable;
 import android.graphics.drawable.RippleDrawable;
 import android.os.Build;
 import android.os.Handler;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearSmoothScroller;
 import android.support.v7.widget.RecyclerView;
 import android.util.DisplayMetrics;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
+
+import ticwear.design.R;
 
 /**
  * Created by tankery on 2/17/16.
@@ -28,6 +31,8 @@ class FocusLayoutManager extends RecyclerView.LayoutManager {
     private int mFirstPosition;
     private boolean mPushFirstHigher;
     private boolean mUseOldViewTop;
+
+    private ScrollVelocityTracker mScrollVelocityTracker;
 
     private int mVerticalPadding;
 
@@ -306,8 +311,16 @@ class FocusLayoutManager extends RecyclerView.LayoutManager {
         }
 
         recycleViewsOutOfBounds(recycler);
+
+        if (mScrollVelocityTracker == null) {
+            mScrollVelocityTracker =
+                    new ScrollVelocityTracker(ticklableListView.getContext(), getItemHeight());
+        }
+
+        boolean scrollFast = mScrollVelocityTracker.addScroll(dy);
+
         if (getChildCount() > 0) {
-            notifyChildrenAboutProximity(true);
+            notifyChildrenAboutProximity(!scrollFast);
         }
         return scrolled;
     }
@@ -499,6 +512,36 @@ class FocusLayoutManager extends RecyclerView.LayoutManager {
     @Override
     public void onAdapterChanged(RecyclerView.Adapter oldAdapter, RecyclerView.Adapter newAdapter) {
         removeAllViews();
+    }
+
+    private static class ScrollVelocityTracker {
+
+        private long mLastScrollTime = -1;
+        private final float mFastScrollVelocity;
+
+        ScrollVelocityTracker(@NonNull Context context, int itemHeight) {
+            long animationTime = context.getResources()
+                    .getInteger(R.integer.design_anim_list_item_state_change);
+            mFastScrollVelocity = 1.5f * itemHeight / animationTime;
+        }
+
+        public boolean addScroll(int dy) {
+            boolean scrollFast = false;
+
+            long currentTime = System.currentTimeMillis();
+            if (mLastScrollTime > 0) {
+                long duration = currentTime - mLastScrollTime;
+                float velocity = (float) Math.abs(dy) / duration;
+                if (velocity > mFastScrollVelocity) {
+                    scrollFast = true;
+                }
+            }
+            mLastScrollTime = currentTime;
+
+
+            return scrollFast;
+        }
+
     }
 
     private static class SmoothScroller extends LinearSmoothScroller {

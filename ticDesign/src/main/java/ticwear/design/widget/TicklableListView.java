@@ -495,9 +495,13 @@ public class TicklableListView extends RecyclerView implements SidePanelEventDis
         @FocusState
         private int prevFocusState;
 
+        private final long defaultAnimDuration;
+
         public ViewHolder(View itemView) {
             super(itemView);
             prevFocusState = FOCUS_STATE_INVALID;
+            defaultAnimDuration = itemView.getContext().getResources()
+                    .getInteger(R.integer.design_anim_list_item_state_change);
         }
 
         /**
@@ -527,13 +531,15 @@ public class TicklableListView extends RecyclerView implements SidePanelEventDis
                     alpha = 1.0f;
                     break;
                 case FOCUS_STATE_NON_CENTRAL:
-                    scale = 0.9f;
+                    scale = 1.0f;
                     alpha = 0.6f;
+                    break;
+                default:
                     break;
             }
             if (animate) {
                 itemView.animate()
-                        .setDuration(200)
+                        .setDuration(defaultAnimDuration)
                         .alpha(alpha)
                         .scaleX(scale)
                         .scaleY(scale);
@@ -542,6 +548,10 @@ public class TicklableListView extends RecyclerView implements SidePanelEventDis
                 itemView.setScaleY(scale);
                 itemView.setAlpha(alpha);
             }
+        }
+
+        public long getDefaultAnimDuration() {
+            return defaultAnimDuration;
         }
     }
 

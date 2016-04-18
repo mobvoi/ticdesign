@@ -32,8 +32,6 @@ public class PreferenceViewHolder extends TicklableListView.ViewHolder {
     protected float itemAlphaDown;
     protected long animateDuration;
 
-    protected static final long DEFAULT_ANIMATE_DURATION = 200;
-
     public PreferenceViewHolder(@NonNull ViewGroup parent, @LayoutRes int layoutResId) {
         this(parent, layoutResId, 0);
     }
@@ -72,7 +70,7 @@ public class PreferenceViewHolder extends TicklableListView.ViewHolder {
         iconScaleUp = iconSizeUp / iconSizeNormal;
         iconScaleDown = iconSizeDown / iconSizeNormal;
         itemAlphaDown = 0.6f;   // TODO: define in attributes.
-        animateDuration = DEFAULT_ANIMATE_DURATION; // TODO: define in attributes.
+        animateDuration = getDefaultAnimDuration();
     }
 
     @CheckResult

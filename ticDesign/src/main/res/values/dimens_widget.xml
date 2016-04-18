@@ -7,7 +7,7 @@
     <dimen name="tic_list_item_status_box_size_small">34dp</dimen>
     <dimen name="tic_list_item_icon_frame_size_normal">46dp</dimen>
     <dimen name="tic_list_item_icon_frame_size_large">50dp</dimen>
-    <dimen name="tic_list_item_icon_frame_size_small">42dp</dimen>
+    <dimen name="tic_list_item_icon_frame_size_small">46dp</dimen>
     <dimen name="tic_list_item_icon_src_size">22dp</dimen>
     <!-- text margin from icon or other widgets -->
     <dimen name="tic_list_item_text_margin_normal">14dp</dimen>

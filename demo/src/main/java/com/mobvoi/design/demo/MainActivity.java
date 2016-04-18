@@ -68,12 +68,9 @@ public class MainActivity extends Activity {
 
     private static class ViewHolder extends SimpleRecyclerAdapter.ViewHolder implements View.OnClickListener {
 
-        private final long animDuration;
-
         ViewHolder(View view, int[] to) {
             super(view, to);
             view.setOnClickListener(this);
-            animDuration = 200; // view.getResources().getInteger(android.R.integer.config_shortAnimTime);
         }
 
         @Override
@@ -87,26 +84,29 @@ public class MainActivity extends Activity {
         @Override
         protected void onFocusStateChanged(int focusState, boolean animate) {
             float scale = 1;
+            float alpha = 1.0f;
             switch (focusState) {
                 case TicklableListView.FOCUS_STATE_NORMAL:
-                    scale = 1;
                     break;
                 case TicklableListView.FOCUS_STATE_CENTRAL:
-                    scale = 1.3f;
+                    scale = 1.1f;
                     break;
                 case TicklableListView.FOCUS_STATE_NON_CENTRAL:
-                    scale = 0.8f;
+                    alpha = 0.6f;
                     break;
             }
             TextView title = ButterKnife.findById(itemView, R.id.text1);
             title.setPivotX(0);
             title.setPivotY(title.getHeight() / 2f);
             if (animate) {
-                title.animate().setDuration(animDuration).scaleX(scale);
-                title.animate().setDuration(animDuration).scaleY(scale);
+                title.animate().setDuration(getDefaultAnimDuration())
+                        .scaleX(scale)
+                        .scaleY(scale)
+                        .alpha(alpha);
             } else {
                 title.setScaleX(scale);
                 title.setScaleY(scale);
+                title.setAlpha(alpha);
             }
         }
     }
