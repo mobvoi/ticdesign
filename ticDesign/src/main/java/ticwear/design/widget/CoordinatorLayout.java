@@ -62,6 +62,7 @@ import java.util.List;
 import java.util.Map;
 
 import ticwear.design.R;
+import ticwear.design.internal.ThemeUtils;
 
 /**
  * CoordinatorLayout is a super-powered {@link android.widget.FrameLayout FrameLayout}.
@@ -192,6 +193,8 @@ public class CoordinatorLayout extends ViewGroup implements NestedScrollingParen
 
     public CoordinatorLayout(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
+
+        ThemeUtils.checkDesignTheme(context);
 
         final TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.CoordinatorLayout,
                 defStyleAttr, R.style.Widget_Ticwear_CoordinatorLayout);

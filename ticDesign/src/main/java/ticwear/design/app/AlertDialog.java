@@ -40,6 +40,7 @@ import android.widget.ImageButton;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 
+import ticwear.design.internal.ThemeUtils;
 import ticwear.design.internal.app.AlertController;
 import ticwear.design.widget.TicklableListView;
 import ticwear.design.widget.TrackSelectionAdapterWrapper;
@@ -159,6 +160,8 @@ public class AlertDialog extends Dialog implements DialogInterface {
 
     @StyleRes
     static int resolveDialogTheme(Context context, @StyleRes int themeResId) {
+        ThemeUtils.checkDesignTheme(context);
+
         if (themeResId >= 0x01000000) {   // start of real resource IDs.
             return themeResId;
         } else {
