@@ -19,6 +19,8 @@ import java.util.Map;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import ticwear.design.widget.FocusableLinearLayoutManager;
+import ticwear.design.widget.FocusableLinearLayoutManager.FocusState;
 import ticwear.design.widget.SimpleRecyclerAdapter;
 import ticwear.design.widget.TicklableListView;
 
@@ -61,7 +63,7 @@ public class ListFragment extends Fragment {
     }
 
     private void updateTitle() {
-        if (textTitle != null) {
+        if (textTitle != null && title != null) {
             textTitle.setText(title);
         }
     }
@@ -121,8 +123,12 @@ public class ListFragment extends Fragment {
 
         private final WeakReference<ListFragment> listFragment;
 
+        @Bind(R.id.text1)
+        TextView title;
+
         ViewHolder(ListFragment listFragment, View view, int[] to) {
             super(view, to);
+            ButterKnife.bind(this, view);
             this.listFragment = new WeakReference<>(listFragment);
             view.setOnClickListener(this);
         }
@@ -136,5 +142,40 @@ public class ListFragment extends Fragment {
             }
         }
 
+        @Override
+        protected void onFocusStateChanged(@FocusState int focusState, boolean animate) {
+            float scale = 1.0f;
+            float alpha = 1.0f;
+            switch (focusState) {
+                case FocusableLinearLayoutManager.FOCUS_STATE_NORMAL:
+                    break;
+                case FocusableLinearLayoutManager.FOCUS_STATE_CENTRAL:
+                    scale = 1.1f;
+                    alpha = 1.0f;
+                    break;
+                case FocusableLinearLayoutManager.FOCUS_STATE_NON_CENTRAL:
+                    scale = 0.9f;
+                    alpha = 0.6f;
+                    break;
+                case FocusableLinearLayoutManager.FOCUS_STATE_INVALID:
+                    throw new RuntimeException("focusState in invalidate!");
+            }
+
+            title.setPivotX(0);
+            title.setPivotY(title.getHeight() / 2f);
+            title.animate().cancel();
+            if (animate) {
+                title.animate()
+                        .setDuration(getDefaultAnimDuration())
+                        .alpha(alpha)
+                        .scaleX(scale)
+                        .scaleY(scale)
+                        .start();
+            } else {
+                title.setScaleX(scale);
+                title.setScaleY(scale);
+                title.setAlpha(alpha);
+            }
+        }
     }
 }

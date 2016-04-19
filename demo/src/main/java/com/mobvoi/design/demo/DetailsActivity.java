@@ -22,7 +22,7 @@ public class DetailsActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_details);
+        setContentView(R.layout.activity_fragment);
 
         Fragment detailFragment;
         int titleRes = getIntent().getIntExtra("case", -1);

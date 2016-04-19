@@ -8,12 +8,14 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import ticwear.design.widget.FocusableLinearLayoutManager.ViewHolder;
+
 /**
  * This class provides a set of standard methods to handle the selection on the items of an Adapter.
  *
  * @author Davide Steduto
  */
-public abstract class SelectableAdapter<VH extends TicklableListView.ViewHolder> extends RecyclerView.Adapter<VH> {
+public abstract class SelectableAdapter<VH extends ViewHolder> extends RecyclerView.Adapter<VH> {
 
 	private static final String TAG = SelectableAdapter.class.getSimpleName();
 

@@ -9,16 +9,22 @@ import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import ticwear.design.DesignConfig;
 import ticwear.design.R;
-import ticwear.design.widget.TicklableListView;
+import ticwear.design.widget.FocusableLinearLayoutManager;
+import ticwear.design.widget.FocusableLinearLayoutManager.FocusState;
+import ticwear.design.widget.FocusableLinearLayoutManager.ViewHolder;
 
-public class PreferenceViewHolder extends TicklableListView.ViewHolder {
+public class PreferenceViewHolder extends ViewHolder {
+
+    static final String TAG = "PrefVH";
 
     protected ViewGroup iconFrame;
     protected ImageView iconBackground;
@@ -66,7 +72,7 @@ public class PreferenceViewHolder extends TicklableListView.ViewHolder {
     private void initItemAnimationProperties(Context context) {
         float iconSizeUp = context.getResources().getDimensionPixelSize(R.dimen.tic_list_item_icon_frame_size_large);
         float iconSizeNormal = context.getResources().getDimensionPixelSize(R.dimen.tic_list_item_icon_frame_size_normal);
-        float iconSizeDown = context.getResources().getDimensionPixelSize(R.dimen.tic_list_item_icon_frame_size_small);
+        float iconSizeDown = context.getResources().getDimensionPixelSize(R.dimen.tic_list_item_icon_frame_size_normal);
         iconScaleUp = iconSizeUp / iconSizeNormal;
         iconScaleDown = iconSizeDown / iconSizeNormal;
         itemAlphaDown = 0.6f;   // TODO: define in attributes.
@@ -95,6 +101,10 @@ public class PreferenceViewHolder extends TicklableListView.ViewHolder {
      */
     @CallSuper
     public void bind(@NonNull PreferenceData preferenceData) {
+        if (DesignConfig.DEBUG_RECYCLER_VIEW) {
+            Log.v(TAG, getLogPrefix() + "bind to " + preferenceData.title + getLogSuffix());
+        }
+
         bindTextView(titleView, preferenceData.title);
 
         bindTextView(summaryView, preferenceData.summary);
@@ -114,34 +124,50 @@ public class PreferenceViewHolder extends TicklableListView.ViewHolder {
     }
 
     @Override
-    protected void onFocusStateChanged(@TicklableListView.FocusState int focusState,
+    protected void onFocusStateChanged(@FocusState int focusState,
                                        boolean animate) {
         float scale = 1.0f;
         float alpha = 1.0f;
         switch (focusState) {
-            case TicklableListView.FOCUS_STATE_NORMAL:
+            case FocusableLinearLayoutManager.FOCUS_STATE_NORMAL:
                 break;
-            case TicklableListView.FOCUS_STATE_CENTRAL:
+            case FocusableLinearLayoutManager.FOCUS_STATE_CENTRAL:
                 scale = iconScaleUp;
                 alpha = 1.0f;
                 break;
-            case TicklableListView.FOCUS_STATE_NON_CENTRAL:
+            case FocusableLinearLayoutManager.FOCUS_STATE_NON_CENTRAL:
                 scale = iconScaleDown;
                 alpha = itemAlphaDown;
                 break;
         }
+
+        itemView.animate().cancel();
+        titleView.animate().cancel();
+        summaryView.animate().cancel();
+        if (showIconAnimation()) {
+            iconView.animate().cancel();
+        }
         if (animate) {
             itemView.animate()
                     .setDuration(animateDuration)
-                    .alpha(alpha)
                     .scaleX(scale)
-                    .scaleY(scale);
+                    .scaleY(scale)
+                    .start();
+            titleView.animate()
+                    .setDuration(animateDuration)
+                    .alpha(alpha)
+                    .start();
+            summaryView.animate()
+                    .setDuration(animateDuration)
+                    .alpha(alpha)
+                    .start();
             if (showIconAnimation()) {
                 float inverseScale = 1.0f / scale;
                 iconView.animate()
                         .setDuration(animateDuration)
                         .scaleX(inverseScale)
-                        .scaleY(inverseScale);
+                        .scaleY(inverseScale)
+                        .start();
             }
         } else {
             if (showIconAnimation()) {
@@ -149,9 +175,16 @@ public class PreferenceViewHolder extends TicklableListView.ViewHolder {
                 iconView.setScaleX(inverseScale);
                 iconView.setScaleY(inverseScale);
             }
-            itemView.setAlpha(alpha);
+            titleView.setAlpha(alpha);
+            summaryView.setAlpha(alpha);
             itemView.setScaleX(scale);
             itemView.setScaleY(scale);
+        }
+
+        if (DesignConfig.DEBUG_RECYCLER_VIEW) {
+            Log.d(TAG, getLogPrefix() + "focus state to " + focusState + ", animate " + animate +
+                    ", scale " + scale + ", alpha " + alpha +
+                    ", view alpha " + itemView.getAlpha() + getLogSuffix());
         }
     }
 

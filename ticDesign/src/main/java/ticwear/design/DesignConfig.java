@@ -12,5 +12,6 @@ public class DesignConfig {
     public static final boolean DEBUG = !Build.TYPE.equals("user");
 
     public static final boolean DEBUG_PICKERS = false;
+    public static final boolean DEBUG_RECYCLER_VIEW = false;
 
 }

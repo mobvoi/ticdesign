@@ -3,94 +3,43 @@ package ticwear.design.widget;
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.res.TypedArray;
-import android.support.annotation.IntDef;
+import android.graphics.PointF;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 
 import com.mobvoi.ticwear.view.SidePanelEventDispatcher;
 
-import java.lang.annotation.Documented;
-import java.lang.annotation.Retention;
-import java.lang.annotation.Target;
-import java.util.ArrayList;
-import java.util.List;
-
 import ticwear.design.R;
-
-import static java.lang.annotation.ElementType.FIELD;
-import static java.lang.annotation.ElementType.LOCAL_VARIABLE;
-import static java.lang.annotation.ElementType.METHOD;
-import static java.lang.annotation.ElementType.PARAMETER;
-import static java.lang.annotation.RetentionPolicy.SOURCE;
 
 @TargetApi(20)
 @CoordinatorLayout.DefaultBehavior(TicklableListViewBehavior.class)
 public class TicklableListView extends RecyclerView implements SidePanelEventDispatcher {
 
-    static final String TAG = "TicklableListView";
+    static final String TAG = "TicklableLV";
 
-    /**
-     * Invalid focus state
-     */
-    public static final int FOCUS_STATE_INVALID = -1;
-
-    /**
-     * Focus state on normal (not tickled).
-     */
-    public static final int FOCUS_STATE_NORMAL = 0;
-
-    /**
-     * Focus state on central, means the item is focused when tickled.
-     */
-    public static final int FOCUS_STATE_CENTRAL = 1;
-
-    /**
-     * Focus state on non central, means the item is not focused when tickled.
-     */
-    public static final int FOCUS_STATE_NON_CENTRAL = 2;
-
-    /**
-     * Denotes that an integer parameter, field or method return value is expected
-     * to be a focus state value (e.g. {@link #FOCUS_STATE_CENTRAL}).
-     */
-    @Documented
-    @Retention(SOURCE)
-    @Target({METHOD, PARAMETER, FIELD, LOCAL_VARIABLE})
-    @IntDef({FOCUS_STATE_INVALID, FOCUS_STATE_NORMAL, FOCUS_STATE_CENTRAL, FOCUS_STATE_NON_CENTRAL})
-    public @interface FocusState {}
-
-    private final List<TicklableListView.OnCentralPositionChangedListener> mOnCentralPositionChangedListeners;
-
-    /**
-     * Flag to indicate if we are in normal state or focus state.
-     */
-    private boolean inFocusState;
-    /**
-     * {@link LayoutManager} for normal state.
-     */
-    private LayoutManager normalLayoutManager;
     /**
      * {@link LayoutManager} for focus state.
      */
-    private LayoutManager focusLayoutManager;
+    private final FocusableLinearLayoutManager mFocusableLayoutManager;
 
-    private int previousCentral;
-
-    private int focusedPadding;
+    private int mFocusedPadding;
 
     /**
      * To make-sure we have focus change when coordinate with {@link AppBarLayout},
      * We should use a scroll to mock the offset.
      */
-    private int scrollOffset;
+    private int mScrollOffset;
     private static final int INVALID_SCROLL_OFFSET = Integer.MAX_VALUE;
 
-    private boolean skipNestedScroll;
+    private boolean mSkipNestedScroll;
+
+    private final PointF mTempPoint = new PointF();
 
     public TicklableListView(Context context) {
         this(context, null);
@@ -112,22 +61,33 @@ public class TicklableListView extends RecyclerView implements SidePanelEventDis
 
         TypedArray a = context.obtainStyledAttributes(attrs,
                 R.styleable.TicklableListView, defStyleAttr, defStyleRes);
-        focusedPadding = a.getDimensionPixelOffset(
+        mFocusedPadding = a.getDimensionPixelOffset(
                 R.styleable.TicklableListView_tic_focusedStatePadding,
                 defaultFocusedPadding);
         a.recycle();
 
-        mOnCentralPositionChangedListeners = new ArrayList<>();
         setHasFixedSize(true);
         setOverScrollMode(OVER_SCROLL_NEVER);
 
-        inFocusState = false;
-        resetLayoutManager();
+        mFocusableLayoutManager = new FocusableLinearLayoutManager(this);
+        super.setLayoutManager(mFocusableLayoutManager);
+        resetLayoutManagerState(false, null);
 
-        previousCentral = NO_POSITION;
+        mScrollOffset = INVALID_SCROLL_OFFSET;
+        mSkipNestedScroll = false;
 
-        scrollOffset = INVALID_SCROLL_OFFSET;
-        skipNestedScroll = false;
+        if (getItemAnimator() != null) {
+            long defaultAnimDuration = context.getResources()
+                    .getInteger(R.integer.design_anim_list_item_state_change);
+            long itemAnimDuration = defaultAnimDuration / 4;
+//            getItemAnimator().setChangeDuration(itemAnimDuration);
+            getItemAnimator().setMoveDuration(itemAnimDuration);
+        }
+    }
+
+    @Override
+    public LinearLayoutManager getLayoutManager() {
+        return (LinearLayoutManager) super.getLayoutManager();
     }
 
     /**
@@ -139,7 +99,7 @@ public class TicklableListView extends RecyclerView implements SidePanelEventDis
     public void setAdapter(RecyclerView.Adapter adapter) {
         if (adapter != null) {
             RecyclerView.ViewHolder viewHolder = adapter.createViewHolder(this, adapter.getItemViewType(0));
-            if (!(viewHolder instanceof ViewHolder) && !isInEditMode()) {
+            if (!(viewHolder instanceof FocusableLinearLayoutManager.ViewHolder) && !isInEditMode()) {
                 throw new IllegalArgumentException("adapter's ViewHolder should be instance of TicklableListView.ViewHolder");
             }
         }
@@ -183,46 +143,60 @@ public class TicklableListView extends RecyclerView implements SidePanelEventDis
         return index;
     }
 
-    public boolean isInFocusState() {
-        return inFocusState;
-    }
-
-    private void resetLayoutManager() {
-        LayoutManager layoutManager;
-        if (inFocusState) {
-            if (focusLayoutManager == null) {
-                focusLayoutManager = new FocusLayoutManager(this);
-                ((FocusLayoutManager) focusLayoutManager).setVerticalPadding(focusedPadding);
-            }
-            layoutManager = focusLayoutManager;
-        } else {
-            if (normalLayoutManager == null) {
-                normalLayoutManager = new LinearLayoutManager(getContext());
-            }
-            layoutManager = normalLayoutManager;
-        }
-
-        final boolean preInFocusState = getLayoutManager() == focusLayoutManager;
+    private void resetLayoutManagerState(boolean toFocus, @Nullable PointF touchPoint) {
+        final boolean preInFocusState = isInFocusState();
 
         // Save current scroll position.
-        int position = saveCurrentScrollPosition();
+//        int position = saveCurrentScrollPosition(toFocus, touchPoint);
 
-        super.setLayoutManager(layoutManager);
+        mFocusableLayoutManager.setInFocusState(toFocus);
 
-        restoreScrollPosition(position, preInFocusState);
+        // Restore offset
+        mFocusableLayoutManager.setScrollResetting(true);
+        if (!preInFocusState && toFocus) {
+            mScrollOffset = getTop();
+            setTop(0);
+            scrollBy(0, -mScrollOffset);
+        } else if (preInFocusState && !toFocus) {
+            if (mScrollOffset != INVALID_SCROLL_OFFSET) {
+                setTop(mScrollOffset);
+                scrollBy(0, mScrollOffset);
+                mScrollOffset = INVALID_SCROLL_OFFSET;
+            }
+        }
+        mFocusableLayoutManager.setScrollResetting(false);
+
+        if (getAdapter() != null) {
+            getAdapter().notifyDataSetChanged();
+        }
+
+//        restoreScrollPosition(position);
     }
 
-    private int saveCurrentScrollPosition() {
+    private int saveCurrentScrollPosition(boolean toFocus, @Nullable PointF touchPoint) {
 
         // Then record the current scroll position.
         int position = NO_POSITION;
         if (getChildCount() > 0) {
-            int centerIndex = findCenterViewIndex();
-            // When hole first child is visible, we what to scroll to it, instead of second item.
-            boolean useCenterIndex = inFocusState && !firstChildAllVisible();
-            // If in focus state, get child position in center, or, get child position in top.
-            int index = useCenterIndex ? centerIndex : Math.max(0, centerIndex - 1);
-            position = getChildAdapterPosition(getChildAt(index));
+
+            if (touchPoint != null) {
+                View child = findChildViewUnder(touchPoint.x, touchPoint.y);
+                int touchPosition = getChildAdapterPosition(child);
+                position = Math.max(0, touchPosition - 1);
+
+                Log.i(TAG, "save position for " + (toFocus ? "focus" : "normal") +
+                        ": touched " + touchPosition + ", pos " + position);
+            } else {
+                int centerIndex = findCenterViewIndex();
+                // When hole first child is visible, we what to scroll to it, instead of second item.
+                boolean useCenterIndex = toFocus && !firstChildAllVisible();
+                // If in focus state, get child position in center, or, get child position in top.
+                int index = useCenterIndex ? centerIndex : Math.max(0, centerIndex - 1);
+                position = getChildAdapterPosition(getChildAt(index));
+
+                Log.i(TAG, "save position for " + (toFocus ? "focus" : "normal") +
+                        ": center " + centerIndex + ", index " + index + ", pos " + position);
+            }
         }
         return position;
     }
@@ -235,18 +209,7 @@ public class TicklableListView extends RecyclerView implements SidePanelEventDis
 
     }
 
-    private void restoreScrollPosition(int position, boolean preInFocusState) {
-        // Restore offset
-        if (!preInFocusState && inFocusState) {
-            scrollOffset = getTop();
-            setTop(0);
-        } else if (preInFocusState && !inFocusState) {
-            if (scrollOffset != INVALID_SCROLL_OFFSET) {
-                setTop(scrollOffset);
-                scrollOffset = INVALID_SCROLL_OFFSET;
-            }
-        }
-
+    private void restoreScrollPosition(final int position) {
         if (position != NO_POSITION) {
             // Restore scroll position.
             scrollToPosition(position);
@@ -255,50 +218,20 @@ public class TicklableListView extends RecyclerView implements SidePanelEventDis
 
     @Override
     public void setLayoutManager(LayoutManager layout) {
-        throw new IllegalStateException("Don't set raw layout manager, use " +
-                "setNormalLayoutManager & setFocusLayoutManager instead.");
+        throw new IllegalStateException("Can't customized the layout manager for TicklableListView.");
     }
 
-    public void setNormalLayoutManager(@Nullable LayoutManager layout) {
-        normalLayoutManager = layout;
-        resetLayoutManager();
-    }
-
-    public void setFocusLayoutManager(@Nullable LayoutManager layout) {
-        focusLayoutManager = layout;
-        resetLayoutManager();
+    public boolean isInFocusState() {
+        return mFocusableLayoutManager.isInFocusState();
     }
 
     public int getFocusedPadding() {
-        return focusedPadding;
+        return mFocusedPadding;
     }
 
     public void setFocusedPadding(int focusedPadding) {
-        this.focusedPadding = focusedPadding;
-        if (focusLayoutManager instanceof FocusLayoutManager) {
-            ((FocusLayoutManager) focusLayoutManager).setVerticalPadding(focusedPadding);
-        }
-    }
-
-    /**
-     * Adds a listener that will be called when the central item of the list changes.
-     */
-    public void addOnCentralPositionChangedListener(TicklableListView.OnCentralPositionChangedListener listener) {
-        mOnCentralPositionChangedListeners.add(listener);
-    }
-
-    /**
-     * Removes a listener that would be called when the central item of the list changes.
-     */
-    public void removeOnCentralPositionChangedListener(TicklableListView.OnCentralPositionChangedListener listener) {
-        mOnCentralPositionChangedListeners.remove(listener);
-    }
-
-    /**
-     * Clear all listeners that listening the central item of the list changes event.
-     */
-    public void clearOnCentralPositionChangedListener() {
-        mOnCentralPositionChangedListeners.clear();
+        this.mFocusedPadding = focusedPadding;
+        mFocusableLayoutManager.setVerticalPadding(focusedPadding);
     }
 
     @Override
@@ -306,11 +239,12 @@ public class TicklableListView extends RecyclerView implements SidePanelEventDis
         // Fix touch offset according to scroll-offset
         // When exit focus state, scroll of this view will transfer to offset.
         // So we must calculate the offset change into touch event.
-        if (isInFocusState() && scrollOffset != INVALID_SCROLL_OFFSET &&
+        if (isInFocusState() && mScrollOffset != INVALID_SCROLL_OFFSET &&
                 e.getAction() == MotionEvent.ACTION_DOWN) {
-            e.offsetLocation(0, -scrollOffset);
+            e.offsetLocation(0, -mScrollOffset);
         }
-        exitFocusStateIfNeed();
+        mTempPoint.set(e.getX(), e.getY());
+        exitFocusStateIfNeed(mTempPoint);
         return super.dispatchTouchEvent(e);
     }
 
@@ -319,12 +253,13 @@ public class TicklableListView extends RecyclerView implements SidePanelEventDis
         switch (ev.getAction()) {
             case MotionEvent.ACTION_DOWN:
                 boolean previousInFocus = isInFocusState();
-                enterFocusStateIfNeed();
+                mTempPoint.set(ev.getX(), ev.getY());
+                enterFocusStateIfNeed(mTempPoint);
                 // Fix touch offset according to scroll-offset
                 // When enter focus state, offset of this view will transfer to scroll.
                 // So we must calculate the offset change into touch event.
-                if (!previousInFocus && scrollOffset != INVALID_SCROLL_OFFSET) {
-                    ev.offsetLocation(0, scrollOffset);
+                if (!previousInFocus && mScrollOffset != INVALID_SCROLL_OFFSET) {
+                    ev.offsetLocation(0, mScrollOffset);
                 }
                 break;
             case MotionEvent.ACTION_UP:
@@ -340,20 +275,8 @@ public class TicklableListView extends RecyclerView implements SidePanelEventDis
     }
 
     @Override
-    public TicklableListView.ViewHolder getChildViewHolder(View child) {
-        return (TicklableListView.ViewHolder) super.getChildViewHolder(child);
-    }
-
-    @Override
-    public void onChildAttachedToWindow(View child) {
-        // Set child focus state right after its attached to window,
-        // to avoid wrong state displaying on screen.
-        if (isInFocusState()) {
-            notifyChildFocusStateChanged(FOCUS_STATE_NON_CENTRAL, false, child);
-        } else {
-            notifyChildFocusStateChanged(FOCUS_STATE_NORMAL, false, child);
-        }
-        child.setClickable(true);
+    public FocusableLinearLayoutManager.ViewHolder getChildViewHolder(View child) {
+        return (FocusableLinearLayoutManager.ViewHolder) super.getChildViewHolder(child);
     }
 
     @Override
@@ -362,76 +285,27 @@ public class TicklableListView extends RecyclerView implements SidePanelEventDis
         super.onDetachedFromWindow();
     }
 
-    void notifyChildrenAboutProximity(int centerIndex, boolean animate) {
-        childrenFocusStateChanged(centerIndex, animate);
-    }
 
-    void notifyChildrenExitFocusState(boolean animate) {
-        childrenFocusStateChanged(NO_POSITION, animate);
-    }
-
-    void childrenFocusStateChanged(int centerIndex, boolean animate) {
-        for (int index = 0; index < getChildCount(); ++index) {
-            View view = getChildAt(index);
-            int focusState = FOCUS_STATE_NORMAL;
-            if (centerIndex != NO_POSITION) {
-                focusState = index == centerIndex ?
-                        TicklableListView.FOCUS_STATE_CENTRAL :
-                        TicklableListView.FOCUS_STATE_NON_CENTRAL;
-            }
-
-            // Child not focus can not click.
-            view.setClickable(focusState != FOCUS_STATE_NON_CENTRAL);
-
-            notifyChildFocusStateChanged(focusState, animate, view);
-        }
-
-        int centerPosition = centerIndex == NO_POSITION ?
-                NO_POSITION : getChildAdapterPosition(getChildAt(centerIndex));
-
-        if (centerPosition != previousCentral) {
-            for (TicklableListView.OnCentralPositionChangedListener listener : mOnCentralPositionChangedListeners) {
-                listener.onCentralPositionChanged(centerPosition);
-            }
-
-            previousCentral = centerPosition;
-        }
-    }
-
-    private void notifyChildFocusStateChanged(int focusState, boolean animate, View view) {
-        if (isInEditMode()) {
-            return;
-        }
-        ViewHolder viewHolder = getChildViewHolder(view);
-
-        // Only call focus state change once.
-        if (viewHolder.prevFocusState != focusState) {
-            viewHolder.onFocusStateChanged(focusState, animate);
-            viewHolder.prevFocusState = focusState;
-        }
-    }
-
-
-    private void enterFocusStateIfNeed() {
+    private void enterFocusStateIfNeed(@Nullable PointF touchPoint) {
         getHandler().removeCallbacks(exitFocusStateRunnable);
-        if (inFocusState) {
+        if (isInFocusState()) {
             return;
         }
 
-        inFocusState = true;
-        resetLayoutManager();
+        resetLayoutManagerState(true, touchPoint);
     }
 
     private void exitFocusStateIfNeed() {
+        exitFocusStateIfNeed(null);
+    }
+
+    private void exitFocusStateIfNeed(@Nullable PointF touchPoint) {
         getHandler().removeCallbacks(exitFocusStateRunnable);
-        if (!inFocusState) {
+        if (!isInFocusState()) {
             return;
         }
 
-        inFocusState = false;
-        resetLayoutManager();
-
-        notifyChildrenExitFocusState(true);
+        resetLayoutManagerState(false, touchPoint);
     }
 
     private Runnable exitFocusStateRunnable = new Runnable() {
@@ -442,7 +316,7 @@ public class TicklableListView extends RecyclerView implements SidePanelEventDis
     };
 
     public int getScrollOffset() {
-        return scrollOffset == INVALID_SCROLL_OFFSET ? 0 : scrollOffset;
+        return mScrollOffset == INVALID_SCROLL_OFFSET ? 0 : mScrollOffset;
     }
 
     /**
@@ -453,142 +327,43 @@ public class TicklableListView extends RecyclerView implements SidePanelEventDis
      * @param scrollOffset new offset to scroll.
      *
      * @return the unconsumed offset.
+     *
+     * TODO: scroll offset seems only work with focused linear layout, maybe we should move the logic to there.
      */
     public int updateScrollOffset(int scrollOffset) {
-        if (this.scrollOffset == scrollOffset) {
+        if (this.mScrollOffset == scrollOffset) {
             return 0;
         }
 
-        if (this.scrollOffset == INVALID_SCROLL_OFFSET) {
+        if (this.mScrollOffset == INVALID_SCROLL_OFFSET) {
             int curScrollOffset = -computeVerticalScrollOffset();
             if (curScrollOffset >= 0 && scrollOffset >= 0) {
-                this.scrollOffset = Math.min(scrollOffset, curScrollOffset);
+                this.mScrollOffset = Math.min(scrollOffset, curScrollOffset);
             } else if (curScrollOffset <= 0 && scrollOffset <= 0) {
-                this.scrollOffset = Math.max(scrollOffset, curScrollOffset);
+                this.mScrollOffset = Math.max(scrollOffset, curScrollOffset);
             } else {
-                this.scrollOffset = 0;
+                this.mScrollOffset = 0;
             }
         }
 
-        int delta = scrollOffset - this.scrollOffset;
+        int delta = scrollOffset - this.mScrollOffset;
         int scroll = -delta;
 
         int pre = computeVerticalScrollOffset();
         // Temporary disable nested scrolling.
-        skipNestedScroll = true;
+        mSkipNestedScroll = true;
         scrollBy(0, scroll);
-        skipNestedScroll = false;
+        mSkipNestedScroll = false;
         int real = computeVerticalScrollOffset() - pre;
 
-        this.scrollOffset -= real;
+        this.mScrollOffset -= real;
 
         return scroll - real;
     }
 
     @Override
     public boolean dispatchNestedScroll(int dxConsumed, int dyConsumed, int dxUnconsumed, int dyUnconsumed, int[] offsetInWindow) {
-        return !skipNestedScroll && super.dispatchNestedScroll(dxConsumed, dyConsumed, dxUnconsumed, dyUnconsumed, offsetInWindow);
-    }
-
-    public static class ViewHolder extends RecyclerView.ViewHolder {
-
-        @FocusState
-        private int prevFocusState;
-
-        private final long defaultAnimDuration;
-
-        public ViewHolder(View itemView) {
-            super(itemView);
-            prevFocusState = FOCUS_STATE_INVALID;
-            defaultAnimDuration = itemView.getContext().getResources()
-                    .getInteger(R.integer.design_anim_list_item_state_change);
-        }
-
-        /**
-         * Focus state of view bind to this ViewHolder is changed.
-         *
-         * @param focusState new focus state of view.
-         * @param animate should apply a animate for this change? If not, just change
-         *                the view immediately.
-         */
-        protected void onFocusStateChanged(@FocusState int focusState, boolean animate) {
-            if (itemView instanceof TicklableListView.OnFocusStateChangedListener) {
-                TicklableListView.OnFocusStateChangedListener item = (TicklableListView.OnFocusStateChangedListener) itemView;
-                item.onFocusStateChanged(focusState, animate);
-            } else {
-                applyDefaultAnimate(focusState, animate);
-            }
-        }
-
-        private void applyDefaultAnimate(@FocusState int focusState, boolean animate) {
-            float scale = 1.0f;
-            float alpha = 1.0f;
-            switch (focusState) {
-                case FOCUS_STATE_NORMAL:
-                    break;
-                case FOCUS_STATE_CENTRAL:
-                    scale = 1.1f;
-                    alpha = 1.0f;
-                    break;
-                case FOCUS_STATE_NON_CENTRAL:
-                    scale = 1.0f;
-                    alpha = 0.6f;
-                    break;
-                default:
-                    break;
-            }
-            if (animate) {
-                itemView.animate()
-                        .setDuration(defaultAnimDuration)
-                        .alpha(alpha)
-                        .scaleX(scale)
-                        .scaleY(scale);
-            } else {
-                itemView.setScaleX(scale);
-                itemView.setScaleY(scale);
-                itemView.setAlpha(alpha);
-            }
-        }
-
-        public long getDefaultAnimDuration() {
-            return defaultAnimDuration;
-        }
-    }
-
-    /**
-     * An OnCentralPositionChangedListener can be set on a TicklableListView to receive messages
-     * when a central position changed event has occurred on that TicklableListView when tickled.
-     *
-     * @see TicklableListView#addOnCentralPositionChangedListener(OnCentralPositionChangedListener)
-     */
-    public interface OnCentralPositionChangedListener {
-
-        /**
-         * Callback method to be invoked when TicklableListView's central item changed.
-         *
-         * @param position The adapter position of the central item, can be {@link #NO_POSITION}.
-         *                 If is {@link #NO_POSITION}, means the tickle state is changed to normal,
-         *                 so there is no central item.
-         */
-        void onCentralPositionChanged(int position);
-    }
-
-    /**
-     * An listener that receive messages for focus state change.
-     *
-     * @see #FOCUS_STATE_NORMAL
-     * @see #FOCUS_STATE_CENTRAL
-     * @see #FOCUS_STATE_NON_CENTRAL
-     */
-    public interface OnFocusStateChangedListener {
-
-        /**
-         * Item's focus state has changed.
-         * @param focusState state of focus. can be {@link #FOCUS_STATE_NORMAL},
-         *                   {@link #FOCUS_STATE_CENTRAL}, {@link #FOCUS_STATE_NON_CENTRAL}
-         * @param animate interact with animation?
-         */
-        void onFocusStateChanged(@FocusState int focusState, boolean animate);
+        return !mSkipNestedScroll && super.dispatchNestedScroll(dxConsumed, dyConsumed, dxUnconsumed, dyUnconsumed, offsetInWindow);
     }
 
 }

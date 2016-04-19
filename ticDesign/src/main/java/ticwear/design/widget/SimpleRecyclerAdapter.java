@@ -21,6 +21,7 @@ import android.net.Uri;
 import android.support.annotation.IdRes;
 import android.support.annotation.LayoutRes;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -32,11 +33,16 @@ import android.widget.TextView;
 import java.util.List;
 import java.util.Map;
 
+import ticwear.design.DesignConfig;
+
 /**
  * An easy adapter to map static data to views defined in an XML file like {@link SimpleAdapter} for
  * {@link RecyclerView}.
  */
 public class SimpleRecyclerAdapter extends RecyclerView.Adapter<SimpleRecyclerAdapter.ViewHolder> {
+
+    static final String TAG = "SimpleRA";
+
     private final LayoutInflater mInflater;
 
     private int[] mTo;
@@ -121,6 +127,10 @@ public class SimpleRecyclerAdapter extends RecyclerView.Adapter<SimpleRecyclerAd
         final Map dataSet = mData.get(position);
         if (dataSet == null) {
             return;
+        }
+
+        if (DesignConfig.DEBUG_RECYCLER_VIEW) {
+            Log.v(TAG, holder.getLogPrefix() + "bind to " + dataSet + holder.getLogSuffix());
         }
 
         holder.dataSet = dataSet;
@@ -308,7 +318,7 @@ public class SimpleRecyclerAdapter extends RecyclerView.Adapter<SimpleRecyclerAd
         boolean setViewValue(android.view.View view, Object data, String textRepresentation);
     }
 
-    public static class ViewHolder extends TicklableListView.ViewHolder {
+    public static class ViewHolder extends FocusableLinearLayoutManager.ViewHolder {
 
         private final View[] views;
         private Map dataSet;

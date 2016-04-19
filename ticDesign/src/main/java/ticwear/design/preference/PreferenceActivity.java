@@ -183,8 +183,6 @@ public abstract class PreferenceActivity extends RecyclerActivity implements
         protected class ViewHolder extends PreferenceViewHolder
                 implements View.OnClickListener {
 
-            int position;
-
             public ViewHolder(@NonNull ViewGroup parent, @LayoutRes int layoutResId) {
                 super(parent, layoutResId);
                 itemView.setOnClickListener(this);
@@ -193,6 +191,7 @@ public abstract class PreferenceActivity extends RecyclerActivity implements
             @Override
             public void onClick(View v) {
                 if (mOnHeaderClickListener != null) {
+                    final int position = getAdapterPosition();
                     final Header header = getItem(position);
                     mOnHeaderClickListener.onHeaderClick(header, position);
                 }
@@ -217,6 +216,8 @@ public abstract class PreferenceActivity extends RecyclerActivity implements
             mLayoutResId = layoutResId;
             mRemoveIconIfEmpty = removeIconBehavior;
             mHeaders = objects;
+
+            setHasStableIds(true);
         }
 
         public void setOnHeaderClickListener(OnHeaderClickListener onHeaderClickListener) {
@@ -239,7 +240,6 @@ public abstract class PreferenceActivity extends RecyclerActivity implements
             data.removeIconIfEmpty = mRemoveIconIfEmpty;
 
             holder.bind(data);
-            holder.position = position;
         }
 
         @Override
@@ -247,10 +247,14 @@ public abstract class PreferenceActivity extends RecyclerActivity implements
             return mHeaders.size();
         }
 
+        @Override
+        public long getItemId(int position) {
+            return position;
+        }
+
         public Header getItem(int position) {
             return mHeaders.get(position);
         }
-
     }
 
     /**

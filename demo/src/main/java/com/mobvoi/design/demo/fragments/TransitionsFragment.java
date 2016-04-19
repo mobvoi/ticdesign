@@ -24,6 +24,7 @@ import java.util.Map;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import ticwear.design.widget.FocusableLinearLayoutManager;
 import ticwear.design.widget.SimpleRecyclerAdapter;
 import ticwear.design.widget.TicklableListView;
 
@@ -131,13 +132,13 @@ public class TransitionsFragment extends Fragment {
         protected void onFocusStateChanged(int focusState, boolean animate) {
             float scale = 1;
             switch (focusState) {
-                case TicklableListView.FOCUS_STATE_NORMAL:
+                case FocusableLinearLayoutManager.FOCUS_STATE_NORMAL:
                     scale = 1;
                     break;
-                case TicklableListView.FOCUS_STATE_CENTRAL:
+                case FocusableLinearLayoutManager.FOCUS_STATE_CENTRAL:
                     scale = 1.3f;
                     break;
-                case TicklableListView.FOCUS_STATE_NON_CENTRAL:
+                case FocusableLinearLayoutManager.FOCUS_STATE_NON_CENTRAL:
                     scale = 0.8f;
                     break;
             }

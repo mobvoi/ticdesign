@@ -1,31 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ticwear.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<ticwear.design.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:scrollbars="vertical"
-    app:tic_overScrollEffect="bounce"
-    tools:context="com.mobvoi.design.demo.MainActivity">
-
-    <include layout="@layout/content_main" />
+    tools:context="com.mobvoi.design.demo.DetailsActivity"
+    tools:deviceIds="wear_round">
 
     <ticwear.design.widget.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-
-        <!--<mobvoi.design.widget.StretchingLayout-->
-            <!--android:id="@+id/layout_header"-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="100dp"-->
-            <!--android:minHeight="?android:actionBarSize"-->
-            <!--app:tic_expandedTitleGravity="center"-->
-            <!--app:tic_collapsedTitleGravity="center"-->
-            <!--app:tic_layout_scrollFlags="scroll|exitUntilCollapsed|snap|overScrollBounce"-->
-            <!--app:tic_layout_scrollResistanceFactor="0.5"-->
-            <!--android:title="@string/main.title">-->
-
-        <!--</mobvoi.design.widget.StretchingLayout>-->
 
         <ImageView
             style="?tic_windowIconStyle"
@@ -41,15 +26,23 @@
 
         <ticwear.design.widget.ScalableTextView
             style="?android:windowTitleStyle"
+            android:id="@android:id/title"
             android:layout_width="match_parent"
             android:layout_height="32dp"
             android:gravity="center"
             android:text="@string/main.title"
-            app:tic_layout_scrollFlags="scroll|overScrollBounce|enterAlways"
+            app:tic_layout_scrollFlags="scroll|overScrollBounce"
             app:tic_layout_scrollResistanceFactor="0.5"
             app:tic_scaleFactor="0.5"
             />
 
     </ticwear.design.widget.AppBarLayout>
 
+    <ticwear.design.widget.TicklableListView
+        style="@style/Widget.Ticwear.ListView"
+        android:id="@+id/list_sub_demo"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
 </ticwear.design.widget.CoordinatorLayout>
+

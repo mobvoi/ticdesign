@@ -57,6 +57,7 @@ import ticwear.design.R;
 import ticwear.design.app.AlertDialog;
 import ticwear.design.widget.CursorRecyclerViewAdapter;
 import ticwear.design.widget.FloatingActionButton;
+import ticwear.design.widget.FocusableLinearLayoutManager.ViewHolder;
 import ticwear.design.widget.SubscribedScrollView;
 import ticwear.design.widget.TicklableListView;
 import ticwear.design.widget.TrackSelectionAdapterWrapper;
@@ -957,7 +958,7 @@ public class AlertController {
                     @Override
                     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
                         View itemView = mInflater.inflate(layout, parent, false);
-                        return new TicklableListView.ViewHolder(itemView);
+                        return new ViewHolder(itemView);
                     }
                 };
             }
@@ -1044,7 +1045,7 @@ public class AlertController {
         }
     }
 
-    private static class CheckedItemAdapter extends RecyclerView.Adapter<TicklableListView.ViewHolder> {
+    private static class CheckedItemAdapter extends RecyclerView.Adapter<ViewHolder> {
 
         private final Context mContext;
         private final int mLayoutResource;
@@ -1064,13 +1065,13 @@ public class AlertController {
         }
 
         @Override
-        public TicklableListView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
             View itemView = LayoutInflater.from(mContext).inflate(mLayoutResource, parent, false);
-            return new TicklableListView.ViewHolder(itemView);
+            return new ViewHolder(itemView);
         }
 
         @Override
-        public void onBindViewHolder(TicklableListView.ViewHolder viewHolder, int position) {
+        public void onBindViewHolder(ViewHolder viewHolder, int position) {
             TextView text1 = (TextView) viewHolder.itemView.findViewById(mTextViewResourceId);
             text1.setText(mObjects[position]);
         }
