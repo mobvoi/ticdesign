@@ -37,3 +37,13 @@
 -keep interface com.mobvoi.ticwear.view.SidePanelGestureTarget {
     <methods>;
 }
+
+-dontwarn com.mobvoi.ticwear.view.SidePanelEventDispatcher
+-dontnote com.mobvoi.ticwear.view.SidePanelEventDispatcher
+-dontwarn com.mobvoi.ticwear.view.SidePanelEventDispatcher$SuperCallback
+-dontnote com.mobvoi.ticwear.view.SidePanelEventDispatcher$SuperCallback
+-dontwarn com.mobvoi.ticwear.view.SidePanelEventTarget
+-dontnote com.mobvoi.ticwear.view.SidePanelEventTarget
+-dontwarn com.mobvoi.ticwear.view.SidePanelGestureTarget
+-dontnote com.mobvoi.ticwear.view.SidePanelGestureTarget
+
