@@ -33,8 +33,8 @@ android {
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
-    debugCompile project(path: ':ticDesign', configuration: 'debug')
-    releaseCompile project(path: ':ticDesign', configuration: 'release')
+    debugCompile project(path: ':DesignSupport', configuration: 'debug')
+    releaseCompile project(path: ':DesignSupport', configuration: 'release')
     compile 'com.jakewharton:butterknife:7.0.1'
 
     compile "com.android.support:palette-v7:${rootProject.ext.supportLibVersion}"

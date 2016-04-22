@@ -1,1 +1,3 @@
-include ':demo', ':ticDesign'
+include ':demo'
+include ':DesignSupport'
+project(':DesignSupport').projectDir = new File('ticDesign')
