@@ -35,6 +35,7 @@ import android.view.ViewConfiguration;
 import android.widget.LinearLayout;
 
 import ticwear.design.R;
+import ticwear.design.utils.MetricsUtils;
 
 import static android.graphics.Paint.ANTI_ALIAS_FLAG;
 import static android.widget.LinearLayout.HORIZONTAL;

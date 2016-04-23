@@ -62,7 +62,7 @@ import java.util.List;
 import java.util.Map;
 
 import ticwear.design.R;
-import ticwear.design.internal.ThemeUtils;
+import ticwear.design.utils.ThemeUtils;
 
 /**
  * CoordinatorLayout is a super-powered {@link android.widget.FrameLayout FrameLayout}.

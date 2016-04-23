@@ -40,8 +40,8 @@ import android.widget.ImageButton;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 
-import ticwear.design.internal.ThemeUtils;
 import ticwear.design.internal.app.AlertController;
+import ticwear.design.utils.ThemeUtils;
 import ticwear.design.widget.TicklableListView;
 import ticwear.design.widget.TrackSelectionAdapterWrapper;
 

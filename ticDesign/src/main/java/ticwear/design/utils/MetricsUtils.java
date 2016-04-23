@@ -1,4 +1,4 @@
-package ticwear.design.widget;
+package ticwear.design.utils;
 
 import android.content.Context;
 import android.content.res.Resources;
