@@ -276,6 +276,20 @@ $$
 
 使用方式类似`show()`和`hide()`，调用`minimize()`可以最小化按钮，按钮在完成最小化以后，会触发 `OnVisibilityChangedListener.onMinimum` 回调。
 
+`backgroundDrawable`中引用了[圆形进度条](#cpd)，并可对进度条的进度，透明度，模式等进行设置
+
+#### <a id="cpd"></a> 圆形进度条（CircularProgressDrawable）
+
+圆形的进度条，仿照安卓的[`progressBar`][android-progressbar]，效果模式分为`determinate`及`indeterminate`，`determinate`模式静态显示当前`progressBar`的进度，`indeterminate`模式动态旋转`progressBar`。
+
+使用者可在代码中动态设置`progressBar`的progress，alpha值，
+及颜色，若使用者未做任何设置，则默认对`progressBar`及背景色进行`tint`，`alpha`值为50%，在任意情况下，当使用者在代码中设置`progress`的进度后，`progress`的模式自动变为`determinate`。
+
+在初始化时，使用者可对`progressBar`进行各项设定，如设定每圈持续时间，初始角度，动态最大/最小角度等，这些属性在`CircularProgressDrawable`对象生成后不可修改。
+
+在FAB中使用者可选择是否包含进度条，当无进度条时，FAB仍可设
+置进度，`progressbar`颜色等，但无任何效果。
+
 #### <a id="primary-button"></a> 主要按钮（PrimaryButton）
 
 手表界面开发的一项原则，是精简内容和选择，让用户能迅速明白自己需要做什么。为此，我们经常需要一个放置在页面底部，占用较大区域的主要按钮。而 `PrimaryButton` 则提供这样一个按钮。
@@ -420,4 +434,5 @@ new DatetimePickerDialog.Builder(getActivity())
 [android-numberpicker]: http://developer.android.com/reference/android/widget/NumberPicker.html
 [android-timepicker]: http://developer.android.com/reference/android/widget/TimePicker.html
 [android-datepicker]: http://developer.android.com/reference/android/widget/DatePicker.html
+[android-progressbar]: http://developer.android.com/intl/zh-cn/reference/android/widget/ProgressBar.html
 

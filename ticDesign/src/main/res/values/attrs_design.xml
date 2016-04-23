@@ -29,7 +29,11 @@
         <!-- The width of the border around the FAB. -->
         <!-- NOTE: not supported -->
         <attr name="tic_borderWidth" format="dimension"/>
+
+        <attr name="tic_circularDrawableStyle" format="reference"/>
+
     </declare-styleable>
+
 
     <declare-styleable name="CoordinatorLayout">
         <!-- A reference to an array of integers representing the

@@ -184,33 +184,30 @@
         <attr name="android:colorEdgeEffect" />
     </declare-styleable>
 
-
     <declare-styleable name="CircularProgressDrawable">
-        <attr name="cpd_padding" format="reference|dimension"/>
-        <attr name="cpd_initialAngle" format="reference|integer"/>
-        <attr name="cpd_maxSweepAngle" format="reference|integer"/>
-        <attr name="cpd_minSweepAngle" format="reference|integer"/>
-        <attr name="cpd_strokeSize" format="reference|dimension"/>
-        <attr name="cpd_strokeColor" format="reference|color"/>
-        <attr name="cpd_strokeSecondaryColor" format="reference|color"/>
-        <attr name="cpd_strokeColors" format="reference"/>
-        <attr name="cpd_reverse" format="boolean"/>
-        <attr name="cpd_rotateDuration" format="reference|integer"/>
-        <attr name="cpd_transformDuration" format="reference|integer"/>
-        <attr name="cpd_keepDuration" format="reference|integer"/>
-        <attr name="cpd_transformInterpolator" format="reference"/>
-        <attr name="cpd_inAnimDuration" format="reference|integer"/>
-        <attr name="cpd_outAnimDuration" format="reference|integer"/>
-        <attr name="cpd_inStepColors" format="reference"/>
-        <attr name="cpd_inStepPercent" format="float"/>
-        <attr name="pv_progressMode" format="integer">
+        <attr name="tic_cpd_strokeSize" format="dimension"/>
+        <attr name="tic_cpd_hasProgress" format="boolean"/>
+        <attr name="tic_cpd_padding" format="reference|dimension"/>
+        <attr name="tic_cpd_initialAngle" format="reference|integer"/>
+        <attr name="tic_cpd_progress" format="float"/>
+        <attr name="tic_cpd_secondaryProgress" format="float"/>
+        <attr name="tic_cpd_minSweepAngle" format="reference|integer"/>
+        <attr name="tic_cpd_maxSweepAngle" format="reference|integer"/>
+        <attr name="tic_cpd_reverse" format="boolean"/>
+        <attr name="tic_cpd_rotateDuration" format="reference|integer"/>
+        <attr name="tic_cpd_transformDuration" format="reference|integer"/>
+        <attr name="tic_cpd_keepDuration" format="reference|integer"/>
+        <attr name="tic_cpd_inAnimDuration" format="reference|integer"/>
+        <attr name="tic_cpd_inStepPercent" format="float"/>
+        <attr name="tic_cpd_outAnimDuration" format="reference|integer"/>
+        <attr name="tic_cpd_progressAlpha" format="reference|integer"/>
+        <attr name="tic_cpd_progressMode">
             <enum name="determinate" value="0x00000000" />
             <enum name="indeterminate" value="0x00000001" />
             <enum name="buffer" value="0x00000002" />
             <enum name="query" value="0x00000003" />
         </attr>
-        <attr name="pv_progress" format="float"/>
-        <attr name="pv_secondaryProgress" format="float"/>
+
     </declare-styleable>
 
 </resources>

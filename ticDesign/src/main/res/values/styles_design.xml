@@ -23,6 +23,7 @@
         <item name="tic_pressedTranslationZ">@dimen/tic_design_fab_translation_z_pressed</item>
         <item name="tic_rippleColor">?android:colorControlHighlight</item>
         <item name="tic_borderWidth">@dimen/tic_design_fab_border_width</item>
+        <item name="tic_circularDrawableStyle">@style/Widget.Ticwear.CircularProgressDrawable</item>
     </style>
 
     <style name="Widget.Ticwear.CollapsingToolbar" parent="android:Widget">
