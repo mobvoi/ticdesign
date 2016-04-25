@@ -5,6 +5,7 @@ import android.graphics.drawable.RippleDrawable;
 import android.os.Build;
 import android.os.Handler;
 import android.support.annotation.NonNull;
+import android.support.v4.view.ViewCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
@@ -21,7 +22,9 @@ class FocusLayoutHelper {
     private final RecyclerView.LayoutManager mLayoutManager;
 
     private final GestureDetector mGestureDetector;
-    private final RecyclerView.OnItemTouchListener mOnItemTouchListener;
+
+    private final int[] mScrollOffset = new int[2];
+    private final int[] mScrollConsumed = new int[2];
 
 
     FocusLayoutHelper(@NonNull TicklableListView ticklableListView, @NonNull RecyclerView.LayoutManager layoutManager) {
@@ -42,23 +45,27 @@ class FocusLayoutHelper {
                 }
                 return true;
             }
+
+            @Override
+            public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX, float distanceY) {
+                int dx = (int) distanceX;
+                int dy = (int) distanceY;
+                if (mTicklableListView.dispatchNestedPreScroll(dx, dy, mScrollConsumed, mScrollOffset)) {
+                    dx -= mScrollConsumed[0];
+                    dy -= mScrollConsumed[1];
+                }
+                mTicklableListView.scrollBy(dx, dy);
+                return true;
+            }
+
+            @Override
+            public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
+                mTicklableListView.fling((int) -velocityX, (int) -velocityY);
+                return true;
+            }
+
         });
 
-        mOnItemTouchListener = new RecyclerView.OnItemTouchListener() {
-            @Override
-            public boolean onInterceptTouchEvent(RecyclerView rv, MotionEvent e) {
-                View child = rv.findChildViewUnder(e.getX(), e.getY());
-                return child != null && mGestureDetector.onTouchEvent(e);
-            }
-
-            @Override
-            public void onTouchEvent(RecyclerView rv, MotionEvent e) {
-            }
-
-            @Override
-            public void onRequestDisallowInterceptTouchEvent(boolean disallowIntercept) {
-            }
-        };
     }
 
     private void forceRippleAnimation(View view, float x, float y)
@@ -84,6 +91,15 @@ class FocusLayoutHelper {
         }
     }
 
+    public boolean dispatchTouchSidePanelEvent(MotionEvent ev) {
+        if (ev.getAction() == MotionEvent.ACTION_DOWN) {
+            mTicklableListView.startNestedScroll(ViewCompat.SCROLL_AXIS_VERTICAL);
+        } else if (ev.getAction() == MotionEvent.ACTION_UP || ev.getAction() == MotionEvent.ACTION_CANCEL) {
+            mTicklableListView.stopNestedScroll();
+        }
+        return mGestureDetector.onTouchEvent(ev);
+    }
+
     void animateToCenter() {
         int index = findCenterViewIndex();
         View child = getChildAt(index);
@@ -93,11 +109,9 @@ class FocusLayoutHelper {
 
 
     void init() {
-        mTicklableListView.addOnItemTouchListener(mOnItemTouchListener);
     }
 
     void destroy() {
-        mTicklableListView.removeOnItemTouchListener(mOnItemTouchListener);
     }
 
     int getVerticalPadding() {
@@ -122,8 +136,27 @@ class FocusLayoutHelper {
         return child.getHeight();
     }
 
+    /**
+     * Find a view closest to center, return its index (relative the children views)
+     *
+     * @return children index of the central view.
+     */
     int findCenterViewIndex() {
-        int index = mTicklableListView.findCenterViewIndex();
+        int count = getChildCount();
+        int index = RecyclerView.NO_POSITION;
+        int closest = Integer.MAX_VALUE;
+        int centerY = getCenterYPos();
+
+        for (int i = 0; i < count; ++i) {
+            View child = getChildAt(i);
+            int childCenterY = mTicklableListView.getTop() + ViewPropertiesHelper.getCenterYPos(child);
+            int distance = Math.abs(centerY - childCenterY);
+            if (distance < closest) {
+                closest = distance;
+                index = i;
+            }
+        }
+
         if (index == RecyclerView.NO_POSITION) {
             throw new IllegalStateException("Can\'t find central view.");
         } else {
