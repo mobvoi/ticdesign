@@ -668,7 +668,7 @@ public class FocusableLinearLayoutManager extends LinearLayoutManager
                     alpha = 1.0f;
                     break;
                 case FOCUS_STATE_NON_CENTRAL:
-                    scale = 0.9f;
+                    scale = 1.0f;
                     alpha = 0.6f;
                     break;
                 case FOCUS_STATE_INVALID:

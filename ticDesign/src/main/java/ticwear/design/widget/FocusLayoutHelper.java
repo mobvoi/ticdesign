@@ -8,6 +8,7 @@ import android.support.annotation.NonNull;
 import android.support.v4.view.ViewCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.GestureDetector;
+import android.view.GestureDetector.SimpleOnGestureListener;
 import android.view.MotionEvent;
 import android.view.View;
 
@@ -22,6 +23,7 @@ class FocusLayoutHelper {
     private final RecyclerView.LayoutManager mLayoutManager;
 
     private final GestureDetector mGestureDetector;
+    private final OnGestureListener mOnGestureListener;
 
     private final int[] mScrollOffset = new int[2];
     private final int[] mScrollConsumed = new int[2];
@@ -32,45 +34,8 @@ class FocusLayoutHelper {
         this.mTicklableListView = ticklableListView;
         this.mLayoutManager = layoutManager;
 
-        mGestureDetector = new GestureDetector(ticklableListView.getContext(), new GestureDetector.SimpleOnGestureListener() {
-            @Override
-            public boolean onSingleTapUp(MotionEvent e) {
-                if (getChildCount() > 0) {
-                    int centerIndex = findCenterViewIndex();
-                    View child = getChildAt(centerIndex);
-                    child.performClick();
-                    float x = e.getX() - child.getX();
-                    float y = e.getY() - child.getY();
-                    forceRippleAnimation(child, x, y);
-                }
-                return true;
-            }
-
-            @Override
-            public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX, float distanceY) {
-                if (!mLayoutManager.canScrollVertically()) {
-                    return false;
-                }
-                int dx = (int) distanceX;
-                int dy = (int) distanceY;
-                if (mTicklableListView.dispatchNestedPreScroll(dx, dy, mScrollConsumed, mScrollOffset)) {
-                    dx -= mScrollConsumed[0];
-                    dy -= mScrollConsumed[1];
-                }
-                mTicklableListView.scrollBy(dx, dy);
-                return true;
-            }
-
-            @Override
-            public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
-                if (!mLayoutManager.canScrollVertically()) {
-                    return false;
-                }
-                mTicklableListView.fling((int) -velocityX, (int) -velocityY);
-                return true;
-            }
-
-        });
+        mOnGestureListener = new OnGestureListener();
+        mGestureDetector = new GestureDetector(ticklableListView.getContext(), mOnGestureListener);
 
     }
 
@@ -98,12 +63,22 @@ class FocusLayoutHelper {
     }
 
     public boolean dispatchTouchSidePanelEvent(MotionEvent ev) {
-        if (ev.getAction() == MotionEvent.ACTION_DOWN) {
-            mTicklableListView.startNestedScroll(ViewCompat.SCROLL_AXIS_VERTICAL);
-        } else if (ev.getAction() == MotionEvent.ACTION_UP || ev.getAction() == MotionEvent.ACTION_CANCEL) {
-            mTicklableListView.stopNestedScroll();
+        boolean handled = mGestureDetector.onTouchEvent(ev);
+
+        switch (ev.getAction()) {
+            case MotionEvent.ACTION_DOWN:
+                mTicklableListView.startNestedScroll(ViewCompat.SCROLL_AXIS_VERTICAL);
+                break;
+            case MotionEvent.ACTION_CANCEL:
+                // pass through
+            case MotionEvent.ACTION_UP:
+                mTicklableListView.stopNestedScroll();
+                if (!mOnGestureListener.isFlinging()) {
+                    animateToCenter();
+                }
+                break;
         }
-        return mGestureDetector.onTouchEvent(ev);
+        return handled;
     }
 
     public boolean interceptPreScroll() {
@@ -185,5 +160,59 @@ class FocusLayoutHelper {
 
     private View getChildAt(int index) {
         return mLayoutManager.getChildAt(index);
+    }
+
+    private class OnGestureListener extends SimpleOnGestureListener {
+
+        private boolean mIsFlinging = false;
+
+        @Override
+        public boolean onDown(MotionEvent e) {
+            mIsFlinging = false;
+            return false;
+        }
+
+        @Override
+        public boolean onSingleTapUp(MotionEvent e) {
+            if (getChildCount() > 0) {
+                int centerIndex = findCenterViewIndex();
+                View child = getChildAt(centerIndex);
+                child.performClick();
+                float x = e.getX() - child.getX();
+                float y = e.getY() - child.getY();
+                forceRippleAnimation(child, x, y);
+            }
+            return true;
+        }
+
+        @Override
+        public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX, float distanceY) {
+            if (!mLayoutManager.canScrollVertically()) {
+                return false;
+            }
+            int dx = (int) distanceX;
+            int dy = (int) distanceY;
+            if (mTicklableListView.dispatchNestedPreScroll(dx, dy, mScrollConsumed, mScrollOffset)) {
+                dx -= mScrollConsumed[0];
+                dy -= mScrollConsumed[1];
+            }
+            mTicklableListView.scrollBy(dx, dy);
+            return true;
+        }
+
+        @Override
+        public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
+            if (!mLayoutManager.canScrollVertically()) {
+                return false;
+            }
+            mTicklableListView.fling((int) -velocityX, (int) -velocityY);
+            mIsFlinging = true;
+            return true;
+        }
+
+        public boolean isFlinging() {
+            return mIsFlinging;
+        }
+
     }
 }
