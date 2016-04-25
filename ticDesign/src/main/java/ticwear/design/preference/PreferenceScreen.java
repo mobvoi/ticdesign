@@ -32,6 +32,7 @@ import android.widget.Adapter;
 import android.widget.TextView;
 
 import ticwear.design.R;
+import ticwear.design.widget.FocusableLinearLayoutManager;
 import ticwear.design.widget.TicklableListView;
 
 /**
@@ -182,6 +183,7 @@ public final class PreferenceScreen extends PreferenceGroup implements
         View childPrefScreen = inflater.inflate(
                 R.layout.preference_list_fragment, null);
         mListView = (TicklableListView) childPrefScreen.findViewById(android.R.id.list);
+        mListView.setLayoutManager(new FocusableLinearLayoutManager(context));
         bind(mListView);
         final TextView titleView = (TextView) childPrefScreen.findViewById(android.R.id.title);
         bindTitle(titleView);

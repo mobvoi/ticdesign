@@ -91,6 +91,7 @@ public class TransitionsFragment extends Fragment {
                 return new ViewHolder(getActivity(), view, to);
             }
         });
+        listSubDemo.setLayoutManager(new FocusableLinearLayoutManager(getActivity()));
         listSubDemo.setAdapter(adapter);
 
         textTitle.setText(R.string.category_showcase_title);

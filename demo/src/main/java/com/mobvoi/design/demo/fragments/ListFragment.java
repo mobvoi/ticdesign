@@ -111,6 +111,7 @@ public class ListFragment extends Fragment {
                 return new ViewHolder(ListFragment.this, view, to);
             }
         });
+        listSubDemo.setLayoutManager(new FocusableLinearLayoutManager(getActivity()));
         listSubDemo.setAdapter(adapter);
 
         updateTitle();

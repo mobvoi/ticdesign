@@ -22,6 +22,7 @@ import android.os.Handler;
 import android.support.v7.widget.RecyclerView;
 
 import ticwear.design.R;
+import ticwear.design.widget.FocusableLinearLayoutManager;
 import ticwear.design.widget.TicklableListView;
 
 /**
@@ -84,6 +85,7 @@ public class RecyclerActivity extends Activity {
     public void onContentChanged() {
         super.onContentChanged();
         mList = (TicklableListView) findViewById(android.R.id.list);
+        mList.setLayoutManager(new FocusableLinearLayoutManager(this));
         if (mList == null) {
             throw new RuntimeException(
                     "Your content must have a RecyclerView whose id attribute is " +

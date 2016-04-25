@@ -40,7 +40,7 @@ public class TicklableListViewBehavior extends AppBarLayout.ScrollingViewBehavio
         boolean done = false;
         if (hostView instanceof TicklableListView) {
             TicklableListView listView = (TicklableListView) hostView;
-            if (listView.isInFocusState()) {
+            if (listView.useScrollAsOffset()) {
                 done = setOffsetForFocusListView(listView, offset);
             }
         }
@@ -74,11 +74,7 @@ public class TicklableListViewBehavior extends AppBarLayout.ScrollingViewBehavio
     public boolean requestInterceptPreScroll(CoordinatorLayout parent) {
         if (hostView instanceof TicklableListView) {
             TicklableListView listView = (TicklableListView) hostView;
-            View firstChild = listView.getChildAt(0);
-            boolean onTopOfList = firstChild != null &&
-                    listView.getChildAdapterPosition(firstChild) <= 0 &&
-                    firstChild.getTop() >= listView.getPaddingTop();
-            if (listView.isInFocusState() && onTopOfList) {
+            if (listView.interceptPreScroll()) {
                 return true;
             }
         }

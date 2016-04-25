@@ -3,11 +3,12 @@ package ticwear.design.widget;
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.MotionEvent;
-import android.view.View;
 
 import com.mobvoi.ticwear.view.SidePanelEventDispatcher;
 
@@ -22,7 +23,8 @@ public class TicklableListView extends RecyclerView implements SidePanelEventDis
     /**
      * {@link LayoutManager} for focus state.
      */
-    private final FocusableLinearLayoutManager mFocusableLayoutManager;
+    @Nullable
+    private TicklableLayoutManager mTicklableLayoutManager;
 
 
     private boolean mSkipNestedScroll;
@@ -44,9 +46,6 @@ public class TicklableListView extends RecyclerView implements SidePanelEventDis
 
         setHasFixedSize(true);
         setOverScrollMode(OVER_SCROLL_NEVER);
-
-        mFocusableLayoutManager = new FocusableLinearLayoutManager(this);
-        super.setLayoutManager(mFocusableLayoutManager);
 
         mSkipNestedScroll = false;
 
@@ -70,43 +69,69 @@ public class TicklableListView extends RecyclerView implements SidePanelEventDis
      */
     @Override
     public void setAdapter(RecyclerView.Adapter adapter) {
-        if (adapter != null) {
-            RecyclerView.ViewHolder viewHolder = adapter.createViewHolder(this, adapter.getItemViewType(0));
-            if (!(viewHolder instanceof FocusableLinearLayoutManager.ViewHolder) && !isInEditMode()) {
-                throw new IllegalArgumentException("adapter's ViewHolder should be instance of FocusableLinearLayoutManager.ViewHolder");
-            }
+        if (mTicklableLayoutManager == null || mTicklableLayoutManager.validAdapter(adapter)) {
+            super.setAdapter(adapter);
+        } else {
+            throw new IllegalArgumentException("Adapter is invalid for current TicklableLayoutManager.");
         }
-        super.setAdapter(adapter);
     }
 
     @Override
     public void setLayoutManager(LayoutManager layout) {
-        throw new IllegalStateException("Can't customized the layout manager for TicklableListView.");
+        super.setLayoutManager(layout);
+
+        if (mTicklableLayoutManager == layout) {
+            return;
+        }
+
+        if (mTicklableLayoutManager != null) {
+            mTicklableLayoutManager.setTicklableListView(null);
+        }
+        if (!(layout instanceof TicklableLayoutManager)) {
+            Log.w(TAG, "To let TicklableListView support complex tickle events," +
+                    " let LayoutManager implements TicklableLayoutManager.");
+            mTicklableLayoutManager = null;
+            return;
+        }
+
+        TicklableLayoutManager ticklableLayoutManager = (TicklableLayoutManager) layout;
+        if (ticklableLayoutManager.validAdapter(getAdapter())) {
+            mTicklableLayoutManager = (TicklableLayoutManager) layout;
+            mTicklableLayoutManager.setTicklableListView(this);
+        } else {
+            Log.w(TAG, "To let TicklableListView support complex tickle events," +
+                    " make sure your Adapter is compat with TicklableLayoutManager.");
+            mTicklableLayoutManager = null;
+        }
     }
 
-    public boolean isInFocusState() {
-        return mFocusableLayoutManager.isInFocusState();
+    public boolean interceptPreScroll() {
+        return mTicklableLayoutManager != null && mTicklableLayoutManager.interceptPreScroll();
+    }
+
+    public boolean useScrollAsOffset() {
+        return mTicklableLayoutManager != null && mTicklableLayoutManager.useScrollAsOffset();
     }
 
     @Override
     public boolean dispatchTouchEvent(MotionEvent e) {
-        return mFocusableLayoutManager.dispatchTouchEvent(e) ||
+        return (mTicklableLayoutManager != null && mTicklableLayoutManager.dispatchTouchEvent(e)) ||
                 super.dispatchTouchEvent(e);
     }
 
     @Override
     public boolean dispatchTouchSidePanelEvent(MotionEvent ev, @NonNull SuperCallback superCallback) {
-        return mFocusableLayoutManager.dispatchTouchSidePanelEvent(ev) ||
-                superCallback.superDispatchTouchSidePanelEvent(ev);
-    }
+        if (mTicklableLayoutManager == null) {
+            return dispatchTouchEvent(ev) || superCallback.superDispatchTouchSidePanelEvent(ev);
+        }
 
-    @Override
-    public FocusableLinearLayoutManager.ViewHolder getChildViewHolder(View child) {
-        return (FocusableLinearLayoutManager.ViewHolder) super.getChildViewHolder(child);
+        return mTicklableLayoutManager.dispatchTouchSidePanelEvent(ev) ||
+                superCallback.superDispatchTouchSidePanelEvent(ev);
+
     }
 
     public int getScrollOffset() {
-        return mFocusableLayoutManager.getScrollOffset();
+        return mTicklableLayoutManager != null ? mTicklableLayoutManager.getScrollOffset() : 0;
     }
 
     /**
@@ -119,7 +144,8 @@ public class TicklableListView extends RecyclerView implements SidePanelEventDis
      * @return the unconsumed offset.
      */
     public int updateScrollOffset(int scrollOffset) {
-        return mFocusableLayoutManager.updateScrollOffset(scrollOffset);
+        return mTicklableLayoutManager != null ?
+                mTicklableLayoutManager.updateScrollOffset(scrollOffset) : scrollOffset;
     }
 
     public void scrollBySkipNestedScroll(int x, int y) {

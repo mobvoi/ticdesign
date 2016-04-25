@@ -30,6 +30,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import ticwear.design.R;
+import ticwear.design.widget.FocusableLinearLayoutManager;
 import ticwear.design.widget.TicklableListView;
 
 public abstract class PreferenceFragment extends Fragment implements
@@ -331,6 +332,7 @@ public abstract class PreferenceFragment extends Fragment implements
                             + "that is not a TicklableListView class");
         }
         mList = (TicklableListView)rawListView;
+        mList.setLayoutManager(new FocusableLinearLayoutManager(getActivity()));
         mTitleView = (TextView) root.findViewById(android.R.id.title);
         mHandler.post(mRequestFocus);
     }

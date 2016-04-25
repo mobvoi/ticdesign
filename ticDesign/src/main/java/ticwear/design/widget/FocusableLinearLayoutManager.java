@@ -7,6 +7,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.RecyclerView.Adapter;
 import android.support.v7.widget.RecyclerView.ItemAnimator.ItemAnimatorFinishedListener;
 import android.support.v7.widget.RecyclerView.Recycler;
 import android.support.v7.widget.RecyclerView.State;
@@ -36,7 +37,8 @@ import static java.lang.annotation.RetentionPolicy.SOURCE;
  *
  * Created by tankery on 4/13/16.
  */
-public class FocusableLinearLayoutManager extends LinearLayoutManager {
+public class FocusableLinearLayoutManager extends LinearLayoutManager
+        implements TicklableLayoutManager {
 
     static final String TAG = "FocusableLLM";
 
@@ -57,12 +59,16 @@ public class FocusableLinearLayoutManager extends LinearLayoutManager {
      */
     public static final int FOCUS_STATE_NON_CENTRAL = 2;
 
-    private final TicklableListView mTicklableListView;
-    private final FocusLayoutHelper mFocusLayoutHelper;
+    private final Context mContext;
+    private final Handler mUiHandler;
+
+    @Nullable
+    private TicklableListView mTicklableListView;
+    @Nullable
+    private FocusLayoutHelper mFocusLayoutHelper;
 
     private ScrollVelocityTracker mScrollVelocityTracker;
 
-    private boolean mInFocusState;
     private boolean mScrollResetting;
     private final FocusStateRequest mFocusStateRequest = new FocusStateRequest();
 
@@ -78,12 +84,11 @@ public class FocusableLinearLayoutManager extends LinearLayoutManager {
 
     private final AppBarScrollController mAppBarScrollController;
 
-    public FocusableLinearLayoutManager(@NonNull  TicklableListView ticklableListView) {
-        super(ticklableListView.getContext(), VERTICAL, false);
+    public FocusableLinearLayoutManager(Context context) {
+        super(context, VERTICAL, false);
 
-        mTicklableListView = ticklableListView;
-        mFocusLayoutHelper = new FocusLayoutHelper(ticklableListView, this);
-        mInFocusState = false;
+        mContext = context;
+        mUiHandler = new Handler();
 
         mOnCentralPositionChangedListeners = new ArrayList<>();
         mPreviousCentral = RecyclerView.NO_POSITION;
@@ -117,26 +122,26 @@ public class FocusableLinearLayoutManager extends LinearLayoutManager {
     }
 
     private void setInFocusState(boolean toFocus) {
-        if (mInFocusState == toFocus) {
+        boolean inFocus = mFocusLayoutHelper != null;
+        if (inFocus == toFocus) {
             return;
         }
 
-        mInFocusState = toFocus;
+        if (toFocus && mTicklableListView != null) {
+            mFocusLayoutHelper = new FocusLayoutHelper(mTicklableListView, this);
+        } else {
+            mFocusLayoutHelper = null;
+        }
 
         // Restore offset
-        restoreOffset(toFocus);
+        restoreOffset();
 
         // Set flag so we will request focus state change on next layout.
         // Or, we will notify immediately.
         mFocusStateRequest.notifyOnNextLayout = true;
 
-        if (mInFocusState) {
-            mFocusLayoutHelper.init();
-        } else {
-            mFocusLayoutHelper.destroy();
-        }
         if (getChildCount() > 0) {
-            if (mInFocusState) {
+            if (mFocusLayoutHelper != null) {
                 requestNotifyChildrenAboutProximity(true);
             } else {
                 requestNotifyChildrenAboutExit(true);
@@ -146,14 +151,17 @@ public class FocusableLinearLayoutManager extends LinearLayoutManager {
         requestSimpleAnimationsInNextLayout();
 
 
-        if (mTicklableListView.getAdapter() != null) {
+        if (mTicklableListView != null && mTicklableListView.getAdapter() != null) {
             mTicklableListView.getAdapter().notifyDataSetChanged();
         }
     }
 
-    private void restoreOffset(boolean toFocus) {
+    private void restoreOffset() {
+        if (mTicklableListView == null)
+            return;
+
         mScrollResetting = true;
-        if (toFocus) {
+        if (mFocusLayoutHelper != null) {
             mScrollOffset = mTicklableListView.getTop();
             mTicklableListView.offsetTopAndBottom(-mScrollOffset);
             mTicklableListView.scrollBy(0, -mScrollOffset);
@@ -167,10 +175,40 @@ public class FocusableLinearLayoutManager extends LinearLayoutManager {
         mScrollResetting = false;
     }
 
-    public boolean isInFocusState() {
-        return mInFocusState;
+    @Override
+    public void setTicklableListView(TicklableListView ticklableListView) {
+        mTicklableListView = ticklableListView;
     }
 
+    @Override
+    public boolean validAdapter(Adapter adapter) {
+        if (adapter != null) {
+            RecyclerView.ViewHolder viewHolder = adapter.createViewHolder(mTicklableListView,
+                    adapter.getItemViewType(0));
+            if (!(viewHolder instanceof ViewHolder)) {
+                String msg = "adapter's ViewHolder should be instance of FocusableLinearLayoutManager.ViewHolder";
+                if (DesignConfig.DEBUG) {
+                    throw new IllegalArgumentException(msg);
+                } else {
+                    Log.w(TAG, msg);
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
+    @Override
+    public boolean interceptPreScroll() {
+        return mFocusLayoutHelper != null && mFocusLayoutHelper.interceptPreScroll();
+    }
+
+    @Override
+    public boolean useScrollAsOffset() {
+        return mFocusLayoutHelper != null;
+    }
+
+    @Override
     public int getScrollOffset() {
         return mScrollOffset == INVALID_SCROLL_OFFSET ? 0 : mScrollOffset;
     }
@@ -184,8 +222,9 @@ public class FocusableLinearLayoutManager extends LinearLayoutManager {
      *
      * @return the unconsumed offset.
      */
+    @Override
     public int updateScrollOffset(int scrollOffset) {
-        if (mAppBarScrollController.isAppBarChanging()) {
+        if (mAppBarScrollController.isAppBarChanging() || mTicklableListView == null) {
             int delta = scrollOffset - this.mScrollOffset;
             this.mScrollOffset = scrollOffset;
             return delta;
@@ -221,18 +260,10 @@ public class FocusableLinearLayoutManager extends LinearLayoutManager {
     @Override
     public void onAttachedToWindow(RecyclerView view) {
         super.onAttachedToWindow(view);
-
-        if (mInFocusState) {
-            mFocusLayoutHelper.init();
-        }
     }
 
     @Override
     public void onDetachedFromWindow(RecyclerView view, RecyclerView.Recycler recycler) {
-        if (mInFocusState) {
-            mFocusLayoutHelper.destroy();
-        }
-
         getHandler().removeCallbacks(exitFocusStateRunnable);
 
         super.onDetachedFromWindow(view, recycler);
@@ -262,7 +293,7 @@ public class FocusableLinearLayoutManager extends LinearLayoutManager {
     }
 
     private void notifyAfterLayoutOnNextMainLoop() {
-        mTicklableListView.post(new Runnable() {
+        mUiHandler.post(new Runnable() {
             @Override
             public void run() {
                 requestNotifyChildrenStateChanged(mFocusStateRequest);
@@ -278,21 +309,26 @@ public class FocusableLinearLayoutManager extends LinearLayoutManager {
 
     @Override
     public boolean getClipToPadding() {
-        return !mInFocusState && super.getClipToPadding();
+        return mFocusLayoutHelper == null && super.getClipToPadding();
     }
 
     @Override
     public int getPaddingTop() {
-        return mInFocusState ?
+        return mFocusLayoutHelper != null ?
                 mFocusLayoutHelper.getVerticalPadding() :
                 super.getPaddingTop();
     }
 
     @Override
     public int getPaddingBottom() {
-        return mInFocusState ?
+        return mFocusLayoutHelper != null ?
                 mFocusLayoutHelper.getVerticalPadding() :
                 super.getPaddingBottom();
+    }
+
+    @Override
+    public boolean canScrollVertically() {
+        return getChildCount() > 0;
     }
 
     @Override
@@ -303,7 +339,7 @@ public class FocusableLinearLayoutManager extends LinearLayoutManager {
 
     @Override
     public void onScrollStateChanged(int state) {
-        if (mInFocusState) {
+        if (mFocusLayoutHelper != null) {
             mFocusLayoutHelper.onScrollStateChanged(state);
         } else {
             super.onScrollStateChanged(state);
@@ -311,16 +347,17 @@ public class FocusableLinearLayoutManager extends LinearLayoutManager {
     }
 
     private void onScrollVerticalBy(int dy) {
-        if (mScrollVelocityTracker == null) {
+        if (mScrollVelocityTracker == null && mFocusLayoutHelper != null) {
             int itemHeight = mFocusLayoutHelper.getCentralItemHeight();
             mScrollVelocityTracker =
-                    new ScrollVelocityTracker(mTicklableListView.getContext(), itemHeight);
+                    new ScrollVelocityTracker(mContext, itemHeight);
         }
 
-        boolean scrollFast = mScrollVelocityTracker.addScroll(dy);
+        boolean scrollFast = mScrollVelocityTracker != null &&
+                mScrollVelocityTracker.addScroll(dy);
 
         if (getChildCount() > 0) {
-            if (mInFocusState) {
+            if (mFocusLayoutHelper != null) {
                 requestNotifyChildrenAboutProximity(!scrollFast);
             } else {
                 requestNotifyChildrenAboutExit(false);
@@ -329,12 +366,14 @@ public class FocusableLinearLayoutManager extends LinearLayoutManager {
     }
 
 
+    @Override
     public boolean dispatchTouchEvent(MotionEvent e) {
         exitFocusStateIfNeed(e);
 
         return false;
     }
 
+    @Override
     public boolean dispatchTouchSidePanelEvent(MotionEvent ev) {
         switch (ev.getAction()) {
             case MotionEvent.ACTION_DOWN:
@@ -345,16 +384,16 @@ public class FocusableLinearLayoutManager extends LinearLayoutManager {
                 getHandler().postDelayed(exitFocusStateRunnable,
                         // after this period of time without focus state action (side panel event),
                         // we should exit focus state.
-                        mTicklableListView.getResources().getInteger(R.integer.design_time_action_idle_timeout));
+                        mContext.getResources().getInteger(R.integer.design_time_action_idle_timeout));
                 break;
         }
-        return mInFocusState && mFocusLayoutHelper.dispatchTouchSidePanelEvent(ev);
+        return mFocusLayoutHelper != null && mFocusLayoutHelper.dispatchTouchSidePanelEvent(ev);
     }
 
 
     private void enterFocusStateIfNeed(@Nullable MotionEvent ev) {
         getHandler().removeCallbacks(exitFocusStateRunnable);
-        if (isInFocusState()) {
+        if (mFocusLayoutHelper != null) {
             return;
         }
 
@@ -375,7 +414,7 @@ public class FocusableLinearLayoutManager extends LinearLayoutManager {
 
     private void exitFocusStateIfNeed(@Nullable MotionEvent ev) {
         getHandler().removeCallbacks(exitFocusStateRunnable);
-        if (!isInFocusState()) {
+        if (mFocusLayoutHelper == null) {
             return;
         }
 
@@ -398,6 +437,9 @@ public class FocusableLinearLayoutManager extends LinearLayoutManager {
     };
 
     void requestNotifyChildrenAboutProximity(boolean animate) {
+        if (mFocusLayoutHelper == null) {
+            return;
+        }
         int centerViewIndex = mFocusLayoutHelper.findCenterViewIndex();
         requestNotifyChildrenStateChanged(centerViewIndex, animate);
     }
@@ -421,20 +463,24 @@ public class FocusableLinearLayoutManager extends LinearLayoutManager {
             return;
         }
 
-        boolean isRunning = mTicklableListView.getItemAnimator().isRunning(
-                new ItemAnimatorFinishedListener() {
-                    @Override
-                    public void onAnimationsFinished() {
-                        notifyChildrenStateChanged(request);
-                    }
-                });
+        boolean isRunning = mTicklableListView != null &&
+                mTicklableListView.getItemAnimator().isRunning(
+                        new ItemAnimatorFinishedListener() {
+                            @Override
+                            public void onAnimationsFinished() {
+                                if (mTicklableListView != null) {
+                                    notifyChildrenStateChanged(mTicklableListView, request);
+                                }
+                            }
+                        });
 
         if (DesignConfig.DEBUG_RECYCLER_VIEW) {
             Log.v(TAG, "request state changed with item anim running? " + isRunning);
         }
     }
 
-    private void notifyChildrenStateChanged(FocusStateRequest request) {
+    private void notifyChildrenStateChanged(@NonNull TicklableListView listView,
+                                            FocusStateRequest request) {
         for (int index = 0; index < getChildCount(); ++index) {
             View view = getChildAt(index);
             int focusState = FOCUS_STATE_NORMAL;
@@ -445,14 +491,15 @@ public class FocusableLinearLayoutManager extends LinearLayoutManager {
             }
 
             final boolean animate = view.isShown() && request.animate;
-            notifyChildFocusStateChanged(focusState, animate, view);
+            notifyChildFocusStateChanged(listView, focusState, animate, view);
         }
 
-        notifyOnCentralPositionChanged(request.centerIndex);
+        notifyOnCentralPositionChanged(listView, request.centerIndex);
     }
 
-    private void notifyChildFocusStateChanged(int focusState, boolean animate, View view) {
-        ViewHolder viewHolder = mTicklableListView.getChildViewHolder(view);
+    private void notifyChildFocusStateChanged(@NonNull TicklableListView listView,
+                                              int focusState, boolean animate, View view) {
+        ViewHolder viewHolder = (ViewHolder) listView.getChildViewHolder(view);
 
         // Only call focus state change once.
         if (viewHolder.prevFocusState != focusState) {
@@ -462,9 +509,10 @@ public class FocusableLinearLayoutManager extends LinearLayoutManager {
         }
     }
 
-    private void notifyOnCentralPositionChanged(int centerIndex) {
+    private void notifyOnCentralPositionChanged(@NonNull TicklableListView listView,
+                                                int centerIndex) {
         int centerPosition = centerIndex == RecyclerView.NO_POSITION ?
-                RecyclerView.NO_POSITION : mTicklableListView.getChildAdapterPosition(getChildAt(centerIndex));
+                RecyclerView.NO_POSITION : listView.getChildAdapterPosition(getChildAt(centerIndex));
 
         if (centerPosition != mPreviousCentral) {
             for (OnCentralPositionChangedListener listener : mOnCentralPositionChangedListeners) {
@@ -476,7 +524,7 @@ public class FocusableLinearLayoutManager extends LinearLayoutManager {
     }
 
     public Handler getHandler() {
-        return mTicklableListView.getHandler();
+        return mUiHandler;
     }
 
     private static class FocusStateRequest {

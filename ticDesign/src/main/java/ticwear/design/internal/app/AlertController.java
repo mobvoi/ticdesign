@@ -57,6 +57,7 @@ import ticwear.design.R;
 import ticwear.design.app.AlertDialog;
 import ticwear.design.widget.CursorRecyclerViewAdapter;
 import ticwear.design.widget.FloatingActionButton;
+import ticwear.design.widget.FocusableLinearLayoutManager;
 import ticwear.design.widget.FocusableLinearLayoutManager.ViewHolder;
 import ticwear.design.widget.SubscribedScrollView;
 import ticwear.design.widget.TicklableListView;
@@ -932,6 +933,7 @@ public class AlertController {
         private void createListView(final AlertController dialog) {
             final TicklableListView listView = (TicklableListView)
                     mInflater.inflate(dialog.mListLayout, null);
+            listView.setLayoutManager(new FocusableLinearLayoutManager(mContext));
             RecyclerView.Adapter adapter;
 
             final int layout = mIsSingleChoice

@@ -48,6 +48,9 @@ class FocusLayoutHelper {
 
             @Override
             public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX, float distanceY) {
+                if (!mLayoutManager.canScrollVertically()) {
+                    return false;
+                }
                 int dx = (int) distanceX;
                 int dy = (int) distanceY;
                 if (mTicklableListView.dispatchNestedPreScroll(dx, dy, mScrollConsumed, mScrollOffset)) {
@@ -60,6 +63,9 @@ class FocusLayoutHelper {
 
             @Override
             public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
+                if (!mLayoutManager.canScrollVertically()) {
+                    return false;
+                }
                 mTicklableListView.fling((int) -velocityX, (int) -velocityY);
                 return true;
             }
@@ -100,18 +106,19 @@ class FocusLayoutHelper {
         return mGestureDetector.onTouchEvent(ev);
     }
 
+    public boolean interceptPreScroll() {
+        View firstChild = getChildAt(0);
+        // first child is on top of list.
+        return firstChild != null &&
+                mTicklableListView.getChildAdapterPosition(firstChild) <= 0 &&
+                firstChild.getTop() >= mTicklableListView.getPaddingTop();
+    }
+
     void animateToCenter() {
         int index = findCenterViewIndex();
         View child = getChildAt(index);
         int scrollToMiddle = getCenterYPos() - (child.getTop() + child.getBottom()) / 2;
         mTicklableListView.smoothScrollBy(0, -scrollToMiddle);
-    }
-
-
-    void init() {
-    }
-
-    void destroy() {
     }
 
     int getVerticalPadding() {
@@ -131,9 +138,13 @@ class FocusLayoutHelper {
     }
 
     int getCentralItemHeight() {
-        int index = findCenterViewIndex();
-        View child = getChildAt(index);
-        return child.getHeight();
+        if (getChildCount() > 0) {
+            int index = findCenterViewIndex();
+            View child = getChildAt(index);
+            return child.getHeight();
+        } else {
+            return 0;
+        }
     }
 
     /**
