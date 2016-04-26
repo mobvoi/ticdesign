@@ -142,9 +142,9 @@ public class FocusableLinearLayoutManager extends LinearLayoutManager
 
         if (getChildCount() > 0) {
             if (mFocusLayoutHelper != null) {
-                requestNotifyChildrenAboutProximity(true);
+                requestNotifyChildrenAboutFocus();
             } else {
-                requestNotifyChildrenAboutExit(true);
+                requestNotifyChildrenAboutExit();
             }
         }
 
@@ -333,8 +333,13 @@ public class FocusableLinearLayoutManager extends LinearLayoutManager
 
     @Override
     public int scrollVerticallyBy(int dy, RecyclerView.Recycler recycler, RecyclerView.State state) {
-        onScrollVerticalBy(dy);
-        return super.scrollVerticallyBy(dy, recycler, state);
+        int scrolled = super.scrollVerticallyBy(dy, recycler, state);
+
+        if (scrolled == dy) {
+            onScrollVerticalBy(dy);
+        }
+
+        return scrolled;
     }
 
     @Override
@@ -358,9 +363,9 @@ public class FocusableLinearLayoutManager extends LinearLayoutManager
 
         if (getChildCount() > 0) {
             if (mFocusLayoutHelper != null) {
-                requestNotifyChildrenAboutProximity(!scrollFast);
+                requestNotifyChildrenAboutScroll(!scrollFast);
             } else {
-                requestNotifyChildrenAboutExit(false);
+                requestNotifyChildrenAboutExit();
             }
         }
     }
@@ -436,25 +441,36 @@ public class FocusableLinearLayoutManager extends LinearLayoutManager
         }
     };
 
-    void requestNotifyChildrenAboutProximity(boolean animate) {
-        if (mFocusLayoutHelper == null) {
+    void requestNotifyChildrenAboutScroll(boolean animate) {
+        if (mScrollResetting || mFocusLayoutHelper == null) {
             return;
         }
-        int centerViewIndex = mFocusLayoutHelper.findCenterViewIndex();
-        requestNotifyChildrenStateChanged(centerViewIndex, animate);
+
+        mFocusStateRequest.centerIndex = mFocusLayoutHelper.findCenterViewIndex();
+        mFocusStateRequest.animate = animate;
+        mFocusStateRequest.scroll = true;
+        requestNotifyChildrenStateChanged(mFocusStateRequest);
     }
 
-    void requestNotifyChildrenAboutExit(boolean animate) {
-        requestNotifyChildrenStateChanged(RecyclerView.NO_POSITION, animate);
+    void requestNotifyChildrenAboutFocus() {
+        if (mScrollResetting || mFocusLayoutHelper == null) {
+            return;
+        }
+
+        mFocusStateRequest.centerIndex = mFocusLayoutHelper.findCenterViewIndex();
+        mFocusStateRequest.animate = true;
+        mFocusStateRequest.scroll = false;
+        requestNotifyChildrenStateChanged(mFocusStateRequest);
     }
 
-    private void requestNotifyChildrenStateChanged(int centerIndex, boolean animate) {
+    void requestNotifyChildrenAboutExit() {
         if (mScrollResetting) {
             return;
         }
 
-        mFocusStateRequest.centerIndex = centerIndex;
-        mFocusStateRequest.animate = animate;
+        mFocusStateRequest.centerIndex = RecyclerView.NO_POSITION;
+        mFocusStateRequest.animate = true;
+        mFocusStateRequest.scroll = false;
         requestNotifyChildrenStateChanged(mFocusStateRequest);
     }
 
@@ -481,6 +497,10 @@ public class FocusableLinearLayoutManager extends LinearLayoutManager
 
     private void notifyChildrenStateChanged(@NonNull TicklableListView listView,
                                             FocusStateRequest request) {
+        int top = ViewPropertiesHelper.getTop(listView);
+        int bottom = ViewPropertiesHelper.getBottom(listView);
+        int center = ViewPropertiesHelper.getCenterYPos(listView);
+
         for (int index = 0; index < getChildCount(); ++index) {
             View view = getChildAt(index);
             int focusState = FOCUS_STATE_NORMAL;
@@ -490,11 +510,73 @@ public class FocusableLinearLayoutManager extends LinearLayoutManager
                         FOCUS_STATE_NON_CENTRAL;
             }
 
-            final boolean animate = view.isShown() && request.animate;
-            notifyChildFocusStateChanged(listView, focusState, animate, view);
+            final boolean animateStateChange = view.isShown() && request.animate;
+            notifyChildFocusStateChanged(listView, focusState, animateStateChange, view);
+
+            if (focusState == FOCUS_STATE_NORMAL) {
+                continue;
+            }
+
+            int childCenter = ViewPropertiesHelper.getCenterYPos(view);
+            int halfChildHeight = view.getHeight() / 2;
+
+            float progress = getCentralProgress(top + halfChildHeight, bottom - halfChildHeight, center, childCenter);
+            ViewHolder viewHolder = (ViewHolder) listView.getChildViewHolder(view);
+            final boolean animateProgressChange = view.isShown() && request.animate && !request.scroll;
+            notifyChildProgressUpdated(viewHolder, progress, animateProgressChange);
         }
 
         notifyOnCentralPositionChanged(listView, request.centerIndex);
+    }
+
+    private float getCentralProgress(int top, int bottom, int center, int childCenter) {
+        if (childCenter < top) {
+            childCenter = top;
+        }
+
+        if (childCenter > bottom) {
+            childCenter = bottom;
+        }
+
+        float progress;
+        if (childCenter > center) {
+            progress = (float) (bottom - childCenter) / (bottom - center);
+        } else {
+            progress = (float) (childCenter - top) / (center - top);
+        }
+        return progress;
+    }
+
+    private void notifyChildProgressUpdated(ViewHolder viewHolder, float progress, boolean animate) {
+        long defaultDuration = viewHolder.getDefaultAnimDuration();
+        long duration;
+
+        // We have a animation in progress.
+        if (viewHolder.animationStartTime > 0) {
+            long timePassed = System.currentTimeMillis() - viewHolder.animationStartTime;
+            viewHolder.animationPlayedTime += timePassed;
+
+            if (viewHolder.animationPlayedTime >= defaultDuration) {
+                // animation end.
+                viewHolder.animationStartTime = 0;
+                viewHolder.animationPlayedTime = 0;
+                duration = animate ? defaultDuration : 0;
+            } else {
+                // animation in progress, always play the rest duration.
+                duration = animate ?
+                        defaultDuration :
+                        defaultDuration - viewHolder.animationPlayedTime;
+            }
+        } else {
+            duration = animate ? defaultDuration : 0;
+            if (animate) {
+                // If we update progress with animation and no anim before,
+                // we enter the animation mode with a start time set.
+                viewHolder.animationStartTime = System.currentTimeMillis();
+                viewHolder.animationPlayedTime = 0;
+            }
+        }
+        viewHolder.onCentralProgressUpdated(progress, duration);
     }
 
     private void notifyChildFocusStateChanged(@NonNull TicklableListView listView,
@@ -531,9 +613,13 @@ public class FocusableLinearLayoutManager extends LinearLayoutManager
         public boolean notifyOnNextLayout;
         public int centerIndex;
         public boolean animate;
+        public boolean scroll;
 
         public FocusStateRequest() {
             notifyOnNextLayout = false;
+            centerIndex = -1;
+            animate = false;
+            scroll = false;
         }
 
         @Override
@@ -542,6 +628,7 @@ public class FocusableLinearLayoutManager extends LinearLayoutManager
                     "notifyOnNext " + notifyOnNextLayout +
                     ", center " + centerIndex +
                     ", animate " + animate +
+                    ", scroll " + scroll +
                     "}";
         }
     }
@@ -572,6 +659,19 @@ public class FocusableLinearLayoutManager extends LinearLayoutManager
          * @param animate interact with animation?
          */
         void onFocusStateChanged(@FocusState int focusState, boolean animate);
+    }
+
+    public interface OnCentralProgressUpdatedListener {
+
+        /**
+         * When we are in focus state, item will be notified by the progress of going central.
+         *
+         * @param progress progress from edge to center. The value is in [0, 1],
+         *                 1 means right on the view's center, 0 means on view's edge.
+         * @param animateDuration animate duration to that progress, if 0, means
+         *                        no animate at all.
+         */
+        void onCentralProgressUpdated(float progress, long animateDuration);
     }
 
     private static class ScrollVelocityTracker {
@@ -627,13 +727,42 @@ public class FocusableLinearLayoutManager extends LinearLayoutManager
         @FocusState
         private int prevFocusState;
 
+        private long animationStartTime;
+        private long animationPlayedTime;
+
         private final long defaultAnimDuration;
 
         public ViewHolder(View itemView) {
             super(itemView);
             prevFocusState = FOCUS_STATE_INVALID;
+            animationStartTime = 0;
+            animationPlayedTime = 0;
             defaultAnimDuration = itemView.getContext().getResources()
                     .getInteger(R.integer.design_anim_list_item_state_change);
+        }
+
+        /**
+         * When we are in focus state, item will be notified by the progress of going central.
+         * Override this method to do more smooth animation.
+         *
+         * @param progress progress from edge to center. The value is in [0, 1],
+         *                 1 means right on the view's center, 0 means on view's edge.
+         * @param animateDuration animate duration to that progress, if 0, means
+         */
+        protected void onCentralProgressUpdated(float progress, long animateDuration) {
+            if (itemView instanceof OnCentralProgressUpdatedListener) {
+                OnCentralProgressUpdatedListener item = (OnCentralProgressUpdatedListener) itemView;
+                item.onCentralProgressUpdated(progress, animateDuration);
+            } else {
+                float scaleMin = 1.0f;
+                float scaleMax = 1.1f;
+                float alphaMin = 0.6f;
+                float alphaMax = 1.0f;
+
+                float scale = scaleMin + (scaleMax - scaleMin) * progress;
+                float alpha = alphaMin + (alphaMax - alphaMin) * progress;
+                transform(scale, alpha, animateDuration);
+            }
         }
 
         /**
@@ -653,32 +782,17 @@ public class FocusableLinearLayoutManager extends LinearLayoutManager
                 OnFocusStateChangedListener item = (OnFocusStateChangedListener) itemView;
                 item.onFocusStateChanged(focusState, animate);
             } else {
-                applyDefaultAnimate(focusState, animate);
+                if (focusState == FOCUS_STATE_NORMAL) {
+                    transform(1.0f, 1.0f, animate ? getDefaultAnimDuration() : 0);
+                }
             }
         }
 
-        private void applyDefaultAnimate(@FocusState int focusState, boolean animate) {
-            float scale = 1.0f;
-            float alpha = 1.0f;
-            switch (focusState) {
-                case FOCUS_STATE_NORMAL:
-                    break;
-                case FOCUS_STATE_CENTRAL:
-                    scale = 1.1f;
-                    alpha = 1.0f;
-                    break;
-                case FOCUS_STATE_NON_CENTRAL:
-                    scale = 1.0f;
-                    alpha = 0.6f;
-                    break;
-                case FOCUS_STATE_INVALID:
-                    throw new RuntimeException("focusState in invalidate!");
-            }
-
+        private void transform(float scale, float alpha, long duration) {
             itemView.animate().cancel();
-            if (animate) {
+            if (duration > 0) {
                 itemView.animate()
-                        .setDuration(defaultAnimDuration)
+                        .setDuration(duration)
                         .alpha(alpha)
                         .scaleX(scale)
                         .scaleY(scale)

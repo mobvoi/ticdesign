@@ -144,30 +144,33 @@ public class ListFragment extends Fragment {
         }
 
         @Override
-        protected void onFocusStateChanged(@FocusState int focusState, boolean animate) {
-            float scale = 1.0f;
-            float alpha = 1.0f;
-            switch (focusState) {
-                case FocusableLinearLayoutManager.FOCUS_STATE_NORMAL:
-                    break;
-                case FocusableLinearLayoutManager.FOCUS_STATE_CENTRAL:
-                    scale = 1.1f;
-                    alpha = 1.0f;
-                    break;
-                case FocusableLinearLayoutManager.FOCUS_STATE_NON_CENTRAL:
-                    scale = 0.9f;
-                    alpha = 0.6f;
-                    break;
-                case FocusableLinearLayoutManager.FOCUS_STATE_INVALID:
-                    throw new RuntimeException("focusState in invalidate!");
-            }
+        protected void onCentralProgressUpdated(float progress, long animateDuration) {
+            float scaleMin = 0.9f;
+            float scaleMax = 1.1f;
+            float alphaMin = 0.6f;
+            float alphaMax = 1.0f;
 
+            float scale = scaleMin + (scaleMax - scaleMin) * progress;
+            float alpha = alphaMin + (alphaMax - alphaMin) * progress;
+            transform(scale, alpha, animateDuration);
+        }
+
+        @Override
+        protected void onFocusStateChanged(@FocusState int focusState, boolean animate) {
+            if (focusState == FocusableLinearLayoutManager.FOCUS_STATE_NORMAL) {
+                float scale = 1.0f;
+                float alpha = 1.0f;
+                transform(scale, alpha, animate ? getDefaultAnimDuration() : 0);
+            }
+        }
+
+        private void transform(float scale, float alpha, long duration) {
             title.setPivotX(0);
             title.setPivotY(title.getHeight() / 2f);
             title.animate().cancel();
-            if (animate) {
+            if (duration > 0) {
                 title.animate()
-                        .setDuration(getDefaultAnimDuration())
+                        .setDuration(duration)
                         .alpha(alpha)
                         .scaleX(scale)
                         .scaleY(scale)

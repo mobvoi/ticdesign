@@ -25,6 +25,7 @@ import java.util.Map;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import ticwear.design.widget.FocusableLinearLayoutManager;
+import ticwear.design.widget.FocusableLinearLayoutManager.FocusState;
 import ticwear.design.widget.SimpleRecyclerAdapter;
 import ticwear.design.widget.TicklableListView;
 
@@ -100,8 +101,6 @@ public class TransitionsFragment extends Fragment {
 
     public static class ViewHolder extends SimpleRecyclerAdapter.ViewHolder implements View.OnClickListener {
 
-        private final long animDuration;
-
         private final WeakReference<Activity> hostActivity;
 
         @Bind(R.id.item_icon)
@@ -114,7 +113,6 @@ public class TransitionsFragment extends Fragment {
             ButterKnife.bind(this, view);
             this.hostActivity = new WeakReference<>(host);
             view.setOnClickListener(this);
-            animDuration = 200; // view.getResources().getInteger(android.R.integer.config_shortAnimTime);
         }
 
         @Override
@@ -130,26 +128,30 @@ public class TransitionsFragment extends Fragment {
         }
 
         @Override
-        protected void onFocusStateChanged(int focusState, boolean animate) {
-            float scale = 1;
-            switch (focusState) {
-                case FocusableLinearLayoutManager.FOCUS_STATE_NORMAL:
-                    scale = 1;
-                    break;
-                case FocusableLinearLayoutManager.FOCUS_STATE_CENTRAL:
-                    scale = 1.3f;
-                    break;
-                case FocusableLinearLayoutManager.FOCUS_STATE_NON_CENTRAL:
-                    scale = 0.8f;
-                    break;
+        protected void onCentralProgressUpdated(float progress, long animateDuration) {
+            float scaleMin = 0.8f;
+            float scaleMax = 1.3f;
+
+            float scale = scaleMin + (scaleMax - scaleMin) * progress;
+            transform(scale, animateDuration);
+        }
+
+        @Override
+        protected void onFocusStateChanged(@FocusState int focusState,
+                                           boolean animate) {
+            if (focusState == FocusableLinearLayoutManager.FOCUS_STATE_NORMAL) {
+                transform(1.0f, animate ? getDefaultAnimDuration() : 0);
             }
+        }
+
+        private void transform(float scale, long duration) {
             textView.setPivotX(0);
             textView.setPivotY(textView.getHeight() / 2f);
-            if (animate) {
-                textView.animate().setDuration(animDuration).scaleX(scale);
-                textView.animate().setDuration(animDuration).scaleY(scale);
-                imageIcon.animate().setDuration(animDuration).scaleX(scale);
-                imageIcon.animate().setDuration(animDuration).scaleY(scale);
+            if (duration > 0) {
+                textView.animate().setDuration(duration).scaleX(scale);
+                textView.animate().setDuration(duration).scaleY(scale);
+                imageIcon.animate().setDuration(duration).scaleX(scale);
+                imageIcon.animate().setDuration(duration).scaleY(scale);
             } else {
                 textView.setScaleX(scale);
                 textView.setScaleY(scale);

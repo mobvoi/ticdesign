@@ -2,6 +2,7 @@ package ticwear.design.widget;
 
 import android.annotation.TargetApi;
 import android.content.Context;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
@@ -114,9 +115,9 @@ public class TicklableListView extends RecyclerView implements SidePanelEventDis
     }
 
     @Override
-    public boolean dispatchTouchEvent(MotionEvent e) {
-        return (mTicklableLayoutManager != null && mTicklableLayoutManager.dispatchTouchEvent(e)) ||
-                super.dispatchTouchEvent(e);
+    public boolean dispatchTouchEvent(MotionEvent ev) {
+        return (mTicklableLayoutManager != null && mTicklableLayoutManager.dispatchTouchEvent(ev)) ||
+                super.dispatchTouchEvent(ev);
     }
 
     @Override
@@ -159,4 +160,23 @@ public class TicklableListView extends RecyclerView implements SidePanelEventDis
         return !mSkipNestedScroll && super.dispatchNestedScroll(dxConsumed, dyConsumed, dxUnconsumed, dyUnconsumed, offsetInWindow);
     }
 
+    @Override
+    public boolean dispatchNestedPreScroll(int dx, int dy, int[] consumed, int[] offsetInWindow) {
+        return !mSkipNestedScroll && super.dispatchNestedPreScroll(dx, dy, consumed, offsetInWindow);
+    }
+
+    @Override
+    public boolean dispatchNestedFling(float velocityX, float velocityY, boolean consumed) {
+        return !mSkipNestedScroll && super.dispatchNestedFling(velocityX, velocityY, consumed);
+    }
+
+    @Override
+    public boolean dispatchNestedPreFling(float velocityX, float velocityY) {
+        return !mSkipNestedScroll && super.dispatchNestedPreFling(velocityX, velocityY);
+    }
+
+    @Override
+    public boolean dispatchNestedPrePerformAccessibilityAction(int action, Bundle arguments) {
+        return !mSkipNestedScroll && super.dispatchNestedPrePerformAccessibilityAction(action, arguments);
+    }
 }

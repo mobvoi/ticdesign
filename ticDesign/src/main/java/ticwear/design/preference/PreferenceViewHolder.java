@@ -36,7 +36,6 @@ public class PreferenceViewHolder extends ViewHolder {
     protected float iconScaleUp;
     protected float iconScaleDown;
     protected float itemAlphaDown;
-    protected long animateDuration;
 
     public PreferenceViewHolder(@NonNull ViewGroup parent, @LayoutRes int layoutResId) {
         this(parent, layoutResId, 0);
@@ -72,11 +71,10 @@ public class PreferenceViewHolder extends ViewHolder {
     private void initItemAnimationProperties(Context context) {
         float iconSizeUp = context.getResources().getDimensionPixelSize(R.dimen.tic_list_item_icon_frame_size_large);
         float iconSizeNormal = context.getResources().getDimensionPixelSize(R.dimen.tic_list_item_icon_frame_size_normal);
-        float iconSizeDown = context.getResources().getDimensionPixelSize(R.dimen.tic_list_item_icon_frame_size_normal);
+        float iconSizeDown = context.getResources().getDimensionPixelSize(R.dimen.tic_list_item_icon_frame_size_small);
         iconScaleUp = iconSizeUp / iconSizeNormal;
         iconScaleDown = iconSizeDown / iconSizeNormal;
         itemAlphaDown = 0.6f;   // TODO: define in attributes.
-        animateDuration = getDefaultAnimDuration();
     }
 
     @CheckResult
@@ -124,47 +122,58 @@ public class PreferenceViewHolder extends ViewHolder {
     }
 
     @Override
+    protected void onCentralProgressUpdated(float progress, long animateDuration) {
+        float scaleMin = iconScaleDown;
+        float scaleMax = iconScaleUp;
+        float alphaMin = itemAlphaDown;
+        float alphaMax = 1.0f;
+
+        float scale = scaleMin + (scaleMax - scaleMin) * progress;
+        float alpha = alphaMin + (alphaMax - alphaMin) * progress;
+        transform(scale, alpha, animateDuration);
+    }
+
+    @Override
     protected void onFocusStateChanged(@FocusState int focusState,
                                        boolean animate) {
         float scale = 1.0f;
         float alpha = 1.0f;
-        switch (focusState) {
-            case FocusableLinearLayoutManager.FOCUS_STATE_NORMAL:
-                break;
-            case FocusableLinearLayoutManager.FOCUS_STATE_CENTRAL:
-                scale = iconScaleUp;
-                alpha = 1.0f;
-                break;
-            case FocusableLinearLayoutManager.FOCUS_STATE_NON_CENTRAL:
-                scale = iconScaleDown;
-                alpha = itemAlphaDown;
-                break;
+        if (focusState == FocusableLinearLayoutManager.FOCUS_STATE_NORMAL) {
+            transform(1.0f, 1.0f, animate ? getDefaultAnimDuration() : 0);
         }
 
+        if (DesignConfig.DEBUG_RECYCLER_VIEW) {
+            Log.d(TAG, getLogPrefix() + "focus state to " + focusState + ", animate " + animate +
+                    ", scale " + scale + ", alpha " + alpha +
+                    ", view alpha " + itemView.getAlpha() + getLogSuffix());
+        }
+    }
+
+    private void transform(float scale, float alpha, long duration) {
         itemView.animate().cancel();
         titleView.animate().cancel();
         summaryView.animate().cancel();
         if (showIconAnimation()) {
             iconView.animate().cancel();
         }
-        if (animate) {
+        if (duration > 0) {
             itemView.animate()
-                    .setDuration(animateDuration)
+                    .setDuration(duration)
                     .scaleX(scale)
                     .scaleY(scale)
                     .start();
             titleView.animate()
-                    .setDuration(animateDuration)
+                    .setDuration(duration)
                     .alpha(alpha)
                     .start();
             summaryView.animate()
-                    .setDuration(animateDuration)
+                    .setDuration(duration)
                     .alpha(alpha)
                     .start();
             if (showIconAnimation()) {
                 float inverseScale = 1.0f / scale;
                 iconView.animate()
-                        .setDuration(animateDuration)
+                        .setDuration(duration)
                         .scaleX(inverseScale)
                         .scaleY(inverseScale)
                         .start();
@@ -179,12 +188,6 @@ public class PreferenceViewHolder extends ViewHolder {
             summaryView.setAlpha(alpha);
             itemView.setScaleX(scale);
             itemView.setScaleY(scale);
-        }
-
-        if (DesignConfig.DEBUG_RECYCLER_VIEW) {
-            Log.d(TAG, getLogPrefix() + "focus state to " + focusState + ", animate " + animate +
-                    ", scale " + scale + ", alpha " + alpha +
-                    ", view alpha " + itemView.getAlpha() + getLogSuffix());
         }
     }
 

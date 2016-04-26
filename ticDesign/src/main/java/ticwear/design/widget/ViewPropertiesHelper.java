@@ -11,8 +11,7 @@ import android.view.ViewGroup;
 class ViewPropertiesHelper {
 
     static int getAdjustedHeight(View v) {
-        boolean clipToPadding = !(v instanceof ViewGroup) || ((ViewGroup) v).getClipToPadding();
-        if (clipToPadding) {
+        if (clipToPadding(v)) {
             return v.getHeight() - v.getPaddingBottom() - v.getPaddingTop();
         } else {
             return v.getHeight();
@@ -20,9 +19,20 @@ class ViewPropertiesHelper {
     }
 
     static int getCenterYPos(View v) {
-        boolean clipToPadding = !(v instanceof ViewGroup) || ((ViewGroup) v).getClipToPadding();
-        int padding  = clipToPadding ? v.getPaddingTop() : 0;
+        int padding  = clipToPadding(v) ? v.getPaddingTop() : 0;
         return v.getTop() + padding + getAdjustedHeight(v) / 2;
+    }
+
+    private static boolean clipToPadding(View v) {
+        return !(v instanceof ViewGroup) || ((ViewGroup) v).getClipToPadding();
+    }
+
+    static int getTop(View v) {
+        return clipToPadding(v)? v.getTop() + v.getPaddingTop() : v.getTop();
+    }
+
+    static int getBottom(View v) {
+        return clipToPadding(v)? v.getBottom() - v.getPaddingBottom() : v.getBottom();
     }
 
 }

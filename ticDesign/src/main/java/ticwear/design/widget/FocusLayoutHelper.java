@@ -1,11 +1,6 @@
 package ticwear.design.widget;
 
-import android.graphics.drawable.Drawable;
-import android.graphics.drawable.RippleDrawable;
-import android.os.Build;
-import android.os.Handler;
 import android.support.annotation.NonNull;
-import android.support.v4.view.ViewCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.GestureDetector;
 import android.view.GestureDetector.SimpleOnGestureListener;
@@ -23,10 +18,6 @@ class FocusLayoutHelper {
     private final RecyclerView.LayoutManager mLayoutManager;
 
     private final GestureDetector mGestureDetector;
-    private final OnGestureListener mOnGestureListener;
-
-    private final int[] mScrollOffset = new int[2];
-    private final int[] mScrollConsumed = new int[2];
 
 
     FocusLayoutHelper(@NonNull TicklableListView ticklableListView, @NonNull RecyclerView.LayoutManager layoutManager) {
@@ -34,51 +25,15 @@ class FocusLayoutHelper {
         this.mTicklableListView = ticklableListView;
         this.mLayoutManager = layoutManager;
 
-        mOnGestureListener = new OnGestureListener();
+        OnGestureListener mOnGestureListener = new OnGestureListener();
         mGestureDetector = new GestureDetector(ticklableListView.getContext(), mOnGestureListener);
 
     }
 
-    private void forceRippleAnimation(View view, float x, float y)
-    {
-        Drawable background = view.getBackground();
-
-        if(background instanceof RippleDrawable && Build.VERSION.SDK_INT >= 21)
-        {
-            final RippleDrawable rippleDrawable = (RippleDrawable) background;
-
-            rippleDrawable.setHotspot(x, y);
-            rippleDrawable.setState(new int[]{android.R.attr.state_pressed, android.R.attr.state_enabled});
-
-            Handler handler = new Handler();
-
-            handler.postDelayed(new Runnable()
-            {
-                @Override public void run()
-                {
-                    rippleDrawable.setState(new int[]{});
-                }
-            }, 200);
-        }
-    }
-
     public boolean dispatchTouchSidePanelEvent(MotionEvent ev) {
-        boolean handled = mGestureDetector.onTouchEvent(ev);
-
-        switch (ev.getAction()) {
-            case MotionEvent.ACTION_DOWN:
-                mTicklableListView.startNestedScroll(ViewCompat.SCROLL_AXIS_VERTICAL);
-                break;
-            case MotionEvent.ACTION_CANCEL:
-                // pass through
-            case MotionEvent.ACTION_UP:
-                mTicklableListView.stopNestedScroll();
-                if (!mOnGestureListener.isFlinging()) {
-                    animateToCenter();
-                }
-                break;
-        }
-        return handled;
+        mTicklableListView.onTouchEvent(ev);
+        mGestureDetector.onTouchEvent(ev);
+        return true;    // return true to skip event dispatch to children.
     }
 
     public boolean interceptPreScroll() {
@@ -164,54 +119,93 @@ class FocusLayoutHelper {
 
     private class OnGestureListener extends SimpleOnGestureListener {
 
-        private boolean mIsFlinging = false;
+        private static final long RIPPLE_SAFE_TO_SHOW_DELAY = 100;
+
+        private final Runnable mShowRippleRunnable = new Runnable() {
+            @Override
+            public void run() {
+                startPressIfPossible(mTargetView, mHotspotX, mHotspotY);
+            }
+        };
+
+        private View mTargetView;
+        private float mHotspotX;
+        private float mHotspotY;
 
         @Override
-        public boolean onDown(MotionEvent e) {
-            mIsFlinging = false;
+        public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX, float distanceY) {
+            cancelPressIfNeed();
+
+            // By scroll another time, we got a multiplier scroll speed.
+            if (mLayoutManager.canScrollVertically()) {
+                int dx = Math.round(distanceX);
+                int dy = Math.round(distanceY);
+                mTicklableListView.scrollBySkipNestedScroll(dx, dy);
+            }
             return false;
         }
 
         @Override
-        public boolean onSingleTapUp(MotionEvent e) {
+        public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
+            cancelPressIfNeed();
+            return false;
+        }
+
+        @Override
+        public void onShowPress(MotionEvent e) {
+            cancelPressIfNeed();
             if (getChildCount() > 0) {
                 int centerIndex = findCenterViewIndex();
                 View child = getChildAt(centerIndex);
-                child.performClick();
-                float x = e.getX() - child.getX();
-                float y = e.getY() - child.getY();
-                forceRippleAnimation(child, x, y);
+                mHotspotX = e.getX() - child.getX();
+                mHotspotY = e.getY() - child.getY();
+                mTargetView = child;
+                // The default show press delay is too quick, so we use our own delay duration.
+                mTargetView.postDelayed(mShowRippleRunnable, RIPPLE_SAFE_TO_SHOW_DELAY);
             }
-            return true;
         }
 
         @Override
-        public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX, float distanceY) {
-            if (!mLayoutManager.canScrollVertically()) {
-                return false;
+        public boolean onSingleTapConfirmed(MotionEvent e) {
+            startPressIfPossible(mTargetView, mHotspotX, mHotspotY);
+            if (mTargetView != null) {
+                mTargetView.performClick();
             }
-            int dx = (int) distanceX;
-            int dy = (int) distanceY;
-            if (mTicklableListView.dispatchNestedPreScroll(dx, dy, mScrollConsumed, mScrollOffset)) {
-                dx -= mScrollConsumed[0];
-                dy -= mScrollConsumed[1];
-            }
-            mTicklableListView.scrollBy(dx, dy);
-            return true;
+            cancelPressIfNeed();
+            return false;
         }
 
         @Override
-        public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
-            if (!mLayoutManager.canScrollVertically()) {
-                return false;
-            }
-            mTicklableListView.fling((int) -velocityX, (int) -velocityY);
-            mIsFlinging = true;
-            return true;
+        public boolean onDoubleTap(MotionEvent e) {
+            cancelPressIfNeed();
+            return false;
         }
 
-        public boolean isFlinging() {
-            return mIsFlinging;
+        @Override
+        public void onLongPress(MotionEvent e) {
+            cancelPressIfNeed();
+        }
+
+        private void startPressIfPossible(View view, float x, float y) {
+            stopDelayShowPress(view);
+            if (view != null) {
+                view.drawableHotspotChanged(x, y);
+                view.setPressed(true);
+            }
+        }
+
+        private void cancelPressIfNeed() {
+            stopDelayShowPress(mTargetView);
+            if (mTargetView != null) {
+                mTargetView.setPressed(false);
+                mTargetView = null;
+            }
+        }
+
+        private void stopDelayShowPress(View view) {
+            if (view != null) {
+                view.removeCallbacks(mShowRippleRunnable);
+            }
         }
 
     }
