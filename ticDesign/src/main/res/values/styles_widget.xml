@@ -136,8 +136,7 @@
     </style>
 
     <style name="Widget.Ticwear.CircularProgressDrawable">
-        <item name="tic_cpd_strokeSize">2dp</item>
-        <item name="tic_cpd_hasProgress">false</item>
+        <item name="tic_cpd_strokeSize">10dp</item>
         <item name="tic_cpd_padding">0dp</item>
         <item name="tic_cpd_initialAngle">-90</item>
         <item name="tic_cpd_progress">0</item>
@@ -150,8 +149,8 @@
         <item name="tic_cpd_transformDuration">1500</item>
         <item name="tic_cpd_keepDuration">200</item>
         <item name="tic_cpd_inAnimDuration">0</item>
-        <item name="tic_cpd_outAnimDuration">@android:integer/config_mediumAnimTime</item>
-        <item name="tic_cpd_progressAlpha">255</item>
+        <item name="tic_cpd_outAnimDuration">0</item>
+        <item name="tic_cpd_progressAlpha">128</item>
     </style>
 
 </resources>

@@ -186,7 +186,6 @@
 
     <declare-styleable name="CircularProgressDrawable">
         <attr name="tic_cpd_strokeSize" format="dimension"/>
-        <attr name="tic_cpd_hasProgress" format="boolean"/>
         <attr name="tic_cpd_padding" format="reference|dimension"/>
         <attr name="tic_cpd_initialAngle" format="reference|integer"/>
         <attr name="tic_cpd_progress" format="float"/>

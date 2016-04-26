@@ -109,7 +109,8 @@ public class CircularProgressDrawable extends Drawable implements Animatable {
         mPadding = padding;
         mInitialAngle = initialAngle;
         mAlpha = alpha;
-        setProgress(progressPercent);
+        mProgressPercent = Math.min(1f, Math.max(0f, progressPercent));
+//        setProgress(progressPercent);
         setSecondaryProgress(secondaryProgressPercent);
         mMaxSweepAngle = maxSweepAngle;
         mMinSweepAngle = minSweepAngle;
@@ -144,7 +145,11 @@ public class CircularProgressDrawable extends Drawable implements Animatable {
     public void setProgressMode(int mode) {
         if (mProgressMode != mode) {
             mProgressMode = mode;
+            if (mode == MODE_INDETERMINATE) {
+                mProgressPercent = 0;
+            }
             if (mState != null) {
+                mState.mBuilder.progressPercent(mProgressPercent);
                 mState.mBuilder.progressMode(mode);
             }
             invalidateSelf();
@@ -161,17 +166,21 @@ public class CircularProgressDrawable extends Drawable implements Animatable {
      * @param percent 传入的progressbar的进度
      */
     public void setProgress(float percent) {
+        mProgressMode = MODE_DETERMINATE;
+        percent = Math.min(1f, Math.max(0f, percent));
         if (mState != null) {
+            mState.mBuilder.progressMode(MODE_DETERMINATE);
             mState.mBuilder.progressPercent(percent);
         }
-        percent = Math.min(1f, Math.max(0f, percent));
         if (mProgressPercent != percent) {
             mProgressPercent = percent;
-            if (isRunning())
-                invalidateSelf();
-            else if (mProgressPercent != 0f)
-                start();
         }
+        if (isRunning()) {
+            resetAnimation();
+            invalidateSelf();
+        }
+        else if (mProgressPercent != 0f)
+            start();
     }
 
     public float getSecondaryProgress() {
@@ -199,10 +208,10 @@ public class CircularProgressDrawable extends Drawable implements Animatable {
     @Override
     public void setAlpha(int alpha) {
         mPaint.setAlpha(alpha);
+        mAlpha = alpha;
         if (mState != null) {
             mState.mBuilder.mAlpha = alpha;
         }
-
         invalidateSelf();
     }
 
@@ -235,8 +244,6 @@ public class CircularProgressDrawable extends Drawable implements Animatable {
         if (mPaint.getColorFilter() != mTintFilter) {
             mPaint.setColorFilter(mTintFilter);
         }
-
-        mPaint.setAlpha(mAlpha);
 
         switch (mProgressMode) {
             case MODE_DETERMINATE:
@@ -295,12 +302,15 @@ public class CircularProgressDrawable extends Drawable implements Animatable {
             } else {
                 float sweepAngle = (mReverse ? -360 : 360) * mProgressPercent;
 
+                float sweepAngleSecond = (mReverse ? -360 : 360) * Math.max(mSecondaryProgressPercent - mProgressPercent, 0);
+
                 mRect.set(x - radius, y - radius, x + radius, y + radius);
                 mPaint.setColor(mStrokeSecondaryColor);
-                canvas.drawArc(mRect, mStartAngle + sweepAngle, (mReverse ? -360 : 360) - sweepAngle, false, mPaint);
+                canvas.drawArc(mRect, mStartAngle + sweepAngle, sweepAngleSecond, false, mPaint);
 
                 mPaint.setColor(mStrokeColors[0]);
-                canvas.drawArc(mRect, mStartAngle, sweepAngle, false, mPaint);
+                mPaint.setAlpha(mAlpha);
+                canvas.drawArc(mRect, mInitialAngle, sweepAngle, false, mPaint);
             }
         }
     }
@@ -397,6 +407,7 @@ public class CircularProgressDrawable extends Drawable implements Animatable {
             mPaint.setStrokeWidth(mStrokeSize);
             mPaint.setStyle(Paint.Style.STROKE);
             mPaint.setColor(getIndeterminateStrokeColor());
+            mPaint.setAlpha(mAlpha);
             canvas.drawArc(mRect, mStartAngle, mSweepAngle, false, mPaint);
         }
     }
@@ -756,7 +767,7 @@ public class CircularProgressDrawable extends Drawable implements Animatable {
 
         public CircularProgressDrawable build() {
             if (mStrokeColors == null)
-                mStrokeColors = new int[]{0xccffffff};
+                mStrokeColors = new int[]{0xFFFFFFFF};
 
             if (mInColors == null && mInAnimationDuration > 0)
                 mInColors = new int[]{0xFFB5D4FF, 0xFFDEEAFC, 0xFFFAFFFE};

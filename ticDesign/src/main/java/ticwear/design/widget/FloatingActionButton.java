@@ -26,6 +26,8 @@ import android.graphics.drawable.Drawable;
 import android.graphics.drawable.RippleDrawable;
 import android.graphics.drawable.ShapeDrawable;
 import android.graphics.drawable.shapes.OvalShape;
+import android.os.Handler;
+import android.os.Message;
 import android.support.annotation.ColorInt;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -110,6 +112,8 @@ public class FloatingActionButton extends VisibilityAwareImageButton {
 
     private final FloatingActionButtonAnimator mImpl;
 
+    private boolean mHasProgress;
+
     public FloatingActionButton(Context context) {
         this(context, null);
     }
@@ -133,6 +137,7 @@ public class FloatingActionButton extends VisibilityAwareImageButton {
                 R.styleable.FloatingActionButton, defStyleAttr, defStyleRes);
         int rippleColor = a.getColor(R.styleable.FloatingActionButton_tic_rippleColor, 0);
         mSize = a.getInt(R.styleable.FloatingActionButton_tic_fabSize, SIZE_NORMAL);
+        mHasProgress = a.getBoolean(R.styleable.FloatingActionButton_tic_hasProgress, false);
         final float pressedTranslationZ = a.getDimension(
                 R.styleable.FloatingActionButton_tic_pressedTranslationZ, 0f);
 
@@ -161,7 +166,6 @@ public class FloatingActionButton extends VisibilityAwareImageButton {
                 shapeDrawable, null);
 
         CircularProgressDrawable progressDrawable = createProgressDrawable(context, attrs, 0, defStyleRes);
-
         mBackgroundDrawable = new CircularProgressContainerDrawable(rippleDrawable, progressDrawable, strokeSize);
 
         super.setBackgroundDrawable(mBackgroundDrawable);
@@ -186,25 +190,34 @@ public class FloatingActionButton extends VisibilityAwareImageButton {
                 d + mProgressPadding.top + mProgressPadding.bottom);
     }
 
+    /**
+     * Start showing progress.
+     */
+    public void startProgress() {
+        if (mHasProgress) {
+            getProgressDrawable().start();
+        }
+    }
+
+    @Override
+    protected void onAttachedToWindow() {
+        super.onAttachedToWindow();
+        if (getVisibility() == View.VISIBLE) {
+            startProgress();
+        }
+    }
+
     @Override
     protected void onVisibilityChanged(@NonNull View changedView, int visibility) {
         super.onVisibilityChanged(changedView, visibility);
 
         if (getProgressDrawable() != null) {
             if (visibility == VISIBLE) {
-                getProgressDrawable().start();
+                startProgress();
             } else {
                 getProgressDrawable().stop();
             }
         }
-    }
-
-    @Override
-    public void draw(Canvas canvas) {
-        if (getProgressDrawable() != null && !getProgressDrawable().isRunning()) {
-            getProgressDrawable().start();
-        }
-        super.draw(canvas);
     }
 
     public CircularProgressDrawable getProgressDrawable() {
@@ -229,9 +242,7 @@ public class FloatingActionButton extends VisibilityAwareImageButton {
      * @param percent 传入progress的百分比
      */
     public void setProgressPercent(float percent) {
-        if (mBackgroundDrawable instanceof CircularProgressContainerDrawable) {
-            ((CircularProgressContainerDrawable) mBackgroundDrawable).setProgressPercent(percent);
-        }
+        getProgressDrawable().setProgress(percent);
     }
 
     /**
@@ -239,9 +250,7 @@ public class FloatingActionButton extends VisibilityAwareImageButton {
      * @param mode  传入的模式
      */
     public void setProgressMode(int mode) {
-        if (mBackgroundDrawable instanceof CircularProgressContainerDrawable) {
-            ((CircularProgressContainerDrawable) mBackgroundDrawable).setProgressMode(mode);
-        }
+        getProgressDrawable().setProgressMode(mode);
     }
 
     /**
@@ -249,9 +258,7 @@ public class FloatingActionButton extends VisibilityAwareImageButton {
      * @param alpha progressBar的透明度
      */
     public void setProgressAlpha(int alpha) {
-        if (mBackgroundDrawable instanceof CircularProgressContainerDrawable) {
-            ((CircularProgressContainerDrawable) mBackgroundDrawable).setProgressAlpha(alpha);
-        }
+        getProgressDrawable().setAlpha(alpha);
     }
 
     /**
@@ -259,8 +266,12 @@ public class FloatingActionButton extends VisibilityAwareImageButton {
      * @param hasProgress false为无progressbar
      */
     public void hasProgress(boolean hasProgress) {
-        if (mBackgroundDrawable instanceof CircularProgressContainerDrawable) {
-            ((CircularProgressContainerDrawable) mBackgroundDrawable).hasProgress(hasProgress);
+        mHasProgress = hasProgress;
+        if (hasProgress) {
+            getProgressDrawable().start();
+        }
+        else {
+            getProgressDrawable().stop();
         }
     }
 
