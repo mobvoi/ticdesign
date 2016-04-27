@@ -15,6 +15,8 @@ import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AccelerateDecelerateInterpolator;
+import android.view.animation.Interpolator;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.Retention;
@@ -129,7 +131,8 @@ public class FocusableLinearLayoutManager extends LinearLayoutManager
 
         if (toFocus && mTicklableListView != null) {
             mFocusLayoutHelper = new FocusLayoutHelper(mTicklableListView, this);
-        } else {
+        } else if (mFocusLayoutHelper != null) {
+            mFocusLayoutHelper.destroy();
             mFocusLayoutHelper = null;
         }
 
@@ -585,6 +588,13 @@ public class FocusableLinearLayoutManager extends LinearLayoutManager
 
         // Only call focus state change once.
         if (viewHolder.prevFocusState != focusState) {
+            if (focusState == FOCUS_STATE_NORMAL) {
+                viewHolder.itemView.setFocusable(false);
+                viewHolder.itemView.setFocusableInTouchMode(false);
+            } else {
+                viewHolder.itemView.setFocusable(true);
+                viewHolder.itemView.setFocusableInTouchMode(true);
+            }
             viewHolder.onFocusStateChanged(focusState, animate);
             viewHolder.prevFocusState = focusState;
             view.setClickable(focusState != FOCUS_STATE_NON_CENTRAL);
@@ -731,6 +741,7 @@ public class FocusableLinearLayoutManager extends LinearLayoutManager
         private long animationPlayedTime;
 
         private final long defaultAnimDuration;
+        private final Interpolator focusInterpolator;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -739,6 +750,7 @@ public class FocusableLinearLayoutManager extends LinearLayoutManager
             animationPlayedTime = 0;
             defaultAnimDuration = itemView.getContext().getResources()
                     .getInteger(R.integer.design_anim_list_item_state_change);
+            focusInterpolator = new AccelerateDecelerateInterpolator();
         }
 
         /**
@@ -760,7 +772,8 @@ public class FocusableLinearLayoutManager extends LinearLayoutManager
                 float alphaMax = 1.0f;
 
                 float scale = scaleMin + (scaleMax - scaleMin) * progress;
-                float alpha = alphaMin + (alphaMax - alphaMin) * progress;
+                float alphaProgress = getFocusInterpolator().getInterpolation(progress);
+                float alpha = alphaMin + (alphaMax - alphaMin) * alphaProgress;
                 transform(scale, alpha, animateDuration);
             }
         }
@@ -804,8 +817,21 @@ public class FocusableLinearLayoutManager extends LinearLayoutManager
             }
         }
 
+        /**
+         * If the transform needs a animation, use this duration for default.
+         */
         public long getDefaultAnimDuration() {
             return defaultAnimDuration;
+        }
+
+        /**
+         * get the interpolator for focus usage, use the interpolator to interpolation
+         * the progress, so you can get a more obvious focus effect.
+         *
+         * @see #onCentralProgressUpdated
+         */
+        public Interpolator getFocusInterpolator() {
+            return focusInterpolator;
         }
 
         protected final String getLogPrefix() {

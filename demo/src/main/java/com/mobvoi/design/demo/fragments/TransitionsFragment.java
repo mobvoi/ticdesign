@@ -131,30 +131,42 @@ public class TransitionsFragment extends Fragment {
         protected void onCentralProgressUpdated(float progress, long animateDuration) {
             float scaleMin = 0.8f;
             float scaleMax = 1.3f;
+            float alphaMin = 0.6f;
+            float alphaMax = 1.0f;
 
             float scale = scaleMin + (scaleMax - scaleMin) * progress;
-            transform(scale, animateDuration);
+            float alphaProgress = getFocusInterpolator().getInterpolation(progress);
+            float alpha = alphaMin + (alphaMax - alphaMin) * alphaProgress;
+            transform(scale, alpha, animateDuration);
         }
 
         @Override
         protected void onFocusStateChanged(@FocusState int focusState,
                                            boolean animate) {
             if (focusState == FocusableLinearLayoutManager.FOCUS_STATE_NORMAL) {
-                transform(1.0f, animate ? getDefaultAnimDuration() : 0);
+                transform(1f, 1f, animate ? getDefaultAnimDuration() : 0);
             }
         }
 
-        private void transform(float scale, long duration) {
+        private void transform(float scale, float alpha, long duration) {
             textView.setPivotX(0);
             textView.setPivotY(textView.getHeight() / 2f);
             if (duration > 0) {
-                textView.animate().setDuration(duration).scaleX(scale);
-                textView.animate().setDuration(duration).scaleY(scale);
-                imageIcon.animate().setDuration(duration).scaleX(scale);
-                imageIcon.animate().setDuration(duration).scaleY(scale);
+                textView.animate()
+                        .setDuration(duration)
+                        .alpha(alpha)
+                        .scaleX(scale)
+                        .scaleY(scale);
+                imageIcon.animate()
+                        .setDuration(duration)
+                        .alpha(alpha)
+                        .scaleX(scale)
+                        .scaleY(scale);
             } else {
+                textView.setAlpha(alpha);
                 textView.setScaleX(scale);
                 textView.setScaleY(scale);
+                imageIcon.setAlpha(alpha);
                 imageIcon.setScaleX(scale);
                 imageIcon.setScaleY(scale);
             }

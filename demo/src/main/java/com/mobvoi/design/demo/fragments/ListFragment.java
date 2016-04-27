@@ -151,7 +151,8 @@ public class ListFragment extends Fragment {
             float alphaMax = 1.0f;
 
             float scale = scaleMin + (scaleMax - scaleMin) * progress;
-            float alpha = alphaMin + (alphaMax - alphaMin) * progress;
+            float alphaProgress = getFocusInterpolator().getInterpolation(progress);
+            float alpha = alphaMin + (alphaMax - alphaMin) * alphaProgress;
             transform(scale, alpha, animateDuration);
         }
 

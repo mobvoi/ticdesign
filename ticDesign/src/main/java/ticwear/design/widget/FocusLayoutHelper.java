@@ -30,6 +30,13 @@ class FocusLayoutHelper {
 
     }
 
+    public void destroy() {
+        for (int i = 0; i < getChildCount(); i++) {
+            View child = getChildAt(i);
+            child.clearFocus();
+        }
+    }
+
     public boolean dispatchTouchSidePanelEvent(MotionEvent ev) {
         mTicklableListView.onTouchEvent(ev);
         mGestureDetector.onTouchEvent(ev);
@@ -62,8 +69,19 @@ class FocusLayoutHelper {
     }
 
     void onScrollStateChanged(int state) {
-        if (state == RecyclerView.SCROLL_STATE_IDLE && getChildCount() > 0) {
-            animateToCenter();
+        if (getChildCount() > 0) {
+            final View child = getChildAt(findCenterViewIndex());
+            if (state == RecyclerView.SCROLL_STATE_IDLE) {
+                animateToCenter();
+                child.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        child.requestFocus();
+                    }
+                }, 200);
+            } else {
+                child.clearFocus();
+            }
         }
     }
 

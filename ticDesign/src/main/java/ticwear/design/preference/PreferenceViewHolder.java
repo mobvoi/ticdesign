@@ -129,23 +129,21 @@ public class PreferenceViewHolder extends ViewHolder {
         float alphaMax = 1.0f;
 
         float scale = scaleMin + (scaleMax - scaleMin) * progress;
-        float alpha = alphaMin + (alphaMax - alphaMin) * progress;
+        float alphaProgress = getFocusInterpolator().getInterpolation(progress);
+        float alpha = alphaMin + (alphaMax - alphaMin) * alphaProgress;
         transform(scale, alpha, animateDuration);
     }
 
     @Override
-    protected void onFocusStateChanged(@FocusState int focusState,
-                                       boolean animate) {
-        float scale = 1.0f;
-        float alpha = 1.0f;
+    protected void onFocusStateChanged(@FocusState int focusState, boolean animate) {
         if (focusState == FocusableLinearLayoutManager.FOCUS_STATE_NORMAL) {
             transform(1.0f, 1.0f, animate ? getDefaultAnimDuration() : 0);
         }
 
         if (DesignConfig.DEBUG_RECYCLER_VIEW) {
             Log.d(TAG, getLogPrefix() + "focus state to " + focusState + ", animate " + animate +
-                    ", scale " + scale + ", alpha " + alpha +
-                    ", view alpha " + itemView.getAlpha() + getLogSuffix());
+                    ", view alpha " + itemView.getAlpha() +
+                    getLogSuffix());
         }
     }
 
