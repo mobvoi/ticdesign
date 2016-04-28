@@ -20,6 +20,7 @@
     <string name="category.widgets.title">控件</string>
     <string name="category.widgets.fab">悬浮按钮</string>
     <string name="category.widgets.button">按钮控件</string>
+    <string name="category_volume_bar">声音控件</string>
     <string name="category.widgets.progress">进度/加载</string>
     <string name="category.widgets.picker">数值选择器</string>
 

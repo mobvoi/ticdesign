@@ -16,6 +16,18 @@
 -->
 <resources>
 
+    <style name="Widget.Ticwear.VolumeBar" parent="android:Widget">
+        <item name="tic_vb_valueColor">?android:colorAccent</item>
+        <item name="tic_vb_bgColor">@color/tic_basic_gold_grey_darken</item>
+        <item name="tic_vb_btnImageSize">18dp</item>
+        <item name="tic_vb_touchPaddingLeft">0dp</item>
+        <item name="tic_vb_touchPaddingRight">0dp</item>
+        <item name="tic_vb_touchPaddingTop">0dp</item>
+        <item name="tic_vb_touchPaddingBottom">0dp</item>
+        <item name="tic_vb_thumbImage">@drawable/tic_ic_volumeup_32px</item>
+        <item name="tic_vb_thumbLeftImage">@drawable/tic_ic_volumenone_32px</item>
+    </style>
+
     <style name="Widget.Ticwear.FloatingActionButton" parent="android:Widget">
         <item name="android:backgroundTint">?android:colorAccent</item>
         <item name="android:elevation">@dimen/tic_design_fab_elevation</item>

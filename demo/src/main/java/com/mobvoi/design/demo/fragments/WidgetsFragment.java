@@ -23,6 +23,7 @@ public class WidgetsFragment extends ListFragment {
         return new int[]{
                 R.string.category_widgets_fab,
                 R.string.category_widgets_button,
+                R.string.category_volume_bar,
                 R.string.category_widgets_picker,
                 R.string.category_widgets_progress,
         };
@@ -69,6 +70,12 @@ public class WidgetsFragment extends ListFragment {
                         .create();
                 break;
             }
+            case R.string.category_volume_bar:
+                dialog = new Dialog(context);
+                View layout = inflater.inflate(
+                        R.layout.widgets_volume_bar, null);
+                dialog.setContentView(layout);
+                break;
             case R.string.category_widgets_picker:
                 break;
             case R.string.category_widgets_progress:

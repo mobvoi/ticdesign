@@ -16,6 +16,18 @@
 -->
 <resources>
 
+    <declare-styleable name="VolumeBar">
+        <attr name="tic_vb_valueColor" format="color"/>
+        <attr name="tic_vb_bgColor" format="color"/>
+        <attr name="tic_vb_btnImageSize" format="dimension"/>
+        <attr name="tic_vb_touchPaddingLeft" format="dimension"/>
+        <attr name="tic_vb_touchPaddingRight" format="dimension"/>
+        <attr name="tic_vb_touchPaddingTop" format="dimension"/>
+        <attr name="tic_vb_touchPaddingBottom" format="dimension"/>
+        <attr name="tic_vb_thumbImage" format="reference" />
+        <attr name="tic_vb_thumbLeftImage" format="reference" />
+    </declare-styleable>
+
     <declare-styleable name="FloatingActionButton">
         <!-- Ripple color for the FAB. -->
         <attr name="tic_rippleColor" format="color"/>
