@@ -5,6 +5,7 @@ import android.graphics.Canvas;
 import android.graphics.ColorFilter;
 import android.graphics.Paint;
 import android.graphics.Path;
+import android.graphics.PixelFormat;
 import android.graphics.PorterDuff;
 import android.graphics.Rect;
 import android.graphics.RectF;
@@ -52,7 +53,8 @@ public class ArcDrawable extends Drawable {
 
     @Override
     public int getOpacity() {
-        return srcDrawable.getOpacity();
+        // We always have lots of transparent pixels.
+        return PixelFormat.TRANSLUCENT;
     }
 
     @Override
