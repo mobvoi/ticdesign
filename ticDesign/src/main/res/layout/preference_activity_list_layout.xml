@@ -14,6 +14,7 @@
         android:layout_height="match_parent" />
 
     <ticwear.design.widget.AppBarLayout
+        style="@style/WindowAppBar.Ticwear"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
@@ -22,7 +23,6 @@
             android:id="@android:id/title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingTop="@dimen/tic_list_title_padding_top_ticwear"
             android:gravity="center"
             android:text="@null"
             app:tic_layout_scrollFlags="scroll|overScrollBounce"

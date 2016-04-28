@@ -12,6 +12,9 @@
         <item name="android:ellipsize">end</item>
         <item name="android:textAlignment">center</item>
     </style>
+    <style name="WindowTitle.Ticwear.Small">
+        <item name="android:textAppearance">@style/TextAppearance.Ticwear.WindowTitle.Small</item>
+    </style>
 
     <style name="WindowIcon" />
     <style name="WindowIcon.Ticwear" >
@@ -20,6 +23,24 @@
         <item name="android:layout_gravity">center_horizontal</item>
         <item name="android:scaleType">fitCenter</item>
         <item name="android:gravity">center</item>
+    </style>
+
+    <style name="WindowAppBar" />
+    <style name="WindowAppBar.Ticwear">
+        <item name="android:minHeight">57dp</item>
+        <item name="android:paddingStart">?android:listPreferredItemPaddingStart</item>
+        <item name="android:paddingEnd">?android:listPreferredItemPaddingEnd</item>
+        <item name="android:paddingTop">8dp</item>
+        <item name="android:paddingBottom">4dp</item>
+        <item name="android:gravity">center</item>
+    </style>
+    <style name="WindowAppBar.Ticwear.Small">
+        <item name="android:minHeight">46dp</item>
+    </style>
+    <style name="WindowAppBar.Ticwear.Datetime">
+        <item name="android:minHeight">0dp</item>
+        <item name="android:paddingTop">4dp</item>
+        <item name="android:paddingBottom">0dp</item>
     </style>
 
     <!-- Animation Styles -->

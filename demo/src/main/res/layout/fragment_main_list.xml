@@ -9,12 +9,12 @@
     tools:deviceIds="wear_round">
 
     <ticwear.design.widget.AppBarLayout
+        style="@style/WindowAppBar.Ticwear"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
         <ImageView
             style="?tic_windowIconStyle"
-            android:layout_marginTop="4dp"
             android:paddingTop="4dp"
             android:paddingBottom="4dp"
             android:gravity="bottom"

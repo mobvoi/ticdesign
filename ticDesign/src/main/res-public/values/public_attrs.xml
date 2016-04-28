@@ -41,6 +41,7 @@
     <public type="attr" name="tic_centered" />
 
     <public type="attr" name="tic_windowIconStyle" />
+    <public type="attr" name="tic_windowAppBarStyle" />
 
     <public type="attr" name="tic_primaryButtonStyle" />
 

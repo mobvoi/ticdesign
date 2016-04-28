@@ -45,6 +45,7 @@
 
         <item name="android:windowTitleStyle">@style/WindowTitle.Ticwear</item>
         <item name="tic_windowIconStyle">@style/WindowIcon.Ticwear</item>
+        <item name="tic_windowAppBarStyle">@style/WindowAppBar.Ticwear.Small</item>
 
         <!-- Dialog attributes -->
         <item name="android:dialogTheme">@style/Theme.Ticwear.Dialog</item>
@@ -92,8 +93,8 @@
         <!-- DatePicker style -->
         <item name="android:datePickerStyle">@style/Widget.Ticwear.DatePicker</item>
         <!-- TimePicker & DatePicker dialog theme, they must be same in ticwear -->
-        <item name="android:timePickerDialogTheme">?android:alertDialogTheme</item>
-        <item name="android:datePickerDialogTheme">?android:alertDialogTheme</item>
+        <item name="android:timePickerDialogTheme">@style/Theme.Ticwear.Dialog.Datetime</item>
+        <item name="android:datePickerDialogTheme">@style/Theme.Ticwear.Dialog.Datetime</item>
 
         <item name="tic_primaryButtonStyle">@style/Widget.Ticwear.PrimaryButton</item>
 
@@ -158,5 +159,9 @@
          For applications targeting Honeycomb or newer, this is the default
          AlertDialog theme. -->
     <style name="Theme.Ticwear.Dialog.Alert" parent="Theme.Ticwear.Dialog.BaseAlert"/>
+
+    <style name="Theme.Ticwear.Dialog.Datetime">
+        <item name="tic_windowAppBarStyle">@style/WindowAppBar.Ticwear.Datetime</item>
+    </style>
 
 </resources>

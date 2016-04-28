@@ -339,28 +339,36 @@ public class AppBarLayout extends LinearLayout {
         }
 
         int range = 0;
+        int currentTop = getTop();
+        boolean allScroll = true;
         for (int i = 0, z = getChildCount(); i < z; i++) {
             final View child = getChildAt(i);
             final LayoutParams lp = (LayoutParams) child.getLayoutParams();
-            final int childHeight = child.getMeasuredHeight();
+            final int childBottom = child.getBottom();
             final int flags = lp.mScrollFlags;
 
             if ((flags & LayoutParams.SCROLL_FLAG_SCROLL) != 0) {
                 // We're set to scroll so add the child's height
-                range += childHeight + lp.topMargin + lp.bottomMargin;
+                range += childBottom - currentTop;
+                currentTop = childBottom;
 
                 if ((flags & LayoutParams.SCROLL_FLAG_EXIT_UNTIL_COLLAPSED) != 0) {
                     // For a collapsing scroll, we to take the collapsed height into account.
                     // We also break straight away since later views can't scroll beneath
                     // us
                     range -= ViewCompat.getMinimumHeight(child);
+                    allScroll = false;
                     break;
                 }
             } else {
+                allScroll = false;
                 // As soon as a view doesn't have the scroll flag, we end the range calculation.
                 // This is because views below can not scroll under a fixed view.
                 break;
             }
+        }
+        if (allScroll) {
+            range += getBottom() - currentTop;
         }
         return mTotalScrollRange = Math.max(0, range - getTopInset());
     }
@@ -393,28 +401,37 @@ public class AppBarLayout extends LinearLayout {
         }
 
         int range = 0;
+        int currentBottom = getBottom();
+        boolean allScroll = true;
         for (int i = getChildCount() - 1; i >= 0; i--) {
             final View child = getChildAt(i);
             final LayoutParams lp = (LayoutParams) child.getLayoutParams();
-            final int childHeight = child.getMeasuredHeight();
             final int flags = lp.mScrollFlags;
 
             if (consumePreScroll || (flags & LayoutParams.FLAG_QUICK_RETURN) == LayoutParams.FLAG_QUICK_RETURN) {
+                final int childTop = child.getTop() - lp.topMargin;
                 // First take the margin into account
-                range += lp.topMargin + lp.bottomMargin;
                 // The view has the quick return flag combination...
                 if ((flags & LayoutParams.SCROLL_FLAG_ENTER_ALWAYS_COLLAPSED) != 0) {
                     // If they're set to enter collapsed, use the minimum height
-                    range += ViewCompat.getMinimumHeight(child);
+                    int collapsedTop = child.getBottom() - ViewCompat.getMinimumHeight(child);
+                    range += currentBottom - collapsedTop;
                 } else {
                     // Else use the full height
-                    range += childHeight;
+                    range += currentBottom - childTop;
                 }
+                currentBottom = childTop;
             } else if (range > 0) {
                 // If we've hit an non-quick return scrollable view, and we've already hit a
                 // quick return view, return now
+                allScroll = false;
                 break;
+            } else {
+                allScroll = false;
             }
+        }
+        if (allScroll) {
+            range += currentBottom - getTop();
         }
         return mDownPreScrollRange = range;
     }
@@ -429,30 +446,37 @@ public class AppBarLayout extends LinearLayout {
         }
 
         int range = 0;
+        int currentTop = getTop();
+        boolean allScroll = true;
         for (int i = 0, z = getChildCount(); i < z; i++) {
             final View child = getChildAt(i);
             final LayoutParams lp = (LayoutParams) child.getLayoutParams();
-            int childHeight = child.getMeasuredHeight();
-            childHeight += lp.topMargin + lp.bottomMargin;
+            final int childBottom = child.getBottom();
 
             final int flags = lp.mScrollFlags;
 
             if ((flags & LayoutParams.SCROLL_FLAG_SCROLL) != 0) {
                 // We're set to scroll so add the child's height
-                range += childHeight;
+                range += childBottom - currentTop;
+                currentTop = childBottom;
 
                 if ((flags & LayoutParams.SCROLL_FLAG_EXIT_UNTIL_COLLAPSED) != 0) {
                     // For a collapsing exit scroll, we to take the collapsed height into account.
                     // We also break the range straight away since later views can't scroll
                     // beneath us
                     range -= ViewCompat.getMinimumHeight(child) + getTopInset();
+                    allScroll = false;
                     break;
                 }
             } else {
                 // As soon as a view doesn't have the scroll flag, we end the range calculation.
                 // This is because views below can not scroll under a fixed view.
+                allScroll = false;
                 break;
             }
+        }
+        if (allScroll) {
+            range += getBottom() - currentTop;
         }
         return mDownScrollRange = Math.max(0, range);
     }
@@ -811,6 +835,8 @@ public class AppBarLayout extends LinearLayout {
         private WeakReference<View> mLastNestedScrollingChildRef;
         private DragCallback mOnDragCallback;
 
+        int mOverScrollOriginalHeight = INVALID_VIEW_HEIGHT;
+
         public Behavior() {}
 
         public Behavior(Context context, AttributeSet attrs) {
@@ -838,6 +864,10 @@ public class AppBarLayout extends LinearLayout {
                             childLp.mOverScrollOriginalHeight = child.getMeasuredHeight();
                         }
                     }
+                }
+                if (abl.hasChildWithResistance() &&
+                        mOverScrollOriginalHeight == INVALID_VIEW_HEIGHT) {
+                    mOverScrollOriginalHeight = abl.getMeasuredHeight();
                 }
             }
 
@@ -1018,12 +1048,8 @@ public class AppBarLayout extends LinearLayout {
         boolean snapToZeroOffsetIfNeeded(CoordinatorLayout coordinatorLayout, AppBarLayout abl) {
             if (needSnapToZero()) {
                 int deltaHeight = 0;
-                for (int i = 0, count = abl.getChildCount(); i < count; i++) {
-                    View child = abl.getChildAt(i);
-                    final LayoutParams childLp = (LayoutParams) child.getLayoutParams();
-                    if (overScrollBounceEnabled(childLp)) {
-                        deltaHeight += childLp.height - childLp.mOverScrollOriginalHeight;
-                    }
+                if (abl.hasChildWithResistance() && mOverScrollOriginalHeight != INVALID_VIEW_HEIGHT) {
+                    deltaHeight = abl.getMeasuredHeight() - mOverScrollOriginalHeight;
                 }
                 // TODO: adjust animation duration for long distance snap
                 animateOffsetTo(coordinatorLayout, abl, deltaHeight, 0);
@@ -1274,6 +1300,10 @@ public class AppBarLayout extends LinearLayout {
                 }
             }
 
+            ViewGroup.LayoutParams layoutParams = layout.getLayoutParams();
+            layoutParams.height = mOverScrollOriginalHeight + totalOffset;
+            layout.setLayoutParams(layoutParams);
+
             return totalOffset;
         }
 
@@ -1493,7 +1523,12 @@ public class AppBarLayout extends LinearLayout {
                 final int offset = ((Behavior) behavior).getTopBottomOffsetForScrollingSibling();
                 final int dependencyHeight = dependency.getHeight() + offset
                         - getOverlapForOffset(dependency, offset);
-                int totalOffset = dependencyHeight + mAdditionalOffset;
+                final int totalOffset;
+                if (dependency.getVisibility() == GONE) {
+                    totalOffset = mAdditionalOffset;
+                } else {
+                    totalOffset = dependencyHeight + mAdditionalOffset;
+                }
                 setTopAndBottomOffset(totalOffset);
 
                 if (totalOffset != 0) {

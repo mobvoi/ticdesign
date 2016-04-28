@@ -9,6 +9,7 @@
     tools:deviceIds="wear_round">
 
     <ticwear.design.widget.AppBarLayout
+        style="@style/WindowAppBar.Ticwear"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 

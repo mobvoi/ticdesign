@@ -137,6 +137,9 @@
     </style>
 
     <style name="TextAppearance.Ticwear.WindowTitle" parent="TextAppearance.Ticwear.Body2" />
+    <style name="TextAppearance.Ticwear.WindowTitle.Small">
+        <item name="android:textSize">@dimen/tic_text_size_small_2</item>
+    </style>
     <style name="TextAppearance.Ticwear.DialogWindowTitle" parent="TextAppearance.Ticwear.Body2" />
 
 </resources>

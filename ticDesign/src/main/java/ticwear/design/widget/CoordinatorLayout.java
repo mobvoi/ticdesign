@@ -194,7 +194,9 @@ public class CoordinatorLayout extends ViewGroup implements NestedScrollingParen
     public CoordinatorLayout(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
 
-        ThemeUtils.checkDesignTheme(context);
+        if (!isInEditMode()) {
+            ThemeUtils.checkDesignTheme(context);
+        }
 
         final TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.CoordinatorLayout,
                 defStyleAttr, R.style.Widget_Ticwear_CoordinatorLayout);

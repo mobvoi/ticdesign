@@ -8,6 +8,8 @@
 
     <!-- Style for icon in window, like AlertDialog icon or icon in AppBar. -->
     <attr name="tic_windowIconStyle" format="reference" />
+    <!-- Style for app bar in window, like AlertDialog AppBar. -->
+    <attr name="tic_windowAppBarStyle" format="reference" />
 
     <!-- Style for icon button bars -->
     <attr name="tic_iconButtonBarStyle" format="reference" />
