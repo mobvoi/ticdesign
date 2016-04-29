@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <resources>
+    <public type="dimen" name="tic_page_horizontal_padding_normal" />
+    <public type="dimen" name="tic_page_horizontal_padding_small" />
+
     <public type="dimen" name="tic_list_item_padding_horizontal_ticwear" />
     <public type="dimen" name="tic_list_item_padding_horizontal_large_ticwear" />
     <public type="dimen" name="tic_list_padding_top_ticwear" />
@@ -36,6 +39,12 @@
     <public type="dimen" name="tic_text_size_medium_ticwear" />
     <public type="dimen" name="tic_text_size_small_ticwear" />
 
+    <public type="dimen" name="tic_round_button_size_large" />
+    <public type="dimen" name="tic_round_button_size_normal" />
+    <public type="dimen" name="tic_round_button_size_mini" />
+    <public type="dimen" name="tic_round_button_src_padding_large" />
+    <public type="dimen" name="tic_round_button_src_padding_normal" />
+    <public type="dimen" name="tic_round_button_src_padding_mini" />
     <public type="dimen" name="tic_primary_button_width" />
     <public type="dimen" name="tic_primary_button_height" />
 </resources>

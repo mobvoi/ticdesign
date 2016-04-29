@@ -31,6 +31,12 @@
     <dimen name="tic_timepicker_radial_picker_dimen">270dp</dimen>
 
     <!-- Buttons -->
+    <dimen name="tic_round_button_size_large">68dp</dimen>
+    <dimen name="tic_round_button_size_normal">56dp</dimen>
+    <dimen name="tic_round_button_size_mini">40dp</dimen>
+    <dimen name="tic_round_button_src_padding_large">17dp</dimen>
+    <dimen name="tic_round_button_src_padding_normal">14dp</dimen>
+    <dimen name="tic_round_button_src_padding_mini">10dp</dimen>
     <dimen name="tic_primary_button_width">132dp</dimen>
     <dimen name="tic_primary_button_height">56dp</dimen>
 

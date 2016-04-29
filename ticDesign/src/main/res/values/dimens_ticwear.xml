@@ -26,10 +26,14 @@
 
     <integer name="preference_fragment_scrollbarStyle_ticwear">0x02000000</integer> <!-- outsideOverlay -->
 
+    <!-- Standard padding -->
+    <dimen name="tic_page_horizontal_padding_normal">32dp</dimen>
+    <dimen name="tic_page_horizontal_padding_small">24dp</dimen>
+
 
     <!-- Default padding for list items. -->
     <dimen name="tic_list_item_padding_horizontal_large_ticwear">36dp</dimen>
-    <dimen name="tic_list_item_padding_horizontal_ticwear">24dp</dimen>
+    <dimen name="tic_list_item_padding_horizontal_ticwear">@dimen/tic_page_horizontal_padding_small</dimen>
 
     <dimen name="tic_list_focused_padding_ticwear">8dp</dimen>
     <dimen name="tic_list_padding_top_ticwear">8dp</dimen>

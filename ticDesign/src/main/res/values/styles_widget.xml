@@ -108,6 +108,28 @@
         <item name="android:button">@drawable/tic_ic_switch</item>
     </style>
 
+    <style name="Widget.Ticwear.ImageButton">
+        <item name="android:background">?android:selectableItemBackgroundBorderless</item>
+    </style>
+
+    <style name="Widget.Ticwear.ImageButton.Mini">
+        <item name="android:minHeight">@dimen/tic_round_button_size_mini</item>
+        <item name="android:minWidth">@dimen/tic_round_button_size_mini</item>
+        <item name="android:padding">@dimen/tic_round_button_src_padding_mini</item>
+    </style>
+
+    <style name="Widget.Ticwear.ImageButton.Normal">
+        <item name="android:minHeight">@dimen/tic_round_button_size_normal</item>
+        <item name="android:minWidth">@dimen/tic_round_button_size_normal</item>
+        <item name="android:padding">@dimen/tic_round_button_src_padding_normal</item>
+    </style>
+
+    <style name="Widget.Ticwear.ImageButton.Large">
+        <item name="android:minHeight">@dimen/tic_round_button_size_large</item>
+        <item name="android:minWidth">@dimen/tic_round_button_size_large</item>
+        <item name="android:padding">@dimen/tic_round_button_src_padding_large</item>
+    </style>
+
     <style name="Widget.Ticwear.CirclePageIndicator">
         <item name="android:fillColor">?android:textColorPrimary</item>
         <item name="android:strokeColor">@android:color/black</item>

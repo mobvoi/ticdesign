@@ -70,9 +70,14 @@
 
     <public type="style" name="Widget.Ticwear.CirclePageIndicator" />
 
+    <public type="style" name="Widget.Ticwear.ImageButton.Mini" />
+    <public type="style" name="Widget.Ticwear.ImageButton.Normal" />
+    <public type="style" name="Widget.Ticwear.ImageButton.Large" />
     <public type="style" name="Widget.Ticwear.PrimaryButton" />
 
     <public type="style" name="Widget.Ticwear.ButtonBar" />
     <public type="style" name="Widget.Ticwear.FloatingActionButton.ButtonBar" />
+
+    <public type="style" name="Widget.Ticwear.VolumeBar" />
 
 </resources>
