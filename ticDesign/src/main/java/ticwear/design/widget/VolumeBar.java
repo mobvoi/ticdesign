@@ -10,9 +10,9 @@ import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.widget.FrameLayout;
+import android.widget.SeekBar;
 
 import ticwear.design.R;
 
@@ -48,12 +48,12 @@ public class VolumeBar extends FrameLayout {
     // 数值颜色
     private int mValueColor;
     // 前后左右的padding
-    private int mTouchPaddingLeft;
-    private int mTouchPaddingRight;
-    private int mTouchPaddingTop;
-    private int mTouchPaddingBottom;
+    private int mTouchPadding;
+
     // 数值改变时回到监听器的onVolumeChanged()
     private OnVolumeChangedListener mListener;
+
+    private SeekBar mSeekbar;
 
     public VolumeBar(Context context) {
         this(context, null);
@@ -79,10 +79,7 @@ public class VolumeBar extends FrameLayout {
         mDrawableRadius = (a.getDimensionPixelSize(R.styleable.VolumeBar_tic_vb_btnImageSize, 32))/2;
         mBgColor = a.getColor(R.styleable.VolumeBar_tic_vb_bgColor, Color.RED);
         mValueColor = a.getColor(R.styleable.VolumeBar_tic_vb_valueColor, Color.GREEN);
-        mTouchPaddingLeft = a.getDimensionPixelSize(R.styleable.VolumeBar_tic_vb_touchPaddingLeft, 0);
-        mTouchPaddingRight = a.getDimensionPixelSize(R.styleable.VolumeBar_tic_vb_touchPaddingRight, 0);
-        mTouchPaddingTop = a.getDimensionPixelSize(R.styleable.VolumeBar_tic_vb_touchPaddingTop, 0);
-        mTouchPaddingBottom = a.getDimensionPixelSize(R.styleable.VolumeBar_tic_vb_touchPaddingBottom, 0);
+        mTouchPadding = a.getDimensionPixelSize(R.styleable.VolumeBar_tic_vb_touchPadding, 0);
         int thumbImageId = a.getResourceId(R.styleable.VolumeBar_tic_vb_thumbImage, 0);
         int thumbLeftImageId = a.getResourceId(R.styleable.VolumeBar_tic_vb_thumbLeftImage, 0);
         a.recycle();
@@ -104,9 +101,32 @@ public class VolumeBar extends FrameLayout {
 
         mMaxButton = (ProgressBarButton) findViewById(R.id.max);
         mMaxButton.setTouchListener(mMaxButtonListener);
+
+        mSeekbar = (SeekBar) findViewById(R.id.seekbar);
+        mSeekbar.setProgress(mProgress);
+        FrameLayout.LayoutParams lp = new FrameLayout.LayoutParams(LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT);
+        lp.setMargins(mTouchPadding, 0, mTouchPadding, 0);
+        mSeekbar.setLayoutParams(lp);
+
+        mSeekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                mProgress = progress;
+                mListener.onVolumeChanged(VolumeBar.this, progress);
+                VolumeBar.this.invalidate();
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+
+            }
+        });
     }
-
-
 
     public interface OnVolumeChangedListener {
         void onVolumeChanged(VolumeBar volumeBar, int progress);
@@ -122,6 +142,7 @@ public class VolumeBar extends FrameLayout {
      */
     public void setLevel(int level) {
         mProgress = level;
+        mSeekbar.setProgress(level);
         invalidate();
     }
 
@@ -141,13 +162,6 @@ public class VolumeBar extends FrameLayout {
         mProgressStep = step;
     }
 
-    /**
-     * 设定隐藏按钮的门限值，当减号（加号）在门限值下（上）时隐藏
-     * @param threshold 门限值
-     */
-    public void setHiddenImageThreshold (int threshold) {
-//        mhiddenImageThreshold = threshold;
-    }
 
     private ProgressBarButton.TouchListener mMinButtonListener = new ProgressBarButton.TouchListener() {
         @Override
@@ -203,28 +217,28 @@ public class VolumeBar extends FrameLayout {
 
     @Override
     public void onDraw(Canvas canvas) {
-        int radius = (getHeight()-mTouchPaddingTop-mTouchPaddingBottom)/2;
+        int radius = getHeight()/2-mTouchPadding;
+        int radiusWithPadding = radius + mTouchPadding;
         mPaint.setColor(mBgColor);
         mPaint.setStyle(Paint.Style.FILL);
         mPaint.setStrokeWidth(2*radius);
         mPaint.setAntiAlias(true);
         // 灰色背景线
-        canvas.drawLine(mTouchPaddingLeft+radius, mTouchPaddingTop+radius, getWidth()-mTouchPaddingRight-radius, mTouchPaddingTop+radius, mPaint);
+        canvas.drawLine(radiusWithPadding, radiusWithPadding, getWidth()-radiusWithPadding, radiusWithPadding, mPaint);
 
         // 右面半弧（圆）
-        canvas.drawCircle(getWidth()-radius-mTouchPaddingRight, mTouchPaddingTop+radius, radius, mPaint);
+        canvas.drawCircle(getWidth()-radiusWithPadding, radiusWithPadding, radius, mPaint);
 
         mPaint.setColor(mValueColor);
         // 左面半弧（圆）
-        canvas.drawCircle(mTouchPaddingLeft+radius, mTouchPaddingTop+radius, radius, mPaint);
+        canvas.drawCircle(radiusWithPadding, radiusWithPadding, radius, mPaint);
 
         // 取值线
-        canvas.drawLine(mTouchPaddingLeft+radius, mTouchPaddingTop+radius, mTouchPaddingLeft+radius+mProgress/100.0f*(getWidth()-mTouchPaddingLeft-mTouchPaddingRight-2*radius), mTouchPaddingTop+radius, mPaint);
+        canvas.drawLine(radiusWithPadding, radiusWithPadding, radiusWithPadding+mProgress/100.0f*(getWidth()-2*radiusWithPadding), radiusWithPadding, mPaint);
 
         // 判断是否隐藏减号
-        float thumbleft = mTouchPaddingLeft+mProgress/100.0f*(getWidth()-mTouchPaddingLeft-mTouchPaddingRight-2*radius);
-        float buttonRight = mTouchPaddingLeft+radius;
-        if (thumbleft < buttonRight) {
+        float thumbleft = mTouchPadding+mProgress/100.0f*(getWidth()-2*radiusWithPadding);
+        if (thumbleft < radiusWithPadding) {
             mMinButton.setImageDrawable(null);
         }
         else {
@@ -232,8 +246,8 @@ public class VolumeBar extends FrameLayout {
         }
 
         // 判断是否隐藏加号
-        float thumbRight = mTouchPaddingLeft+2*radius+mProgress/100.0f*(getWidth()-mTouchPaddingLeft-mTouchPaddingRight-2*radius);
-        float buttonLeft = getWidth()-mTouchPaddingRight-radius;
+        float thumbRight = mTouchPadding+2*radius+mProgress/100.0f*(getWidth()-2*radiusWithPadding);
+        float buttonLeft = getWidth()-radiusWithPadding;
 
         if (thumbRight > buttonLeft) {
             mMaxButton.setImageDrawable(null);
@@ -243,7 +257,7 @@ public class VolumeBar extends FrameLayout {
         }
 
         // thumb背景
-        canvas.drawCircle(mTouchPaddingLeft+radius+mProgress/100.0f*(getWidth()-mTouchPaddingLeft-mTouchPaddingRight-2*radius), mTouchPaddingTop+radius, radius, mPaint);
+        canvas.drawCircle(mTouchPadding+radius+mProgress/100.0f*(getWidth()-2*radiusWithPadding), radiusWithPadding, radius, mPaint);
 
         // 设定thumb图片
         Drawable thumbBg;
@@ -254,31 +268,13 @@ public class VolumeBar extends FrameLayout {
             thumbBg = mVolumeDrawable;
         }
         if (thumbBg != null) {
-            thumbBg.setBounds((int)(mTouchPaddingLeft+radius+mProgress/100.0f*(getWidth()-mTouchPaddingLeft-mTouchPaddingRight-2*radius)-mDrawableRadius),
-                    mTouchPaddingTop+radius-mDrawableRadius,
-                    (int)(mTouchPaddingLeft+radius+mProgress/100.0f*(getWidth()-mTouchPaddingLeft-mTouchPaddingRight-2*radius)+mDrawableRadius),
-                    mTouchPaddingTop+radius+mDrawableRadius);
+            thumbBg.setBounds((int)(radiusWithPadding+mProgress/100.0f*(getWidth()-2*radiusWithPadding)-mDrawableRadius),
+                    radiusWithPadding-mDrawableRadius,
+                    (int)(radiusWithPadding+mProgress/100.0f*(getWidth()-2*radiusWithPadding)+mDrawableRadius),
+                    radiusWithPadding+mDrawableRadius);
             thumbBg.draw(canvas);
         }
         super.onDraw(canvas);
-    }
-
-    @Override
-    public boolean onTouchEvent(MotionEvent ev) {
-        int radius = (getHeight()-mTouchPaddingTop-mTouchPaddingBottom)/2;
-        // 当点击区域为bar身时，直接移动bar的值
-        if (ev.getX() >(1.5*radius+mTouchPaddingTop) && ev.getX()<getWidth()-mTouchPaddingBottom-1.5*radius) {
-            mProgress = (int)((ev.getX()-radius-mTouchPaddingLeft)/(getWidth()-2*radius-mTouchPaddingLeft-mTouchPaddingRight)*100);
-            if (mProgress < 0) {
-                mProgress = 0;
-            }
-            else if (mProgress >100) {
-                mProgress = 100;
-            }
-            invalidate();
-            return false;
-        }
-        return super.onTouchEvent(ev);
     }
 
     private void adjustVolume(int det) {
@@ -288,6 +284,7 @@ public class VolumeBar extends FrameLayout {
         } else if (mProgress < 0) {
             mProgress = 0;
         }
+        mSeekbar.setProgress(mProgress);
         if (mListener != null) {
             mListener.onVolumeChanged(this, mProgress);
         }

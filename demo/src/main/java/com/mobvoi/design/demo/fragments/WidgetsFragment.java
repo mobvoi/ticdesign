@@ -5,11 +5,13 @@ import android.content.Context;
 import android.support.annotation.StringRes;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.TextView;
 
 import com.ticwear.design.demo.R;
 
 import ticwear.design.app.AlertDialog;
 import ticwear.design.widget.FloatingActionButton;
+import ticwear.design.widget.VolumeBar;
 
 /**
  * Created by tankery on 1/12/16.
@@ -74,6 +76,15 @@ public class WidgetsFragment extends ListFragment {
                 dialog = new Dialog(context);
                 View layout = inflater.inflate(
                         R.layout.widgets_volume_bar, null);
+                VolumeBar vBar = (VolumeBar)layout.findViewById(R.id.volume_bar);
+                final TextView tv = (TextView) layout.findViewById(R.id.volume_text);
+                tv.setText(vBar.getLevel()+"");
+                vBar.setOnVolumeChangedListetener(new VolumeBar.OnVolumeChangedListener() {
+                    @Override
+                    public void onVolumeChanged(VolumeBar volumeBar, int progress) {
+                        tv.setText(progress+"");
+                    }
+                });
                 dialog.setContentView(layout);
                 break;
             case R.string.category_widgets_picker:
@@ -84,5 +95,4 @@ public class WidgetsFragment extends ListFragment {
 
         return dialog;
     }
-
 }

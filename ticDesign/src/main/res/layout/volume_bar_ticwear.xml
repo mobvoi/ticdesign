@@ -4,6 +4,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <SeekBar
+        android:id="@+id/seekbar"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:progressDrawable="@android:color/transparent"
+        android:thumb="@android:color/transparent"/>
+
     <ticwear.design.widget.ProgressBarButton
         android:id="@+id/min"
         android:layout_width="wrap_content"
