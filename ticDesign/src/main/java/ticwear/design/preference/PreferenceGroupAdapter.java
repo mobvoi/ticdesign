@@ -123,7 +123,7 @@ public class PreferenceGroupAdapter
     }
 
     private void syncMyPreferences() {
-        synchronized(this) {
+        synchronized (this) {
             if (mIsSyncing) {
                 return;
             }
@@ -137,7 +137,7 @@ public class PreferenceGroupAdapter
 
         notifyDataSetChanged();
 
-        synchronized(this) {
+        synchronized (this) {
             mIsSyncing = false;
             notifyAll();
         }
@@ -174,7 +174,7 @@ public class PreferenceGroupAdapter
      * different view types.
      */
     private PreferenceLayout createPreferenceLayout(Preference preference, PreferenceLayout in) {
-        PreferenceLayout pl = in != null? in : new PreferenceLayout();
+        PreferenceLayout pl = in != null ? in : new PreferenceLayout();
         pl.name = preference.getClass().getName();
         pl.resId = preference.getLayoutResource();
         pl.widgetResId = preference.getWidgetLayoutResource();
@@ -237,22 +237,22 @@ public class PreferenceGroupAdapter
     }
 
     @Override
-    public void onBindViewHolder(Preference.ViewHolder holder, int position) {
+    public void onBindViewHolder(final Preference.ViewHolder holder, int position) {
         final Preference preference = this.getItem(position);
         holder.bindPreference(preference);
         if (preference.getShouldDisableView()) {
             holder.setEnabled(preference.isEnabled());
         }
-        if (!holder.itemView.hasOnClickListeners()) {
-            holder.itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if (mOnPreferenceItemClickListener != null) {
-                        mOnPreferenceItemClickListener.onPreferenceItemClick(preference);
-                    }
+
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (mOnPreferenceItemClickListener != null) {
+                    mOnPreferenceItemClickListener.onPreferenceItemClick(preference);
                 }
-            });
-        }
+            }
+        });
+
     }
 
     @Override
