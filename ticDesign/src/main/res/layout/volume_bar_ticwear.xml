@@ -24,6 +24,7 @@
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_gravity="center_vertical|end"
+        android:background="?android:attr/selectableItemBackgroundBorderless"
         android:src="@drawable/tic_ic_plus_32px"
         android:clickable="true"/>
 </FrameLayout>

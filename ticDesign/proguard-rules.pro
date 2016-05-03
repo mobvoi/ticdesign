@@ -24,8 +24,8 @@
     public <init>();
 }
 
--keep class ticwear.design.widget.TicklableListView {
-    protected void onDrawVerticalScrollBar(Canvas canvas, Drawable scrollBar, int l, int t, int r, int b);
+-keepclassmembers class * {
+    void onDrawVerticalScrollBar(...);
 }
 
 # Side panel event target should keep for system call.
