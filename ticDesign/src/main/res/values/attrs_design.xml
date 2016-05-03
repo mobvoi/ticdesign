@@ -16,22 +16,6 @@
 -->
 <resources>
 
-    <declare-styleable name="ScrollBar">
-        <attr name="tic_scroll_bar_strokeWidth" format="dimension"/>
-        <attr name="tic_scroll_bar_margin" format="dimension"/>
-        <attr name="tic_scroll_bar_bgColor" format="color"/>
-        <attr name="tic_scroll_bar_sweepColor" format="color"/>
-    </declare-styleable>
-
-    <declare-styleable name="VolumeBar">
-        <attr name="tic_vb_valueColor" format="color"/>
-        <attr name="tic_vb_bgColor" format="color"/>
-        <attr name="tic_vb_btnImageSize" format="dimension"/>
-        <attr name="tic_vb_touchPadding" format="dimension" />
-        <attr name="tic_vb_thumbImage" format="reference" />
-        <attr name="tic_vb_thumbLeftImage" format="reference" />
-    </declare-styleable>
-
     <declare-styleable name="FloatingActionButton">
         <!-- Ripple color for the FAB. -->
         <attr name="tic_rippleColor" format="color"/>

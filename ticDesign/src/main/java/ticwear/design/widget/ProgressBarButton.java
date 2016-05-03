@@ -10,7 +10,7 @@ import android.widget.ImageView;
 
 public class ProgressBarButton extends ImageView {
     private static final int MSG_LONG_PRESS = 1;
-    private static final int DELAY_MILLIS = 60;
+    private static final int DELAY_MILLIS = 300;
 
     private static int mDefaultImageSize;
 
@@ -69,7 +69,6 @@ public class ProgressBarButton extends ImageView {
             if (action == MotionEvent.ACTION_UP) {
                 mTouchListener.onUp();
             }
-            scale(this, false);
             mHandler.removeMessages(MSG_LONG_PRESS);
         }
         return true;
@@ -89,14 +88,6 @@ public class ProgressBarButton extends ImageView {
         mDefaultImageSize = size;
     }
 
-    private void scale(View view, boolean isPressed) {
-        float endScale = isPressed ? 0.9f : 1f;
-        if (view != null) {
-            view.animate().scaleX(endScale).scaleY(endScale).setDuration(200L)
-                    .start();
-        }
-    }
-
     public interface TouchListener {
         void onDown();
 
@@ -104,6 +95,4 @@ public class ProgressBarButton extends ImageView {
 
         void onLongPress();
     }
-
-
 }

@@ -5,7 +5,4 @@
 
     <item name="tic_alert_dialog_button_alpha" format="float" type="dimen">0.9</item>
 
-    <color name="tic_scroll_bar_background">#66666666</color>
-    <color name="tic_scroll_bar_color">#ff0098e6</color>
-
 </resources>

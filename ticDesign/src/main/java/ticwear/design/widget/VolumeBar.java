@@ -5,6 +5,7 @@ import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.CornerPathEffect;
 import android.graphics.Paint;
 import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
@@ -55,6 +56,9 @@ public class VolumeBar extends FrameLayout {
 
     private SeekBar mSeekbar;
 
+    private int mMinLimit = 0;
+    private int mMaxLimit = 100;
+
     public VolumeBar(Context context) {
         this(context, null);
     }
@@ -79,11 +83,17 @@ public class VolumeBar extends FrameLayout {
         mDrawableRadius = (a.getDimensionPixelSize(R.styleable.VolumeBar_tic_vb_btnImageSize, 32))/2;
         mBgColor = a.getColor(R.styleable.VolumeBar_tic_vb_bgColor, Color.RED);
         mValueColor = a.getColor(R.styleable.VolumeBar_tic_vb_valueColor, Color.GREEN);
+
         mTouchPadding = a.getDimensionPixelSize(R.styleable.VolumeBar_tic_vb_touchPadding, 0);
         int thumbImageId = a.getResourceId(R.styleable.VolumeBar_tic_vb_thumbImage, 0);
         int thumbLeftImageId = a.getResourceId(R.styleable.VolumeBar_tic_vb_thumbLeftImage, 0);
         a.recycle();
         mPaint = new Paint();
+        mPaint.setDither(true);                    // set the dither to true
+        mPaint.setStyle(Paint.Style.STROKE);       // set to STOKE
+        mPaint.setStrokeJoin(Paint.Join.ROUND);    // set the join to round you want
+        mPaint.setStrokeCap(Paint.Cap.ROUND);      // set the paint cap to round too
+        mPaint.setAntiAlias(true);
 
         // 读取需要的背景图
         Resources.Theme t = context.getApplicationContext().getTheme();
@@ -111,9 +121,12 @@ public class VolumeBar extends FrameLayout {
         mSeekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                mProgress = progress;
-                mListener.onVolumeChanged(VolumeBar.this, progress);
-                VolumeBar.this.invalidate();
+                if (fromUser) {
+                    progress = validateProgress(progress);
+                    if (progress != mProgress) {
+                        adjustVolume(progress - mProgress, true);
+                    }
+                }
             }
 
             @Override
@@ -129,7 +142,7 @@ public class VolumeBar extends FrameLayout {
     }
 
     public interface OnVolumeChangedListener {
-        void onVolumeChanged(VolumeBar volumeBar, int progress);
+        void onVolumeChanged(VolumeBar volumeBar, int progress, boolean fromUser);
     }
 
     public void setOnVolumeChangedListetener (OnVolumeChangedListener listener) {
@@ -138,11 +151,28 @@ public class VolumeBar extends FrameLayout {
 
     /**
      * 设定当前值
-     * @param level 当前值
+     * @param progress 当前值
      */
-    public void setLevel(int level) {
-        mProgress = level;
-        mSeekbar.setProgress(level);
+    public void setProgress(int progress) {
+        mProgress = validateProgress(progress);
+        mSeekbar.setProgress(mProgress);
+        mListener.onVolumeChanged(this, mProgress, false);
+        invalidate();
+    }
+
+    /**
+     * 设置progress的增加值
+     * 若设置后的progress超出最大（最小限度）
+     * 则progress为最大（最小）限度
+     * @param dif 增加值（可为负）
+     */
+    public void setProgressDif(int dif) {
+        mProgress += dif;
+        mProgress = validateProgress(mProgress);
+        mSeekbar.setProgress(mProgress);
+        if (mListener != null) {
+            mListener.onVolumeChanged(this, mProgress, false);
+        }
         invalidate();
     }
 
@@ -150,7 +180,7 @@ public class VolumeBar extends FrameLayout {
      * 得到但前值
      * @return 当前值
      */
-    public int getLevel() {
+    public int getProgress() {
         return mProgress;
     }
 
@@ -162,6 +192,41 @@ public class VolumeBar extends FrameLayout {
         mProgressStep = step;
     }
 
+    /**
+     * 设定可以选取的最小值
+     * @param minLimit 最小值
+     */
+    public void setMinLimit(int minLimit) {
+        if (minLimit > mMaxLimit) {
+            minLimit = mMaxLimit;
+        }
+        mMinLimit = minLimit;
+        // 若当前值小于最小值，则当前值设为最小值
+        if (mProgress < mMinLimit) {
+            mProgress = mMinLimit;
+            mSeekbar.setProgress(mProgress);
+            mListener.onVolumeChanged(this, mProgress, false);
+            invalidate();
+        }
+    }
+
+    /**
+     * 设定可以选取的最大值
+     * @param maxLimit 最大值
+     */
+    public void setMaxLimit(int maxLimit) {
+        if (maxLimit < mMinLimit) {
+            maxLimit = mMinLimit;
+        }
+        mMaxLimit = maxLimit;
+        // 若当前值大于最大值，则当前值设为最大值
+        if (mProgress > mMaxLimit) {
+            mProgress = mMaxLimit;
+            mSeekbar.setProgress(mProgress);
+            mListener.onVolumeChanged(this, mProgress, false);
+            invalidate();
+        }
+    }
 
     private ProgressBarButton.TouchListener mMinButtonListener = new ProgressBarButton.TouchListener() {
         @Override
@@ -173,13 +238,13 @@ public class VolumeBar extends FrameLayout {
         public void onUp() {
             if (mProgressStart - mProgress < mProgressStep) {
                 int det = Math.min(mProgressStep, mProgressStep - (mProgressStart - mProgress));
-                adjustVolume(-det);
+                adjustVolume(-det, false);
             }
         }
 
         @Override
         public void onLongPress() {
-            adjustVolume(-1);
+            adjustVolume(-1, false);
         }
     };
 
@@ -193,13 +258,13 @@ public class VolumeBar extends FrameLayout {
         public void onUp() {
             if (mProgress - mProgressStart < mProgressStep) {
                 int det = Math.min(mProgressStep, mProgressStep - (mProgress - mProgressStart));
-                adjustVolume(det);
+                adjustVolume(det, false);
             }
         }
 
         @Override
         public void onLongPress() {
-            adjustVolume(1);
+            adjustVolume(1, false);
         }
     };
 
@@ -219,19 +284,15 @@ public class VolumeBar extends FrameLayout {
     public void onDraw(Canvas canvas) {
         int radius = getHeight()/2-mTouchPadding;
         int radiusWithPadding = radius + mTouchPadding;
-        mPaint.setColor(mBgColor);
-        mPaint.setStyle(Paint.Style.FILL);
+
         mPaint.setStrokeWidth(2*radius);
-        mPaint.setAntiAlias(true);
-        // 灰色背景线
+//        mPaint.setPathEffect(new CornerPathEffect(radius));
+        mPaint.setColor(mBgColor);
+
+        // 背景线
         canvas.drawLine(radiusWithPadding, radiusWithPadding, getWidth()-radiusWithPadding, radiusWithPadding, mPaint);
 
-        // 右面半弧（圆）
-        canvas.drawCircle(getWidth()-radiusWithPadding, radiusWithPadding, radius, mPaint);
-
         mPaint.setColor(mValueColor);
-        // 左面半弧（圆）
-        canvas.drawCircle(radiusWithPadding, radiusWithPadding, radius, mPaint);
 
         // 取值线
         canvas.drawLine(radiusWithPadding, radiusWithPadding, radiusWithPadding+mProgress/100.0f*(getWidth()-2*radiusWithPadding), radiusWithPadding, mPaint);
@@ -256,9 +317,6 @@ public class VolumeBar extends FrameLayout {
             mMaxButton.setImageDrawable(mMaxButtonDrawable);
         }
 
-        // thumb背景
-        canvas.drawCircle(mTouchPadding+radius+mProgress/100.0f*(getWidth()-2*radiusWithPadding), radiusWithPadding, radius, mPaint);
-
         // 设定thumb图片
         Drawable thumbBg;
         if (mProgress == 0) {
@@ -277,17 +335,25 @@ public class VolumeBar extends FrameLayout {
         super.onDraw(canvas);
     }
 
-    private void adjustVolume(int det) {
+    private void adjustVolume(int det, boolean fromSeekbar) {
         mProgress += det;
-        if (mProgress > 100) {
-            mProgress = 100;
-        } else if (mProgress < 0) {
-            mProgress = 0;
+        mProgress = validateProgress(mProgress);
+        if (!fromSeekbar) {
+            mSeekbar.setProgress(mProgress);
         }
-        mSeekbar.setProgress(mProgress);
         if (mListener != null) {
-            mListener.onVolumeChanged(this, mProgress);
+            mListener.onVolumeChanged(this, mProgress, true);
         }
         invalidate();
+    }
+
+    private int validateProgress(int progress) {
+        if (progress > mMaxLimit) {
+            progress = mMaxLimit;
+        }
+        else if (progress < mMinLimit) {
+            progress = mMinLimit;
+        }
+        return progress;
     }
 }

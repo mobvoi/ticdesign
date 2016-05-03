@@ -78,10 +78,10 @@ public class WidgetsFragment extends ListFragment {
                         R.layout.widgets_volume_bar, null);
                 VolumeBar vBar = (VolumeBar)layout.findViewById(R.id.volume_bar);
                 final TextView tv = (TextView) layout.findViewById(R.id.volume_text);
-                tv.setText(vBar.getLevel()+"");
+                tv.setText(vBar.getProgress()+"");
                 vBar.setOnVolumeChangedListetener(new VolumeBar.OnVolumeChangedListener() {
                     @Override
-                    public void onVolumeChanged(VolumeBar volumeBar, int progress) {
+                    public void onVolumeChanged(VolumeBar volumeBar, int progress, boolean fromUser) {
                         tv.setText(progress+"");
                     }
                 });
