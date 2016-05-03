@@ -95,6 +95,9 @@ public class NumberPickerDialog extends AlertDialog implements DialogInterface.O
         }
     }
 
+    public NumberPicker getNumberPicker() {
+        return numberPicker;
+    }
 
     public static class Builder {
 
