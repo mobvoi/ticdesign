@@ -11,7 +11,8 @@ public class DesignConfig {
 
     public static final boolean DEBUG = !Build.TYPE.equals("user");
 
-    public static final boolean DEBUG_PICKERS = false;
-    public static final boolean DEBUG_RECYCLER_VIEW = false;
+    public static final boolean DEBUG_PICKERS = Boolean.parseBoolean("false");
+    public static final boolean DEBUG_RECYCLER_VIEW = Boolean.parseBoolean("false");
+    public static final boolean DEBUG_SCROLLBAR = Boolean.parseBoolean("false");
 
 }

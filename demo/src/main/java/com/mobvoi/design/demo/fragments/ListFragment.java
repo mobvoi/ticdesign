@@ -4,6 +4,7 @@ import android.app.Fragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,7 +23,6 @@ import butterknife.ButterKnife;
 import ticwear.design.widget.FocusableLinearLayoutManager;
 import ticwear.design.widget.FocusableLinearLayoutManager.FocusState;
 import ticwear.design.widget.SimpleRecyclerAdapter;
-import ticwear.design.widget.TicklableListView;
 
 /**
  * Fragment contains a list of title can be clicked.
@@ -83,7 +83,7 @@ public class ListFragment extends Fragment {
     TextView textTitle;
 
     @Bind(R.id.list_sub_demo)
-    TicklableListView listSubDemo;
+    RecyclerView listSubDemo;
 
     @Nullable
     @Override

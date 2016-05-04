@@ -85,8 +85,9 @@
         <item name="android:paddingBottom">@dimen/tic_list_padding_bottom_ticwear</item>
         <item name="android:divider">@android:color/transparent</item>
         <item name="android:dividerHeight">0dp</item>
-        <item name="android:overScrollMode">never</item>
-        <item name="android:scrollbars">none</item>
+        <item name="android:overScrollMode">ifContentScrolls</item>
+        <item name="android:scrollbarSize">0dp</item>
+        <item name="android:scrollbars">vertical</item>
         <item name="android:scrollbarStyle">outsideOverlay</item>
     </style>
 
@@ -175,8 +176,8 @@
     </style>
 
     <style name="Widget.Ticwear.ScrollBar" parent="android:Widget">
-        <item name="tic_scroll_bar_strokeWidth">2.3dp</item>
-        <item name="tic_scroll_bar_margin">7.6dp</item>
+        <item name="tic_scroll_bar_strokeWidth">3dp</item>
+        <item name="tic_scroll_bar_margin">2dp</item>
         <item name="tic_scroll_bar_bgColor">?android:colorControlNormal</item>
         <item name="tic_scroll_bar_sweepColor">?android:colorAccent</item>
     </style>
