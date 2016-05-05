@@ -16,17 +16,6 @@
 -->
 <resources>
 
-    <style name="Widget.Ticwear.FloatingActionButton" parent="android:Widget">
-        <item name="android:backgroundTint">?android:colorAccent</item>
-        <item name="android:elevation">@dimen/tic_design_fab_elevation</item>
-        <item name="tic_fabSize">normal</item>
-        <item name="tic_pressedTranslationZ">@dimen/tic_design_fab_translation_z_pressed</item>
-        <item name="tic_rippleColor">?android:colorControlHighlight</item>
-        <item name="tic_borderWidth">@dimen/tic_design_fab_border_width</item>
-        <item name="tic_hasProgress">false</item>
-        <item name="tic_circularDrawableStyle">@style/Widget.Ticwear.CircularProgressDrawable</item>
-    </style>
-
     <style name="Widget.Ticwear.CollapsingToolbar" parent="android:Widget">
         <item name="tic_expandedTitleMargin">32dp</item>
         <item name="tic_statusBarScrim">?android:colorPrimaryDark</item>

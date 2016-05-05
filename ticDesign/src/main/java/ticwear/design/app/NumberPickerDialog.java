@@ -38,7 +38,7 @@ public class NumberPickerDialog extends AlertDialog implements DialogInterface.O
                               OnValuePickCancelListener onValuePickCancelListener,
                               int minValue, int maxValue, int defaultValue,
                               String[] displayedValues) {
-        super(context, themeResId);
+        super(context, resolveDialogTheme(context, themeResId));
 
         // Use getContext to use wrapper context.
         context = getContext();
@@ -62,6 +62,17 @@ public class NumberPickerDialog extends AlertDialog implements DialogInterface.O
             setTitle(title);
         }
         setButton(BUTTON_POSITIVE, getContext().getDrawable(R.drawable.tic_ic_btn_ok), this);
+    }
+
+    @StyleRes
+    static int resolveDialogTheme(Context context, @StyleRes int resId) {
+        if (resId == 0) {
+            final TypedValue outValue = new TypedValue();
+            context.getTheme().resolveAttribute(android.R.attr.datePickerDialogTheme, outValue, true);
+            return outValue.resourceId;
+        } else {
+            return resId;
+        }
     }
 
     @Override

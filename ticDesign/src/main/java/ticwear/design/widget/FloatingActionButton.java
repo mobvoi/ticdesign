@@ -19,15 +19,12 @@ package ticwear.design.widget;
 import android.content.Context;
 import android.content.res.ColorStateList;
 import android.content.res.TypedArray;
-import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.RippleDrawable;
 import android.graphics.drawable.ShapeDrawable;
 import android.graphics.drawable.shapes.OvalShape;
-import android.os.Handler;
-import android.os.Message;
 import android.support.annotation.ColorInt;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -43,7 +40,6 @@ import java.util.List;
 import ticwear.design.R;
 import ticwear.design.drawable.CircularProgressContainerDrawable;
 import ticwear.design.drawable.CircularProgressDrawable;
-import ticwear.design.utils.ThemeUtils;
 import ticwear.design.widget.FloatingActionButtonAnimator.InternalVisibilityChangedListener;
 
 /**
@@ -105,14 +101,12 @@ public class FloatingActionButton extends VisibilityAwareImageButton {
     private int mImagePadding;
     private Rect mTouchArea;
 
-    private Drawable mBackgroundDrawable;
-
     // Padding for circular progress bar.
     private final Rect mProgressPadding;
 
-    private final FloatingActionButtonAnimator mImpl;
+    private final FloatingActionButtonAnimator mAnimator;
 
-    private boolean mHasProgress;
+    private boolean mShowProgress;
 
     public FloatingActionButton(Context context) {
         this(context, null);
@@ -137,40 +131,37 @@ public class FloatingActionButton extends VisibilityAwareImageButton {
                 R.styleable.FloatingActionButton, defStyleAttr, defStyleRes);
         int rippleColor = a.getColor(R.styleable.FloatingActionButton_tic_rippleColor, 0);
         mSize = a.getInt(R.styleable.FloatingActionButton_tic_fabSize, SIZE_NORMAL);
-        mHasProgress = a.getBoolean(R.styleable.FloatingActionButton_tic_hasProgress, false);
         final float pressedTranslationZ = a.getDimension(
                 R.styleable.FloatingActionButton_tic_pressedTranslationZ, 0f);
 
-        // 从FloatingActionButton_tic_circularDrawable_style中获取progressbar的宽度
         int resId = a.getResourceId(R.styleable.FloatingActionButton_tic_circularDrawableStyle, 0);
-        TypedArray ta = context.obtainStyledAttributes(resId, R.styleable.CircularProgressDrawable);
-        int strokeSize = ta.getDimensionPixelSize(R.styleable.CircularProgressDrawable_tic_cpd_strokeSize, ThemeUtils.dpToPx(context, 1));
-        ta.recycle();
-
-        // 将宽度设置给padding
-        mProgressPadding.left = strokeSize;
-        mProgressPadding.right = strokeSize;
-        mProgressPadding.top = strokeSize;
-        mProgressPadding.bottom = strokeSize;
 
         a.recycle();
-
-        mImpl = new FloatingActionButtonAnimator(this);
-
-        final int maxImageSize = (int) getResources().getDimension(R.dimen.tic_design_fab_image_size);
-        mImagePadding = (getSizeDimension()+mProgressPadding.left + mProgressPadding.right- maxImageSize) / 2;
-        setPadding(mImagePadding, mImagePadding, mImagePadding, mImagePadding);
 
         Drawable shapeDrawable = createShapeDrawable();
         Drawable rippleDrawable = new RippleDrawable(ColorStateList.valueOf(rippleColor),
                 shapeDrawable, null);
 
-        CircularProgressDrawable progressDrawable = createProgressDrawable(context, attrs, 0, defStyleRes);
-        mBackgroundDrawable = new CircularProgressContainerDrawable(rippleDrawable, progressDrawable, strokeSize);
+        CircularProgressDrawable progressDrawable = createProgressDrawable(context, resId);
 
-        super.setBackgroundDrawable(mBackgroundDrawable);
+        Drawable backgroundDrawable = new CircularProgressContainerDrawable(
+                new Drawable[] {rippleDrawable}, progressDrawable);
+        super.setBackgroundDrawable(backgroundDrawable);
 
-        mImpl.setPressedTranslationZ(pressedTranslationZ);
+        int strokeSize = progressDrawable.getStrokeSize();
+        mProgressPadding.left = strokeSize;
+        mProgressPadding.right = strokeSize;
+        mProgressPadding.top = strokeSize;
+        mProgressPadding.bottom = strokeSize;
+
+        final int maxImageSize = (int) getResources().getDimension(R.dimen.tic_design_fab_image_size);
+        mImagePadding = (getSizeDimension() + mProgressPadding.left + mProgressPadding.right - maxImageSize) / 2;
+        setPadding(mImagePadding, mImagePadding, mImagePadding, mImagePadding);
+
+        mAnimator = new FloatingActionButtonAnimator(this);
+        mAnimator.setPressedTranslationZ(pressedTranslationZ);
+
+        mShowProgress = false;
     }
 
     @Override
@@ -194,7 +185,7 @@ public class FloatingActionButton extends VisibilityAwareImageButton {
      * Start showing progress.
      */
     public void startProgress() {
-        if (mHasProgress) {
+        if (mShowProgress && getProgressDrawable() != null) {
             getProgressDrawable().start();
         }
     }
@@ -221,15 +212,15 @@ public class FloatingActionButton extends VisibilityAwareImageButton {
     }
 
     public CircularProgressDrawable getProgressDrawable() {
-        if (mBackgroundDrawable instanceof CircularProgressContainerDrawable) {
-            return ((CircularProgressContainerDrawable) mBackgroundDrawable).getProgressDrawable();
+        if (getBackground() instanceof CircularProgressContainerDrawable) {
+            return ((CircularProgressContainerDrawable) getBackground()).getProgressDrawable();
         }
         return null;
     }
 
     private RippleDrawable getRippleDrawable() {
-        if (mBackgroundDrawable instanceof CircularProgressContainerDrawable) {
-            Drawable content = ((CircularProgressContainerDrawable) mBackgroundDrawable).getContentDrawable();
+        if (getBackground() instanceof CircularProgressContainerDrawable) {
+            Drawable content = ((CircularProgressContainerDrawable) getBackground()).getContentDrawable(0);
             if (content instanceof RippleDrawable) {
                 return (RippleDrawable) content;
             }
@@ -242,7 +233,9 @@ public class FloatingActionButton extends VisibilityAwareImageButton {
      * @param percent 传入progress的百分比
      */
     public void setProgressPercent(float percent) {
-        getProgressDrawable().setProgress(percent);
+        if (getProgressDrawable() != null) {
+            getProgressDrawable().setProgress(percent);
+        }
     }
 
     /**
@@ -250,7 +243,9 @@ public class FloatingActionButton extends VisibilityAwareImageButton {
      * @param mode  传入的模式
      */
     public void setProgressMode(int mode) {
-        getProgressDrawable().setProgressMode(mode);
+        if (getProgressDrawable() != null) {
+            getProgressDrawable().setProgressMode(mode);
+        }
     }
 
     /**
@@ -258,19 +253,26 @@ public class FloatingActionButton extends VisibilityAwareImageButton {
      * @param alpha progressBar的透明度
      */
     public void setProgressAlpha(int alpha) {
-        getProgressDrawable().setAlpha(alpha);
+        if (getProgressDrawable() != null) {
+            getProgressDrawable().setAlpha(alpha);
+        }
     }
 
     /**
-     * 设置是否有progressbar
-     * @param hasProgress false为无progressbar
+     * 设置是否显示 progressbar
      */
-    public void hasProgress(boolean hasProgress) {
-        mHasProgress = hasProgress;
-        if (hasProgress) {
+    public void setShowProgress(boolean show) {
+        if (mShowProgress == show)
+            return;
+
+        mShowProgress = show;
+
+        if (getProgressDrawable() == null)
+            return;
+
+        if (show) {
             getProgressDrawable().start();
-        }
-        else {
+        } else {
             getProgressDrawable().stop();
         }
     }
@@ -315,9 +317,8 @@ public class FloatingActionButton extends VisibilityAwareImageButton {
         return d;
     }
 
-    CircularProgressDrawable createProgressDrawable(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
-        // TODO: parse from style or attributes.
-        return new CircularProgressDrawable.Builder(context, attrs, defStyleAttr, defStyleRes)
+    CircularProgressDrawable createProgressDrawable(Context context, int defStyleRes) {
+        return new CircularProgressDrawable.Builder(context, defStyleRes)
                 .build();
     }
 
@@ -340,7 +341,7 @@ public class FloatingActionButton extends VisibilityAwareImageButton {
     }
 
     private void show(OnVisibilityChangedListener listener, boolean fromUser) {
-        mImpl.show(wrapOnVisibilityChangedListener(listener), fromUser);
+        mAnimator.show(wrapOnVisibilityChangedListener(listener), fromUser);
     }
 
     /**
@@ -362,7 +363,7 @@ public class FloatingActionButton extends VisibilityAwareImageButton {
     }
 
     private void hide(@Nullable OnVisibilityChangedListener listener, boolean fromUser) {
-        mImpl.hide(wrapOnVisibilityChangedListener(listener), fromUser);
+        mAnimator.hide(wrapOnVisibilityChangedListener(listener), fromUser);
     }
 
     /**
@@ -384,7 +385,7 @@ public class FloatingActionButton extends VisibilityAwareImageButton {
     }
 
     private void minimize(@Nullable OnVisibilityChangedListener listener, boolean fromUser) {
-        mImpl.minimize(wrapOnVisibilityChangedListener(listener), fromUser);
+        mAnimator.minimize(wrapOnVisibilityChangedListener(listener), fromUser);
     }
 
     @Nullable

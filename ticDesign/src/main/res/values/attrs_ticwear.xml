@@ -11,9 +11,6 @@
     <!-- Style for app bar in window, like AlertDialog AppBar. -->
     <attr name="tic_windowAppBarStyle" format="reference" />
 
-    <!-- Style for icon button bars -->
-    <attr name="tic_iconButtonBarStyle" format="reference" />
-
     <!-- Style for buttons within icon button bars -->
     <attr name="tic_iconButtonBarButtonStyle" format="reference" />
 

@@ -149,16 +149,26 @@
         <item name="android:scaleType">center</item>
     </style>
 
-    <style name="Widget.Ticwear.ButtonBar">
-        <item name="android:background">@null</item>
-        <item name="android:alpha">@dimen/tic_alert_dialog_button_alpha</item>
+    <style name="Widget.Ticwear.FloatingActionButton" parent="android:Widget">
+        <item name="android:backgroundTint">?android:colorAccent</item>
+        <item name="android:elevation">@dimen/tic_design_fab_elevation</item>
+        <item name="tic_fabSize">normal</item>
+        <item name="tic_pressedTranslationZ">@dimen/tic_design_fab_translation_z_pressed</item>
+        <item name="tic_rippleColor">?android:colorControlHighlight</item>
+        <item name="tic_borderWidth">@dimen/tic_design_fab_border_width</item>
     </style>
 
-    <style name="Widget.Ticwear.FloatingActionButton.ButtonBar">
+    <style name="Widget.Ticwear.FloatingActionButton.Dialog">
+        <item name="android:alpha">@dimen/tic_alert_dialog_button_alpha</item>
+        <item name="tic_circularDrawableStyle">@style/Widget.Ticwear.CircularProgressDrawable</item>
+    </style>
+
+    <style name="Widget.Ticwear.FloatingActionButton.Dialog.Negative">
+        <item name="android:backgroundTint">@color/tic_basic_gold_grey_darken</item>
     </style>
 
     <style name="Widget.Ticwear.CircularProgressDrawable">
-        <item name="tic_cpd_strokeSize">10dp</item>
+        <item name="tic_cpd_strokeSize">4dp</item>
         <item name="tic_cpd_padding">0dp</item>
         <item name="tic_cpd_initialAngle">-90</item>
         <item name="tic_cpd_progress">0</item>
@@ -171,8 +181,8 @@
         <item name="tic_cpd_transformDuration">1500</item>
         <item name="tic_cpd_keepDuration">200</item>
         <item name="tic_cpd_inAnimDuration">0</item>
-        <item name="tic_cpd_outAnimDuration">0</item>
-        <item name="tic_cpd_progressAlpha">128</item>
+        <item name="tic_cpd_outAnimDuration">@android:integer/config_shortAnimTime</item>
+        <item name="tic_cpd_progressAlpha">0x7f</item>
     </style>
 
     <style name="Widget.Ticwear.ScrollBar" parent="android:Widget">

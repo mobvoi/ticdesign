@@ -18,7 +18,6 @@ import android.graphics.drawable.Animatable;
 import android.graphics.drawable.Drawable;
 import android.os.SystemClock;
 import android.support.annotation.NonNull;
-import android.util.AttributeSet;
 import android.view.animation.DecelerateInterpolator;
 import android.view.animation.Interpolator;
 
@@ -36,6 +35,7 @@ public class CircularProgressDrawable extends Drawable implements Animatable {
 
     public static final int MODE_DETERMINATE = 0;
     public static final int MODE_INDETERMINATE = 1;
+
     private static final int PROGRESS_STATE_HIDE = -1;
     private static final int PROGRESS_STATE_STRETCH = 0;
     private static final int PROGRESS_STATE_KEEP_STRETCH = 1;
@@ -136,6 +136,10 @@ public class CircularProgressDrawable extends Drawable implements Animatable {
         mRect = new RectF();
 
         mState = createConstantState(null, null);
+    }
+
+    public int getStrokeSize() {
+        return mStrokeSize;
     }
 
     public int getProgressMode() {
@@ -736,32 +740,29 @@ public class CircularProgressDrawable extends Drawable implements Animatable {
         public Builder() {
         }
 
-        public Builder(Context context, int defStyleRes) {
-            this(context, null, 0, defStyleRes);
+        public Builder(Context context) {
+            this(context, R.style.Widget_Ticwear_CircularProgressDrawable);
         }
 
-        public Builder(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
-            TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.FloatingActionButton, defStyleAttr, defStyleRes);
-            int resId = a.getResourceId(R.styleable.FloatingActionButton_tic_circularDrawableStyle, 0);
+        public Builder(Context context, int defStyleRes) {
+            TypedArray a = context.obtainStyledAttributes(null, R.styleable.CircularProgressDrawable, 0, defStyleRes);
 
-            TypedArray ta = context.obtainStyledAttributes(resId, R.styleable.CircularProgressDrawable);
-            strokeSize(ta.getDimensionPixelSize(R.styleable.CircularProgressDrawable_tic_cpd_strokeSize, 0));
-            initialAngle(ta.getInteger(R.styleable.CircularProgressDrawable_tic_cpd_initialAngle, 0));
-            progressPercent(ta.getFloat(R.styleable.CircularProgressDrawable_tic_cpd_progress, 0));
-            progressMode(ta.getInteger(R.styleable.CircularProgressDrawable_tic_cpd_progressMode, MODE_INDETERMINATE));
-            secondaryProgressPercent(ta.getFloat(R.styleable.CircularProgressDrawable_tic_cpd_secondaryProgress, 0));
-            maxSweepAngle(ta.getInteger(R.styleable.CircularProgressDrawable_tic_cpd_maxSweepAngle, 0));
-            minSweepAngle(ta.getInteger(R.styleable.CircularProgressDrawable_tic_cpd_minSweepAngle, 0));
-            reverse(ta.getBoolean(R.styleable.CircularProgressDrawable_tic_cpd_reverse, false));
-            rotateDuration(ta.getInteger(R.styleable.CircularProgressDrawable_tic_cpd_rotateDuration, context.getResources().getInteger(android.R.integer.config_longAnimTime)));
-            transformDuration(ta.getInteger(R.styleable.CircularProgressDrawable_tic_cpd_transformDuration, context.getResources().getInteger(android.R.integer.config_mediumAnimTime)));
-            keepDuration(ta.getInteger(R.styleable.CircularProgressDrawable_tic_cpd_keepDuration, context.getResources().getInteger(android.R.integer.config_shortAnimTime)));
-            inAnimDuration(ta.getInteger(R.styleable.CircularProgressDrawable_tic_cpd_inAnimDuration, context.getResources().getInteger(android.R.integer.config_mediumAnimTime)));
-            progressAlpha(ta.getInteger(R.styleable.CircularProgressDrawable_tic_cpd_progressAlpha, 128));
-            inStepPercent(ta.getFloat(R.styleable.CircularProgressDrawable_tic_cpd_inStepPercent, 0.5f));
-            outAnimDuration(ta.getInteger(R.styleable.CircularProgressDrawable_tic_cpd_outAnimDuration, context.getResources().getInteger(android.R.integer.config_mediumAnimTime)));
+            strokeSize(a.getDimensionPixelSize(R.styleable.CircularProgressDrawable_tic_cpd_strokeSize, 0));
+            initialAngle(a.getInteger(R.styleable.CircularProgressDrawable_tic_cpd_initialAngle, 0));
+            progressPercent(a.getFloat(R.styleable.CircularProgressDrawable_tic_cpd_progress, 0));
+            progressMode(a.getInteger(R.styleable.CircularProgressDrawable_tic_cpd_progressMode, MODE_INDETERMINATE));
+            secondaryProgressPercent(a.getFloat(R.styleable.CircularProgressDrawable_tic_cpd_secondaryProgress, 0));
+            maxSweepAngle(a.getInteger(R.styleable.CircularProgressDrawable_tic_cpd_maxSweepAngle, 0));
+            minSweepAngle(a.getInteger(R.styleable.CircularProgressDrawable_tic_cpd_minSweepAngle, 0));
+            reverse(a.getBoolean(R.styleable.CircularProgressDrawable_tic_cpd_reverse, false));
+            rotateDuration(a.getInteger(R.styleable.CircularProgressDrawable_tic_cpd_rotateDuration, context.getResources().getInteger(android.R.integer.config_longAnimTime)));
+            transformDuration(a.getInteger(R.styleable.CircularProgressDrawable_tic_cpd_transformDuration, context.getResources().getInteger(android.R.integer.config_mediumAnimTime)));
+            keepDuration(a.getInteger(R.styleable.CircularProgressDrawable_tic_cpd_keepDuration, context.getResources().getInteger(android.R.integer.config_shortAnimTime)));
+            inAnimDuration(a.getInteger(R.styleable.CircularProgressDrawable_tic_cpd_inAnimDuration, context.getResources().getInteger(android.R.integer.config_mediumAnimTime)));
+            progressAlpha(a.getInteger(R.styleable.CircularProgressDrawable_tic_cpd_progressAlpha, 128));
+            inStepPercent(a.getFloat(R.styleable.CircularProgressDrawable_tic_cpd_inStepPercent, 0.5f));
+            outAnimDuration(a.getInteger(R.styleable.CircularProgressDrawable_tic_cpd_outAnimDuration, context.getResources().getInteger(android.R.integer.config_mediumAnimTime)));
 
-            ta.recycle();
             a.recycle();
         }
 

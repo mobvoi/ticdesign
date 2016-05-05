@@ -32,6 +32,7 @@ import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.util.TypedValue;
+import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -55,6 +56,7 @@ import java.lang.ref.WeakReference;
 
 import ticwear.design.R;
 import ticwear.design.app.AlertDialog;
+import ticwear.design.widget.CoordinatorLayout;
 import ticwear.design.widget.CursorRecyclerViewAdapter;
 import ticwear.design.widget.FloatingActionButton;
 import ticwear.design.widget.FocusableLinearLayoutManager;
@@ -516,8 +518,7 @@ public class AlertController {
     private void setupView() {
         final ViewGroup contentPanel = (ViewGroup) mWindow.findViewById(R.id.contentPanel);
         setupContent(contentPanel);
-        final View buttonPanel = setupButtons();
-        final boolean hasButtons = buttonPanel != null;
+        final boolean hasButtons = setupButtons();
 
         final ViewGroup topPanel = (ViewGroup) mWindow.findViewById(R.id.topPanel);
         final TypedArray a = mContext.obtainStyledAttributes(
@@ -614,7 +615,6 @@ public class AlertController {
                 // Hide the title template
                 final View titleTemplate = mWindow.findViewById(R.id.title_template);
                 titleTemplate.setVisibility(View.GONE);
-                topPanel.setVisibility(View.GONE);
                 hasTitle = false;
             }
         }
@@ -731,8 +731,7 @@ public class AlertController {
         }
     }
 
-    @Nullable
-    private View setupButtons() {
+    private boolean setupButtons() {
         setupButtonBundles();
         int textButtonCount = setupTextButtons();
         int iconButtonCount = setupIconButtons();
@@ -740,41 +739,21 @@ public class AlertController {
         boolean useTextButtons = textButtonCount > iconButtonCount;
 
         final View textButtonPanel = mWindow.findViewById(R.id.textButtonPanel);
-        final View iconButtonPanel = mWindow.findViewById(R.id.iconButtonPanel);
-        final View buttonPanel;
-        if (!hasButtons) {
-            textButtonPanel.setVisibility(View.GONE);
-            iconButtonPanel.setVisibility(View.GONE);
-            buttonPanel = null;
-        } else if (useTextButtons) {
+        if (hasButtons && useTextButtons) {
             textButtonPanel.setVisibility(View.VISIBLE);
-            iconButtonPanel.setVisibility(View.GONE);
-            buttonPanel = textButtonPanel;
         } else {
             textButtonPanel.setVisibility(View.GONE);
-            iconButtonPanel.setVisibility(View.VISIBLE);
-            int paddingBottom = mContext.getResources()
-                    .getDimensionPixelOffset(R.dimen.alert_dialog_round_padding_bottom);
-            paddingBottom = paddingBottom * iconButtonCount;
-            iconButtonPanel.setPadding(
-                    iconButtonPanel.getPaddingLeft(),
-                    iconButtonPanel.getPaddingTop(),
-                    iconButtonPanel.getPaddingRight(),
-                    paddingBottom
-            );
-            buttonPanel = iconButtonPanel;
         }
 
-        return buttonPanel;
+        offsetIconButtons(iconButtonCount);
+
+        return hasButtons;
     }
 
     private void setupButtonBundles() {
-        mButtonBundlePositive.setup(mWindow, R.id.textButton1, R.id.textSpace1,
-                R.id.iconButton1, R.id.iconSpace1);
-        mButtonBundleNegative.setup(mWindow, R.id.textButton2, R.id.textSpace2,
-                R.id.iconButton2, R.id.iconSpace2);
-        mButtonBundleNeutral.setup(mWindow, R.id.textButton3, R.id.textSpace3,
-                R.id.iconButton3, R.id.iconSpace3);
+        mButtonBundlePositive.setup(mWindow, R.id.textButton1, R.id.textSpace1, R.id.iconButton1);
+        mButtonBundleNegative.setup(mWindow, R.id.textButton2, R.id.textSpace2, R.id.iconButton2);
+        mButtonBundleNeutral.setup(mWindow, R.id.textButton3, R.id.textSpace3, R.id.iconButton3);
     }
 
     private int setupTextButtons() {
@@ -811,6 +790,57 @@ public class AlertController {
         }
 
         return Integer.bitCount(whichButtons);
+    }
+
+    private void offsetIconButtons(int iconButtonCount) {
+        int paddingBottom = mContext.getResources()
+                .getDimensionPixelOffset(R.dimen.alert_dialog_round_padding_bottom);
+        paddingBottom = iconButtonCount > 1 ? paddingBottom * 2 : paddingBottom;
+        int paddingHorizontal;
+        if (iconButtonCount == 3) {
+            paddingHorizontal = mContext.getResources().getDimensionPixelOffset(
+                    R.dimen.alert_dialog_round_button_padding_horizontal_full);
+        } else if (iconButtonCount == 2) {
+            paddingHorizontal = mContext.getResources().getDimensionPixelOffset(
+                    R.dimen.alert_dialog_round_button_padding_horizontal_pair);
+        } else {
+            paddingHorizontal = 0;
+        }
+
+        CoordinatorLayout.LayoutParams lp;
+        lp = getCoordinatorLayoutParams(mButtonBundlePositive.iconButton);
+        if (lp != null) {
+            if (iconButtonCount == 1) {
+                lp.gravity = Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL;
+            }
+            lp.setMarginStart(paddingHorizontal);
+            lp.setMarginEnd(paddingHorizontal);
+            lp.bottomMargin = paddingBottom;
+            mButtonBundlePositive.iconButton.setLayoutParams(lp);
+        }
+        lp = getCoordinatorLayoutParams(mButtonBundleNegative.iconButton);
+        if (lp != null) {
+            if (iconButtonCount == 1) {
+                lp.gravity = Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL;
+            }
+            lp.setMarginStart(paddingHorizontal);
+            lp.setMarginEnd(paddingHorizontal);
+            lp.bottomMargin = paddingBottom;
+            mButtonBundleNegative.iconButton.setLayoutParams(lp);
+        }
+        lp = getCoordinatorLayoutParams(mButtonBundleNeutral.iconButton);
+        if (lp != null) {
+            if (iconButtonCount == 1) {
+                lp.gravity = Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL;
+            }
+            lp.bottomMargin = paddingBottom;
+            mButtonBundleNeutral.iconButton.setLayoutParams(lp);
+        }
+    }
+
+    private CoordinatorLayout.LayoutParams getCoordinatorLayoutParams(View view) {
+        return view.getLayoutParams() instanceof CoordinatorLayout.LayoutParams ?
+                (CoordinatorLayout.LayoutParams) view.getLayoutParams() : null;
     }
 
     public static class AlertParams {
@@ -1093,18 +1123,16 @@ public class AlertController {
         private Button textButton;
         private Space textSpace;
         private FloatingActionButton iconButton;
-        private Space iconSpace;
         private CharSequence buttonText;
         private Drawable buttonIcon;
         private Message buttonMessage;
 
         public void setup(Window window,
                           @IdRes int textButtonId, @IdRes int textSpaceId,
-                          @IdRes int iconButtonId, @IdRes int iconSpaceId) {
+                          @IdRes int iconButtonId) {
             textButton = (Button) window.findViewById(textButtonId);
             textSpace = (Space) window.findViewById(textSpaceId);
             iconButton = (FloatingActionButton) window.findViewById(iconButtonId);
-            iconSpace = (Space) window.findViewById(iconSpaceId);
         }
 
         public Message messageForButton(View v) {
@@ -1135,12 +1163,10 @@ public class AlertController {
 
             if (buttonIcon == null) {
                 iconButton.setVisibility(View.GONE);
-                iconSpace.setVisibility(View.GONE);
                 return false;
             } else {
                 setupIconContent();
                 iconButton.setVisibility(View.VISIBLE);
-                iconSpace.setVisibility(View.INVISIBLE);
                 return true;
             }
         }

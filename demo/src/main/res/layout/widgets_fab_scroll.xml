@@ -40,7 +40,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:textAppearance="?android:textAppearanceSmall"
-            android:text="@string/cheese_content"
+            android:text="@string/dialog_content"
             />
 
     </ScrollView>
@@ -52,6 +52,7 @@
         android:layout_gravity="center_horizontal|bottom"
         android:src="@drawable/ic_update"
         android:layout_margin="16dp"
+        app:tic_circularDrawableStyle="@style/Widget.Ticwear.CircularProgressDrawable"
         />
 
 </ticwear.design.widget.CoordinatorLayout>

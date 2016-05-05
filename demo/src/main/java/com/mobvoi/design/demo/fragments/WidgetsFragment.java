@@ -1,7 +1,10 @@
 package com.mobvoi.design.demo.fragments;
 
+import android.animation.ValueAnimator;
+import android.animation.ValueAnimator.AnimatorUpdateListener;
 import android.app.Dialog;
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.support.annotation.StringRes;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,6 +13,7 @@ import android.widget.TextView;
 import com.ticwear.design.demo.R;
 
 import ticwear.design.app.AlertDialog;
+import ticwear.design.drawable.CircularProgressDrawable;
 import ticwear.design.widget.FloatingActionButton;
 import ticwear.design.widget.VolumeBar;
 
@@ -44,27 +48,9 @@ public class WidgetsFragment extends ListFragment {
         LayoutInflater inflater = (LayoutInflater)
                 context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         switch (resId) {
-            case R.string.category_widgets_fab: {
-                View layout = inflater.inflate(
-                        R.layout.widgets_fab_scroll, null);
-                final FloatingActionButton fab = (FloatingActionButton) layout.findViewById(R.id.fab);
-                fab.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        fab.minimize();
-                    }
-                });
-                layout.findViewById(R.id.text_content)
-                        .setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                fab.show();
-                            }
-                        });
-                dialog = new Dialog(context);
-                dialog.setContentView(layout);
+            case R.string.category_widgets_fab:
+                dialog = createFABDialog(context, inflater);
                 break;
-            }
             case R.string.category_widgets_button: {
                 dialog = new AlertDialog.Builder(context)
                         .setTitle(R.string.category_widgets_button)
@@ -93,6 +79,76 @@ public class WidgetsFragment extends ListFragment {
                 break;
         }
 
+        return dialog;
+    }
+
+    @NonNull
+    private Dialog createFABDialog(Context context, LayoutInflater inflater) {
+        Dialog dialog;View layout = inflater.inflate(
+                R.layout.widgets_fab_scroll, null);
+        final FloatingActionButton fab = (FloatingActionButton) layout.findViewById(R.id.fab);
+
+        View.OnClickListener listener = new View.OnClickListener() {
+            boolean isShow = true;
+            @Override
+            public void onClick(View v) {
+                if (isShow) {
+                    fab.minimize();
+                } else {
+                    fab.show();
+                }
+                isShow = !isShow;
+            }
+        };
+        layout.findViewById(R.id.text_content)
+                .setOnClickListener(listener);
+        layout.setOnClickListener(listener);
+
+        fab.setOnClickListener(new View.OnClickListener() {
+            private int clickCount = 0;
+            private ValueAnimator increaseAnimator = ValueAnimator.ofFloat(0, 1)
+                    .setDuration(5000);
+
+            {
+                increaseAnimator.addUpdateListener(new AnimatorUpdateListener() {
+                    @Override
+                    public void onAnimationUpdate(ValueAnimator animation) {
+                        float progress = (float) animation.getAnimatedValue();
+                        fab.setProgressPercent(progress);
+
+                        if (progress >= 1) {
+                            onClick(null);
+                        }
+                    }
+                });
+            }
+
+            @Override
+            public void onClick(View v) {
+                clickCount++;
+                int count = clickCount % 3;
+                fab.setShowProgress(count != 0);
+
+                switch (count) {
+                    case 1:
+                        fab.setProgressMode(CircularProgressDrawable.MODE_DETERMINATE);
+                        increaseAnimator.start();
+                        break;
+                    case 2:
+                        increaseAnimator.cancel();
+                        fab.setProgressMode(CircularProgressDrawable.MODE_INDETERMINATE);
+                        fab.startProgress();
+                        break;
+                    default:
+                        increaseAnimator.cancel();
+                        break;
+                }
+            }
+        });
+
+
+        dialog = new Dialog(context);
+        dialog.setContentView(layout);
         return dialog;
     }
 }

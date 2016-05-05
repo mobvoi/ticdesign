@@ -1,9 +1,12 @@
 package ticwear.design.drawable;
 
+import android.graphics.Canvas;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.LayerDrawable;
 import android.support.annotation.NonNull;
+
+import java.util.Arrays;
 
 /**
  * A layer drawable has a circular progress contains (surrounding) another drawable.
@@ -12,89 +15,75 @@ import android.support.annotation.NonNull;
  */
 public class CircularProgressContainerDrawable extends LayerDrawable {
 
-    int mStrokeSize;
+    private int mStrokeSize;
 
     /**
-     * Create a new layer drawable with the list of specified layers.
+     * Create a drawable with the list of specified contents inside progress bar.
      *
      * @param progressDrawable The surrounding progress drawable.
-     * @param content Content drawable inside.
+     * @param contents Content drawable layers inside.
      */
     // progressbar的厚度
-    public CircularProgressContainerDrawable(@NonNull Drawable content, @NonNull CircularProgressDrawable progressDrawable, int strokeSize) {
-        super(new Drawable[] {content, progressDrawable});
-        mStrokeSize = strokeSize;
+    public CircularProgressContainerDrawable(@NonNull Drawable[] contents,
+                                             @NonNull CircularProgressDrawable progressDrawable) {
+        super(buildLayers(contents, progressDrawable));
+        mStrokeSize = progressDrawable.getStrokeSize();
     }
 
-    /**
-     * 设置view中progressbar的进度，若view中无progressbar，则不做任何操作
-     * @param percent 传入progress的百分比
-     */
-    public void setProgressPercent(float percent) {
-        getProgressDrawable().setProgress(percent);
+    private static Drawable[] buildLayers(@NonNull Drawable[] contents,
+                                   @NonNull CircularProgressDrawable progressDrawable) {
+        Drawable[] layers = Arrays.copyOf(contents, contents.length + 1);
+        layers[contents.length] = progressDrawable;
+        return layers;
     }
 
-    /**
-     * 设置progressbar的模式，determintate/indeterminate
-     * @param mode  传入的模式
-     */
-    public void setProgressMode(int mode) {
-        getProgressDrawable().setProgressMode(mode);
-    }
-
-    /**
-     * 设置progressbar的透明度
-     * @param alpha progressBar的透明度
-     */
-    public void setProgressAlpha(int alpha) {
-        getProgressDrawable().setAlpha(alpha);
-    }
-
-    /**
-     * 设置是否有progressbar
-     * @param hasProgress false为无progressbar
-     */
-    public void hasProgress(boolean hasProgress) {
-        if (hasProgress) {
-            getProgressDrawable().start();
-        }
-        else {
-            getProgressDrawable().stop();
-        }
-    }
-
-    /**
-     * 获取progressbar
-     * @return container中的progressbar
-     */
     public CircularProgressDrawable getProgressDrawable() {
-        if (getNumberOfLayers() >1) {
-            return (CircularProgressDrawable) getDrawable(1);
+        if (getNumberOfLayers() > 0 &&
+                getDrawable(getNumberOfLayers() - 1) instanceof CircularProgressDrawable) {
+            return (CircularProgressDrawable) getDrawable(getNumberOfLayers() - 1);
         }
         return null;
     }
 
     /**
-     * 获取content(rippleDrawable)
-     * @return container中的content
+     * Get specific content drawable.
+     *
+     * @param index the index of drawable, same order with the contents array passed in when create.
+     * @return The drawable on index if exist, or null will be return.
      */
-    public Drawable getContentDrawable() {
-        return getDrawable(0);
+    public Drawable getContentDrawable(int index) {
+        if (getNumberOfLayers() > index + 1) {
+            return getDrawable(index);
+        }
+        return null;
     }
 
     /**
-     * 重写onBoundsChange，对progressbar和content分别设置bounds
-     * @param bounds ccontainer的bounds
+     * The reason of translate the canvas here instead of add the translate to bounds,
+     * is that the offsets in bounds will cause a broken ripple shape.
+     */
+    @Override
+    public void draw(Canvas canvas) {
+        canvas.save();
+        canvas.translate(mStrokeSize, mStrokeSize);
+        for (int i = 0; i < getNumberOfLayers() - 1; i++ ) {
+            getContentDrawable(i).draw(canvas);
+        }
+        canvas.restore();
+        getProgressDrawable().draw(canvas);
+    }
+
+    /**
+     * Set bounds with a additional padding for contents. And original bounds for progress.
      */
     @Override
     protected void onBoundsChange(Rect bounds) {
-        super.onBoundsChange(bounds);
-        // 重置content(rippleDrawable)的bounds
-        Rect innerRect = new Rect(bounds);
-        innerRect.left += mStrokeSize;
-        innerRect.top += mStrokeSize;
-        innerRect.right -= mStrokeSize;
-        innerRect.bottom -= mStrokeSize;
-        getContentDrawable().setBounds(innerRect);
+        for (int i = 0; i < getNumberOfLayers() - 1; i++ ) {
+            getContentDrawable(i).setBounds(
+                    bounds.left, bounds.top,
+                    bounds.right - mStrokeSize * 2, bounds.bottom - mStrokeSize * 2);
+        }
+        getProgressDrawable().setBounds(bounds);
     }
+
 }

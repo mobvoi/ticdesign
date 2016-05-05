@@ -3,7 +3,8 @@
     <string name="app_name">Tic设计</string>
 
     <string name="category.dialog.title">对话框</string>
-    <string name="category.dialog.notify">提示对话框</string>
+    <string name="category.dialog.standard">常规对话框</string>
+    <string name="category.dialog.no_title">无标题对话框</string>
     <string name="category.dialog.confirm">确认对话框</string>
     <string name="category.dialog.choose">选择对话框</string>
     <string name="category.dialog.long">长文本对话框</string>

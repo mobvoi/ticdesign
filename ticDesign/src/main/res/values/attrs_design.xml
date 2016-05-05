@@ -30,8 +30,6 @@
         <!-- NOTE: not supported -->
         <attr name="tic_borderWidth" format="dimension"/>
 
-        <attr name="tic_hasProgress" format="boolean"/>
-
         <attr name="tic_circularDrawableStyle" format="reference"/>
 
     </declare-styleable>

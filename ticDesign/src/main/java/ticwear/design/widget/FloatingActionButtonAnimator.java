@@ -97,7 +97,6 @@ class FloatingActionButtonAnimator {
             mView.animate()
                     .scaleX(0f)
                     .scaleY(0f)
-                    .alpha(0f)
                     .setDuration(SHOW_HIDE_ANIM_DURATION)
                     .setInterpolator(ticwear.design.widget.AnimationUtils.FAST_OUT_LINEAR_IN_INTERPOLATOR)
                     .setListener(new AnimatorListenerAdapter() {
@@ -136,14 +135,12 @@ class FloatingActionButtonAnimator {
                 mView.animate().cancel();
                 if (mView.getVisibility() != View.VISIBLE) {
                     // If the view isn't visible currently, we'll animate it from a single pixel
-                    mView.setAlpha(0f);
                     mView.setScaleY(0f);
                     mView.setScaleX(0f);
                 }
                 mView.animate()
                         .scaleX(1f)
                         .scaleY(1f)
-                        .alpha(1f)
                         .setDuration(SHOW_HIDE_ANIM_DURATION)
                         .setInterpolator(ticwear.design.widget.AnimationUtils.LINEAR_OUT_SLOW_IN_INTERPOLATOR)
                         .setListener(new AnimatorListenerAdapter() {
@@ -165,7 +162,6 @@ class FloatingActionButtonAnimator {
             } else {
                 mAnimState = AnimState.Idle;
                 mView.internalSetVisibility(View.VISIBLE, fromUser);
-                mView.setAlpha(1f);
                 mView.setScaleY(1f);
                 mView.setScaleX(1f);
                 mView.setClickable(true);
@@ -196,7 +192,6 @@ class FloatingActionButtonAnimator {
             mView.animate().cancel();
             if (mView.getVisibility() != View.VISIBLE) {
                 // If the view isn't visible currently, we'll animate it from a single pixel
-                mView.setAlpha(0f);
                 mView.setScaleY(0f);
                 mView.setScaleX(0f);
                 mView.setImageAlpha(0);
@@ -204,7 +199,6 @@ class FloatingActionButtonAnimator {
             mView.animate()
                     .scaleX(targetScale)
                     .scaleY(targetScale)
-                    .alpha(1f)
                     .setDuration(SHOW_HIDE_ANIM_DURATION)
                     .setInterpolator(ticwear.design.widget.AnimationUtils.LINEAR_OUT_SLOW_IN_INTERPOLATOR)
                     .setListener(new AnimatorListenerAdapter() {
@@ -227,7 +221,6 @@ class FloatingActionButtonAnimator {
         } else {
             mAnimState = AnimState.Idle;
             mView.internalSetVisibility(View.VISIBLE, fromUser);
-            mView.setAlpha(1f);
             mView.setScaleY(targetScale);
             mView.setScaleX(targetScale);
             mView.setClickable(false);

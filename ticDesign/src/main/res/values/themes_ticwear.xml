@@ -55,10 +55,9 @@
         <item name="android:alertDialogStyle">@style/AlertDialog.Ticwear</item>
         <!--<item name="android:alertDialogIcon">@drawable/ic_dialog_alert_material</item>-->
 
-        <item name="tic_iconButtonBarStyle">@style/Widget.Ticwear.ButtonBar</item>
-        <item name="tic_iconButtonBarButtonStyle">@style/Widget.Ticwear.FloatingActionButton.ButtonBar</item>
+        <item name="tic_iconButtonBarButtonStyle">@style/Widget.Ticwear.FloatingActionButton.Dialog</item>
         <item name="tic_iconButtonBarPositiveButtonStyle">?attr/tic_iconButtonBarButtonStyle</item>
-        <item name="tic_iconButtonBarNegativeButtonStyle">?attr/tic_iconButtonBarButtonStyle</item>
+        <item name="tic_iconButtonBarNegativeButtonStyle">@style/Widget.Ticwear.FloatingActionButton.Dialog.Negative</item>
         <item name="tic_iconButtonBarNeutralButtonStyle">?attr/tic_iconButtonBarButtonStyle</item>
 
         <!-- Preference styles -->

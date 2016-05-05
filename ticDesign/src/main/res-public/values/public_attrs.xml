@@ -4,6 +4,7 @@
     <public type="attr" name="tic_rippleColor" />
     <public type="attr" name="tic_fabSize" />
     <public type="attr" name="tic_pressedTranslationZ" />
+    <public type="attr" name="tic_circularDrawableStyle" />
     <public type="attr" name="tic_borderWidth" />
     <public type="attr" name="tic_keylines" />
     <public type="attr" name="tic_statusBarBackground" />
@@ -45,11 +46,35 @@
 
     <public type="attr" name="tic_primaryButtonStyle" />
 
-    <public type="attr" name="tic_iconButtonBarStyle" />
     <public type="attr" name="tic_iconButtonBarButtonStyle" />
     <public type="attr" name="tic_iconButtonBarPositiveButtonStyle" />
     <public type="attr" name="tic_iconButtonBarNegativeButtonStyle" />
     <public type="attr" name="tic_iconButtonBarNeutralButtonStyle" />
 
     <public type="id" name="tic_view_offset_helper" />
+
+    <public type="id" name="tic_cpd_strokeSize" />
+    <public type="id" name="tic_cpd_padding" />
+    <public type="id" name="tic_cpd_initialAngle" />
+    <public type="id" name="tic_cpd_progress" />
+    <public type="id" name="tic_cpd_secondaryProgress" />
+    <public type="id" name="tic_cpd_minSweepAngle" />
+    <public type="id" name="tic_cpd_maxSweepAngle" />
+    <public type="id" name="tic_cpd_reverse" />
+    <public type="id" name="tic_cpd_rotateDuration" />
+    <public type="id" name="tic_cpd_transformDuration" />
+    <public type="id" name="tic_cpd_keepDuration" />
+    <public type="id" name="tic_cpd_inAnimDuration" />
+    <public type="id" name="tic_cpd_inStepPercent" />
+    <public type="id" name="tic_cpd_outAnimDuration" />
+    <public type="id" name="tic_cpd_progressAlpha" />
+    <public type="id" name="tic_cpd_progressMode" />
+
+    <public type="id" name="tic_vb_valueColor" />
+    <public type="id" name="tic_vb_bgColor" />
+    <public type="id" name="tic_vb_btnImageSize" />
+    <public type="id" name="tic_vb_touchPadding" />
+    <public type="id" name="tic_vb_thumbImage" />
+    <public type="id" name="tic_vb_thumbLeftImage" />
+
 </resources>

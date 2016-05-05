@@ -4,7 +4,8 @@
     <string name="main.title">@string/app_name</string>
 
     <string name="category.dialog.title">Dialogs</string>
-    <string name="category.dialog.notify">Notify Dialog</string>
+    <string name="category.dialog.standard">Standard Dialog</string>
+    <string name="category.dialog.no_title">Message Only</string>
     <string name="category.dialog.confirm">Confirm Dialog</string>
     <string name="category.dialog.choose">Choose Dialog</string>
     <string name="category.dialog.long">Long Message Dialog</string>

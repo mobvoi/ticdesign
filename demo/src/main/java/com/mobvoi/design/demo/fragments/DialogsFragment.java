@@ -29,16 +29,17 @@ public class DialogsFragment extends ListFragment {
 
     static final String TAG = "TicDialogs";
 
+    private int[] standardDialogIds;
+    private int[] valuePickerIds;
+    private int[] listChoiceIds;
+    private CharSequence[] standardDialogs;
     private CharSequence[] valuePickers;
     private CharSequence[] listChoices;
 
     @Override
     protected int[] getItemTitles() {
         return new int[]{
-//                R.string.category_dialog_notify,
-                R.string.category_dialog_confirm,
-                R.string.category_dialog_choose,
-                R.string.category_dialog_long,
+                R.string.category_dialog_standard,
                 R.string.category_dialog_value_picker,
                 R.string.category_dialog_choice,
         };
@@ -47,17 +48,36 @@ public class DialogsFragment extends ListFragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        valuePickers = new CharSequence[] {
-                getResources().getString(R.string.category_dialog_number_picker),
-                getResources().getString(R.string.category_dialog_time_picker),
-                getResources().getString(R.string.category_dialog_date_picker),
-                getResources().getString(R.string.category_dialog_datetime_picker),
+        standardDialogIds = new int[] {
+                R.string.category_dialog_no_title,
+                R.string.category_dialog_confirm,
+                R.string.category_dialog_choose,
+                R.string.category_dialog_long,
         };
-        listChoices = new CharSequence[] {
-                getResources().getString(R.string.category_dialog_single_selection),
-                getResources().getString(R.string.category_dialog_single_choice),
-                getResources().getString(R.string.category_dialog_multiple_choice),
+        valuePickerIds = new int[] {
+                R.string.category_dialog_number_picker,
+                R.string.category_dialog_time_picker,
+                R.string.category_dialog_date_picker,
+                R.string.category_dialog_datetime_picker,
         };
+        listChoiceIds = new int[] {
+                R.string.category_dialog_single_selection,
+                R.string.category_dialog_single_choice,
+                R.string.category_dialog_multiple_choice,
+        };
+
+        standardDialogs = new CharSequence[standardDialogIds.length];
+        for (int i = 0; i < standardDialogIds.length; i++) {
+            standardDialogs[i] = getResources().getString(standardDialogIds[i]);
+        }
+        valuePickers = new CharSequence[valuePickerIds.length];
+        for (int i = 0; i < valuePickerIds.length; i++) {
+            valuePickers[i] = getResources().getString(valuePickerIds[i]);
+        }
+        listChoices = new CharSequence[listChoiceIds.length];
+        for (int i = 0; i < listChoiceIds.length; i++) {
+            listChoices[i] = getResources().getString(listChoiceIds[i]);
+        }
     }
 
     @Override
@@ -68,153 +88,25 @@ public class DialogsFragment extends ListFragment {
         }
     }
 
-    private Dialog createValuePickerDialog(Context context, int which) {
-        Dialog dialog = null;
-        switch (which) {
-            case 0:
-                dialog = new NumberPickerDialog.Builder(context)
-                        .minValue(0)
-                        .maxValue(20)
-                        .defaultValue(5)
-                        .valuePickedlistener(new NumberPickerDialog.OnValuePickedListener() {
-                            @Override
-                            public void onValuePicked(NumberPickerDialog dialog, int value) {
-                                Toast.makeText(dialog.getContext(), "Picked value " + value,
-                                        Toast.LENGTH_SHORT)
-                                        .show();
-                            }
-                        })
-                        .create();
-                break;
-            case 1: {
-                dialog = new DatetimePickerDialog.Builder(context)
-                        .defaultValue(Calendar.getInstance())
-                        .disableDatePicker()
-                        .listener(new DatetimePickerDialog.OnCalendarSetListener() {
-                            @Override
-                            public void onCalendarSet(DatetimePickerDialog dialog, Calendar calendar) {
-                                Toast.makeText(dialog.getContext(), "Picked time: " +
-                                                SimpleDateFormat.getTimeInstance().format(calendar.getTime()),
-                                        Toast.LENGTH_LONG)
-                                        .show();
-                            }
-                        })
-                        .create();
-                break;
-            }
-            case 2: {
-                dialog = new DatetimePickerDialog.Builder(context)
-                        .defaultValue(Calendar.getInstance())
-                        .disableTimePicker()
-                        .listener(new DatetimePickerDialog.OnCalendarSetListener() {
-                            @Override
-                            public void onCalendarSet(DatetimePickerDialog dialog, Calendar calendar) {
-                                Toast.makeText(dialog.getContext(), "Picked date: " +
-                                                SimpleDateFormat.getDateInstance().format(calendar.getTime()),
-                                        Toast.LENGTH_LONG)
-                                        .show();
-                            }
-                        })
-                        .create();
-                break;
-            }
-            case 3: {
-                dialog = new DatetimePickerDialog.Builder(context)
-                        .defaultValue(Calendar.getInstance())
-                        .listener(new DatetimePickerDialog.OnCalendarSetListener() {
-                            @Override
-                            public void onCalendarSet(DatetimePickerDialog dialog, Calendar calendar) {
-                                Toast.makeText(dialog.getContext(), "Picked datetime: " +
-                                                SimpleDateFormat.getDateTimeInstance().format(calendar.getTime()),
-                                        Toast.LENGTH_LONG)
-                                        .show();
-                            }
-                        })
-                        .create();
-                break;
-            }
-        }
-
-        return dialog;
-    }
-
-    private Dialog createListChoiceDialog(Context context, int which) {
-        Dialog dialog = null;
-        final String[] listItems = Cheeses.getRandomCheesesList();
-        switch (which) {
-            case 0:
-                dialog = new AlertDialog.Builder(getActivity())
-                        .setTitle(R.string.category_dialog_single_selection)
-                        .setItems(listItems, new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                Toast.makeText(getActivity(), "Picked: " + listItems[which],
-                                        Toast.LENGTH_SHORT)
-                                        .show();
-                            }
-                        })
-                        .create();
-                break;
-            case 1: {
-                class SelectionHolder {
-                    public int which;
-                }
-                final SelectionHolder selectionHolder = new SelectionHolder();
-                dialog = new AlertDialog.Builder(getActivity())
-                        .setTitle(R.string.category_dialog_single_choice)
-                        .setSingleChoiceItems(listItems, 0, new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                selectionHolder.which = which;
-                            }
-                        })
-                        .setOnDismissListener(new DialogInterface.OnDismissListener() {
-                            @Override
-                            public void onDismiss(DialogInterface dialog) {
-                                Toast.makeText(getActivity(), "Picked: " + listItems[selectionHolder.which],
-                                        Toast.LENGTH_SHORT)
-                                        .show();
-                            }
-                        })
-                        .create();
-                break;
-            }
-            case 2: {
-                final List<Integer> selection = new ArrayList<>();
-                dialog = new AlertDialog.Builder(getActivity())
-                        .setTitle(R.string.category_dialog_multiple_choice)
-                        .setMultiChoiceItems(listItems, null, new DialogInterface.OnMultiChoiceClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which, boolean isChecked) {
-                                if (isChecked) {
-                                    selection.add(which);
-                                } else {
-                                    selection.remove((Integer) which);
-                                }
-                            }
-                        })
-                        .setOnDismissListener(new DialogInterface.OnDismissListener() {
-                            @Override
-                            public void onDismiss(DialogInterface dialog) {
-                                String message = "Picked item:\n";
-                                for (int which : selection) {
-                                    message += listItems[which] + ";\n";
-                                }
-                                Toast.makeText(getActivity(), message, Toast.LENGTH_SHORT).show();
-                            }
-                        })
-                        .create();
-                break;
-            }
-        }
-
-        return dialog;
-    }
-
-    private Dialog createDialog(final Context context, int resId) {
+    private Dialog createStandardDialog(Context context, @StringRes int resId) {
         Dialog dialog = null;
         switch (resId) {
-            case R.string.category_dialog_notify:
+            case R.string.category_dialog_no_title:
+                dialog = new AlertDialog.Builder(context)
+                        .setMessage(R.string.dialog_content)
+                        .setPositiveButtonIcon(ticwear.design.R.drawable.tic_ic_btn_ok, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                            }
+                        })
+                        .setNegativeButtonIcon(ticwear.design.R.drawable.tic_ic_btn_cancel, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                            }
+                        })
+                        .create();
                 break;
             case R.string.category_dialog_confirm:
                 dialog = new AlertDialog.Builder(context)
@@ -264,13 +156,179 @@ public class DialogsFragment extends ListFragment {
                         })
                         .create();
                 break;
+        }
+
+        return dialog;
+    }
+
+    private Dialog createValuePickerDialog(Context context, @StringRes int resId) {
+        Dialog dialog = null;
+        switch (resId) {
+            case R.string.category_dialog_number_picker:
+                dialog = new NumberPickerDialog.Builder(context)
+                        .minValue(0)
+                        .maxValue(20)
+                        .defaultValue(5)
+                        .valuePickedlistener(new NumberPickerDialog.OnValuePickedListener() {
+                            @Override
+                            public void onValuePicked(NumberPickerDialog dialog, int value) {
+                                Toast.makeText(dialog.getContext(), "Picked value " + value,
+                                        Toast.LENGTH_SHORT)
+                                        .show();
+                            }
+                        })
+                        .create();
+                break;
+            case R.string.category_dialog_time_picker: {
+                dialog = new DatetimePickerDialog.Builder(context)
+                        .defaultValue(Calendar.getInstance())
+                        .disableDatePicker()
+                        .listener(new DatetimePickerDialog.OnCalendarSetListener() {
+                            @Override
+                            public void onCalendarSet(DatetimePickerDialog dialog, Calendar calendar) {
+                                Toast.makeText(dialog.getContext(), "Picked time: " +
+                                                SimpleDateFormat.getTimeInstance().format(calendar.getTime()),
+                                        Toast.LENGTH_LONG)
+                                        .show();
+                            }
+                        })
+                        .create();
+                break;
+            }
+            case R.string.category_dialog_date_picker: {
+                dialog = new DatetimePickerDialog.Builder(context)
+                        .defaultValue(Calendar.getInstance())
+                        .disableTimePicker()
+                        .listener(new DatetimePickerDialog.OnCalendarSetListener() {
+                            @Override
+                            public void onCalendarSet(DatetimePickerDialog dialog, Calendar calendar) {
+                                Toast.makeText(dialog.getContext(), "Picked date: " +
+                                                SimpleDateFormat.getDateInstance().format(calendar.getTime()),
+                                        Toast.LENGTH_LONG)
+                                        .show();
+                            }
+                        })
+                        .create();
+                break;
+            }
+            case R.string.category_dialog_datetime_picker: {
+                dialog = new DatetimePickerDialog.Builder(context)
+                        .defaultValue(Calendar.getInstance())
+                        .listener(new DatetimePickerDialog.OnCalendarSetListener() {
+                            @Override
+                            public void onCalendarSet(DatetimePickerDialog dialog, Calendar calendar) {
+                                Toast.makeText(dialog.getContext(), "Picked datetime: " +
+                                                SimpleDateFormat.getDateTimeInstance().format(calendar.getTime()),
+                                        Toast.LENGTH_LONG)
+                                        .show();
+                            }
+                        })
+                        .create();
+                break;
+            }
+        }
+
+        return dialog;
+    }
+
+    private Dialog createListChoiceDialog(Context context, @StringRes int resId) {
+        Dialog dialog = null;
+        final String[] listItems = Cheeses.getRandomCheesesList();
+        switch (resId) {
+            case R.string.category_dialog_single_selection:
+                dialog = new AlertDialog.Builder(getActivity())
+                        .setTitle(R.string.category_dialog_single_selection)
+                        .setItems(listItems, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                Toast.makeText(getActivity(), "Picked: " + listItems[which],
+                                        Toast.LENGTH_SHORT)
+                                        .show();
+                            }
+                        })
+                        .create();
+                break;
+            case R.string.category_dialog_single_choice: {
+                class SelectionHolder {
+                    public int which;
+                }
+                final SelectionHolder selectionHolder = new SelectionHolder();
+                dialog = new AlertDialog.Builder(getActivity())
+                        .setTitle(R.string.category_dialog_single_choice)
+                        .setSingleChoiceItems(listItems, 0, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                selectionHolder.which = which;
+                            }
+                        })
+                        .setOnDismissListener(new DialogInterface.OnDismissListener() {
+                            @Override
+                            public void onDismiss(DialogInterface dialog) {
+                                Toast.makeText(getActivity(), "Picked: " + listItems[selectionHolder.which],
+                                        Toast.LENGTH_SHORT)
+                                        .show();
+                            }
+                        })
+                        .create();
+                break;
+            }
+            case R.string.category_dialog_multiple_choice: {
+                final List<Integer> selection = new ArrayList<>();
+                dialog = new AlertDialog.Builder(getActivity())
+                        .setTitle(R.string.category_dialog_multiple_choice)
+                        .setMultiChoiceItems(listItems, null, new DialogInterface.OnMultiChoiceClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which, boolean isChecked) {
+                                if (isChecked) {
+                                    selection.add(which);
+                                } else {
+                                    selection.remove((Integer) which);
+                                }
+                            }
+                        })
+                        .setOnDismissListener(new DialogInterface.OnDismissListener() {
+                            @Override
+                            public void onDismiss(DialogInterface dialog) {
+                                String message = "Picked item:\n";
+                                for (int which : selection) {
+                                    message += listItems[which] + ";\n";
+                                }
+                                Toast.makeText(getActivity(), message, Toast.LENGTH_SHORT).show();
+                            }
+                        })
+                        .create();
+                break;
+            }
+        }
+
+        return dialog;
+    }
+
+    private Dialog createDialog(final Context context, int resId) {
+        Dialog dialog = null;
+        switch (resId) {
+            case R.string.category_dialog_standard: {
+                dialog = new AlertDialog.Builder(getActivity())
+                        .setTitle(R.string.category_dialog_standard)
+                        .setSingleChoiceItems(standardDialogs, -1, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                Dialog dlg = createStandardDialog(getActivity(), standardDialogIds[which]);
+                                if (dlg != null) {
+                                    dlg.show();
+                                }
+                            }
+                        })
+                        .create();
+                break;
+            }
             case R.string.category_dialog_value_picker: {
                 dialog = new AlertDialog.Builder(getActivity())
                         .setTitle(R.string.category_dialog_value_picker)
                         .setSingleChoiceItems(valuePickers, -1, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                Dialog dlg = createValuePickerDialog(getActivity(), which);
+                                Dialog dlg = createValuePickerDialog(getActivity(), valuePickerIds[which]);
                                 if (dlg != null) {
                                     dlg.show();
                                 }
@@ -285,7 +343,7 @@ public class DialogsFragment extends ListFragment {
                         .setSingleChoiceItems(listChoices, -1, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                Dialog dlg = createListChoiceDialog(getActivity(), which);
+                                Dialog dlg = createListChoiceDialog(getActivity(), listChoiceIds[which]);
                                 if (dlg != null) {
                                     dlg.show();
                                 }

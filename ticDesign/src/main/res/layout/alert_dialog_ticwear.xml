@@ -170,62 +170,45 @@
 
     </LinearLayout>
 
-    <LinearLayout android:id="@+id/iconButtonPanel"
-        style="?tic_iconButtonBarStyle"
-        android:layout_width="match_parent"
+    <!-- Icon buttons -->
+    <!-- FAB has a behaviour in coordinator layout, so we should not
+         wrap it in any other layout than coordinator. -->
+
+    <ticwear.design.widget.FloatingActionButton
+        style="?tic_iconButtonBarNegativeButtonStyle"
+        android:id="@+id/iconButton2"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="bottom"
-        android:layoutDirection="locale"
-        android:baselineAligned="false"
-        android:gravity="bottom|center_horizontal"
-        android:orientation="horizontal"
-        android:clipToPadding="false"
-        android:paddingStart="?android:listPreferredItemPaddingStart"
-        android:paddingEnd="?android:listPreferredItemPaddingEnd"
-        android:paddingTop="8dp"
-        android:paddingBottom="@dimen/alert_dialog_round_padding_bottom">
-        <Space
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_weight="1" />
-        <ticwear.design.widget.FloatingActionButton
-            style="?tic_iconButtonBarNegativeButtonStyle"
-            android:id="@+id/iconButton2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:elevation="0dp" />
-        <Space
-            android:id="@+id/iconSpace2"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_weight="1" />
-        <ticwear.design.widget.FloatingActionButton
-            style="?tic_iconButtonBarNeutralButtonStyle"
-            android:id="@+id/iconButton3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            tools:visibility="gone"
-            android:elevation="0dp" />
-        <Space
-            android:id="@+id/iconSpace3"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            tools:visibility="gone" />
-        <ticwear.design.widget.FloatingActionButton
-            style="?tic_iconButtonBarPositiveButtonStyle"
-            android:id="@+id/iconButton1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:elevation="0dp" />
-        <Space
-            android:id="@+id/iconSpace1"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_weight="1" />
-    </LinearLayout>
+        android:layout_gravity="bottom|start"
+        android:layout_marginStart="?android:listPreferredItemPaddingStart"
+        android:layout_marginEnd="?android:listPreferredItemPaddingEnd"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="@dimen/alert_dialog_round_padding_bottom"
+        android:elevation="0dp" />
+
+    <ticwear.design.widget.FloatingActionButton
+        style="?tic_iconButtonBarNeutralButtonStyle"
+        android:id="@+id/iconButton3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|center_horizontal"
+        android:layout_marginStart="?android:listPreferredItemPaddingStart"
+        android:layout_marginEnd="?android:listPreferredItemPaddingEnd"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="@dimen/alert_dialog_round_padding_bottom"
+        tools:visibility="gone"
+        android:elevation="0dp" />
+
+    <ticwear.design.widget.FloatingActionButton
+        style="?tic_iconButtonBarPositiveButtonStyle"
+        android:id="@+id/iconButton1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_marginStart="?android:listPreferredItemPaddingStart"
+        android:layout_marginEnd="?android:listPreferredItemPaddingEnd"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="@dimen/alert_dialog_round_padding_bottom"
+        android:elevation="0dp" />
 
 </ticwear.design.widget.CoordinatorLayout>
