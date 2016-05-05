@@ -37,7 +37,7 @@
     <style name="WindowAppBar.Ticwear.Small">
         <item name="android:minHeight">46dp</item>
     </style>
-    <style name="WindowAppBar.Ticwear.Datetime">
+    <style name="WindowAppBar.Ticwear.Minimize">
         <item name="android:minHeight">0dp</item>
         <item name="android:paddingTop">4dp</item>
         <item name="android:paddingBottom">0dp</item>

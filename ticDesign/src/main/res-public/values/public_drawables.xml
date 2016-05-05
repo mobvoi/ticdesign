@@ -7,4 +7,5 @@
     <public type="drawable" name="tic_ic_check" />
     <public type="drawable" name="tic_ic_radio" />
     <public type="drawable" name="tic_ic_switch" />
+    <public type="drawable" name="tic_ic_enter" />
 </resources>

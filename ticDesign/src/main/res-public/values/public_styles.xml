@@ -49,6 +49,7 @@
     <public type="style" name="WindowIcon.Ticwear" />
     <public type="style" name="WindowAppBar.Ticwear" />
     <public type="style" name="WindowAppBar.Ticwear.Small" />
+    <public type="style" name="WindowAppBar.Ticwear.Minimize" />
 
     <public type="style" name="Animation.Ticwear.Activity" />
     <public type="style" name="Animation.Ticwear.Activity.Translucent" />
@@ -59,6 +60,7 @@
     <public type="style" name="Theme.Ticwear.Fullscreen" />
     <public type="style" name="Theme.Ticwear.Dialog" />
     <public type="style" name="Theme.Ticwear.Dialog.Alert" />
+    <public type="style" name="Theme.Ticwear.Dialog.Alert.SameButtonStyle" />
     <public type="style" name="Theme.Ticwear.Dialog.Datetime" />
 
 

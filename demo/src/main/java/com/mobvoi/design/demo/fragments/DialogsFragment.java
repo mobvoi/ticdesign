@@ -92,7 +92,7 @@ public class DialogsFragment extends ListFragment {
         Dialog dialog = null;
         switch (resId) {
             case R.string.category_dialog_no_title:
-                dialog = new AlertDialog.Builder(context)
+                dialog = new AlertDialog.Builder(context, R.style.Theme_Ticwear_Dialog_Alert_SameButtonStyle)
                         .setMessage(R.string.dialog_content)
                         .setPositiveButtonIcon(ticwear.design.R.drawable.tic_ic_btn_ok, new DialogInterface.OnClickListener() {
                             @Override

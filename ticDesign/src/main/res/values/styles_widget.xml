@@ -189,7 +189,7 @@
         <item name="tic_scroll_bar_strokeWidth">3dp</item>
         <item name="tic_scroll_bar_margin">2dp</item>
         <item name="tic_scroll_bar_bgColor">?android:colorControlNormal</item>
-        <item name="tic_scroll_bar_sweepColor">?android:colorAccent</item>
+        <item name="tic_scroll_bar_sweepColor">?android:colorControlHighlight</item>
     </style>
 
     <style name="Widget.Ticwear.VolumeBar" parent="android:Widget">

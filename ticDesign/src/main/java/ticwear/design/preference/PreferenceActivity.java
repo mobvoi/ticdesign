@@ -34,6 +34,8 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
 import android.support.annotation.XmlRes;
+import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.RecyclerView.ViewHolder;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.util.TypedValue;
@@ -183,6 +185,8 @@ public abstract class PreferenceActivity extends RecyclerActivity implements
         protected class ViewHolder extends PreferenceViewHolder
                 implements View.OnClickListener {
 
+            boolean clickEntering = false;
+
             public ViewHolder(@NonNull ViewGroup parent, @LayoutRes int layoutResId) {
                 super(parent, layoutResId);
                 itemView.setOnClickListener(this);
@@ -190,16 +194,18 @@ public abstract class PreferenceActivity extends RecyclerActivity implements
 
             @Override
             public void onClick(View v) {
-                if (mOnHeaderClickListener != null) {
+                if (mOnHeaderClickListener != null && !clickEntering) {
                     final int position = getAdapterPosition();
                     final Header header = getItem(position);
-                    mOnHeaderClickListener.onHeaderClick(header, position);
+                    if (mOnHeaderClickListener.onHeaderClick(header, position)) {
+                        clickEntering = true;
+                    }
                 }
             }
         }
 
         protected interface OnHeaderClickListener {
-            void onHeaderClick(Header header, int position);
+            boolean onHeaderClick(Header header, int position);
         }
 
         private final Context mContext;
@@ -231,6 +237,8 @@ public abstract class PreferenceActivity extends RecyclerActivity implements
 
         @Override
         public void onBindViewHolder(HeaderAdapter.ViewHolder holder, int position) {
+            holder.clickEntering = false;
+
             Header header = getItem(position);
 
             PreferenceViewHolder.PreferenceData data = new PreferenceViewHolder.PreferenceData();
@@ -254,6 +262,12 @@ public abstract class PreferenceActivity extends RecyclerActivity implements
 
         public Header getItem(int position) {
             return mHeaders.get(position);
+        }
+
+        public void resetClickEntering(RecyclerView.ViewHolder viewHolder) {
+            if (viewHolder instanceof ViewHolder) {
+                ((ViewHolder) viewHolder).clickEntering = false;
+            }
         }
     }
 
@@ -916,6 +930,20 @@ public abstract class PreferenceActivity extends RecyclerActivity implements
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+        if (getListAdapter() instanceof HeaderAdapter) {
+            HeaderAdapter headerAdapter = (HeaderAdapter) getListAdapter();
+            TicklableListView listView = getListView();
+
+            for (int i = 0; i < listView.getChildCount(); i++) {
+                ViewHolder viewHolder = listView.getChildViewHolder(listView.getChildAt(i));
+                headerAdapter.resetClickEntering(viewHolder);
+            }
+        }
+    }
+
+    @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
 
@@ -940,8 +968,8 @@ public abstract class PreferenceActivity extends RecyclerActivity implements
 
     HeaderAdapter.OnHeaderClickListener mOnHeaderClickListener = new HeaderAdapter.OnHeaderClickListener() {
         @Override
-        public void onHeaderClick(Header header, int position) {
-            PreferenceActivity.this.onHeaderClick(header, position);
+        public boolean onHeaderClick(Header header, int position) {
+            return PreferenceActivity.this.onHeaderClick(header, position);
         }
     };
 
@@ -954,7 +982,7 @@ public abstract class PreferenceActivity extends RecyclerActivity implements
      * @param header The header that was selected.
      * @param position The header's position in the list.
      */
-    public void onHeaderClick(Header header, int position) {
+    public boolean onHeaderClick(Header header, int position) {
         if (header.fragment != null) {
             if (mSinglePane) {
                 int titleRes = header.breadCrumbTitleRes;
@@ -965,12 +993,15 @@ public abstract class PreferenceActivity extends RecyclerActivity implements
                 }
                 startWithFragment(header.fragment, header.fragmentArguments, null, 0,
                         titleRes, shortTitleRes);
+                return true;
             } else {
                 switchToHeader(header);
             }
         } else if (header.intent != null) {
             startActivity(header.intent);
+            return true;
         }
+        return false;
     }
 
     /**

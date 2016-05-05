@@ -46,7 +46,9 @@
         <item name="android:switchTextOff">@string/capital_off</item>
     </style>
 
-    <style name="Preference.Ticwear.PreferenceScreen"/>
+    <style name="Preference.Ticwear.PreferenceScreen">
+        <item name="android:widgetLayout">@layout/preference_widget_enter</item>
+    </style>
 
     <!--<style name="Preference.Ticwear.DialogPreference">-->
     <!--<item name="tic_positiveButtonText">@string/ok</item>-->

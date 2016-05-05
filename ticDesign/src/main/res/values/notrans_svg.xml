@@ -11,4 +11,6 @@
     <string name="tic.svg.btn.check.on" translatable="false">M36.23,49.27L50,63L71.98,41.02</string>
 
     <string name="tic.svg.btn.radio.on" translatable="false">M52,52m-19,0a19,19 0,1 1,38 0a19,19 0,1 1,-38 0</string>
+
+    <string name="tic.svg.btn.enter" translatable="false">M46.73,66.95l14.01,-14.35l-14.01,-14.71</string>
 </resources>

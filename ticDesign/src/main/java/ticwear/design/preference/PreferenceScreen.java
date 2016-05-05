@@ -169,7 +169,9 @@ public final class PreferenceScreen extends PreferenceGroup implements
             return;
         }
 
-        showDialog(null);
+        if (mDialog == null) {
+            showDialog(null);
+        }
     }
 
     private void showDialog(Bundle state) {

@@ -52,7 +52,7 @@ public class WidgetsFragment extends ListFragment {
                 dialog = createFABDialog(context, inflater);
                 break;
             case R.string.category_widgets_button: {
-                dialog = new AlertDialog.Builder(context)
+                dialog = new AlertDialog.Builder(context, ticwear.design.R.style.Theme_Ticwear_Dialog_Datetime)
                         .setTitle(R.string.category_widgets_button)
                         .setView(R.layout.dialog_widgets_btn_list)
                         .create();

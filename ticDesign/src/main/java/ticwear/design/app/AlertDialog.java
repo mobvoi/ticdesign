@@ -149,11 +149,7 @@ public class AlertDialog extends Dialog implements DialogInterface {
      *                   {@code context}'s default alert dialog theme
      */
     protected AlertDialog(Context context, @StyleRes int themeResId) {
-        this(context, themeResId, true);
-    }
-
-    AlertDialog(Context context, @StyleRes int themeResId, boolean createContextThemeWrapper) {
-        super(context, createContextThemeWrapper ? resolveDialogTheme(context, themeResId) : 0);
+        super(context, resolveDialogTheme(context, themeResId));
 
         mAlert = new AlertController(getContext(), this, getWindow());
     }
@@ -385,6 +381,7 @@ public class AlertDialog extends Dialog implements DialogInterface {
 
     public static class Builder {
         private final AlertController.AlertParams P;
+        private int mTheme;
 
         /**
          * Creates a builder for an alert dialog that uses the default alert
@@ -426,9 +423,10 @@ public class AlertDialog extends Dialog implements DialogInterface {
          *                   this dialog, or {@code 0} to use the parent
          *                   {@code context}'s default alert dialog theme
          */
-        public Builder(Context context, int themeResId) {
+        public Builder(Context context, @StyleRes int themeResId) {
             P = new AlertController.AlertParams(new ContextThemeWrapper(
                     context, resolveDialogTheme(context, themeResId)));
+            mTheme = themeResId;
         }
 
         /**
@@ -1101,7 +1099,7 @@ public class AlertDialog extends Dialog implements DialogInterface {
          */
         public AlertDialog create() {
             // Context has already been wrapped with the appropriate theme.
-            final AlertDialog dialog = new AlertDialog(P.mContext, 0, false);
+            final AlertDialog dialog = new AlertDialog(P.mContext, mTheme);
             P.apply(dialog.mAlert);
             dialog.setCancelable(P.mCancelable);
             if (P.mCancelable) {

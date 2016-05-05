@@ -117,6 +117,7 @@
         <item name="android:colorControlNormal">@color/tic_widget_background_dark</item>
         <item name="android:colorControlActivated">?android:colorAccent</item>
         <item name="android:colorEdgeEffect">@color/tic_basic_indigo_lighten</item>
+        <item name="android:disabledAlpha">@dimen/disabled_alpha_ticwear_dark</item>
     </style>
 
     <style name="Theme.Ticwear.Fullscreen">
@@ -159,8 +160,12 @@
          AlertDialog theme. -->
     <style name="Theme.Ticwear.Dialog.Alert" parent="Theme.Ticwear.Dialog.BaseAlert"/>
 
+    <style name="Theme.Ticwear.Dialog.Alert.SameButtonStyle">
+        <item name="tic_iconButtonBarNegativeButtonStyle">?attr/tic_iconButtonBarButtonStyle</item>
+    </style>
+
     <style name="Theme.Ticwear.Dialog.Datetime">
-        <item name="tic_windowAppBarStyle">@style/WindowAppBar.Ticwear.Datetime</item>
+        <item name="tic_windowAppBarStyle">@style/WindowAppBar.Ticwear.Minimize</item>
     </style>
 
 </resources>

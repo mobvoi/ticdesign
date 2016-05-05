@@ -3,11 +3,9 @@
     <item
         android:state_checked="true"
         android:state_enabled="false"
-        android:alpha="?android:disabledAlpha"
-        android:drawable="@drawable/tic_ic_radio_on"/>
+        android:drawable="@drawable/tic_ic_radio_on_disabled"/>
     <item android:state_enabled="false"
-        android:alpha="?android:disabledAlpha"
-        android:drawable="@drawable/tic_ic_radio_off"/>
+        android:drawable="@drawable/tic_ic_radio_off_disabled"/>
     <item
         android:id="@+id/on"
         android:state_checked="true"
