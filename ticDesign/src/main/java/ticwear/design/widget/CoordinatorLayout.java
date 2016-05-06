@@ -1544,12 +1544,13 @@ public class CoordinatorLayout extends ViewGroup implements NestedScrollingParen
         if (handled && mAnimator != null) {
             // Cancel any offset animation
             mAnimator.cancel();
-
-            // Reset over-scroll distance
-            mUnconsumedOverScrollOffset = 0;
         }
 
-        return handled;
+        // Reset over-scroll distance
+        mUnconsumedOverScrollOffset = 0;
+
+        // Always accept the nested scroll to enable over scroll effects.
+        return true;
     }
 
     public void onNestedScrollAccepted(View child, View target, int nestedScrollAxes) {

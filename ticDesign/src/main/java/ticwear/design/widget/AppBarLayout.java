@@ -1507,11 +1507,16 @@ public class AppBarLayout extends LinearLayout {
             // Now offset us correctly to be in the correct position. This is important for things
             // like activity transitions which rely on accurate positioning after the first layout.
             final List<View> dependencies = parent.getDependencies(child);
+            boolean updated = false;
             for (int i = 0, z = dependencies.size(); i < z; i++) {
                 if (updateOffset(parent, child, dependencies.get(i))) {
                     // If we updated the offset, break out of the loop now
+                    updated = true;
                     break;
                 }
+            }
+            if (!updated) {
+                updateChildOffset(child, mAdditionalOffset);
             }
         }
 
@@ -1529,33 +1534,37 @@ public class AppBarLayout extends LinearLayout {
                 } else {
                     totalOffset = dependencyHeight + mAdditionalOffset;
                 }
-                setTopAndBottomOffset(totalOffset);
-
-                if (totalOffset != 0) {
-                    int left = child.getPaddingLeft();
-                    int top = child.getPaddingTop();
-                    int right = child.getPaddingRight();
-                    int bottom = child.getPaddingBottom();
-
-                    // Set a additional padding for the content at top/bottom that can't scroll, so
-                    // they won't be pushed out of the screen.
-                    boolean canScroll = mScrollingView != null &&
-                            mScrollingView.canScrollVertically(totalOffset);
-                    if (!canScroll && totalOffset < 0) {
-                        top = mOriginalPaddingTop == INVALID_PADDING ?
-                                -totalOffset : mOriginalPaddingTop - totalOffset;
-                    } else if (!canScroll && totalOffset > 0) {
-                        bottom = mOriginalPaddingBottom == INVALID_PADDING ?
-                                totalOffset : mOriginalPaddingBottom + totalOffset;
-                    }
-
-                    if (!canScroll) {
-                        child.setPadding(left, top, right, bottom);
-                    }
-                }
+                updateChildOffset(child, totalOffset);
                 return true;
             }
             return false;
+        }
+
+        private void updateChildOffset(View child, int totalOffset) {
+            setTopAndBottomOffset(totalOffset);
+
+            if (totalOffset != 0) {
+                int left = child.getPaddingLeft();
+                int top = child.getPaddingTop();
+                int right = child.getPaddingRight();
+                int bottom = child.getPaddingBottom();
+
+                // Set a additional padding for the content at top/bottom that can't scroll, so
+                // they won't be pushed out of the screen.
+                boolean canScroll = mScrollingView != null &&
+                        mScrollingView.canScrollVertically(totalOffset);
+                if (!canScroll && totalOffset < 0) {
+                    top = mOriginalPaddingTop == INVALID_PADDING ?
+                            -totalOffset : mOriginalPaddingTop - totalOffset;
+                } else if (!canScroll && totalOffset > 0) {
+                    bottom = mOriginalPaddingBottom == INVALID_PADDING ?
+                            totalOffset : mOriginalPaddingBottom + totalOffset;
+                }
+
+                if (!canScroll) {
+                    child.setPadding(left, top, right, bottom);
+                }
+            }
         }
 
         private int getOverlapForOffset(final View dependency, final int offset) {
