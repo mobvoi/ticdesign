@@ -18,6 +18,7 @@ package ticwear.design.preference;
 
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.graphics.drawable.Drawable;
 import android.support.annotation.CallSuper;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
@@ -39,6 +40,7 @@ public class VolumePreference extends Preference {
     private int step;
     private int min;
     private int max;
+    private Drawable drawable;
 
     private OnVolumeChangedListener mVolumeChangedListener;
 
@@ -54,6 +56,11 @@ public class VolumePreference extends Preference {
         this.max = max;
         this.max = min;
         this.step = step;
+        notifyChanged();
+    }
+
+    public void setDrawable(Drawable drawable) {
+        this.drawable = drawable;
         notifyChanged();
     }
 
@@ -116,6 +123,7 @@ public class VolumePreference extends Preference {
             myData.min = volumePreference.min;
             myData.step = volumePreference.step;
             myData.volumeChangedListener = volumePreference.mVolumeChangedListener;
+            myData.drawable = volumePreference.drawable;
         }
 
         @Override
@@ -136,6 +144,10 @@ public class VolumePreference extends Preference {
                 if (myData.step != 0) {
                     volumeBar.setStep(myData.step);
                 }
+
+                if(preferenceData.icon != null) {
+                    volumeBar.setDrawable(myData.drawable);
+                }
             }
         }
 
@@ -144,6 +156,7 @@ public class VolumePreference extends Preference {
             int max;
             int min;
             int step;
+            Drawable drawable;
             OnVolumeChangedListener volumeChangedListener;
         }
 

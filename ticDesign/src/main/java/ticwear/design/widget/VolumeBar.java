@@ -148,6 +148,10 @@ public class VolumeBar extends FrameLayout {
         mListener = listener;
     }
 
+    public void setDrawable(Drawable drawable) {
+        mVolumeDrawable = drawable;
+    }
+
     /**
      * 设定当前值
      *
