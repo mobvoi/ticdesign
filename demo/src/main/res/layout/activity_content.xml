@@ -47,7 +47,7 @@
             android:layout_weight="1"
             android:layout_marginTop="16dp"
             android:textAppearance="?android:textAppearanceSmall"
-            android:text="@string/cheese_content"
+            android:text="@string/text.long_content"
             />
 
     </LinearLayout>

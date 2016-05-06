@@ -42,6 +42,7 @@ public class DialogsFragment extends ListFragment {
                 R.string.category_dialog_standard,
                 R.string.category_dialog_value_picker,
                 R.string.category_dialog_choice,
+                R.string.category_dialog_text_only,
         };
     }
 
@@ -52,6 +53,7 @@ public class DialogsFragment extends ListFragment {
                 R.string.category_dialog_no_title,
                 R.string.category_dialog_confirm,
                 R.string.category_dialog_choose,
+                R.string.category_dialog_delay_confirm,
                 R.string.category_dialog_long,
         };
         valuePickerIds = new int[] {
@@ -88,12 +90,12 @@ public class DialogsFragment extends ListFragment {
         }
     }
 
-    private Dialog createStandardDialog(Context context, @StringRes int resId) {
+    private Dialog createStandardDialog(final Context context, @StringRes int resId) {
         Dialog dialog = null;
         switch (resId) {
             case R.string.category_dialog_no_title:
                 dialog = new AlertDialog.Builder(context, R.style.Theme_Ticwear_Dialog_Alert_SameButtonStyle)
-                        .setMessage(R.string.dialog_content)
+                        .setMessage(R.string.text_short_content)
                         .setPositiveButtonIcon(ticwear.design.R.drawable.tic_ic_btn_ok, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
@@ -111,7 +113,7 @@ public class DialogsFragment extends ListFragment {
             case R.string.category_dialog_confirm:
                 dialog = new AlertDialog.Builder(context)
                         .setTitle(R.string.category_dialog_confirm)
-                        .setMessage(R.string.dialog_content)
+                        .setMessage(R.string.text_short_content)
                         .setPositiveButtonIcon(ticwear.design.R.drawable.tic_ic_btn_ok, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
@@ -123,7 +125,7 @@ public class DialogsFragment extends ListFragment {
             case R.string.category_dialog_choose:
                 dialog = new AlertDialog.Builder(context)
                         .setIcon(R.drawable.ic_reset)
-                        .setMessage(R.string.dialog_content)
+                        .setMessage(R.string.text_short_content)
                         .setPositiveButtonIcon(ticwear.design.R.drawable.tic_ic_btn_ok, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
@@ -138,10 +140,31 @@ public class DialogsFragment extends ListFragment {
                         })
                         .create();
                 break;
+            case R.string.category_dialog_delay_confirm:
+                dialog = new AlertDialog.Builder(context)
+                        .setTitle(R.string.category_dialog_delay_confirm)
+                        .setMessage(R.string.text_dialog_delay_confirm)
+                        .setPositiveButtonIcon(ticwear.design.R.drawable.tic_ic_btn_ok, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                                Toast.makeText(context, "Positive clicked", Toast.LENGTH_SHORT).show();
+                            }
+                        })
+                        .setNegativeButtonIcon(ticwear.design.R.drawable.tic_ic_btn_cancel, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                                Toast.makeText(context, "Negative clicked", Toast.LENGTH_SHORT).show();
+                            }
+                        })
+                        .setDelayConfirmAction(DialogInterface.BUTTON_POSITIVE, 5000)
+                        .create();
+                break;
             case R.string.category_dialog_long:
                 dialog = new AlertDialog.Builder(context)
                         .setTitle(R.string.category_dialog_choose)
-                        .setMessage(R.string.cheese_content)
+                        .setMessage(R.string.text_long_content)
                         .setPositiveButtonIcon(ticwear.design.R.drawable.tic_ic_btn_ok, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
@@ -351,6 +374,10 @@ public class DialogsFragment extends ListFragment {
                         })
                         .create();
                 break;
+            }
+            case R.string.category_dialog_text_only: {
+                dialog = new Dialog(getActivity());
+                dialog.setContentView(R.layout.dialog_simple_scroll_view);
             }
         }
 

@@ -45,7 +45,6 @@ import android.widget.AbsListView;
 import android.widget.Button;
 import android.widget.CheckedTextView;
 import android.widget.FrameLayout;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -59,6 +58,7 @@ import ticwear.design.app.AlertDialog;
 import ticwear.design.widget.CoordinatorLayout;
 import ticwear.design.widget.CursorRecyclerViewAdapter;
 import ticwear.design.widget.FloatingActionButton;
+import ticwear.design.widget.FloatingActionButton.DelayedConfirmationListener;
 import ticwear.design.widget.FocusableLinearLayoutManager;
 import ticwear.design.widget.FocusableLinearLayoutManager.ViewHolder;
 import ticwear.design.widget.SubscribedScrollView;
@@ -106,6 +106,8 @@ public class AlertController {
     private View mCustomTitleView;
 
     private boolean mForceInverseBackground;
+
+    private DelayConfirmRequest mDelayConfirmRequest;
 
     private TrackSelectionAdapterWrapper mAdapter;
 
@@ -404,6 +406,11 @@ public class AlertController {
         mForceInverseBackground = forceInverseBackground;
     }
 
+
+    public void setDelayConfirmAction(DelayConfirmRequest request) {
+        mDelayConfirmRequest = request;
+    }
+
     public TicklableListView getListView() {
         return mListView;
     }
@@ -421,7 +428,7 @@ public class AlertController {
         }
     }
 
-    public ImageButton getIconButton(int whichButton) {
+    public FloatingActionButton getIconButton(int whichButton) {
         switch (whichButton) {
             case DialogInterface.BUTTON_POSITIVE:
                 return mButtonBundlePositive.iconButton;
@@ -747,6 +754,22 @@ public class AlertController {
 
         offsetIconButtons(iconButtonCount);
 
+        if (hasButtons && !useTextButtons && mDelayConfirmRequest != null) {
+            FloatingActionButton fab = getIconButton(mDelayConfirmRequest.witchButton);
+            if (fab != null) {
+                fab.startDelayConfirmation(mDelayConfirmRequest.delayDuration, new DelayedConfirmationListener() {
+                    @Override
+                    public void onButtonClicked(FloatingActionButton fab) {
+                    }
+
+                    @Override
+                    public void onTimerFinished(FloatingActionButton fab) {
+                        fab.performClick();
+                    }
+                });
+            }
+        }
+
         return hasButtons;
     }
 
@@ -866,6 +889,7 @@ public class AlertController {
         public DialogInterface.OnCancelListener mOnCancelListener;
         public DialogInterface.OnDismissListener mOnDismissListener;
         public DialogInterface.OnKeyListener mOnKeyListener;
+        public DelayConfirmRequest mDelayConfirmRequest;
         public CharSequence[] mItems;
         public RecyclerView.Adapter mAdapter;
         public DialogInterface.OnClickListener mOnClickListener;
@@ -941,6 +965,9 @@ public class AlertController {
             }
             if (mForceInverseBackground) {
                 dialog.setInverseBackgroundForced(true);
+            }
+            if (mDelayConfirmRequest != null) {
+                dialog.setDelayConfirmAction(mDelayConfirmRequest);
             }
             // For a list, the client can either supply an array of items or an
             // adapter or a cursor
@@ -1074,6 +1101,16 @@ public class AlertController {
                 dialog.mAdapter.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
             }
             dialog.mListView = listView;
+        }
+    }
+
+    public static class DelayConfirmRequest {
+        public final int witchButton;
+        public final long delayDuration;
+
+        public DelayConfirmRequest(int witchButton, long delayDuration) {
+            this.witchButton = witchButton;
+            this.delayDuration = delayDuration;
         }
     }
 
@@ -1243,7 +1280,7 @@ public class AlertController {
 
         private static int getAlphaValue(@NonNull  Context context) {
             TypedValue typedValue = new TypedValue();
-            context.getResources().getValue(R.dimen.tic_disabled_alpha, typedValue, true);
+            context.getTheme().resolveAttribute(android.R.attr.disabledAlpha, typedValue, true);
             float disabledAlpha = typedValue.getFloat();
 
             return (int) (0xff * disabledAlpha);

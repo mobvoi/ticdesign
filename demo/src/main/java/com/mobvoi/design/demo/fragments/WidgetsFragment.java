@@ -4,17 +4,21 @@ import android.animation.ValueAnimator;
 import android.animation.ValueAnimator.AnimatorUpdateListener;
 import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.DialogInterface.OnShowListener;
 import android.support.annotation.NonNull;
 import android.support.annotation.StringRes;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.ticwear.design.demo.R;
 
 import ticwear.design.app.AlertDialog;
 import ticwear.design.drawable.CircularProgressDrawable;
 import ticwear.design.widget.FloatingActionButton;
+import ticwear.design.widget.FloatingActionButton.DelayedConfirmationListener;
 import ticwear.design.widget.VolumeBar;
 
 /**
@@ -28,6 +32,7 @@ public class WidgetsFragment extends ListFragment {
     protected int[] getItemTitles() {
         return new int[]{
                 R.string.category_widgets_fab,
+                R.string.category_widgets_fab_delay,
                 R.string.category_widgets_button,
                 R.string.category_volume_bar,
                 R.string.category_widgets_picker,
@@ -51,6 +56,10 @@ public class WidgetsFragment extends ListFragment {
             case R.string.category_widgets_fab:
                 dialog = createFABDialog(context, inflater);
                 break;
+            case R.string.category_widgets_fab_delay: {
+                dialog = createFABDelayConfirmDialog(context, inflater);
+                break;
+            }
             case R.string.category_widgets_button: {
                 dialog = new AlertDialog.Builder(context, ticwear.design.R.style.Theme_Ticwear_Dialog_Datetime)
                         .setTitle(R.string.category_widgets_button)
@@ -84,7 +93,7 @@ public class WidgetsFragment extends ListFragment {
 
     @NonNull
     private Dialog createFABDialog(Context context, LayoutInflater inflater) {
-        Dialog dialog;View layout = inflater.inflate(
+        View layout = inflater.inflate(
                 R.layout.widgets_fab_scroll, null);
         final FloatingActionButton fab = (FloatingActionButton) layout.findViewById(R.id.fab);
 
@@ -147,8 +156,38 @@ public class WidgetsFragment extends ListFragment {
         });
 
 
-        dialog = new Dialog(context);
+        Dialog dialog = new Dialog(context);
         dialog.setContentView(layout);
+        return dialog;
+    }
+
+    private Dialog createFABDelayConfirmDialog(Context context, LayoutInflater inflater) {
+        View layout = inflater.inflate(
+                R.layout.widgets_fab_scroll, null);
+        final FloatingActionButton fab = (FloatingActionButton) layout.findViewById(R.id.fab);
+        fab.setImageResource(ticwear.design.R.drawable.tic_ic_btn_ok);
+
+        final TextView content = (TextView) layout.findViewById(R.id.text_content);
+        content.setText(R.string.text_dialog_delay_confirm);
+
+        Dialog dialog = new Dialog(context);
+        dialog.setContentView(layout);
+        dialog.setOnShowListener(new OnShowListener() {
+            @Override
+            public void onShow(DialogInterface dialog) {
+                fab.startDelayConfirmation(5000, new DelayedConfirmationListener() {
+                    @Override
+                    public void onButtonClicked(FloatingActionButton fab) {
+                        Toast.makeText(fab.getContext(), "Button clicked", Toast.LENGTH_SHORT).show();
+                    }
+
+                    @Override
+                    public void onTimerFinished(FloatingActionButton fab) {
+                        Toast.makeText(fab.getContext(), "Timer finished", Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
+        });
         return dialog;
     }
 }

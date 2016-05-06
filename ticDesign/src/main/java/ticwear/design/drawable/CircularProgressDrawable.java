@@ -130,7 +130,7 @@ public class CircularProgressDrawable extends Drawable implements Animatable {
 
         mPaint = new Paint();
         mPaint.setAntiAlias(true);
-        mPaint.setStrokeCap(Paint.Cap.ROUND);
+        mPaint.setStrokeCap(Paint.Cap.BUTT);
         mPaint.setStrokeJoin(Paint.Join.ROUND);
 
         mRect = new RectF();
@@ -299,6 +299,7 @@ public class CircularProgressDrawable extends Drawable implements Animatable {
 
             if (mProgressPercent == 1f) {
                 mPaint.setColor(mStrokeColors[0]);
+                mPaint.setAlpha(mAlpha);
                 canvas.drawCircle(x, y, radius, mPaint);
             } else if (mProgressPercent == 0f) {
                 mPaint.setColor(mStrokeSecondaryColor);

@@ -41,6 +41,7 @@ import android.widget.ListAdapter;
 import android.widget.ListView;
 
 import ticwear.design.internal.app.AlertController;
+import ticwear.design.internal.app.AlertController.DelayConfirmRequest;
 import ticwear.design.utils.ThemeUtils;
 import ticwear.design.widget.TicklableListView;
 import ticwear.design.widget.TrackSelectionAdapterWrapper;
@@ -749,6 +750,11 @@ public class AlertDialog extends Dialog implements DialogInterface {
             return this;
         }
 
+        public Builder setDelayConfirmAction(int whichButton, long delay) {
+            P.mDelayConfirmRequest = new DelayConfirmRequest(whichButton, delay);
+            return this;
+        }
+
         /**
          * Set a list of items to be displayed in the dialog as the content, you will be notified of the
          * selected item via the supplied listener. This should be an array type i.e. R.array.foo
@@ -1127,17 +1133,6 @@ public class AlertDialog extends Dialog implements DialogInterface {
             final AlertDialog dialog = create();
             dialog.show();
             return dialog;
-        }
-    }
-
-    public static class IconButtonDialogBuilder extends Builder {
-
-        public IconButtonDialogBuilder(Context context) {
-            super(context);
-        }
-
-        public IconButtonDialogBuilder(Context context, int themeResId) {
-            super(context, themeResId);
         }
     }
 

@@ -16,6 +16,8 @@
 
 package ticwear.design.widget;
 
+import android.animation.ValueAnimator;
+import android.animation.ValueAnimator.AnimatorUpdateListener;
 import android.content.Context;
 import android.content.res.ColorStateList;
 import android.content.res.TypedArray;
@@ -31,6 +33,8 @@ import android.support.annotation.Nullable;
 import android.support.v4.view.ViewCompat;
 import android.util.AttributeSet;
 import android.util.Log;
+import android.view.GestureDetector;
+import android.view.GestureDetector.SimpleOnGestureListener;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageView;
@@ -107,6 +111,10 @@ public class FloatingActionButton extends VisibilityAwareImageButton {
     private final FloatingActionButtonAnimator mAnimator;
 
     private boolean mShowProgress;
+
+    private GestureDetector mGestureDetector;
+    private ValueAnimator mDelayedConfirmationAnimator;
+    private DelayedConfirmationListener mDelayedConfirmationListener;
 
     public FloatingActionButton(Context context) {
         this(context, null);
@@ -199,6 +207,12 @@ public class FloatingActionButton extends VisibilityAwareImageButton {
     }
 
     @Override
+    protected void onDetachedFromWindow() {
+        stopDelayConfirmation();
+        super.onDetachedFromWindow();
+    }
+
+    @Override
     protected void onVisibilityChanged(@NonNull View changedView, int visibility) {
         super.onVisibilityChanged(changedView, visibility);
 
@@ -234,6 +248,10 @@ public class FloatingActionButton extends VisibilityAwareImageButton {
      */
     public void setProgressPercent(float percent) {
         if (getProgressDrawable() != null) {
+            if (getProgressDrawable().getProgress() == percent) {
+                return;
+            }
+            stopDelayConfirmation();
             getProgressDrawable().setProgress(percent);
         }
     }
@@ -244,6 +262,10 @@ public class FloatingActionButton extends VisibilityAwareImageButton {
      */
     public void setProgressMode(int mode) {
         if (getProgressDrawable() != null) {
+            if (getProgressDrawable().getProgressMode() == mode) {
+                return;
+            }
+            stopDelayConfirmation();
             getProgressDrawable().setProgressMode(mode);
         }
     }
@@ -267,6 +289,8 @@ public class FloatingActionButton extends VisibilityAwareImageButton {
 
         mShowProgress = show;
 
+        stopDelayConfirmation();
+
         if (getProgressDrawable() == null)
             return;
 
@@ -275,6 +299,65 @@ public class FloatingActionButton extends VisibilityAwareImageButton {
         } else {
             getProgressDrawable().stop();
         }
+    }
+
+    public void startDelayConfirmation(long delay, DelayedConfirmationListener listener) {
+        stopDelayConfirmation();
+
+        setProgressMode(CircularProgressDrawable.MODE_DETERMINATE);
+        setProgressPercent(0);
+        setShowProgress(true);
+
+        setClickable(true);
+
+        mDelayedConfirmationListener = listener;
+        mDelayedConfirmationAnimator = ValueAnimator.ofFloat(0, 1).setDuration(delay);
+        mDelayedConfirmationAnimator.addUpdateListener(new AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator animation) {
+                float progress = (float) animation.getAnimatedValue();
+                if (getProgressDrawable() != null) {
+                    getProgressDrawable().setProgress(progress);
+                } else {
+                    stopDelayConfirmation();
+                }
+                if (progress >= 1) {
+                    finishDelayConfirmation(false);
+                }
+            }
+        });
+        mDelayedConfirmationAnimator.start();
+
+        if (mGestureDetector == null) {
+            mGestureDetector = new GestureDetector(getContext(), new SimpleOnGestureListener() {
+                @Override
+                public boolean onSingleTapConfirmed(MotionEvent e) {
+                    finishDelayConfirmation(true);
+                    return super.onSingleTapConfirmed(e);
+                }
+            });
+        }
+    }
+
+    private void finishDelayConfirmation(boolean fromUser) {
+        if (mDelayedConfirmationListener != null) {
+            if (fromUser) {
+                mDelayedConfirmationListener.onButtonClicked(this);
+            } else {
+                mDelayedConfirmationListener.onTimerFinished(this);
+            }
+        }
+        stopDelayConfirmation();
+        if (getProgressDrawable() != null) {
+            getProgressDrawable().stop();
+        }
+    }
+
+    public void stopDelayConfirmation() {
+        if (mDelayedConfirmationAnimator != null) {
+            mDelayedConfirmationAnimator.cancel();
+        }
+        mDelayedConfirmationListener = null;
     }
 
     /**
@@ -288,6 +371,16 @@ public class FloatingActionButton extends VisibilityAwareImageButton {
         if (getRippleDrawable() != null) {
             getRippleDrawable().setColor(ColorStateList.valueOf(color));
         }
+    }
+
+    @Override
+    public void setBackgroundTintList(ColorStateList tint) {
+        super.setBackgroundTintList(tint);
+    }
+
+    @Override
+    public void setImageDrawable(Drawable drawable) {
+        super.setImageDrawable(drawable);
     }
 
     @Override
@@ -475,7 +568,17 @@ public class FloatingActionButton extends VisibilityAwareImageButton {
             return false;
         }
 
+        if (mGestureDetector != null) {
+            mGestureDetector.onTouchEvent(ev);
+        }
         return super.onTouchEvent(ev);
+    }
+
+    public interface DelayedConfirmationListener {
+        // Called when the timer is finished.
+        void onButtonClicked(FloatingActionButton fab);
+        // Called when the user selects the timer.
+        void onTimerFinished(FloatingActionButton fab);
     }
 
     /**
