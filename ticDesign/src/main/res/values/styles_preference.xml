@@ -40,6 +40,10 @@
         <item name="android:widgetLayout">@layout/preference_widget_checkbox</item>
     </style>
 
+    <style name="Preference.Ticwear.VolumePreference">
+        <item name="android:layout">@layout/preference_volume</item>
+    </style>
+
     <style name="Preference.Ticwear.SwitchPreference">
         <item name="android:widgetLayout">@layout/preference_widget_switch</item>
         <item name="android:switchTextOn">@string/capital_on</item>

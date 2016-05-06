@@ -79,7 +79,7 @@ public class VolumeBar extends FrameLayout {
 
         TypedArray a = context.obtainStyledAttributes(attrs,
                 R.styleable.VolumeBar, defStyleAttr, defStyleRes);
-        mDrawableRadius = (a.getDimensionPixelSize(R.styleable.VolumeBar_tic_vb_btnImageSize, 32))/2;
+        mDrawableRadius = (a.getDimensionPixelSize(R.styleable.VolumeBar_tic_vb_btnImageSize, 32)) / 2;
         mBgColor = a.getColor(R.styleable.VolumeBar_tic_vb_bgColor, Color.RED);
         mValueColor = a.getColor(R.styleable.VolumeBar_tic_vb_valueColor, Color.GREEN);
 
@@ -105,7 +105,7 @@ public class VolumeBar extends FrameLayout {
 
         // 设定各按钮监听器
         mMinButton = (ProgressBarButton) findViewById(R.id.min);
-        mMinButton.setDefaultImageSize(mDrawableRadius*2);
+        mMinButton.setDefaultImageSize(mDrawableRadius * 2);
         mMinButton.setTouchListener(mMinButtonListener);
 
         mMaxButton = (ProgressBarButton) findViewById(R.id.max);
@@ -144,18 +144,21 @@ public class VolumeBar extends FrameLayout {
         void onVolumeChanged(VolumeBar volumeBar, int progress, boolean fromUser);
     }
 
-    public void setOnVolumeChangedListetener (OnVolumeChangedListener listener) {
+    public void setOnVolumeChangedListetener(OnVolumeChangedListener listener) {
         mListener = listener;
     }
 
     /**
      * 设定当前值
+     *
      * @param progress 当前值
      */
     public void setProgress(int progress) {
         mProgress = validateProgress(progress);
         mSeekbar.setProgress(mProgress);
-        mListener.onVolumeChanged(this, mProgress, false);
+        if (mListener != null) {
+            mListener.onVolumeChanged(this, mProgress, false);
+        }
         invalidate();
     }
 
@@ -163,6 +166,7 @@ public class VolumeBar extends FrameLayout {
      * 设置progress的增加值
      * 若设置后的progress超出最大（最小限度）
      * 则progress为最大（最小）限度
+     *
      * @param dif 增加值（可为负）
      */
     public void setProgressDif(int dif) {
@@ -177,6 +181,7 @@ public class VolumeBar extends FrameLayout {
 
     /**
      * 得到但前值
+     *
      * @return 当前值
      */
     public int getProgress() {
@@ -185,14 +190,16 @@ public class VolumeBar extends FrameLayout {
 
     /**
      * 设定按下按钮时改变的大小
+     *
      * @param step 改变的大小
      */
-    public void setStep (int step) {
+    public void setStep(int step) {
         mProgressStep = step;
     }
 
     /**
      * 设定可以选取的最小值
+     *
      * @param minLimit 最小值
      */
     public void setMinLimit(int minLimit) {
@@ -204,13 +211,16 @@ public class VolumeBar extends FrameLayout {
         if (mProgress < mMinLimit) {
             mProgress = mMinLimit;
             mSeekbar.setProgress(mProgress);
-            mListener.onVolumeChanged(this, mProgress, false);
+            if (mListener != null) {
+                mListener.onVolumeChanged(this, mProgress, false);
+            }
             invalidate();
         }
     }
 
     /**
      * 设定可以选取的最大值
+     *
      * @param maxLimit 最大值
      */
     public void setMaxLimit(int maxLimit) {
@@ -222,7 +232,9 @@ public class VolumeBar extends FrameLayout {
         if (mProgress > mMaxLimit) {
             mProgress = mMaxLimit;
             mSeekbar.setProgress(mProgress);
-            mListener.onVolumeChanged(this, mProgress, false);
+            if (mListener != null) {
+                mListener.onVolumeChanged(this, mProgress, false);
+            }
             invalidate();
         }
     }
@@ -268,12 +280,11 @@ public class VolumeBar extends FrameLayout {
     };
 
     @Override
-    protected void onVisibilityChanged (@NonNull View changedView, int visibility) {
+    protected void onVisibilityChanged(@NonNull View changedView, int visibility) {
         if (visibility == View.VISIBLE) {
             mMinButton.setTouchListener(mMinButtonListener);
             mMaxButton.setTouchListener(mMaxButtonListener);
-        }
-        else {
+        } else {
             mMinButton.removeTouchListener();
             mMaxButton.removeTouchListener();
         }
@@ -281,38 +292,36 @@ public class VolumeBar extends FrameLayout {
 
     @Override
     public void onDraw(Canvas canvas) {
-        int radius = getHeight()/2-mTouchPadding;
+        int radius = getHeight() / 2 - mTouchPadding;
         int radiusWithPadding = radius + mTouchPadding;
 
-        mPaint.setStrokeWidth(2*radius);
+        mPaint.setStrokeWidth(2 * radius);
 //        mPaint.setPathEffect(new CornerPathEffect(radius));
         mPaint.setColor(mBgColor);
 
         // 背景线
-        canvas.drawLine(radiusWithPadding, radiusWithPadding, getWidth()-radiusWithPadding, radiusWithPadding, mPaint);
+        canvas.drawLine(radiusWithPadding, radiusWithPadding, getWidth() - radiusWithPadding, radiusWithPadding, mPaint);
 
         mPaint.setColor(mValueColor);
 
         // 取值线
-        canvas.drawLine(radiusWithPadding, radiusWithPadding, radiusWithPadding+mProgress/100.0f*(getWidth()-2*radiusWithPadding), radiusWithPadding, mPaint);
+        canvas.drawLine(radiusWithPadding, radiusWithPadding, radiusWithPadding + mProgress / 100.0f * (getWidth() - 2 * radiusWithPadding), radiusWithPadding, mPaint);
 
         // 判断是否隐藏减号
-        float thumbleft = mTouchPadding+mProgress/100.0f*(getWidth()-2*radiusWithPadding);
+        float thumbleft = mTouchPadding + mProgress / 100.0f * (getWidth() - 2 * radiusWithPadding);
         if (thumbleft < radiusWithPadding) {
             mMinButton.setImageDrawable(null);
-        }
-        else {
+        } else {
             mMinButton.setImageDrawable(mMinButtonDrawable);
         }
 
         // 判断是否隐藏加号
-        float thumbRight = mTouchPadding+2*radius+mProgress/100.0f*(getWidth()-2*radiusWithPadding);
-        float buttonLeft = getWidth()-radiusWithPadding;
+        float thumbRight = mTouchPadding + 2 * radius + mProgress / 100.0f * (getWidth() - 2 * radiusWithPadding);
+        float buttonLeft = getWidth() - radiusWithPadding;
 
         if (thumbRight > buttonLeft) {
             mMaxButton.setImageDrawable(null);
-        }
-        else {
+        } else {
             mMaxButton.setImageDrawable(mMaxButtonDrawable);
         }
 
@@ -320,15 +329,14 @@ public class VolumeBar extends FrameLayout {
         Drawable thumbBg;
         if (mProgress == 0) {
             thumbBg = mNoVolumeDrawable;
-        }
-        else {
+        } else {
             thumbBg = mVolumeDrawable;
         }
         if (thumbBg != null) {
-            thumbBg.setBounds((int)(radiusWithPadding+mProgress/100.0f*(getWidth()-2*radiusWithPadding)-mDrawableRadius),
-                    radiusWithPadding-mDrawableRadius,
-                    (int)(radiusWithPadding+mProgress/100.0f*(getWidth()-2*radiusWithPadding)+mDrawableRadius),
-                    radiusWithPadding+mDrawableRadius);
+            thumbBg.setBounds((int) (radiusWithPadding + mProgress / 100.0f * (getWidth() - 2 * radiusWithPadding) - mDrawableRadius),
+                    radiusWithPadding - mDrawableRadius,
+                    (int) (radiusWithPadding + mProgress / 100.0f * (getWidth() - 2 * radiusWithPadding) + mDrawableRadius),
+                    radiusWithPadding + mDrawableRadius);
             thumbBg.draw(canvas);
         }
         super.onDraw(canvas);
@@ -349,8 +357,7 @@ public class VolumeBar extends FrameLayout {
     private int validateProgress(int progress) {
         if (progress > mMaxLimit) {
             progress = mMaxLimit;
-        }
-        else if (progress < mMinLimit) {
+        } else if (progress < mMinLimit) {
             progress = mMinLimit;
         }
         return progress;
