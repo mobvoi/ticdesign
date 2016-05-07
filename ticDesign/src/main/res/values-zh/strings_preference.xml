@@ -2,32 +2,28 @@
 <resources>
 
     <!--  Strings for possible PreferenceActivity Back/Next buttons -->
-    <string name="back_button_label">Back</string>
-    <string name="next_button_label">Next</string>
+    <string name="back_button_label">上一步</string>
+    <string name="next_button_label">下一步</string>
 
     <!-- Optional button to Skip a PreferenceActivity [CHAR LIMIT=20] -->
-    <string name="skip_button_label">Skip</string>
+    <string name="skip_button_label">跳过</string>
 
     <!-- Default text for a button that can be toggled on and off. -->
-    <string name="capital_on">ON</string>
+    <string name="capital_on">开</string>
     <!-- Default text for a button that can be toggled on and off. -->
-    <string name="capital_off">OFF</string>
+    <string name="capital_off">关</string>
 
     <!-- Ringtone picker strings --> <skip />
     <!-- Choice in the ringtone picker.  If chosen, the default ringtone will be used. -->
-    <string name="ringtone_default">Default ringtone</string>
+    <string name="ringtone_default">默认铃声</string>
     <!-- Choice in the ringtone picker.  If chosen, there will be silence instead of a ringtone played. -->
-    <string name="ringtone_silent">None</string>
+    <string name="ringtone_silent">无</string>
     <!-- The title of the ringtone picker dialog. -->
-    <string name="ringtone_picker_title">Ringtones</string>
+    <string name="ringtone_picker_title">铃声</string>
     <!-- If there is ever a ringtone set for some setting, but that ringtone can no longer be resolved, t his is shown instead.  For example, if the ringtone was on a SD card and it had been removed, this woudl be shown for ringtones on that SD card. -->
-    <string name="ringtone_unknown">Unknown ringtone</string>
+    <string name="ringtone_unknown">未知铃声</string>
 
-    <!-- Choice in the notification sound picker.  If chosen, the default notification sound will be
-         used. -->
-    <string name="notification_sound_default">Default notification sound</string>
-
-    <!-- Choice in the alarm sound picker.  If chosen, the default alarm sound will be used. -->
-    <string name="alarm_sound_default">Default alarm sound</string>
+    <string name="notification_sound_default">默认通知提示音</string>
+    <string name="alarm_sound_default">默认闹钟提示音</string>
 
 </resources>

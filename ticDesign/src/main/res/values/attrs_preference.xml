@@ -149,6 +149,10 @@
         <attr name="android:positiveButtonText"/>
         <!-- The negative button text for the dialog. Set to @null to hide the negative button. -->
         <attr name="android:negativeButtonText"/>
+        <!-- The positive button icon for the dialog. Set to @null to hide the positive icon button. -->
+        <attr name="tic_positiveButtonIcon" format="reference"/>
+        <!-- The negative button icon for the dialog. Set to @null to hide the negative icon button. -->
+        <attr name="tic_negativeButtonIcon" format="reference"/>
         <!-- A layout to be used as the content View for the dialog. By default, this shouldn't
              be needed. If a custom DialogPreference is required, this should be set. For example,
              the EditTextPreference uses a layout with an EditText as this attribute. -->

@@ -3,6 +3,10 @@
     package="com.ticwear.design.demo">
 
     <uses-feature android:name="android.hardware.type.watch" />
+
+    <!-- For ringtone preference -->
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -20,6 +24,13 @@
         <activity android:name="com.mobvoi.design.demo.ContentActivity"/>
         <activity android:name="com.mobvoi.design.demo.SettingsActivity"
             android:label="@string/category.settings.title"/>
+
+        <activity android:name="ticwear.design.app.RingtonePickerActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.RINGTONE_PICKER" />
+            </intent-filter>
+        </activity>
+
     </application>
 
 </manifest>

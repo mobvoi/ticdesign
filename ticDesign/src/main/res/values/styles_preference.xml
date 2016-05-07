@@ -54,25 +54,22 @@
         <item name="android:widgetLayout">@layout/preference_widget_enter</item>
     </style>
 
-    <!--<style name="Preference.Ticwear.DialogPreference">-->
-    <!--<item name="tic_positiveButtonText">@string/ok</item>-->
-    <!--<item name="tic_negativeButtonText">@string/cancel</item>-->
-    <!--</style>-->
-
-    <!--<style name="Preference.Ticwear.DialogPreference.YesNoPreference">-->
-    <!--<item name="tic_positiveButtonText">@string/yes</item>-->
-    <!--<item name="tic_negativeButtonText">@string/no</item>-->
-    <!--</style>-->
+    <style name="Preference.Ticwear.DialogPreference">
+        <item name="android:widgetLayout">@layout/preference_widget_enter</item>
+        <item name="tic_positiveButtonIcon">@drawable/tic_ic_btn_ok</item>
+        <item name="tic_negativeButtonIcon">@drawable/tic_ic_btn_cancel</item>
+    </style>
 
     <!--<style name="Preference.Ticwear.DialogPreference.EditTextPreference">-->
     <!--<item name="tic_dialogLayout">@layout/preference_dialog_edittext_material</item>-->
     <!--</style>-->
 
-    <!--<style name="Preference.Ticwear.RingtonePreference">-->
-    <!--<item name="tic_ringtoneType">ringtone</item>-->
-    <!--<item name="tic_showSilent">true</item>-->
-    <!--<item name="tic_showDefault">true</item>-->
-    <!--</style>-->
+    <style name="Preference.Ticwear.RingtonePreference">
+        <item name="android:widgetLayout">@layout/preference_widget_enter</item>
+        <item name="android:ringtoneType">ringtone</item>
+        <item name="android:showSilent">true</item>
+        <item name="android:showDefault">true</item>
+    </style>
 
     <!-- No margins or background by default. Could be different for x-large screens -->
     <style name="PreferencePanel"/>

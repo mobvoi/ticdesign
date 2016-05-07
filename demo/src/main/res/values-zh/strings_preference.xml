@@ -12,9 +12,9 @@
     <string name="preference.perm_description_change_time">该应用可以更改设备时间</string>
     <string name="preference.perm_label_change_airplane_mode">更改飞行模式</string>
     <string name="preference.perm_description_change_airplane_mode">该应用可以打开和关闭飞行模式</string>
-    <string name="preference.perm_label_change_locale">更改系统语言</string>
+    <string name="preference.perm_label_change_locale">系统语言</string>
     <string name="preference.perm_description_change_locale">该应用可以更改设备的系统语言</string>
-    <string name="preference.perm_label_configure_doze">更改表盘常开模式设置</string>
+    <string name="preference.perm_label_configure_doze">表盘常开模式</string>
     <string name="preference.perm_description_configure_doze">该应用可以更改表盘常开模式的设置，包括开启和关闭</string>
     <string name="preference.perm_label_retail">开启展示模式</string>
     <string name="preference.perm_description_retail">该应用可以开启您设备上的展示模式</string>

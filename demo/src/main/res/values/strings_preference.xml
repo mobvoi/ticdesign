@@ -211,4 +211,16 @@
     <string name="preference.can_not_factory_reset">Low battery</string>
     <string name="preference.hardware_version">Hardware version</string>
 
+    <string-array name="preference_text_size_list">
+        <item>@string/spec.text_size.xxl.name</item>
+        <item>@string/spec.text_size.xl.name</item>
+        <item>@string/spec.text_size.l1.name</item>
+        <item>@string/spec.text_size.l2.name</item>
+        <item>@string/spec.text_size.m1.name</item>
+        <item>@string/spec.text_size.m2.name</item>
+        <item>@string/spec.text_size.s1.name</item>
+        <item>@string/spec.text_size.s2.name</item>
+        <item>@string/spec.text_size.xs.name</item>
+    </string-array>
+
 </resources>

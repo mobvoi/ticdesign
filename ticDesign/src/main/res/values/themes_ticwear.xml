@@ -70,10 +70,9 @@
         <item name="android:checkBoxPreferenceStyle">@style/Preference.Ticwear.CheckBoxPreference</item>
         <item name="android:switchPreferenceStyle">@style/Preference.Ticwear.SwitchPreference</item>
         <!--<item name="tic_seekBarPreferenceStyle">@style/Preference.Ticwear.SeekBarPreference</item>-->
-        <!--<item name="android:yesNoPreferenceStyle">@style/Preference.Ticwear.DialogPreference.YesNoPreference</item>-->
-        <!--<item name="android:dialogPreferenceStyle">@style/Preference.Ticwear.DialogPreference</item>-->
+        <item name="android:dialogPreferenceStyle">@style/Preference.Ticwear.DialogPreference</item>
+        <item name="android:ringtonePreferenceStyle">@style/Preference.Ticwear.RingtonePreference</item>
         <!--<item name="android:editTextPreferenceStyle">@style/Preference.Ticwear.DialogPreference.EditTextPreference</item>-->
-        <!--<item name="android:ringtonePreferenceStyle">@style/Preference.Ticwear.RingtonePreference</item>-->
         <item name="android:preferenceLayoutChild">@layout/preference_ticwear</item>
         <item name="tic_preferencePanelStyle">@style/PreferencePanel.Ticwear</item>
         <item name="tic_preferenceHeaderPanelStyle">@style/PreferenceHeaderPanel.Ticwear</item>

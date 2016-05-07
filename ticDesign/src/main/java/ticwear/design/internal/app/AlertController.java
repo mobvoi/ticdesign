@@ -43,7 +43,6 @@ import android.view.WindowInsets;
 import android.view.WindowManager;
 import android.widget.AbsListView;
 import android.widget.Button;
-import android.widget.CheckedTextView;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -55,6 +54,7 @@ import java.lang.ref.WeakReference;
 
 import ticwear.design.R;
 import ticwear.design.app.AlertDialog;
+import ticwear.design.widget.CheckedTextView;
 import ticwear.design.widget.CoordinatorLayout;
 import ticwear.design.widget.CursorRecyclerViewAdapter;
 import ticwear.design.widget.FloatingActionButton;
@@ -1000,7 +1000,8 @@ public class AlertController {
                 adapter = (mAdapter != null) ? mAdapter
                         : new CheckedItemAdapter(mContext, layout, android.R.id.text1, mItems);
             } else {
-                adapter = new CursorRecyclerViewAdapter(mContext, mCursor) {
+                adapter = (mAdapter instanceof CursorRecyclerViewAdapter) ? mAdapter
+                        : new CursorRecyclerViewAdapter(mContext, mCursor) {
                     private final int mLabelIndex;
 
                     {
