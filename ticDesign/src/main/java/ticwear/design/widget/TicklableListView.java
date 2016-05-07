@@ -16,7 +16,7 @@ import ticwear.design.R;
 
 @TargetApi(20)
 @CoordinatorLayout.DefaultBehavior(TicklableListViewBehavior.class)
-public class TicklableListView extends RoundScrollBarRecyclerView
+public class TicklableListView extends RecyclerView
         implements SidePanelEventDispatcher {
 
     static final String TAG = "TicklableLV";

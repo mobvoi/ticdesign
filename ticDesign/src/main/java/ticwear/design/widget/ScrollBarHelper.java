@@ -15,7 +15,7 @@ import ticwear.design.DesignConfig;
 import ticwear.design.R;
 
 /**
- * Draw round scrolbar, see {@link RoundScrollBarRecyclerView} to see how to use.
+ * Draw round scrolbar, see {@link CoordinatorLayout} to see how to use.
  *
  * The scroll view's width and height must be match_parent(the screen size of this device).
  * Also set android:scrollbarSize="0dp" and android:scrollbars="vertical" to enable scrollbar.
@@ -94,8 +94,8 @@ public class ScrollBarHelper {
             extraAngle = MathUtils.constrain(START_ANGLE + SWEEP_ANGLE - targetAngle, 0f, START_ANGLE + SWEEP_ANGLE);
         }
 
-        float startAngle = START_ANGLE + extraAngle;
-        float sweepAngle = SWEEP_ANGLE - 2 * extraAngle;
+        float startAngle = MathUtils.constrain(START_ANGLE + extraAngle, START_ANGLE, 0);
+        float sweepAngle = MathUtils.constrain(SWEEP_ANGLE - 2 * extraAngle, 0, SWEEP_ANGLE);
         float minSweep = MIN_SWEEP * sweepAngle / SWEEP_ANGLE;
 
         float thumbSweep = (extent * sweepAngle) / range;

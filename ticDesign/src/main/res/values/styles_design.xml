@@ -28,6 +28,9 @@
 
     <style name="Widget.Ticwear.CoordinatorLayout" parent="android:Widget">
         <item name="tic_statusBarBackground">?android:colorPrimaryDark</item>
+        <item name="android:scrollbars">vertical</item>
+        <item name="android:scrollbarSize">0dp</item>
+        <item name="android:scrollbarStyle">outsideOverlay</item>
     </style>
 
     <style name="TextAppearance.Ticwear.CollapsingToolbar.Expanded" parent="android:TextAppearance.Material.Display1">

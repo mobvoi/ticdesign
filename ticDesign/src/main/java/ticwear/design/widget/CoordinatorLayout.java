@@ -63,6 +63,7 @@ import java.util.Map;
 
 import ticwear.design.R;
 import ticwear.design.utils.ThemeUtils;
+import ticwear.design.widget.AppBarLayout.ScrollingViewBehavior;
 
 /**
  * CoordinatorLayout is a super-powered {@link android.widget.FrameLayout FrameLayout}.
@@ -183,6 +184,13 @@ public class CoordinatorLayout extends ViewGroup implements NestedScrollingParen
     private final NestedScrollingParentHelper mNestedScrollingParentHelper =
             new NestedScrollingParentHelper(this);
 
+    private final ScrollBarHelper mScrollBarHelper;
+    private final ViewScrollingStatusAccessor mViewScrollingStatusAccessor;
+    private int mAppBarLayoutScrollRange;
+    private View mScrollingView;
+    private View mScrollingContainerView;
+    private Runnable mScrollBarsWakenRunnable;
+
     public CoordinatorLayout(Context context) {
         this(context, null);
     }
@@ -192,14 +200,18 @@ public class CoordinatorLayout extends ViewGroup implements NestedScrollingParen
     }
 
     public CoordinatorLayout(Context context, AttributeSet attrs, int defStyleAttr) {
-        super(context, attrs, defStyleAttr);
+        this(context, attrs, defStyleAttr, R.style.Widget_Ticwear_CoordinatorLayout);
+    }
+
+    public CoordinatorLayout(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
+        super(context, attrs, defStyleAttr, defStyleRes);
 
         if (!isInEditMode()) {
             ThemeUtils.checkDesignTheme(context);
         }
 
         final TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.CoordinatorLayout,
-                defStyleAttr, R.style.Widget_Ticwear_CoordinatorLayout);
+                defStyleAttr, defStyleRes);
         final int keylineArrayRes = a.getResourceId(R.styleable.CoordinatorLayout_tic_keylines, 0);
         if (keylineArrayRes != 0) {
             final Resources res = context.getResources();
@@ -218,6 +230,9 @@ public class CoordinatorLayout extends ViewGroup implements NestedScrollingParen
         a.recycle();
 
         super.setOnHierarchyChangeListener(new HierarchyChangeListener());
+
+        mScrollBarHelper = new ScrollBarHelper(context, attrs, defStyleAttr);
+        mViewScrollingStatusAccessor = new ViewScrollingStatusAccessor();
 
         if (mEdgeGlowTop == null) {
             mEdgeGlowTop = new ClassicEdgeEffect(context);
@@ -291,6 +306,7 @@ public class CoordinatorLayout extends ViewGroup implements NestedScrollingParen
     public void onDetachedFromWindow() {
         super.onDetachedFromWindow();
         resetTouchBehaviors();
+        stopScrollBarsWaken();
         if (mNeedsPreDrawListener && mOnPreDrawListener != null) {
             final ViewTreeObserver vto = getViewTreeObserver();
             vto.removeOnPreDrawListener(mOnPreDrawListener);
@@ -359,6 +375,8 @@ public class CoordinatorLayout extends ViewGroup implements NestedScrollingParen
                         mEdgeGlowBottom = new ClassicEdgeEffect(getContext());
                     }
                 }
+
+                mScrollBarHelper.setIsRound(insets.isRound());
             }
 
             setWillNotDraw(!mDrawStatusBarBackground && getBackground() == null && mEdgeGlowTop == null);
@@ -830,6 +848,11 @@ public class CoordinatorLayout extends ViewGroup implements NestedScrollingParen
 
     @Override
     protected void onLayout(boolean changed, int l, int t, int r, int b) {
+        mAppBarLayoutScrollRange = -1;
+        mScrollingContainerView = null;
+        mScrollingView = null;
+        mViewScrollingStatusAccessor.attach(null);
+
         final int layoutDirection = ViewCompat.getLayoutDirection(this);
         final int childCount = mDependencySortedChildren.size();
         for (int i = 0; i < childCount; i++) {
@@ -839,6 +862,16 @@ public class CoordinatorLayout extends ViewGroup implements NestedScrollingParen
 
             if (behavior == null || !behavior.onLayoutChild(this, child, layoutDirection)) {
                 onLayoutChild(child, layoutDirection);
+            }
+
+            if (behavior instanceof ScrollingViewBehavior) {
+                mScrollingContainerView = child;
+                mScrollingView = ((ScrollingViewBehavior) behavior).getScrollingView();
+                mViewScrollingStatusAccessor.attach(mScrollingView);
+            }
+
+            if (child instanceof AppBarLayout) {
+                mAppBarLayoutScrollRange = ((AppBarLayout) child).getTotalScrollRange();
             }
         }
     }
@@ -889,6 +922,122 @@ public class CoordinatorLayout extends ViewGroup implements NestedScrollingParen
                 mStatusBarBackground.setBounds(0, 0, getWidth(), inset);
                 mStatusBarBackground.draw(c);
             }
+        }
+    }
+
+    //@hide api @Override
+    @SuppressWarnings("unused")
+    protected void onDrawVerticalScrollBar(Canvas canvas, Drawable scrollBar, int l, int t, int r, int b) {
+        int range = computeVerticalScrollRange();
+        int offset = computeVerticalScrollOffset();
+        int extent = computeVerticalScrollExtent();
+        if (range > extent) {
+            int delta = 0;
+            if (offset < 0) {
+                delta = -offset;
+                offset = 0;
+
+                // larger effect
+                delta *= 2;
+            } else if (offset + extent > range) {
+                delta = offset + extent - range;
+
+                // larger effect
+                offset += delta;
+                delta += delta;
+            }
+            extent = MathUtils.constrain(extent - delta, 0, extent);
+            mScrollBarHelper.onDrawScrollBar(canvas, range, offset, extent, scrollBar.getAlpha());
+        }
+    }
+
+    @Override
+    protected int computeVerticalScrollRange() {
+        int range = mViewScrollingStatusAccessor.isValid() ? mViewScrollingStatusAccessor.computeVerticalScrollRange() :
+                super.computeVerticalScrollRange();
+        if (mAppBarLayoutScrollRange > 0) {
+            range += mAppBarLayoutScrollRange;
+        }
+        return range;
+    }
+
+    @Override
+    protected int computeVerticalScrollOffset() {
+        int offset = mViewScrollingStatusAccessor.isValid() ? mViewScrollingStatusAccessor.computeVerticalScrollOffset() :
+                super.computeVerticalScrollOffset();
+        if (mAppBarLayoutScrollRange > 0) {
+            offset += mAppBarLayoutScrollRange;
+        }
+        if (mScrollingView != null) {
+            offset += - mScrollingView.getTop();
+        }
+        return offset;
+    }
+
+    @Override
+    protected int computeVerticalScrollExtent() {
+        return mViewScrollingStatusAccessor.isValid() ? mViewScrollingStatusAccessor.computeVerticalScrollExtent() :
+                super.computeVerticalScrollExtent();
+    }
+
+    private void startScrollBarsWaken() {
+        if (mScrollBarsWakenRunnable == null) {
+            mScrollBarsWakenRunnable = new Runnable() {
+
+                private static final long WAKEN_INTERVAL = 20;
+                private static final long IDLE_SCROLL_DURATION = 600;
+                private static final int NONE_SCROLL_TIMES = (int) (IDLE_SCROLL_DURATION / WAKEN_INTERVAL);
+
+                private int mLastScrollX = Integer.MAX_VALUE;
+                private int mLastScrollY = Integer.MAX_VALUE;
+
+                private int mNoneScrollingCount = NONE_SCROLL_TIMES;
+
+                @Override
+                public void run() {
+                    if (!shouldContinueWaken() && --mNoneScrollingCount <= 0) {
+                        mNoneScrollingCount = NONE_SCROLL_TIMES;
+                        return;
+                    }
+
+                    if (!awakenScrollBars()) {
+                        invalidate();
+                    }
+
+                    postDelayed(this, WAKEN_INTERVAL);
+                }
+
+                private boolean shouldContinueWaken() {
+                    if (mScrollingView == null) {
+                        return false;
+                    }
+
+                    if (isVerticalScrollBarEnabled()) {
+                        int scrollY = mScrollingView.getScrollY();
+                        if (mLastScrollY == Integer.MAX_VALUE || scrollY != mLastScrollY) {
+                            mLastScrollY = scrollY;
+                            return true;
+                        }
+                    }
+
+                    if (isHorizontalScrollBarEnabled()) {
+                        int scrollX = mScrollingView.getScrollX();
+                        if (mLastScrollX == Integer.MAX_VALUE || scrollX != mLastScrollX) {
+                            mLastScrollX = scrollX;
+                            return true;
+                        }
+                    }
+
+                    return false;
+                }
+            };
+        }
+        mScrollBarsWakenRunnable.run();
+    }
+
+    private void stopScrollBarsWaken() {
+        if (mScrollBarsWakenRunnable != null) {
+            removeCallbacks(mScrollBarsWakenRunnable);
         }
     }
 
@@ -1649,6 +1798,9 @@ public class CoordinatorLayout extends ViewGroup implements NestedScrollingParen
         if (accepted) {
             dispatchOnDependentViewChanged(true);
         }
+
+        stopScrollBarsWaken();
+        awakenScrollBars();
     }
 
     public void onNestedPreScroll(View target, int dx, int dy, int[] consumed) {
@@ -1710,6 +1862,9 @@ public class CoordinatorLayout extends ViewGroup implements NestedScrollingParen
         if (handled) {
             dispatchOnDependentViewChanged(true);
         }
+
+        startScrollBarsWaken();
+
         return handled;
     }
 
@@ -1811,15 +1966,10 @@ public class CoordinatorLayout extends ViewGroup implements NestedScrollingParen
     }
 
     private void setScrollingOffset(int scrollOffset) {
-        for (int i = 0; i < getChildCount(); i++) {
-            final View child = getChildAt(i);
-            final LayoutParams lp = (LayoutParams) child.getLayoutParams();
-            final Behavior viewBehavior = lp.getBehavior();
-            if (viewBehavior instanceof AppBarLayout.ScrollingViewBehavior) {
-                AppBarLayout.ScrollingViewBehavior svb = (AppBarLayout.ScrollingViewBehavior) viewBehavior;
-                svb.setScrollOffset(this, child, scrollOffset);
-                break;
-            }
+        if (mScrollingContainerView != null) {
+            final LayoutParams lp = (LayoutParams) mScrollingContainerView.getLayoutParams();
+            final ScrollingViewBehavior viewBehavior = (ScrollingViewBehavior) lp.getBehavior();
+            viewBehavior.setScrollOffset(this, mScrollingContainerView, scrollOffset);
         }
     }
 

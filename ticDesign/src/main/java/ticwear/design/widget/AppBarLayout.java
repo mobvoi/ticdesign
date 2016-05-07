@@ -1491,6 +1491,10 @@ public class AppBarLayout extends LinearLayout {
             return null;
         }
 
+        public View getScrollingView() {
+            return mScrollingView;
+        }
+
         @Override
         public boolean onDependentViewChanged(CoordinatorLayout parent, View child,
                 View dependency) {
