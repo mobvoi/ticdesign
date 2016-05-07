@@ -145,19 +145,19 @@ public class VolumePreference extends Preference {
                     volumeBar.setStep(myData.step);
                 }
 
-                if(preferenceData.icon != null) {
+                if(preferenceData.getIcon() != null) {
                     volumeBar.setDrawable(myData.drawable);
                 }
             }
         }
 
-        static class PreferenceData extends PreferenceViewHolder.PreferenceData {
-            int volume;
-            int max;
-            int min;
-            int step;
-            Drawable drawable;
-            OnVolumeChangedListener volumeChangedListener;
+        protected static class PreferenceData extends PreferenceViewHolder.PreferenceData {
+            protected int volume;
+            protected int max;
+            protected int min;
+            protected int step;
+            protected Drawable drawable;
+            protected OnVolumeChangedListener volumeChangedListener;
         }
 
     }

@@ -105,7 +105,7 @@ public class Preference implements Comparable<Preference> {
 
     private boolean mBaseMethodCalled;
 
-    ViewHolderCreator mViewHolderCreator = new ViewHolderCreator() {
+    protected ViewHolderCreator mViewHolderCreator = new ViewHolderCreator() {
         @Override
         public ViewHolder create(@NonNull ViewGroup parent, @LayoutRes int layoutResId, @LayoutRes int widgetLayoutResId) {
             return new ViewHolder(parent, layoutResId, widgetLayoutResId);
@@ -173,7 +173,7 @@ public class Preference implements Comparable<Preference> {
      * {@link PreferenceGroupAdapter} will invoke this interface to create
      * ViewHolder bind with preference.
      */
-    interface ViewHolderCreator {
+    protected interface ViewHolderCreator {
         ViewHolder create(@NonNull ViewGroup parent, @LayoutRes int layoutResId,
                           @LayoutRes int widgetLayoutResId);
     }
@@ -1682,9 +1682,9 @@ public class Preference implements Comparable<Preference> {
      * override the {@link #bindPreferenceToData} to bind custom data, then you can
      * update your view by override the {@link #bind} with your custom {@link PreferenceData}.
      */
-    static class ViewHolder extends PreferenceViewHolder {
+    protected static class ViewHolder extends PreferenceViewHolder {
 
-        PreferenceData data;
+        protected PreferenceData data;
 
         public ViewHolder(@NonNull ViewGroup parent, @LayoutRes int layoutResId,
                           @LayoutRes int widgetLayoutResId) {
@@ -1694,8 +1694,8 @@ public class Preference implements Comparable<Preference> {
         /**
          * Calling this constructor when you have your custom {@link PreferenceData}.
          */
-        ViewHolder(@NonNull ViewGroup parent, @LayoutRes int layoutResId,
-                   @LayoutRes int widgetLayoutResId, PreferenceData data) {
+        protected ViewHolder(@NonNull ViewGroup parent, @LayoutRes int layoutResId,
+                             @LayoutRes int widgetLayoutResId, PreferenceData data) {
             super(parent, layoutResId, widgetLayoutResId);
             this.data = data;
         }

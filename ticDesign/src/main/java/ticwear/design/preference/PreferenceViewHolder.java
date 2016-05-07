@@ -230,15 +230,33 @@ public class PreferenceViewHolder extends ViewHolder {
     /**
      * The data of preference needs to display in view.
      */
-    static class PreferenceData {
+    protected static class PreferenceData {
+        @Nullable
+        protected CharSequence title;
+        @Nullable
+        protected CharSequence summary;
+        @Nullable
+        protected Drawable icon;
+        protected boolean removeIconIfEmpty = true;
 
         @Nullable
-        CharSequence title;
+        public CharSequence getTitle() {
+            return title;
+        }
+
         @Nullable
-        CharSequence summary;
+        public CharSequence getSummary() {
+            return summary;
+        }
+
         @Nullable
-        Drawable icon;
-        boolean removeIconIfEmpty = true;
+        public Drawable getIcon() {
+            return icon;
+        }
+
+        public boolean isRemoveIconIfEmpty() {
+            return removeIconIfEmpty;
+        }
     }
 
 }
