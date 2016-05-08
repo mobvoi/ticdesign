@@ -344,7 +344,7 @@ public class AppBarLayout extends LinearLayout {
         for (int i = 0, z = getChildCount(); i < z; i++) {
             final View child = getChildAt(i);
             final LayoutParams lp = (LayoutParams) child.getLayoutParams();
-            final int childBottom = child.getBottom();
+            final int childBottom = getTop() + child.getBottom();
             final int flags = lp.mScrollFlags;
 
             if ((flags & LayoutParams.SCROLL_FLAG_SCROLL) != 0) {
@@ -390,6 +390,7 @@ public class AppBarLayout extends LinearLayout {
     private int getDownNestedPreScrollRange() {
         return getDownNestedPreScrollRange(false);
     }
+
     private int getDownNestedPreScrollRange(boolean consumePreScroll) {
         if (consumePreScroll != mShouldConsumePreScroll) {
             mDownPreScrollRange = INVALID_SCROLL_RANGE;
@@ -409,12 +410,12 @@ public class AppBarLayout extends LinearLayout {
             final int flags = lp.mScrollFlags;
 
             if (consumePreScroll || (flags & LayoutParams.FLAG_QUICK_RETURN) == LayoutParams.FLAG_QUICK_RETURN) {
-                final int childTop = child.getTop() - lp.topMargin;
+                final int childTop = getTop() + child.getTop() - lp.topMargin;
                 // First take the margin into account
                 // The view has the quick return flag combination...
                 if ((flags & LayoutParams.SCROLL_FLAG_ENTER_ALWAYS_COLLAPSED) != 0) {
                     // If they're set to enter collapsed, use the minimum height
-                    int collapsedTop = child.getBottom() - ViewCompat.getMinimumHeight(child);
+                    int collapsedTop = getTop() + child.getBottom() - ViewCompat.getMinimumHeight(child);
                     range += currentBottom - collapsedTop;
                 } else {
                     // Else use the full height
@@ -451,7 +452,7 @@ public class AppBarLayout extends LinearLayout {
         for (int i = 0, z = getChildCount(); i < z; i++) {
             final View child = getChildAt(i);
             final LayoutParams lp = (LayoutParams) child.getLayoutParams();
-            final int childBottom = child.getBottom();
+            final int childBottom = getTop() + child.getBottom();
 
             final int flags = lp.mScrollFlags;
 
