@@ -955,7 +955,7 @@ public class CoordinatorLayout extends ViewGroup implements NestedScrollingParen
     protected int computeVerticalScrollRange() {
         int range = mViewScrollingStatusAccessor.isValid() ? mViewScrollingStatusAccessor.computeVerticalScrollRange() :
                 super.computeVerticalScrollRange();
-        if (mAppBarLayoutScrollRange > 0) {
+        if (mAppBarLayoutScrollRange > 0 && mScrollingView != null) {
             range += mAppBarLayoutScrollRange;
         }
         return range;
@@ -965,11 +965,9 @@ public class CoordinatorLayout extends ViewGroup implements NestedScrollingParen
     protected int computeVerticalScrollOffset() {
         int offset = mViewScrollingStatusAccessor.isValid() ? mViewScrollingStatusAccessor.computeVerticalScrollOffset() :
                 super.computeVerticalScrollOffset();
-        if (mAppBarLayoutScrollRange > 0) {
-            offset += mAppBarLayoutScrollRange;
-        }
-        if (mScrollingView != null) {
-            offset += - mScrollingView.getTop();
+        if (mAppBarLayoutScrollRange > 0 && mScrollingView != null) {
+            // When we have scrolling view, we always have a container, witch may be offset by app-bar.
+            offset += mAppBarLayoutScrollRange - mScrollingContainerView.getTop();
         }
         return offset;
     }
