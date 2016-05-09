@@ -28,6 +28,7 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
+import ticwear.design.R;
 import ticwear.design.app.AlertDialog.Builder;
 
 /**
@@ -53,10 +54,10 @@ public class MultiSelectListPreference extends DialogPreference {
         super(context, attrs, defStyleAttr, defStyleRes);
 
         final TypedArray a = context.obtainStyledAttributes(attrs,
-                com.android.internal.R.styleable.MultiSelectListPreference, defStyleAttr,
+                R.styleable.MultiSelectListPreference, defStyleAttr,
                 defStyleRes);
-        mEntries = a.getTextArray(com.android.internal.R.styleable.MultiSelectListPreference_entries);
-        mEntryValues = a.getTextArray(com.android.internal.R.styleable.MultiSelectListPreference_entryValues);
+        mEntries = a.getTextArray(R.styleable.MultiSelectListPreference_android_entries);
+        mEntryValues = a.getTextArray(R.styleable.MultiSelectListPreference_android_entryValues);
         a.recycle();
     }
 
@@ -65,7 +66,7 @@ public class MultiSelectListPreference extends DialogPreference {
     }
 
     public MultiSelectListPreference(Context context, AttributeSet attrs) {
-        this(context, attrs, com.android.internal.R.attr.dialogPreferenceStyle);
+        this(context, attrs, android.R.attr.dialogPreferenceStyle);
     }
 
     public MultiSelectListPreference(Context context) {
