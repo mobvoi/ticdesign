@@ -61,6 +61,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import ticwear.design.DesignConfig;
 import ticwear.design.R;
 import ticwear.design.utils.ThemeUtils;
 import ticwear.design.widget.AppBarLayout.ScrollingViewBehavior;
@@ -189,7 +190,11 @@ public class CoordinatorLayout extends ViewGroup implements NestedScrollingParen
     private int mAppBarLayoutScrollRange;
     private View mScrollingView;
     private View mScrollingContainerView;
-    private Runnable mScrollBarsWakenRunnable;
+
+    /**
+     * Check if the view is still scrolling when fling.
+     */
+    private ScrollViewFlingChecker mScrollViewFlingChecker;
 
     public CoordinatorLayout(Context context) {
         this(context, null);
@@ -923,6 +928,10 @@ public class CoordinatorLayout extends ViewGroup implements NestedScrollingParen
                 mStatusBarBackground.draw(c);
             }
         }
+
+        if (mScrollViewFlingChecker != null && mScrollViewFlingChecker.isStarted()) {
+            mScrollViewFlingChecker.run();
+        }
     }
 
     //@hide api @Override
@@ -979,64 +988,84 @@ public class CoordinatorLayout extends ViewGroup implements NestedScrollingParen
     }
 
     private void startScrollBarsWaken() {
-        if (mScrollBarsWakenRunnable == null) {
-            mScrollBarsWakenRunnable = new Runnable() {
+        stopScrollBarsWaken();
+        if (mScrollViewFlingChecker == null) {
+            mScrollViewFlingChecker = new ScrollViewFlingChecker(mViewScrollingStatusAccessor) {
 
-                private static final long WAKEN_INTERVAL = 20;
-                private static final long IDLE_SCROLL_DURATION = 600;
-                private static final int NONE_SCROLL_TIMES = (int) (IDLE_SCROLL_DURATION / WAKEN_INTERVAL);
-
-                private int mLastScrollX = Integer.MAX_VALUE;
-                private int mLastScrollY = Integer.MAX_VALUE;
-
-                private int mNoneScrollingCount = NONE_SCROLL_TIMES;
+                private boolean mIsFlung;
 
                 @Override
-                public void run() {
-                    if (!shouldContinueWaken() && --mNoneScrollingCount <= 0) {
-                        mNoneScrollingCount = NONE_SCROLL_TIMES;
-                        return;
-                    }
-
-                    if (!awakenScrollBars()) {
-                        invalidate();
-                    }
-
-                    postDelayed(this, WAKEN_INTERVAL);
+                public void reset() {
+                    super.reset();
+                    mIsFlung = false;
                 }
 
-                private boolean shouldContinueWaken() {
-                    if (mScrollingView == null) {
+                @Override
+                public boolean runCheck() {
+                    if (!super.runCheck()) {
                         return false;
                     }
 
-                    if (isVerticalScrollBarEnabled()) {
-                        int scrollY = mScrollingView.getScrollY();
-                        if (mLastScrollY == Integer.MAX_VALUE || scrollY != mLastScrollY) {
-                            mLastScrollY = scrollY;
-                            return true;
-                        }
+                    redrawScrollBars();
+
+                    if (!mIsFlung) {
+                        mIsFlung = flingAppBarIfNeed(getVelocityY());
                     }
 
-                    if (isHorizontalScrollBarEnabled()) {
-                        int scrollX = mScrollingView.getScrollX();
-                        if (mLastScrollX == Integer.MAX_VALUE || scrollX != mLastScrollX) {
-                            mLastScrollX = scrollX;
-                            return true;
-                        }
-                    }
-
-                    return false;
+                    return true;
                 }
+
             };
         }
-        mScrollBarsWakenRunnable.run();
+        mScrollViewFlingChecker.run();
     }
 
     private void stopScrollBarsWaken() {
-        if (mScrollBarsWakenRunnable != null) {
-            removeCallbacks(mScrollBarsWakenRunnable);
+        if (mScrollViewFlingChecker != null) {
+            mScrollViewFlingChecker.reset();
         }
+    }
+
+    private void redrawScrollBars() {
+        boolean hasScrollBar = isVerticalScrollBarEnabled() || isHorizontalScrollBarEnabled();
+        if (hasScrollBar && !awakenScrollBars()) {
+            invalidate();
+        }
+    }
+
+    private boolean flingAppBarIfNeed(float velocityY) {
+        boolean isValid = mViewScrollingStatusAccessor != null &&
+                mViewScrollingStatusAccessor.isValid();
+        boolean isOnTop = isValid &&
+                mViewScrollingStatusAccessor.computeVerticalScrollOffset() <= 0;
+        boolean isNearTop = isValid &&
+                mViewScrollingStatusAccessor.computeVerticalScrollOffset() <= mAppBarLayoutScrollRange;
+
+        boolean flung = false;
+
+        if (velocityY < 0 && mScrollingView != null) {
+            if (isOnTop) {
+                // When is on top, fling appbar with not consumed, that will cause appbar fling.
+                if (DesignConfig.DEBUG_COORDINATOR) {
+                    Log.v(TAG, "start fling appbar with velocity " + velocityY);
+                }
+                mScrollingView.startNestedScroll(ViewCompat.SCROLL_AXIS_VERTICAL);
+                flung = mScrollingView.dispatchNestedFling(0, velocityY, false);
+                mScrollingView.stopNestedScroll();
+            } else if (isNearTop) {
+                // When near top, we try to fling appbar with consumed, which may cause appbar fling
+                // if the scrolling view want's to consume pre-scroll.
+                // @see Behavior#requestInterceptPreScroll
+                if (DesignConfig.DEBUG_COORDINATOR) {
+                    Log.v(TAG, "try fling appbar with velocity " + velocityY);
+                }
+                mScrollingView.startNestedScroll(ViewCompat.SCROLL_AXIS_VERTICAL);
+                flung = mScrollingView.dispatchNestedFling(0, velocityY, true);
+                mScrollingView.stopNestedScroll();
+            }
+        }
+
+        return flung;
     }
 
     /**

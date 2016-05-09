@@ -838,6 +838,8 @@ public class AppBarLayout extends LinearLayout {
 
         int mOverScrollOriginalHeight = INVALID_VIEW_HEIGHT;
 
+        private ScrollViewFlingChecker mAppBarFlingChecker;
+
         public Behavior() {}
 
         public Behavior(Context context, AttributeSet attrs) {
@@ -950,38 +952,45 @@ public class AppBarLayout extends LinearLayout {
         }
 
         @Override
+        public boolean onNestedPreFling(CoordinatorLayout coordinatorLayout, AppBarLayout child,
+                                        View target, float velocityX, float velocityY) {
+
+            // If we're scrolling up and the child also consumed the fling. We'll fake scroll
+            // upto our 'collapsed' offset
+            if (velocityY < 0) {
+                // We're scrolling down
+                final int targetScroll = -child.getTotalScrollRange()
+                        + child.getDownNestedPreScrollRange(
+                        consumePreScroll(coordinatorLayout, target));
+                if (getTopBottomOffsetForScrollingSibling() < targetScroll) {
+                    // If we're currently not expanded more than the target scroll, we'll
+                    // animate a fling
+                    animateOffsetTo(coordinatorLayout, child, targetScroll);
+                }
+            } else {
+                // We're scrolling up
+                final int targetScroll = -child.getUpNestedPreScrollRange();
+                if (getTopBottomOffsetForScrollingSibling() > targetScroll) {
+                    // If we're currently not expanded less than the target scroll, we'll
+                    // animate a fling
+                    animateOffsetTo(coordinatorLayout, child, targetScroll);
+                }
+            }
+
+            // don't handle the pre-fling to let target fling.
+            return false;
+        }
+
+        @Override
         public boolean onNestedFling(final CoordinatorLayout coordinatorLayout,
                 final AppBarLayout child, View target, float velocityX, float velocityY,
                 boolean consumed) {
             boolean flung = false;
 
-            if (!consumed) {
-                // It has been consumed so let's fling ourselves
+            if (!consumed || consumePreScroll(coordinatorLayout, target)) {
+                // It hasn't consumed by target or should consumed by ourselves, fling with full scroll
                 flung = fling(coordinatorLayout, child, -child.getTotalScrollRange(),
                         0, -velocityY);
-            } else {
-                // If we're scrolling up and the child also consumed the fling. We'll fake scroll
-                // upto our 'collapsed' offset
-                if (velocityY < 0) {
-                    // We're scrolling down
-                    final int targetScroll = -child.getTotalScrollRange()
-                            + child.getDownNestedPreScrollRange();
-                    if (getTopBottomOffsetForScrollingSibling() < targetScroll) {
-                        // If we're currently not expanded more than the target scroll, we'll
-                        // animate a fling
-                        animateOffsetTo(coordinatorLayout, child, targetScroll);
-                        flung = true;
-                    }
-                } else {
-                    // We're scrolling up
-                    final int targetScroll = -child.getUpNestedPreScrollRange();
-                    if (getTopBottomOffsetForScrollingSibling() > targetScroll) {
-                        // If we're currently not expanded less than the target scroll, we'll
-                        // animate a fling
-                        animateOffsetTo(coordinatorLayout, child, targetScroll);
-                        flung = true;
-                    }
-                }
             }
 
             mWasFlung = flung;

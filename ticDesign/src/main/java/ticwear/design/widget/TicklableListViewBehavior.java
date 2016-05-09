@@ -100,7 +100,7 @@ public class TicklableListViewBehavior extends AppBarLayout.ScrollingViewBehavio
         // Then, we try to do the scroll to mock a offset for focus state ticklable list-view
         int unconsumed = listView.updateScrollOffset(offset);
         // If scroll can't consume all the offset request, offset the rest part.
-        offset = getRawTopAndBottomOffset() - unconsumed;
+        offset = getRawTopAndBottomOffset() + unconsumed;
 
         setRawTopAndBottomOffset(offset);
 

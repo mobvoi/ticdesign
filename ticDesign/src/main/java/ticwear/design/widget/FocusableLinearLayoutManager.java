@@ -223,28 +223,19 @@ public class FocusableLinearLayoutManager extends LinearLayoutManager
      *
      * @param scrollOffset new offset to scroll.
      *
-     * @return the unconsumed offset.
+     * @return the unconsumed offset (that needs to appending on raw offset).
      */
     @Override
     public int updateScrollOffset(int scrollOffset) {
-        if (mAppBarScrollController.isAppBarChanging() || mTicklableListView == null) {
-            int delta = scrollOffset - this.mScrollOffset;
+        if (mTicklableListView == null ||
+                this.mScrollOffset == INVALID_SCROLL_OFFSET ||
+                mAppBarScrollController.isAppBarChanging()) {
             this.mScrollOffset = scrollOffset;
-            return delta;
-        }
-        if (this.mScrollOffset == scrollOffset) {
             return 0;
         }
 
-        if (this.mScrollOffset == INVALID_SCROLL_OFFSET) {
-            int curScrollOffset = -mTicklableListView.computeVerticalScrollOffset();
-            if (curScrollOffset >= 0 && scrollOffset >= 0) {
-                this.mScrollOffset = Math.min(scrollOffset, curScrollOffset);
-            } else if (curScrollOffset <= 0 && scrollOffset <= 0) {
-                this.mScrollOffset = Math.max(scrollOffset, curScrollOffset);
-            } else {
-                this.mScrollOffset = 0;
-            }
+        if (this.mScrollOffset == scrollOffset) {
+            return 0;
         }
 
         int delta = scrollOffset - this.mScrollOffset;
@@ -257,7 +248,7 @@ public class FocusableLinearLayoutManager extends LinearLayoutManager
 
         this.mScrollOffset -= real;
 
-        return scroll - real;
+        return scrollOffset - this.mScrollOffset;
     }
 
     @Override
