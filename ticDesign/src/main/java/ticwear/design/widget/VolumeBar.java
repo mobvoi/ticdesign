@@ -7,8 +7,10 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.drawable.Drawable;
+import android.support.annotation.ColorInt;
 import android.support.annotation.NonNull;
 import android.util.AttributeSet;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.FrameLayout;
@@ -25,6 +27,11 @@ import ticwear.design.R;
 public class VolumeBar extends FrameLayout {
     private ProgressBarButton mMinButton;
     private ProgressBarButton mMaxButton;
+
+    private static final int FULL_ALPHA = 255;
+    private static final int DEFAULT_DISABLED_ALPHA = FULL_ALPHA / 3;
+
+    private int mDisabledAlpha;
 
     // 当前值
     private int mProgress = 50;
@@ -87,6 +94,16 @@ public class VolumeBar extends FrameLayout {
         int thumbImageId = a.getResourceId(R.styleable.VolumeBar_tic_vb_thumbImage, 0);
         int thumbLeftImageId = a.getResourceId(R.styleable.VolumeBar_tic_vb_thumbLeftImage, 0);
         a.recycle();
+
+        mDisabledAlpha = DEFAULT_DISABLED_ALPHA;
+        if (!isInEditMode()) {
+            TypedValue typedValue = new TypedValue();
+            if (context.getTheme().resolveAttribute(android.R.attr.disabledAlpha, typedValue, true)) {
+                float disabledAlpha = typedValue.getFloat();
+                mDisabledAlpha = (int) (0xff * disabledAlpha);
+            }
+        }
+
         mPaint = new Paint();
         mPaint.setDither(true);                    // set the dither to true
         mPaint.setStyle(Paint.Style.STROKE);       // set to STOKE
@@ -150,6 +167,61 @@ public class VolumeBar extends FrameLayout {
 
     public void setDrawable(Drawable drawable) {
         mVolumeDrawable = drawable;
+    }
+
+    public void setBgColor(@ColorInt int bgColor) {
+        mBgColor = bgColor;
+        invalidate();
+    }
+
+    public void setValueColor(@ColorInt int valueColor) {
+        mValueColor = valueColor;
+        invalidate();
+    }
+
+    /**
+     * 使用者可动态设置是否enable，设置后颜色透明度会发生改变
+     * @param isEnable 左右按钮和seekbar是否enable
+     */
+    public void setEnabled(boolean isEnable) {
+        mSeekbar.setEnabled(isEnable);
+        mMinButton.setEnabled(isEnable);
+        mMaxButton.setEnabled(isEnable);
+
+        // 更改颜色，若为enable状态，则完全不透明，若disable则半透明
+        if (isEnable) {
+            mMinButton.setTouchListener(mMinButtonListener);
+            mMaxButton.setTouchListener(mMaxButtonListener);
+            mPaint.setAlpha(FULL_ALPHA);
+            mMinButtonDrawable.setAlpha(FULL_ALPHA);
+            mMaxButtonDrawable.setAlpha(FULL_ALPHA);
+            mNoVolumeDrawable.setAlpha(FULL_ALPHA);
+            mVolumeDrawable.setAlpha(FULL_ALPHA);
+        }
+        else {
+            mMinButton.setTouchListener(null);
+            mMaxButton.setTouchListener(null);
+            mPaint.setAlpha(mDisabledAlpha);
+            mMinButtonDrawable.setAlpha(mDisabledAlpha);
+            mMaxButtonDrawable.setAlpha(mDisabledAlpha);
+            mNoVolumeDrawable.setAlpha(mDisabledAlpha);
+            mVolumeDrawable.setAlpha(mDisabledAlpha);
+        }
+        invalidate();
+    }
+
+    /**
+     * 设定disable时的alpha值
+     * @param alpha disable时的alpha值
+     */
+    public void setDisabledAlpha(int alpha) {
+        if (mDisabledAlpha == alpha)
+            return;
+        if (alpha > 255) alpha = 255;
+        else if (alpha < 0) alpha = 0;
+
+        mDisabledAlpha = alpha;
+        invalidate();
     }
 
     /**
