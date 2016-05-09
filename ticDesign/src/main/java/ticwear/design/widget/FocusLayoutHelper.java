@@ -51,13 +51,6 @@ class FocusLayoutHelper {
                 firstChild.getTop() >= mTicklableListView.getPaddingTop();
     }
 
-    void animateToCenter() {
-        int index = findCenterViewIndex();
-        View child = getChildAt(index);
-        int scrollToMiddle = getCenterYPos() - (child.getTop() + child.getBottom()) / 2;
-        mTicklableListView.smoothScrollBy(0, -scrollToMiddle);
-    }
-
     int getVerticalPadding() {
         if (getChildCount() > 0) {
             int height = ViewPropertiesHelper.getAdjustedHeight(mTicklableListView);
@@ -72,13 +65,7 @@ class FocusLayoutHelper {
         if (getChildCount() > 0) {
             final View child = getChildAt(findCenterViewIndex());
             if (state == RecyclerView.SCROLL_STATE_IDLE) {
-                animateToCenter();
-                child.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        child.requestFocus();
-                    }
-                }, 200);
+                child.requestFocus();
             } else {
                 child.clearFocus();
             }
