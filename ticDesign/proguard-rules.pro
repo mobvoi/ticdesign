@@ -12,6 +12,9 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+# For DefaultBehavior
+-keepattributes *Annotation*
+
 # CoordinatorLayout resolves the behaviors of its child components with reflection.
 -keep public class * extends ticwear.design.widget.CoordinatorLayout$Behavior {
     public <init>(android.content.Context, android.util.AttributeSet);
