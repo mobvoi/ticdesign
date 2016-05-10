@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:baselineAligned="false"
+    android:orientation="vertical"
+    tools:layout_marginTop="50dp"
+    style="@style/Widget.Ticwear.ListItem"
+    >
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:layout_gravity="center_horizontal|top"
+        android:background="@drawable/tic_separator_horizontal"
+        />
+
+    <TextView
+        android:id="@android:id/summary"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/preference_padding_vertical"
+        android:layout_marginBottom="@dimen/preference_padding_vertical"
+        android:textAppearance="?android:textAppearanceListItemSecondary"
+        android:textColor="?android:textColorHint"
+        android:maxLines="10"
+        tools:text="Detailed information text that describe something else."
+        />
+
+</FrameLayout>

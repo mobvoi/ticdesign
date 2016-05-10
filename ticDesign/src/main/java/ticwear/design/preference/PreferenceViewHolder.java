@@ -149,8 +149,8 @@ public class PreferenceViewHolder extends ViewHolder {
 
     private void transform(float scale, float alpha, long duration) {
         itemView.animate().cancel();
-        titleView.animate().cancel();
-        summaryView.animate().cancel();
+        if (titleView != null) titleView.animate().cancel();
+        if (summaryView != null) summaryView.animate().cancel();
         if (showIconAnimation()) {
             iconView.animate().cancel();
         }
@@ -160,14 +160,18 @@ public class PreferenceViewHolder extends ViewHolder {
                     .scaleX(scale)
                     .scaleY(scale)
                     .start();
-            titleView.animate()
-                    .setDuration(duration)
-                    .alpha(alpha)
-                    .start();
-            summaryView.animate()
-                    .setDuration(duration)
-                    .alpha(alpha)
-                    .start();
+            if (titleView != null) {
+                titleView.animate()
+                        .setDuration(duration)
+                        .alpha(alpha)
+                        .start();
+            }
+            if (summaryView != null) {
+                summaryView.animate()
+                        .setDuration(duration)
+                        .alpha(alpha)
+                        .start();
+            }
             if (showIconAnimation()) {
                 float inverseScale = 1.0f / scale;
                 iconView.animate()
@@ -182,8 +186,8 @@ public class PreferenceViewHolder extends ViewHolder {
                 iconView.setScaleX(inverseScale);
                 iconView.setScaleY(inverseScale);
             }
-            titleView.setAlpha(alpha);
-            summaryView.setAlpha(alpha);
+            if (titleView != null) titleView.setAlpha(alpha);
+            if (summaryView != null) summaryView.setAlpha(alpha);
             itemView.setScaleX(scale);
             itemView.setScaleY(scale);
         }

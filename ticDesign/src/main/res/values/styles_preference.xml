@@ -23,11 +23,15 @@
         <item name="tic_headerRemoveIconIfEmpty">true</item>
     </style>
 
-    <!--<style name="Preference.Ticwear.Information">-->
-    <!--<item name="tic_layout">@layout/preference_information_material</item>-->
-    <!--<item name="tic_enabled">false</item>-->
-    <!--<item name="tic_shouldDisableView">false</item>-->
-    <!--</style>-->
+    <style name="Preference.Ticwear.Information">
+        <item name="android:layout">@layout/preference_information_ticwear</item>
+        <item name="android:enabled">false</item>
+        <item name="android:shouldDisableView">false</item>
+    </style>
+
+    <style name="Preference.Ticwear.Centered">
+        <item name="android:layout">@layout/preference_centered_ticwear</item>
+    </style>
 
     <!--<style name="Preference.Ticwear.Category">-->
     <!--<item name="tic_layout">@layout/preference_category_material</item>-->

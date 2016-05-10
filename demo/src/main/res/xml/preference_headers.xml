@@ -3,7 +3,19 @@
     <header
         android:fragment="com.mobvoi.design.demo.fragments.SettingsFragment"
         android:icon="@drawable/ic_preference"
-        android:title="@string/preference.custom_config_mode" />
+        android:title="@string/preference.custom_config_mode">
+        <extra
+            android:name="settings"
+            android:value="preference" />
+    </header>
+    <header
+        android:fragment="com.mobvoi.design.demo.fragments.SettingsFragment"
+        android:icon="@drawable/ic_about"
+        android:title="@string/preference.about" >
+        <extra
+            android:name="settings"
+            android:value="about" />
+    </header>
     <header
         android:icon="@drawable/ic_batterysave"
         android:title="@string/preference.power_save_mode" />
@@ -19,7 +31,4 @@
     <header
         android:icon="@drawable/ic_developer"
         android:title="@string/preference.developer_options" />
-    <header
-        android:icon="@drawable/ic_about"
-        android:title="@string/preference.about" />
 </preference-headers>
