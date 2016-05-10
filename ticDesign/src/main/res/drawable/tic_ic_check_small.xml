@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<animated-selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:state_checked="true"
+        android:state_enabled="false"
+        android:drawable="@drawable/tic_ic_check_small_on_disabled"/>
+    <item android:state_enabled="false"
+        android:drawable="@drawable/tic_ic_check_small_off_disabled"/>
+    <item
+        android:id="@+id/on"
+        android:state_checked="true"
+        android:drawable="@drawable/tic_ic_check_small_on"/>
+    <item android:id="@+id/off"
+        android:drawable="@drawable/tic_ic_check_small_off"/>
+    <transition
+        android:drawable="@drawable/tic_ic_check_small_anim_to_on"
+        android:fromId="@+id/off"
+        android:toId="@+id/on" />
+    <transition
+        android:drawable="@drawable/tic_ic_check_small_anim_to_off"
+        android:fromId="@+id/on"
+        android:toId="@+id/off" />
+</animated-selector>

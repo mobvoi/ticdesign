@@ -103,6 +103,15 @@
 
     <style name="Widget.Ticwear.CompoundButton" parent="android:Widget.CompoundButton">
         <item name="android:background">?android:selectableItemBackgroundBorderless</item>
+        <item name="android:gravity">center</item>
+    </style>
+
+    <style name="Widget.Ticwear.CompoundButton.CheckBox">
+        <item name="android:button">@drawable/tic_ic_check_small</item>
+    </style>
+
+    <style name="Widget.Ticwear.CompoundButton.RadioButton">
+        <item name="android:button">@drawable/tic_ic_radio_small</item>
     </style>
 
     <style name="Widget.Ticwear.CompoundButton.Switch">

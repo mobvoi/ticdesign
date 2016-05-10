@@ -23,6 +23,8 @@
 
         <item name="android:lineSpacingMultiplier">@dimen/tic_text_line_spacing_multiplier</item>
 
+        <item name="android:checkboxStyle">@style/Widget.Ticwear.CompoundButton.CheckBox</item>
+        <item name="android:radioButtonStyle">@style/Widget.Ticwear.CompoundButton.RadioButton</item>
         <item name="android:switchStyle">@style/Widget.Ticwear.CompoundButton.Switch</item>
 
         <item name="android:listChoiceIndicatorMultiple">@drawable/tic_ic_check</item>

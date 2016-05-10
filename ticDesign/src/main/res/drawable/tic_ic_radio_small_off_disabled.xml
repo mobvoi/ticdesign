@@ -1,7 +1,7 @@
 <vector
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:width="@dimen/tic_compound_button_drawable_size"
-    android:height="@dimen/tic_compound_button_drawable_size"
+    android:width="@dimen/tic_compound_button_drawable_size_small"
+    android:height="@dimen/tic_compound_button_drawable_size_small"
     android:viewportHeight="104.0"
     android:viewportWidth="104.0">
     <path

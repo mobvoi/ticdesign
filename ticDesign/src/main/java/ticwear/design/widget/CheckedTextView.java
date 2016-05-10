@@ -21,15 +21,15 @@ public class CheckedTextView extends TextView implements Checkable {
     };
 
     public CheckedTextView(Context context) {
-        super(context);
+        this(context, null);
     }
 
     public CheckedTextView(Context context, AttributeSet attrs) {
-        super(context, attrs);
+        this(context, attrs, android.R.attr.textViewStyle);
     }
 
     public CheckedTextView(Context context, AttributeSet attrs, int defStyleAttr) {
-        super(context, attrs, defStyleAttr);
+        this(context, attrs, defStyleAttr, 0);
     }
 
     public CheckedTextView(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {

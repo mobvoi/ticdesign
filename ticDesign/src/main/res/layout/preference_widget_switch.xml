@@ -21,6 +21,7 @@
     android:id="@+id/switchWidget"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
+    android:button="@drawable/tic_ic_switch"
     android:focusable="false"
     android:clickable="false"
     android:background="@null" />

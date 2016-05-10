@@ -25,6 +25,7 @@
     <string name="category.widgets.fab">FAB</string>
     <string name="category.widgets.fab_delay">Delay Confirm</string>
     <string name="category.widgets.button">Buttons</string>
+    <string name="category.widgets.volume_bar">Volume Bar</string>
     <string name="category.widgets.progress">Progress/Loading</string>
     <string name="category.widgets.picker">Value Picker</string>
 

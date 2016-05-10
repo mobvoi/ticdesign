@@ -1,7 +1,7 @@
 <vector
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:width="@dimen/tic_compound_button_drawable_size"
-    android:height="@dimen/tic_compound_button_drawable_size"
+    android:width="@dimen/tic_compound_button_drawable_size_small"
+    android:height="@dimen/tic_compound_button_drawable_size_small"
     android:viewportHeight="104.0"
     android:viewportWidth="104.0">
     <path
@@ -16,12 +16,10 @@
         android:strokeWidth="@integer/tic.svg.btn.radius" />
 
     <group android:name="fgOn"
-        android:pivotX="49.0"
-        android:pivotY="61.0">
+        android:pivotX="52.0"
+        android:pivotY="52.0">
         <path
-            android:name="fgOnPath"
-            android:pathData="@string/tic.svg.btn.check.on"
-            android:strokeColor="#FFFFFF"
-            android:strokeWidth="7" />
+            android:fillColor="#FFFFFF"
+            android:pathData="@string/tic.svg.btn.radio.on" />
     </group>
 </vector>

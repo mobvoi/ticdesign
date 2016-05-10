@@ -34,7 +34,7 @@ public class WidgetsFragment extends ListFragment {
                 R.string.category_widgets_fab,
                 R.string.category_widgets_fab_delay,
                 R.string.category_widgets_button,
-                R.string.category_volume_bar,
+                R.string.category_widgets_volume_bar,
                 R.string.category_widgets_picker,
                 R.string.category_widgets_progress,
         };
@@ -63,11 +63,11 @@ public class WidgetsFragment extends ListFragment {
             case R.string.category_widgets_button: {
                 dialog = new AlertDialog.Builder(context, ticwear.design.R.style.Theme_Ticwear_Dialog_Datetime)
                         .setTitle(R.string.category_widgets_button)
-                        .setView(R.layout.dialog_widgets_btn_list)
+                        .setView(R.layout.widgets_btn_list)
                         .create();
                 break;
             }
-            case R.string.category_volume_bar:
+            case R.string.category_widgets_volume_bar:
                 dialog = new Dialog(context);
                 View layout = inflater.inflate(
                         R.layout.widgets_volume_bar, null);

@@ -1,16 +1,16 @@
 <vector
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:width="@dimen/tic_compound_button_drawable_size"
-    android:height="@dimen/tic_compound_button_drawable_size"
+    android:width="@dimen/tic_compound_button_drawable_size_small"
+    android:height="@dimen/tic_compound_button_drawable_size_small"
     android:viewportHeight="104.0"
     android:viewportWidth="104.0">
     <path
-        android:fillColor="?android:colorControlNormal"
+        android:fillColor="?android:colorControlActivated"
         android:fillAlpha="?android:disabledAlpha"
         android:pathData="@string/tic.svg.btn.two_state.bg" />
     <path
-        android:pathData="@string/tic.svg.btn.switch.off"
+        android:pathData="@string/tic.svg.btn.check.on"
         android:strokeAlpha="?android:disabledAlpha"
         android:strokeColor="#FFFFFF"
-        android:strokeWidth="6" />
+        android:strokeWidth="7" />
 </vector>
