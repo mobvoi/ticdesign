@@ -1,6 +1,7 @@
 package ticwear.design.widget;
 
 import android.content.Context;
+import android.content.res.ColorStateList;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.graphics.Canvas;
@@ -30,6 +31,7 @@ public class VolumeBar extends FrameLayout {
 
     private static final int FULL_ALPHA = 255;
     private static final int DEFAULT_DISABLED_ALPHA = FULL_ALPHA / 3;
+    private static final float SMALL_FLOAT = 0.0001f;
 
     private int mDisabledAlpha;
 
@@ -53,7 +55,7 @@ public class VolumeBar extends FrameLayout {
     // 背景色
     private int mBgColor;
     // 数值颜色
-    private int mValueColor;
+    private ColorStateList mValueColor;
     // 前后左右的padding
     private int mTouchPadding;
 
@@ -88,7 +90,7 @@ public class VolumeBar extends FrameLayout {
                 R.styleable.VolumeBar, defStyleAttr, defStyleRes);
         mDrawableRadius = (a.getDimensionPixelSize(R.styleable.VolumeBar_tic_vb_btnImageSize, 32)) / 2;
         mBgColor = a.getColor(R.styleable.VolumeBar_tic_vb_bgColor, Color.RED);
-        mValueColor = a.getColor(R.styleable.VolumeBar_tic_vb_valueColor, Color.GREEN);
+        mValueColor = a.getColorStateList(R.styleable.VolumeBar_tic_vb_valueColor);
 
         mTouchPadding = a.getDimensionPixelSize(R.styleable.VolumeBar_tic_vb_touchPadding, 0);
         int thumbImageId = a.getResourceId(R.styleable.VolumeBar_tic_vb_thumbImage, 0);
@@ -147,12 +149,10 @@ public class VolumeBar extends FrameLayout {
 
             @Override
             public void onStartTrackingTouch(SeekBar seekBar) {
-
             }
 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
-
             }
         });
     }
@@ -175,8 +175,14 @@ public class VolumeBar extends FrameLayout {
     }
 
     public void setValueColor(@ColorInt int valueColor) {
-        mValueColor = valueColor;
-        invalidate();
+        setValueColor(ColorStateList.valueOf(valueColor));
+    }
+
+    public void setValueColor(ColorStateList valueColor) {
+        if (valueColor != null) {
+            mValueColor = valueColor;
+            invalidate();
+        }
     }
 
     /**
@@ -256,7 +262,7 @@ public class VolumeBar extends FrameLayout {
     }
 
     /**
-     * 得到但前值
+     * 得到当前值
      *
      * @return 当前值
      */
@@ -367,6 +373,13 @@ public class VolumeBar extends FrameLayout {
     }
 
     @Override
+    protected void drawableStateChanged() {
+        super.drawableStateChanged();
+        invalidate();
+    }
+
+
+    @Override
     public void onDraw(Canvas canvas) {
         int radius = getHeight() / 2 - mTouchPadding;
         int radiusWithPadding = radius + mTouchPadding;
@@ -378,10 +391,11 @@ public class VolumeBar extends FrameLayout {
         // 背景线
         canvas.drawLine(radiusWithPadding, radiusWithPadding, getWidth() - radiusWithPadding, radiusWithPadding, mPaint);
 
-        mPaint.setColor(mValueColor);
+        // 根据当前状态选择颜色
+        mPaint.setColor(mValueColor.getColorForState(getDrawableState(), mValueColor.getDefaultColor()));
 
         // 取值线
-        canvas.drawLine(radiusWithPadding, radiusWithPadding, radiusWithPadding + mProgress / 100.0f * (getWidth() - 2 * radiusWithPadding), radiusWithPadding, mPaint);
+        canvas.drawLine(radiusWithPadding, radiusWithPadding, radiusWithPadding + SMALL_FLOAT + mProgress / 100.0f * (getWidth() - 2 * radiusWithPadding), radiusWithPadding, mPaint);
 
         // 判断是否隐藏减号
         float thumbleft = mTouchPadding + mProgress / 100.0f * (getWidth() - 2 * radiusWithPadding);
