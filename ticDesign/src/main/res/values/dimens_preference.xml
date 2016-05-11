@@ -6,4 +6,30 @@
     <!-- = tic_list_item_text_margin_normal - 4dp -->
     <dimen name="preference_icon_frame_margin_end">10dp</dimen>
     <dimen name="preference_padding_vertical">6dp</dimen>
+
+    <!-- Preference activity, vertical padding for the header list -->
+    <dimen name="preference_screen_header_vertical_padding_ticwear">0dp</dimen>
+
+    <!-- Preference activity side margins -->
+    <dimen name="preference_screen_side_margin_ticwear">0dp</dimen>
+    <!-- Preference activity side margins negative-->
+    <dimen name="preference_screen_side_margin_negative_ticwear">0dp</dimen>
+
+    <!-- Preference fragment padding, bottom -->
+    <dimen name="preference_fragment_padding_bottom_ticwear">0dp</dimen>
+    <!-- Preference fragment padding, sides -->
+    <dimen name="preference_fragment_padding_side_ticwear">0dp</dimen>
+
+    <dimen name="preference_screen_header_padding_side_ticwear">0dp</dimen>
+
+    <dimen name="preference_list_focused_padding_ticwear">16dp</dimen>
+
+    <!-- Weight of the left pane in a multi-pane preference layout. -->
+    <integer name="preferences_left_pane_weight_ticwear">4</integer>
+    <!-- Weight of the right pane in a multi-pane preference layout. So the split is 40:60 -->
+    <integer name="preferences_right_pane_weight_ticwear">6</integer>
+
+    <integer name="preference_screen_header_scrollbarStyle_ticwear">0x02000000</integer> <!-- outsideOverlay -->
+
+    <integer name="preference_fragment_scrollbarStyle_ticwear">0x02000000</integer> <!-- outsideOverlay -->
 </resources>

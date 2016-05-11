@@ -63,6 +63,7 @@
     <public type="style" name="Theme.Ticwear.Dialog" />
     <public type="style" name="Theme.Ticwear.Dialog.Alert" />
     <public type="style" name="Theme.Ticwear.Dialog.Alert.SameButtonStyle" />
+    <public type="style" name="Theme.Ticwear.Dialog.Alert.Compact" />
     <public type="style" name="Theme.Ticwear.Dialog.Datetime" />
 
 

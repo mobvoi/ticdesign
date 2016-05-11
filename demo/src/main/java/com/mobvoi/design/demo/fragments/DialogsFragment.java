@@ -112,7 +112,7 @@ public class DialogsFragment extends ListFragment {
                 break;
             case R.string.category_dialog_confirm:
                 dialog = new AlertDialog.Builder(context)
-                        .setTitle(R.string.category_dialog_confirm)
+                        .setIcon(R.drawable.ic_reset)
                         .setMessage(R.string.text_short_content)
                         .setPositiveButtonIcon(ticwear.design.R.drawable.tic_ic_btn_ok, new DialogInterface.OnClickListener() {
                             @Override
@@ -124,7 +124,7 @@ public class DialogsFragment extends ListFragment {
                 break;
             case R.string.category_dialog_choose:
                 dialog = new AlertDialog.Builder(context)
-                        .setIcon(R.drawable.ic_reset)
+                        .setTitle(R.string.category_dialog_confirm)
                         .setMessage(R.string.text_short_content)
                         .setPositiveButtonIcon(ticwear.design.R.drawable.tic_ic_btn_ok, new DialogInterface.OnClickListener() {
                             @Override
@@ -162,7 +162,7 @@ public class DialogsFragment extends ListFragment {
                         .create();
                 break;
             case R.string.category_dialog_long:
-                dialog = new AlertDialog.Builder(context)
+                dialog = new AlertDialog.Builder(context, R.style.Theme_Ticwear_Dialog_Alert_Compact)
                         .setTitle(R.string.category_dialog_choose)
                         .setMessage(R.string.text_long_content)
                         .setPositiveButtonIcon(ticwear.design.R.drawable.tic_ic_btn_ok, new DialogInterface.OnClickListener() {
