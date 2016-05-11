@@ -29,6 +29,7 @@ import android.support.v4.os.ParcelableCompatCreatorCallbacks;
 import android.support.v4.view.ViewCompat;
 import android.support.v4.view.WindowInsetsCompat;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewGroup;
@@ -42,6 +43,7 @@ import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
 
+import ticwear.design.DesignConfig;
 import ticwear.design.R;
 
 /**
@@ -100,6 +102,8 @@ import ticwear.design.R;
  */
 @CoordinatorLayout.DefaultBehavior(AppBarLayout.Behavior.class)
 public class AppBarLayout extends LinearLayout {
+
+    private static final String TAG = "ABL";
 
     private static final int PENDING_ACTION_NONE = 0x0;
     private static final int PENDING_ACTION_EXPANDED = 0x1;
@@ -1411,6 +1415,8 @@ public class AppBarLayout extends LinearLayout {
      */
     public static class ScrollingViewBehavior extends HeaderScrollingViewBehavior {
 
+        private static final String TAG = AppBarLayout.TAG + ".ScrollingVB";
+
         private static final int INVALID_PADDING = Integer.MIN_VALUE;
 
         private int mOverlayTop;
@@ -1530,7 +1536,7 @@ public class AppBarLayout extends LinearLayout {
                 }
             }
             if (!updated) {
-                updateChildOffset(child, mAdditionalOffset);
+                updateChildOffset(parent, child, mAdditionalOffset);
             }
         }
 
@@ -1548,13 +1554,13 @@ public class AppBarLayout extends LinearLayout {
                 } else {
                     totalOffset = dependencyHeight + mAdditionalOffset;
                 }
-                updateChildOffset(child, totalOffset);
+                updateChildOffset(parent, child, totalOffset);
                 return true;
             }
             return false;
         }
 
-        private void updateChildOffset(View child, int totalOffset) {
+        private void updateChildOffset(CoordinatorLayout parent, View child, int totalOffset) {
             setTopAndBottomOffset(totalOffset);
 
             if (totalOffset != 0) {
@@ -1567,15 +1573,25 @@ public class AppBarLayout extends LinearLayout {
                 // they won't be pushed out of the screen.
                 boolean canScroll = mScrollingView != null &&
                         mScrollingView.canScrollVertically(totalOffset);
-                if (!canScroll && totalOffset < 0) {
+                boolean overScreen = child.getBottom() > parent.getHeight() || child.getTop() < 0;
+                boolean alreadyAddedSpace = top != mOriginalPaddingTop || bottom != mOriginalPaddingBottom;
+                boolean needAdditionalSpace = alreadyAddedSpace || (!canScroll && overScreen);
+
+                if (DesignConfig.DEBUG_COORDINATOR) {
+                    Log.v(TAG, "update child offset to " + totalOffset + ", child canScroll " + canScroll +
+                            ", overScreen " + overScreen + ", alreadyAdd " + alreadyAddedSpace +
+                            ", needAdd " + needAdditionalSpace + ", child " + child);
+                }
+
+                if (needAdditionalSpace && totalOffset < 0) {
                     top = mOriginalPaddingTop == INVALID_PADDING ?
                             -totalOffset : mOriginalPaddingTop - totalOffset;
-                } else if (!canScroll && totalOffset > 0) {
+                } else if (needAdditionalSpace && totalOffset > 0) {
                     bottom = mOriginalPaddingBottom == INVALID_PADDING ?
                             totalOffset : mOriginalPaddingBottom + totalOffset;
                 }
 
-                if (!canScroll) {
+                if (needAdditionalSpace) {
                     child.setPadding(left, top, right, bottom);
                 }
             }
