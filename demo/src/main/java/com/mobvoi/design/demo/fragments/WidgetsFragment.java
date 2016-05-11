@@ -6,6 +6,9 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnShowListener;
+import android.graphics.Color;
+import android.os.Handler;
+import android.os.Message;
 import android.support.annotation.NonNull;
 import android.support.annotation.StringRes;
 import android.view.LayoutInflater;
@@ -71,9 +74,16 @@ public class WidgetsFragment extends ListFragment {
                 dialog = new Dialog(context);
                 View layout = inflater.inflate(
                         R.layout.widgets_volume_bar, null);
-                VolumeBar vBar = (VolumeBar)layout.findViewById(R.id.volume_bar);
+                final VolumeBar vBar = (VolumeBar)layout.findViewById(R.id.volume_bar);
                 final TextView tv = (TextView) layout.findViewById(R.id.volume_text);
                 tv.setText(vBar.getProgress()+"");
+                vBar.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        vBar.setSelected(true);
+//                        vBar.setValueColor(Color.RED);
+                    }
+                }, 3000);
                 vBar.setOnVolumeChangedListetener(new VolumeBar.OnVolumeChangedListener() {
                     @Override
                     public void onVolumeChanged(VolumeBar volumeBar, int progress, boolean fromUser) {

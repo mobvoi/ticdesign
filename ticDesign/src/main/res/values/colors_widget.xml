@@ -2,6 +2,8 @@
 <resources>
 
     <color name="tic_widget_background_dark">#3fff</color>
+    <color name="tic_widget_foreground_dark">#5fff</color>
+
     <color name="tic_separator_background_dark">#1fff</color>
     <color name="tic_separator_background_edge_dark">#05ffffff</color>
 

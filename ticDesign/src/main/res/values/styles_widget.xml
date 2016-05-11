@@ -219,13 +219,12 @@
 
     <style name="Widget.Ticwear.VolumeBar" parent="android:Widget">
         <item name="tic_vb_valueColor">?android:colorAccent</item>
-        <item name="tic_vb_bgColor">@color/tic_basic_gold_grey_darken</item>
+        <item name="tic_vb_bgColor">@color/tic_widget_background_dark</item>
         <item name="tic_vb_btnImageSize">18dp</item>
         <item name="tic_vb_touchPadding">0dp</item>
         <item name="tic_vb_thumbImage">@drawable/tic_ic_volumeup_32px</item>
         <item name="tic_vb_thumbLeftImage">@drawable/tic_ic_volumenone_32px</item>
     </style>
-
 
     <style name="Widget.Ticwear.VolumeBar.Volume">
         <item name="tic_vb_valueColor">@color/tic_basic_indigo</item>
