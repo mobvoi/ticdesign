@@ -19,6 +19,8 @@ package ticwear.design.preference;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.drawable.Drawable;
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.support.annotation.CallSuper;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
@@ -37,39 +39,106 @@ import ticwear.design.widget.VolumeBar.OnVolumeChangedListener;
  */
 public class VolumePreference extends Preference {
     private int volume;
-    private int step;
-    private int min;
-    private int max;
-    private Drawable drawable;
 
-    private OnVolumeChangedListener mVolumeChangedListener;
+    private OnVolumeChangedListener mInternalVolumeChangedListener;
+    private OnVolumeChangedListener mVolumeChangeListener;
+
 
     public void setVolume(int volume) {
         final boolean changed = this.volume != volume;
         if (changed) {
             this.volume = volume;
+            persistInt(this.volume);
             notifyChanged();
         }
     }
 
-    public void setConfig(int min, int max, int step) {
-        this.max = max;
-        this.max = min;
-        this.step = step;
-        notifyChanged();
+    @Override
+    protected Object onGetDefaultValue(TypedArray a, int index) {
+        return a.getInt(index, 0);
     }
 
-    public void setDrawable(Drawable drawable) {
-        this.drawable = drawable;
-        notifyChanged();
+    @Override
+    protected void onSetInitialValue(boolean restoreValue, Object defaultValue) {
+        setVolume(getPersistedInt(0));
     }
+
+
+    @Override
+    protected Parcelable onSaveInstanceState() {
+        final Parcelable superState = super.onSaveInstanceState();
+        if (isPersistent()) {
+            // No need to save instance state since it's persistent
+            return superState;
+        }
+        final SavedState myState = new SavedState(superState);
+        myState.volume = volume;
+        return myState;
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Parcelable state) {
+        if (state == null || !state.getClass().equals(SavedState.class)) {
+            // Didn't save state for us in onSaveInstanceState
+            super.onRestoreInstanceState(state);
+            return;
+        }
+
+        SavedState myState = (SavedState) state;
+        super.onRestoreInstanceState(myState.getSuperState());
+        setVolume(myState.volume);
+    }
+
+    static class SavedState extends BaseSavedState {
+        int volume;
+
+        public SavedState(Parcel source) {
+            super(source);
+            volume = source.readInt();
+        }
+
+        @Override
+        public void writeToParcel(Parcel dest, int flags) {
+            super.writeToParcel(dest, flags);
+            dest.writeInt(volume);
+        }
+
+        public SavedState(Parcelable superState) {
+            super(superState);
+        }
+
+        public static final Parcelable.Creator<SavedState> CREATOR =
+                new Parcelable.Creator<SavedState>() {
+                    public SavedState createFromParcel(Parcel in) {
+                        return new SavedState(in);
+                    }
+
+                    public SavedState[] newArray(int size) {
+                        return new SavedState[size];
+                    }
+                };
+    }
+
 
     public void setVolumeChangedListener(OnVolumeChangedListener volumeChangedListener) {
-        mVolumeChangedListener = volumeChangedListener;
+        mVolumeChangeListener = volumeChangedListener;
     }
 
     public VolumePreference(Context context, AttributeSet attrs, int defStyleAttr) {
         this(context, attrs, defStyleAttr, R.style.Preference_Ticwear_VolumePreference);
+        mInternalVolumeChangedListener = new OnVolumeChangedListener() {
+            @Override
+            public void onVolumeChanged(VolumeBar volumeBar, int progress, boolean fromUser) {
+                volume = volumeBar.getProgress();
+                if (fromUser) {
+                    persistInt(volume);
+                }
+                setVolume(volumeBar.getProgress());
+                if (mVolumeChangeListener != null) {
+                    mVolumeChangeListener.onVolumeChanged(volumeBar, progress, fromUser);
+                }
+            }
+        };
     }
 
     public VolumePreference(
@@ -119,11 +188,7 @@ public class VolumePreference extends Preference {
             VolumePreference volumePreference = (VolumePreference) preference;
             PreferenceData myData = (PreferenceData) data;
             myData.volume = volumePreference.volume;
-            myData.max = volumePreference.max;
-            myData.min = volumePreference.min;
-            myData.step = volumePreference.step;
-            myData.volumeChangedListener = volumePreference.mVolumeChangedListener;
-            myData.drawable = volumePreference.drawable;
+            myData.volumeChangedListener = volumePreference.mInternalVolumeChangedListener;
         }
 
         @Override
@@ -134,29 +199,11 @@ public class VolumePreference extends Preference {
             if (volumeBar != null) {
                 volumeBar.setOnVolumeChangedListetener(myData.volumeChangedListener);
                 volumeBar.setProgress(myData.volume);
-                if (myData.min != 0) {
-                    volumeBar.setMinLimit(myData.min);
-                }
-                if (myData.max != 0) {
-                    volumeBar.setMinLimit(myData.max);
-                }
-
-                if (myData.step != 0) {
-                    volumeBar.setStep(myData.step);
-                }
-
-                if(preferenceData.getIcon() != null) {
-                    volumeBar.setDrawable(myData.drawable);
-                }
             }
         }
 
         protected static class PreferenceData extends PreferenceViewHolder.PreferenceData {
             protected int volume;
-            protected int max;
-            protected int min;
-            protected int step;
-            protected Drawable drawable;
             protected OnVolumeChangedListener volumeChangedListener;
         }
 
