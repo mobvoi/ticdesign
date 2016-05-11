@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ticwear.design.preference.PreferenceScreen
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:title="@string/preference.about">
+
+    <ticwear.design.preference.Preference
+        style="?tic_centeredPreferenceStyle"
+        android:key="info_label_model"
+        android:title="@string/preference.info_label_model"
+        android:summary="Ticwatch 2"/>
+
+    <ticwear.design.preference.Preference
+        style="?tic_centeredPreferenceStyle"
+        android:key="info_label_device_name"
+        android:title="@string/preference.info_label_device_name"
+        android:summary="Ticwatch 2 3DF8" />
+
+    <ticwear.design.preference.Preference
+        style="?tic_centeredPreferenceStyle"
+        android:key="info_label_version"
+        android:title="@string/preference.info_label_version"
+        android:summary="5.1" />
+
+    <ticwear.design.preference.Preference
+        style="?tic_centeredPreferenceStyle"
+        android:key="info_label_build"
+        android:title="@string/preference.info_label_build"
+        android:summary="4.0.3" />
+
+    <ticwear.design.preference.Preference
+        style="?tic_centeredPreferenceStyle"
+        android:key="hardware_version"
+        android:title="@string/preference.hardware_version"
+        android:summary="MOLY.WR8.WFAD.MD.WG.MPV32.V77" />
+
+    <ticwear.design.preference.PreferenceScreen
+        style="?tic_centeredPreferenceStyle"
+        android:key="dev_option_show_pair_qrcode"
+        android:title="@string/preference.info_label_regulator_information">
+        <intent
+            android:action="android.settings.BLUETOOTH_SETTINGS" />
+    </ticwear.design.preference.PreferenceScreen>
+
+</ticwear.design.preference.PreferenceScreen>

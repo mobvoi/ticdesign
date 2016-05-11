@@ -117,7 +117,7 @@
     <string name="preference.hotword_setting">热词设置</string>
     <string name="preference.hotword_chinese">你好问问</string>
     <string name="preference.hotword_moto">OK，摩托手表</string>
-    <string name="preference.ambientmode_tips">开启表盘常亮会降低续航表现,请谨慎开启</string>
+    <string name="preference.ambientmode_tips">开启表盘常亮会降低续航表现，请谨慎开启</string>
     <string name="preference.power_saving_mode">省电模式</string>
     <string name="preference.custom_config_mode">偏好设置</string>
     <string name="preference.enable_super_power_save_mode">进入省电模式\n将只显示时间</string>

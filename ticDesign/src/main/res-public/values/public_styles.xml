@@ -11,9 +11,11 @@
 
     <public type="style" name="TextAppearance.Ticwear.CollapsingToolbar.Expanded" />
 
-    <public type="style" name="Preference.Ticwear" />
     <public type="style" name="PreferenceFragment.Ticwear" />
     <public type="style" name="PreferenceActivity.Ticwear" />
+    <public type="style" name="Preference.Ticwear" />
+    <public type="style" name="Preference.Ticwear.Information" />
+    <public type="style" name="Preference.Ticwear.Centered" />
     <public type="style" name="Preference.Ticwear.CheckBoxPreference" />
     <public type="style" name="Preference.Ticwear.SwitchPreference" />
     <public type="style" name="Preference.Ticwear.PreferenceScreen" />

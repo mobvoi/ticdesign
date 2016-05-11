@@ -68,9 +68,10 @@
         <item name="tic_preferenceFragmentStyle">@style/PreferenceFragment.Ticwear</item>
         <!--<item name="android:preferenceCategoryStyle">@style/Preference.Ticwear.Category</item>-->
         <item name="android:preferenceStyle">@style/Preference.Ticwear</item>
-        <!--<item name="android:preferenceInformationStyle">@style/Preference.Ticwear.Information</item>-->
+        <item name="android:preferenceInformationStyle">@style/Preference.Ticwear.Information</item>
         <item name="android:checkBoxPreferenceStyle">@style/Preference.Ticwear.CheckBoxPreference</item>
         <item name="android:switchPreferenceStyle">@style/Preference.Ticwear.SwitchPreference</item>
+        <item name="tic_centeredPreferenceStyle">@style/Preference.Ticwear.Centered</item>
         <!--<item name="tic_seekBarPreferenceStyle">@style/Preference.Ticwear.SeekBarPreference</item>-->
         <item name="android:dialogPreferenceStyle">@style/Preference.Ticwear.DialogPreference</item>
         <item name="android:ringtonePreferenceStyle">@style/Preference.Ticwear.RingtonePreference</item>

@@ -57,6 +57,19 @@
         android:dependency="parent_checkbox_preference"
         android:layout="?android:preferenceLayoutChild"
         android:title="@string/preference.wifi_more"
-        android:summary="@string/preference.forget_wifi" />
+        android:summary="@string/preference.forget_wifi">
+
+
+        <ticwear.design.preference.SwitchPreference
+            android:key="next_screen_switch_preference"
+            android:title="@string/preference.enable_super_power_save_mode"
+            android:summary="@string/preference.enable_super_power_save_summery" />
+
+        <ticwear.design.preference.Preference
+            android:summary="@string/preference.ambientmode_tips"
+            style="?android:preferenceInformationStyle"
+            />
+
+    </ticwear.design.preference.PreferenceScreen>
 
 </ticwear.design.preference.PreferenceScreen>

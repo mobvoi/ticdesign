@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item>
+        <layer-list>
+            <item>
+                <color android:color="@color/tic_separator_background_edge_dark"/>
+            </item>
+            <item>
+                <shape android:shape="rectangle">
+                    <gradient
+                        android:type="linear"
+                        android:startColor="@android:color/transparent"
+                        android:endColor="@android:color/transparent"
+                        android:centerColor="@color/tic_separator_background_edge_dark"
+                        />
+                </shape>
+            </item>
+            <item>
+                <shape android:shape="rectangle">
+                    <gradient
+                        android:type="linear"
+                        android:startColor="@color/tic_separator_background_edge_dark"
+                        android:endColor="@color/tic_separator_background_edge_dark"
+                        android:centerColor="@color/tic_separator_background_dark"
+                        />
+                </shape>
+            </item>
+        </layer-list>
+    </item>
+
+</selector>
