@@ -28,7 +28,8 @@
         android:id="@+id/topPanel"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        >
         <LinearLayout android:id="@+id/title_template"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -64,15 +65,15 @@
         android:orientation="vertical"
         app:tic_layout_behavior="@string/tic_appbar_scrolling_view_behavior">
 
-        <FrameLayout android:id="@+id/contentPanel"
+        <FrameLayout
+            android:id="@+id/contentPanel"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:clipToPadding="false"
-            android:paddingTop="8dp"
-            android:paddingBottom="8dp"
             android:nestedScrollingEnabled="true"
-            android:minHeight="48dp">
+            android:minHeight="48dp"
+            >
             <View android:id="@+id/scrollIndicatorUp"
                 android:visibility="gone"
                 android:layout_width="match_parent"
@@ -80,22 +81,24 @@
                 android:layout_gravity="top"
                 android:background="@null"/>
             <ticwear.design.widget.SubscribedScrollView
-                style="@style/Widget.Ticwear.ListView"
+                style="?tic_dialogContentStyle"
                 android:id="@+id/scrollView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingStart="?android:listPreferredItemPaddingStart"
-                android:paddingEnd="?android:listPreferredItemPaddingEnd"
-                android:nestedScrollingEnabled="true">
+                android:nestedScrollingEnabled="true"
+                >
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
-                    <TextView android:id="@+id/message"
-                        style="@android:style/TextAppearance.Material.Subhead"
+                    <TextView
+                        android:id="@+id/message"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:paddingTop="0dp" />
+                        android:paddingTop="0dp"
+                        tools:text="Dialog content message in here."
+                        style="@style/TextAppearance.Ticwear.DialogContent"
+                        />
                     <Space android:id="@+id/textSpacerNoButtons"
                         android:visibility="gone"
                         android:layout_width="0dp"
@@ -110,17 +113,20 @@
                 android:background="@null"/>
         </FrameLayout>
 
-        <FrameLayout android:id="@+id/customPanel"
+        <FrameLayout
+            android:id="@+id/customPanel"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:minHeight="48dp">
+            android:minHeight="48dp"
+            >
             <FrameLayout android:id="@+id/custom"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
         </FrameLayout>
 
-        <LinearLayout android:id="@+id/textButtonPanel"
+        <LinearLayout
+            android:id="@+id/textButtonPanel"
             style="?android:buttonBarStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -133,8 +139,9 @@
             android:clipToPadding="false"
             android:paddingStart="?android:listPreferredItemPaddingStart"
             android:paddingEnd="?android:listPreferredItemPaddingEnd"
-            android:paddingTop="8dp"
-            android:paddingBottom="12dp">
+            android:paddingTop="16dp"
+            android:paddingBottom="12dp"
+            >
             <Space
                 android:layout_width="0dp"
                 android:layout_height="0dp"
@@ -184,7 +191,9 @@
         android:layout_marginEnd="?android:listPreferredItemPaddingEnd"
         android:layout_marginTop="8dp"
         android:layout_marginBottom="@dimen/alert_dialog_round_padding_bottom"
-        android:elevation="0dp" />
+        android:elevation="0dp"
+        tools:layout_marginStart="@dimen/alert_dialog_round_button_padding_horizontal_pair"
+        />
 
     <ticwear.design.widget.FloatingActionButton
         style="?tic_iconButtonBarNeutralButtonStyle"
@@ -209,6 +218,8 @@
         android:layout_marginEnd="?android:listPreferredItemPaddingEnd"
         android:layout_marginTop="8dp"
         android:layout_marginBottom="@dimen/alert_dialog_round_padding_bottom"
-        android:elevation="0dp" />
+        android:elevation="0dp"
+        tools:layout_marginEnd="@dimen/alert_dialog_round_button_padding_horizontal_pair"
+        />
 
 </ticwear.design.widget.CoordinatorLayout>

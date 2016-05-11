@@ -22,6 +22,7 @@
         <item name="android:textAppearanceButton">@style/TextAppearance.Ticwear.Widget.Button</item>
 
         <item name="android:lineSpacingMultiplier">@dimen/tic_text_line_spacing_multiplier</item>
+        <item name="android:lineSpacingExtra">@dimen/tic_text_line_spacing_extra</item>
 
         <item name="android:checkboxStyle">@style/Widget.Ticwear.CompoundButton.CheckBox</item>
         <item name="android:radioButtonStyle">@style/Widget.Ticwear.CompoundButton.RadioButton</item>
@@ -48,6 +49,7 @@
         <item name="android:windowTitleStyle">@style/WindowTitle.Ticwear</item>
         <item name="tic_windowIconStyle">@style/WindowIcon.Ticwear</item>
         <item name="tic_windowAppBarStyle">@style/WindowAppBar.Ticwear.Small</item>
+        <item name="tic_dialogContentStyle">@style/Widget.Ticwear.ListView.Dialog</item>
 
         <!-- Dialog attributes -->
         <item name="android:dialogTheme">@style/Theme.Ticwear.Dialog</item>
@@ -153,6 +155,10 @@
     <style name="Theme.Ticwear.Dialog" parent="Theme.Ticwear.BaseDialog"/>
 
     <style name="Theme.Ticwear.Dialog.BaseAlert">
+        <item name="android:windowTitleStyle">@style/WindowTitle.Ticwear</item>
+        <item name="tic_windowIconStyle">@style/WindowIcon.Ticwear</item>
+        <item name="tic_windowAppBarStyle">@style/WindowAppBar.Ticwear</item>
+        <item name="tic_dialogContentStyle">@style/Widget.Ticwear.ListView.Dialog</item>
     </style>
 
     <!-- Material theme for alert dialog windows, which is used by the
@@ -164,6 +170,12 @@
 
     <style name="Theme.Ticwear.Dialog.Alert.SameButtonStyle">
         <item name="tic_iconButtonBarNegativeButtonStyle">?attr/tic_iconButtonBarButtonStyle</item>
+    </style>
+
+    <style name="Theme.Ticwear.Dialog.Alert.Compact">
+        <item name="android:windowTitleStyle">@style/WindowTitle.Ticwear.Small</item>
+        <item name="tic_windowAppBarStyle">@style/WindowAppBar.Ticwear.Small</item>
+        <item name="tic_dialogContentStyle">@style/Widget.Ticwear.ListView.Dialog.Compact</item>
     </style>
 
     <style name="Theme.Ticwear.Dialog.Datetime">

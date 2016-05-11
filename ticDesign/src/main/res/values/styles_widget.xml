@@ -91,6 +91,18 @@
         <item name="android:scrollbarStyle">outsideOverlay</item>
     </style>
 
+    <style name="Widget.Ticwear.ListView.Dialog">
+        <item name="android:paddingStart">@dimen/alert_dialog_message_padding_horizontal</item>
+        <item name="android:paddingEnd">@dimen/alert_dialog_message_padding_horizontal</item>
+        <item name="android:paddingBottom">0dp</item>
+    </style>
+
+    <style name="Widget.Ticwear.ListView.Dialog.Compact">
+        <item name="android:paddingStart">?android:listPreferredItemPaddingStart</item>
+        <item name="android:paddingEnd">?android:listPreferredItemPaddingEnd</item>
+        <item name="android:paddingBottom">0dp</item>
+    </style>
+
     <style name="Widget.Ticwear.ListItem">
         <item name="android:minHeight">?android:listPreferredItemHeight</item>
         <item name="android:gravity">center_vertical</item>

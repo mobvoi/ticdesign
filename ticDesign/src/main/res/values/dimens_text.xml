@@ -11,7 +11,15 @@
     <dimen name="tic_text_size_small_2">13sp</dimen>
     <dimen name="tic_text_size_extra_small">12sp</dimen>
 
-    <item name="tic_text_line_spacing_multiplier" format="float" type="dimen">1.4</item>
+    <!-- After I do some math (using linear regression), I know the line-height & text-size
+         is following the formula below:
+         height = 1.18 * size + 4.15
+
+         The design given lineHeightMultiplier is 1.4, so I calculate the values below to
+         match the design.
+     -->
+    <item name="tic_text_line_spacing_multiplier" format="float" type="dimen">1.2</item>
+    <dimen name="tic_text_line_spacing_extra">-2.5dp</dimen>
 
     <dimen name="tic_text_size_headline_ticwear">@dimen/tic_text_size_extra_large</dimen>
     <dimen name="tic_text_size_title_ticwear">@dimen/tic_text_size_large_1</dimen>
