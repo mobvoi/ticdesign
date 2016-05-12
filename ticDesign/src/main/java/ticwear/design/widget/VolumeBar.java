@@ -367,8 +367,8 @@ public class VolumeBar extends FrameLayout {
             mMinButton.setTouchListener(mMinButtonListener);
             mMaxButton.setTouchListener(mMaxButtonListener);
         } else {
-            mMinButton.removeTouchListener();
-            mMaxButton.removeTouchListener();
+            mMinButton.setTouchListener(null);
+            mMaxButton.setTouchListener(null);
         }
     }
 

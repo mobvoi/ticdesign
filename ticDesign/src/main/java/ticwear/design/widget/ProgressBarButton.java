@@ -1,16 +1,13 @@
 package ticwear.design.widget;
 
 import android.content.Context;
-import android.os.Handler;
-import android.os.Message;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
-import android.view.View;
 import android.widget.ImageView;
 
 public class ProgressBarButton extends ImageView {
-    private static final int MSG_LONG_PRESS = 1;
-    private static final int DELAY_MILLIS = 300;
+
+    private static final int LONG_PRESS_DELAY = 300;
 
     private static int mDefaultImageSize;
 
@@ -28,32 +25,36 @@ public class ProgressBarButton extends ImageView {
         super(context, attrs, defStyleAttr, defStyleRes);
     }
 
-    private MyHandler mHandler;
-
     public void setTouchListener(TouchListener touchListener) {
-        mHandler = new MyHandler();
+        if (mTouchListener == touchListener) {
+            return;
+        }
+
+        stopLongPressUpdate();
+
         mTouchListener = touchListener;
     }
 
-    public void removeTouchListener() {
-        mTouchListener = null;
-        if (mHandler != null) {
-            mHandler.removeMessages(MSG_LONG_PRESS);
-            mHandler = null;
-        }
+    private void stopLongPressUpdate() {
+        removeCallbacks(mLongPressUpdateRunnable);
     }
 
-    private class MyHandler extends Handler {
+    @Override
+    protected void onDetachedFromWindow() {
+        stopLongPressUpdate();
+        setTouchListener(null);
+        super.onDetachedFromWindow();
+    }
+
+    private final Runnable mLongPressUpdateRunnable = new Runnable() {
         @Override
-        public void handleMessage(Message msg) {
-            switch (msg.what) {
-                case MSG_LONG_PRESS:
-                    sendEmptyMessageDelayed(MSG_LONG_PRESS, 60);
-                    ProgressBarButton.this.mTouchListener.onLongPress();
-                    break;
+        public void run() {
+            if (mTouchListener != null) {
+                mTouchListener.onLongPress();
+                ProgressBarButton.this.postDelayed(this, 60);
             }
         }
-    }
+    };
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
@@ -64,12 +65,12 @@ public class ProgressBarButton extends ImageView {
         int action = event.getAction();
         if (action == MotionEvent.ACTION_DOWN) {
             mTouchListener.onDown();
-            mHandler.sendEmptyMessageDelayed(MSG_LONG_PRESS, DELAY_MILLIS);
+            postDelayed(mLongPressUpdateRunnable, LONG_PRESS_DELAY);
         } else {
+            stopLongPressUpdate();
             if (action == MotionEvent.ACTION_UP) {
                 mTouchListener.onUp();
             }
-            mHandler.removeMessages(MSG_LONG_PRESS);
         }
         return true;
     }
