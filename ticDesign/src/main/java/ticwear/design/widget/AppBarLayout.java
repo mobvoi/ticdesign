@@ -1423,8 +1423,8 @@ public class AppBarLayout extends LinearLayout {
         private int mAdditionalOffset;
 
         private View mScrollingView;
-        private int mOriginalPaddingTop;
-        private int mOriginalPaddingBottom;
+        private int mOriginalPaddingTop = INVALID_PADDING;
+        private int mOriginalPaddingBottom = INVALID_PADDING;
 
         public ScrollingViewBehavior() {}
 
@@ -1436,10 +1436,6 @@ public class AppBarLayout extends LinearLayout {
             mOverlayTop = a.getDimensionPixelSize(
                     R.styleable.ScrollingViewBehavior_Params_tic_behavior_overlapTop, 0);
             a.recycle();
-
-            mAdditionalOffset = 0;
-            mOriginalPaddingTop = INVALID_PADDING;
-            mOriginalPaddingBottom = INVALID_PADDING;
         }
 
         @Override
