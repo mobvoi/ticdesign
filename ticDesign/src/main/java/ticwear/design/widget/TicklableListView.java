@@ -75,6 +75,10 @@ public class TicklableListView extends RecyclerView
     public void setLayoutManager(LayoutManager layout) {
         super.setLayoutManager(layout);
 
+        if (isInEditMode()) {
+            return;
+        }
+
         if (mTicklableLayoutManager == layout) {
             return;
         }

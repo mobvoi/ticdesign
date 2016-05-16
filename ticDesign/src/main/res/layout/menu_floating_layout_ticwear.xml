@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ticwear.design.internal.view.menu.MenuFloatingLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:orientation="vertical"
+    >
+
+    <LinearLayout
+        android:id="@+id/tic_menu_linear_layout_1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center"/>
+
+    <LinearLayout
+        android:id="@+id/tic_menu_linear_layout_2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center"/>
+
+    <ticwear.design.widget.TicklableListView
+        style="@style/Widget.Ticwear.ListView"
+        android:id="@+id/tic_menu_list_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:visibility="gone"
+        />
+
+</ticwear.design.internal.view.menu.MenuFloatingLayout>

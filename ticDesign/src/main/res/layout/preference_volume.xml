@@ -46,7 +46,7 @@
             android:layout_height="@dimen/tic_list_item_icon_frame_size_normal"
             android:layout_gravity="center"
             android:contentDescription="@null"
-            android:src="@drawable/tic_list_item_icon_background" />
+            android:src="@drawable/tic_round_item_icon_background" />
 
         <ImageView
             android:id="@android:id/icon"

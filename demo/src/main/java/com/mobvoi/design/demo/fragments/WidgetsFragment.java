@@ -6,9 +6,6 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnShowListener;
-import android.graphics.Color;
-import android.os.Handler;
-import android.os.Message;
 import android.support.annotation.NonNull;
 import android.support.annotation.StringRes;
 import android.view.LayoutInflater;
@@ -64,7 +61,7 @@ public class WidgetsFragment extends ListFragment {
                 break;
             }
             case R.string.category_widgets_button: {
-                dialog = new AlertDialog.Builder(context, ticwear.design.R.style.Theme_Ticwear_Dialog_Datetime)
+                dialog = new AlertDialog.Builder(context, ticwear.design.R.style.Theme_Ticwear_Dialog_Alert_Datetime)
                         .setTitle(R.string.category_widgets_button)
                         .setView(R.layout.widgets_btn_list)
                         .create();

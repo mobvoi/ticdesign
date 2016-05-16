@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    tools:layout_gravity="center_horizontal|bottom"
+    >
+
+    <ticwear.design.widget.FloatingActionButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:id="@android:id/closeButton"
+        android:src="@drawable/tic_ic_btn_cancel"
+        android:backgroundTint="@color/tic_widget_background_dark"
+        android:contentDescription="@null"
+        android:clickable="false"
+        />
+
+</FrameLayout>

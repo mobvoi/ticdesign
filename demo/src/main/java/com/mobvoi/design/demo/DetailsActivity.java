@@ -7,6 +7,7 @@ import android.os.Bundle;
 
 import com.mobvoi.design.demo.fragments.DialogsFragment;
 import com.mobvoi.design.demo.fragments.ListFragment;
+import com.mobvoi.design.demo.fragments.MenuFragment;
 import com.mobvoi.design.demo.fragments.SpecFragment;
 import com.mobvoi.design.demo.fragments.TransitionsFragment;
 import com.mobvoi.design.demo.fragments.WidgetsFragment;
@@ -40,6 +41,9 @@ public class DetailsActivity extends Activity {
                 break;
             case R.string.category_showcase_title:
                 detailFragment = new TransitionsFragment();
+                break;
+            case R.string.category_menu_title:
+                detailFragment = new MenuFragment();
                 break;
             case R.string.category_spec_title:
                 detailFragment = new SpecFragment();

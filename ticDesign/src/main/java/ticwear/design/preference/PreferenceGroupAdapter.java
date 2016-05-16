@@ -111,6 +111,13 @@ public class PreferenceGroupAdapter
 
     public PreferenceGroupAdapter(PreferenceGroup preferenceGroup) {
         mPreferenceGroup = preferenceGroup;
+
+        // TODO: bug that when PrefScreen open a dialog, listener Adapter for upper level children
+        // (set in flattenPreferenceGroup) will be override by new listener for current level here.
+        // To fix this, maybe we should use two listener (one for data change of children, another
+        // for hierarchy change of pref-screen), and set hierarchy listener here, and data listener
+        // in flattenPreferenceGroup.
+
         // If this group gets or loses any children, let us know
         mPreferenceGroup.setOnPreferenceChangeInternalListener(this);
 

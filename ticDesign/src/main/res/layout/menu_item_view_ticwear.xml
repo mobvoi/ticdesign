@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ticwear.design.internal.view.menu.MenuItemView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:gravity="center"
+    tools:layout_gravity="center"
+    >
+
+    <ImageButton
+        style="@style/Widget.Ticwear.ImageButton.Large"
+        android:id="@android:id/icon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:background="@drawable/tic_selectable_round_item_background"
+        android:layout_margin="@dimen/tic_menu_item_content_margin_large"
+        android:tint="@android:color/white"
+        android:contentDescription="@null"
+        />
+
+    <TextView
+        style="@style/TextAppearance.Ticwear.Subhead"
+        android:id="@android:id/title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="@dimen/tic_menu_item_content_margin_large"
+        android:layout_marginBottom="@dimen/tic_menu_item_content_margin_large"
+        android:gravity="center_horizontal"
+        android:maxLines="2"
+        android:textSize="@dimen/tic_menu_item_title_size_2"
+        android:visibility="visible"
+        tools:text="Action"/>
+
+</ticwear.design.internal.view.menu.MenuItemView>

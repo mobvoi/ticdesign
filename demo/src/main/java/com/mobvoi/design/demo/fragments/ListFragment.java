@@ -120,7 +120,12 @@ public class ListFragment extends Fragment {
     public void onTitleClicked(View view, @StringRes int titleResId) {
     }
 
-    public static class ViewHolder extends SimpleRecyclerAdapter.ViewHolder implements View.OnClickListener {
+    public boolean onTitleLongClicked(View view, @StringRes int titleResId) {
+        return false;
+    }
+
+    public static class ViewHolder extends SimpleRecyclerAdapter.ViewHolder
+            implements View.OnClickListener, View.OnLongClickListener {
 
         private final WeakReference<ListFragment> listFragment;
 
@@ -132,6 +137,7 @@ public class ListFragment extends Fragment {
             ButterKnife.bind(this, view);
             this.listFragment = new WeakReference<>(listFragment);
             view.setOnClickListener(this);
+            view.setOnLongClickListener(this);
         }
 
         @Override
@@ -141,6 +147,16 @@ public class ListFragment extends Fragment {
                 int resId = (int) getBindingData(fromList[0]);
                 listFragment.onTitleClicked(v, resId);
             }
+        }
+
+        @Override
+        public boolean onLongClick(View v) {
+            ListFragment listFragment = this.listFragment.get();
+            if (listFragment != null) {
+                int resId = (int) getBindingData(fromList[0]);
+                return listFragment.onTitleLongClicked(v, resId);
+            }
+            return false;
         }
 
         @Override

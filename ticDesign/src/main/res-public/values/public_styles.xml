@@ -56,6 +56,7 @@
     <public type="style" name="Animation.Ticwear.Activity" />
     <public type="style" name="Animation.Ticwear.Activity.Translucent" />
     <public type="style" name="Animation.Ticwear.Dialog" />
+    <public type="style" name="Animation.Ticwear.Dialog.NonSwipe" />
     <public type="style" name="AlertDialog.Ticwear" />
 
     <public type="style" name="Theme.Ticwear" />
@@ -64,7 +65,8 @@
     <public type="style" name="Theme.Ticwear.Dialog.Alert" />
     <public type="style" name="Theme.Ticwear.Dialog.Alert.SameButtonStyle" />
     <public type="style" name="Theme.Ticwear.Dialog.Alert.Compact" />
-    <public type="style" name="Theme.Ticwear.Dialog.Datetime" />
+    <public type="style" name="Theme.Ticwear.Dialog.Alert.Datetime" />
+    <public type="style" name="Theme.Ticwear.Dialog.Alert.NonSwipe" />
 
 
     <public type="style" name="Widget.Ticwear.TimePicker" />
