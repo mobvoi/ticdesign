@@ -9,9 +9,9 @@
     <string name="skip_button_label">Skip</string>
 
     <!-- Default text for a button that can be toggled on and off. -->
-    <string name="capital_on">ON</string>
+    <string name="capital_on">On</string>
     <!-- Default text for a button that can be toggled on and off. -->
-    <string name="capital_off">OFF</string>
+    <string name="capital_off">Off</string>
 
     <!-- Ringtone picker strings --> <skip />
     <!-- Choice in the ringtone picker.  If chosen, the default ringtone will be used. -->
