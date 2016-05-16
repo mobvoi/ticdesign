@@ -124,18 +124,34 @@ class FocusLayoutHelper {
 
     private class OnGestureListener extends SimpleOnGestureListener {
 
-        private static final long RIPPLE_SAFE_TO_SHOW_DELAY = 100;
+        private static final long SAFE_PRESS_DELAY = 60;
 
-        private final Runnable mShowRippleRunnable = new Runnable() {
+        private final Runnable mConfirmPressRunnable = new Runnable() {
             @Override
             public void run() {
-                startPressIfPossible(mTargetView, mHotspotX, mHotspotY);
+                confirmPress();
             }
         };
 
+        private boolean mPressConfirmed;
         private View mTargetView;
         private float mHotspotX;
         private float mHotspotY;
+
+        @Override
+        public boolean onDown(MotionEvent e) {
+            mPressConfirmed = false;
+            if (getChildCount() > 0) {
+                int centerIndex = findCenterViewIndex();
+                View child = getChildAt(centerIndex);
+                mHotspotX = e.getX() - child.getX();
+                mHotspotY = e.getY() - child.getY();
+                mTargetView = child;
+                // The default show press delay is too quick, so we use our own delay duration.
+                mTargetView.postDelayed(mConfirmPressRunnable, SAFE_PRESS_DELAY);
+            }
+            return false;
+        }
 
         @Override
         public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX, float distanceY) {
@@ -157,23 +173,14 @@ class FocusLayoutHelper {
         }
 
         @Override
-        public void onShowPress(MotionEvent e) {
-            cancelPressIfNeed();
-            if (getChildCount() > 0) {
-                int centerIndex = findCenterViewIndex();
-                View child = getChildAt(centerIndex);
-                mHotspotX = e.getX() - child.getX();
-                mHotspotY = e.getY() - child.getY();
-                mTargetView = child;
-                // The default show press delay is too quick, so we use our own delay duration.
-                mTargetView.postDelayed(mShowRippleRunnable, RIPPLE_SAFE_TO_SHOW_DELAY);
-            }
+        public boolean onSingleTapUp(MotionEvent e) {
+            stopPressConfirm(mTargetView);
+            return false;
         }
 
         @Override
         public boolean onSingleTapConfirmed(MotionEvent e) {
-            startPressIfPossible(mTargetView, mHotspotX, mHotspotY);
-            if (mTargetView != null) {
+            if (mTargetView != null && mPressConfirmed) {
                 mTargetView.performClick();
             }
             cancelPressIfNeed();
@@ -191,8 +198,15 @@ class FocusLayoutHelper {
             cancelPressIfNeed();
         }
 
+        private void confirmPress() {
+            if (mTargetView != null) {
+                mPressConfirmed = true;
+                startPressIfPossible(mTargetView, mHotspotX, mHotspotY);
+            }
+        }
+
         private void startPressIfPossible(View view, float x, float y) {
-            stopDelayShowPress(view);
+            stopPressConfirm(view);
             if (view != null) {
                 view.drawableHotspotChanged(x, y);
                 view.setPressed(true);
@@ -200,16 +214,17 @@ class FocusLayoutHelper {
         }
 
         private void cancelPressIfNeed() {
-            stopDelayShowPress(mTargetView);
+            stopPressConfirm(mTargetView);
             if (mTargetView != null) {
                 mTargetView.setPressed(false);
                 mTargetView = null;
+                mPressConfirmed = false;
             }
         }
 
-        private void stopDelayShowPress(View view) {
+        private void stopPressConfirm(View view) {
             if (view != null) {
-                view.removeCallbacks(mShowRippleRunnable);
+                view.removeCallbacks(mConfirmPressRunnable);
             }
         }
 
