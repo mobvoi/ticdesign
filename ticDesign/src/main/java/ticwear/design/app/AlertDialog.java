@@ -152,13 +152,13 @@ public class AlertDialog extends Dialog implements DialogInterface {
     protected AlertDialog(Context context, @StyleRes int themeResId) {
         super(context, resolveDialogTheme(context, themeResId));
 
+        ThemeUtils.checkDesignTheme(getContext());
+
         mAlert = new AlertController(getContext(), this, getWindow());
     }
 
     @StyleRes
     static int resolveDialogTheme(Context context, @StyleRes int themeResId) {
-        ThemeUtils.checkDesignTheme(context);
-
         if (themeResId >= 0x01000000) {   // start of real resource IDs.
             return themeResId;
         } else {
