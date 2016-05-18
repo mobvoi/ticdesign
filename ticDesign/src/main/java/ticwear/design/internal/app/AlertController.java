@@ -1049,9 +1049,7 @@ public class AlertController {
                     } else if (mCheckedItems != null) {
                         boolean isItemChecked = mCheckedItems[position];
                         if (isItemChecked != isItemChecked(position)) {
-                            if (isItemChecked) {
-                                setItemChecked(position, true);
-                            }
+                            setItemChecked(position, isItemChecked);
                         }
                     } else if (mCheckedItem > -1) {
                         setItemChecked(mCheckedItem, true);
