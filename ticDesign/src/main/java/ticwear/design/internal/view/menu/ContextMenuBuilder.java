@@ -5,11 +5,10 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnDismissListener;
 import android.content.DialogInterface.OnShowListener;
-import android.graphics.Bitmap;
-import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.TransitionDrawable;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.view.ContextMenu;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -23,8 +22,7 @@ import ticwear.design.R;
 import ticwear.design.app.AlertDialog;
 import ticwear.design.app.AlertDialog.Builder;
 import ticwear.design.internal.view.menu.MenuFloatingLayout.OnItemSelectedListener;
-import ticwear.design.utils.BlurBehind;
-import ticwear.design.utils.BlurBehind.OnBlurFinishedCallback;
+import ticwear.design.utils.blur.BlurBehind;
 
 /**
  * Implement of {@link ContextMenu}
@@ -38,7 +36,7 @@ public class ContextMenuBuilder extends MenuBuilder implements ContextMenu {
     private View mHeaderView;
 
     private MenuFloatingLayout mMenuLayout;
-    private BlurBehind mBlurBehind;
+    private AlertDialog mMenuDialog;
 
     public ContextMenuBuilder(Context context) {
         super(context);
@@ -83,7 +81,7 @@ public class ContextMenuBuilder extends MenuBuilder implements ContextMenu {
 
     public void show() {
 
-        final AlertDialog dialog = new Builder(getContext(), R.style.Theme_Ticwear_Dialog_Alert_ContextMenu)
+        mMenuDialog = new Builder(getContext(), R.style.Theme_Ticwear_Dialog_Alert_ContextMenu)
                 .setCustomTitle(mHeaderView)
                 .setTitle(mTitle)
                 .setIcon(mIcon)
@@ -96,8 +94,8 @@ public class ContextMenuBuilder extends MenuBuilder implements ContextMenu {
                 .create();
 
         // Use dialog context to match Ticwear theme.
-        ViewGroup layout = createDialogContent(dialog.getContext());
-        dialog.setView(layout);
+        ViewGroup layout = createDialogContent(mMenuDialog.getContext());
+        mMenuDialog.setView(layout);
 
         mMenuLayout.setOnItemSelectedListener(new OnItemSelectedListener() {
             @Override
@@ -105,38 +103,56 @@ public class ContextMenuBuilder extends MenuBuilder implements ContextMenu {
                 if (item != null) {
                     performItemAction(item);
                 }
-                dialog.dismiss();
+                dismiss();
             }
         });
 
         onItemsChanged(true);
 
-        dialog.setOnShowListener(new OnShowListener() {
+        final int maskColor = getResources().getColor(R.color.tic_background_mask_dark);
+        final int animDurationLong = getResources().getInteger(android.R.integer.config_longAnimTime);
+
+        mMenuDialog.setOnShowListener(new OnShowListener() {
             @Override
             public void onShow(DialogInterface di) {
                 mMenuLayout.postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        updateBlur(new OnBlurFinishedCallback() {
-                            @Override
-                            public void onBlurFinished(Bitmap blurredBitmap) {
-                                changeBackground(dialog.getWindow().getDecorView(),
-                                        new BitmapDrawable(getResources(), blurredBitmap));
-                            }
-                        });
+                        if (mMenuDialog == null) {
+                            return;
+                        }
+                        BlurBehind.from(getContext())
+                                .animate(animDurationLong)
+                                .color(maskColor)
+                                .sampling(2)
+                                .capture(getBackgroundWindow())
+                                .into(mMenuDialog.getWindow());
                     }
                 }, 500);
             }
         });
-        // Show dialog after below.
-        updateBlur(new OnBlurFinishedCallback() {
-            @Override
-            public void onBlurFinished(Bitmap blurredBitmap) {
-                dialog.show();
-                dialog.getWindow().getDecorView()
-                        .setBackground(new BitmapDrawable(getResources(), blurredBitmap));
-            }
-        });
+
+        // Show dialog after blur.
+        BlurBehind.from(getContext())
+                .color(maskColor)
+                .sampling(2)
+                .capture(getBackgroundWindow())
+                .preSetBackground(new Runnable() {
+                    @Override
+                    public void run() {
+                        if (mMenuDialog != null) {
+                            mMenuDialog.show();
+                        }
+                    }
+                })
+                .into(mMenuDialog.getWindow());
+    }
+
+    public void dismiss() {
+        if (mMenuDialog != null) {
+            mMenuDialog.dismiss();
+            mMenuDialog = null;
+        }
     }
 
     @NonNull
@@ -154,15 +170,13 @@ public class ContextMenuBuilder extends MenuBuilder implements ContextMenu {
         return layout;
     }
 
-    private void updateBlur(OnBlurFinishedCallback callback) {
-        if (mBlurBehind == null) {
-            mBlurBehind = new BlurBehind();
-        }
+    @Nullable
+    private Window getBackgroundWindow() {
         Window window = null;
         if (getContext() instanceof Activity) {
             window = ((Activity) getContext()).getWindow();
         }
-        mBlurBehind.prepare(window, callback);
+        return window;
     }
 
     private void changeBackground(View decorView, Drawable drawable) {

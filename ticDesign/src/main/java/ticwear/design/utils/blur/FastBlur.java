@@ -1,4 +1,4 @@
-package ticwear.design.utils;
+package ticwear.design.utils.blur;
 
 import android.graphics.Bitmap;
 

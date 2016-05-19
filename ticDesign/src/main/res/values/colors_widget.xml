@@ -7,6 +7,8 @@
     <color name="tic_separator_background_dark">#1fff</color>
     <color name="tic_separator_background_edge_dark">#05ffffff</color>
 
+    <color name="tic_background_mask_dark">#b2000000</color>
+
     <item name="tic_alert_dialog_button_alpha" format="float" type="dimen">0.9</item>
 
 </resources>

@@ -57,6 +57,12 @@ public class FloatingContextMenu implements Callback {
         return false;
     }
 
+    public void dismiss() {
+        if (mMenuBuilder != null) {
+            mMenuBuilder.dismiss();
+        }
+    }
+
     @Override
     public boolean onMenuItemSelected(MenuBuilder menu, MenuItem item) {
         return mOnMenuSelectedListener != null &&
