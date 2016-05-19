@@ -1,10 +1,13 @@
 package ticwear.design.widget;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.view.ContextMenu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.View.OnAttachStateChangeListener;
 
+import hugo.weaving.DebugLog;
 import ticwear.design.internal.view.menu.ContextMenuBuilder;
 import ticwear.design.internal.view.menu.MenuBuilder;
 import ticwear.design.internal.view.menu.MenuBuilder.Callback;
@@ -22,6 +25,19 @@ public class FloatingContextMenu implements Callback {
     private ContextMenuCreator mContextMenuCreator;
     private OnMenuSelectedListener mOnMenuSelectedListener;
 
+    private View mBindingView;
+
+    private OnAttachStateChangeListener mOnAttachStateChangeListener = new OnAttachStateChangeListener() {
+        @Override
+        public void onViewAttachedToWindow(View v) {
+        }
+
+        @Override
+        public void onViewDetachedFromWindow(View v) {
+            close();
+        }
+    };
+
     public FloatingContextMenu(Context context) {
         mContext = context;
     }
@@ -36,6 +52,15 @@ public class FloatingContextMenu implements Callback {
         return this;
     }
 
+    /**
+     * Bind floating context menu to view and show.
+     *
+     * When the view detached from window, the context menu will be dismissed.
+     *
+     * @param view the view to bind menu with.
+     * @return if the menu success to show
+     */
+    @DebugLog
     public boolean show(View view) {
         if (mContextMenuCreator == null) {
             return false;
@@ -50,23 +75,58 @@ public class FloatingContextMenu implements Callback {
 
         mContextMenuCreator.onCreateContextMenu(mMenuBuilder, view);
         if (mMenuBuilder.size() > 0) {
-            mMenuBuilder.show();
-            return true;
+            bindView(view);
+            if (mMenuBuilder.isOpen()) {
+                mMenuBuilder.onItemsChanged(true);
+            } else {
+                mMenuBuilder.open();
+            }
+        } else {
+            mMenuBuilder.close();
         }
 
-        return false;
+        return mMenuBuilder.size() > 0;
     }
 
-    public void dismiss() {
+    @DebugLog
+    public void close() {
         if (mMenuBuilder != null) {
-            mMenuBuilder.dismiss();
+            mMenuBuilder.close();
         }
     }
 
     @Override
-    public boolean onMenuItemSelected(MenuBuilder menu, MenuItem item) {
+    @DebugLog
+    public boolean onMenuItemSelected(@NonNull MenuBuilder menu, MenuItem item) {
         return mOnMenuSelectedListener != null &&
                 mOnMenuSelectedListener.onContextItemSelected(item);
+    }
+
+    @Override
+    @DebugLog
+    public void onMenuClosed(MenuBuilder menu) {
+        unbindView();
+    }
+
+    @DebugLog
+    private void bindView(View view) {
+        if (mBindingView == view) {
+            return;
+        }
+
+        unbindView();
+        mBindingView = view;
+        if (mBindingView != null) {
+            mBindingView.addOnAttachStateChangeListener(mOnAttachStateChangeListener);
+        }
+    }
+
+    @DebugLog
+    private void unbindView() {
+        if (mBindingView != null) {
+            mBindingView.removeOnAttachStateChangeListener(mOnAttachStateChangeListener);
+            mBindingView = null;
+        }
     }
 
     public interface ContextMenuCreator {
@@ -74,7 +134,7 @@ public class FloatingContextMenu implements Callback {
     }
 
     public interface OnMenuSelectedListener {
-        boolean onContextItemSelected(MenuItem item);
+        boolean onContextItemSelected(@NonNull MenuItem item);
     }
 
 }

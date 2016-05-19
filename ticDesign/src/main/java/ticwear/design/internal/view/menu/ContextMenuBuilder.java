@@ -6,7 +6,6 @@ import android.content.DialogInterface;
 import android.content.DialogInterface.OnDismissListener;
 import android.content.DialogInterface.OnShowListener;
 import android.graphics.drawable.Drawable;
-import android.graphics.drawable.TransitionDrawable;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.view.ContextMenu;
@@ -18,6 +17,7 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.RelativeLayout;
 
+import hugo.weaving.DebugLog;
 import ticwear.design.R;
 import ticwear.design.app.AlertDialog;
 import ticwear.design.app.AlertDialog.Builder;
@@ -79,7 +79,8 @@ public class ContextMenuBuilder extends MenuBuilder implements ContextMenu {
         mIcon = null;
     }
 
-    public void show() {
+    @DebugLog
+    public void open() {
 
         mMenuDialog = new Builder(getContext(), R.style.Theme_Ticwear_Dialog_Alert_ContextMenu)
                 .setCustomTitle(mHeaderView)
@@ -103,7 +104,7 @@ public class ContextMenuBuilder extends MenuBuilder implements ContextMenu {
                 if (item != null) {
                     performItemAction(item);
                 }
-                dismiss();
+                close();
             }
         });
 
@@ -148,13 +149,6 @@ public class ContextMenuBuilder extends MenuBuilder implements ContextMenu {
                 .into(mMenuDialog.getWindow());
     }
 
-    public void dismiss() {
-        if (mMenuDialog != null) {
-            mMenuDialog.dismiss();
-            mMenuDialog = null;
-        }
-    }
-
     @NonNull
     private RelativeLayout createDialogContent(Context dialogContext) {
         // Use a RelativeLayout to wrap the menu, so we can set the height to match_parent.
@@ -179,21 +173,22 @@ public class ContextMenuBuilder extends MenuBuilder implements ContextMenu {
         return window;
     }
 
-    private void changeBackground(View decorView, Drawable drawable) {
-        Drawable oldDrawable = decorView.getBackground();
-        if (oldDrawable instanceof  TransitionDrawable) {
-            oldDrawable = ((TransitionDrawable) oldDrawable).getDrawable(1);
-        }
-        TransitionDrawable transitionDrawable = new TransitionDrawable(
-                new Drawable[]{oldDrawable, drawable});
-        decorView.setBackground(transitionDrawable);
-        transitionDrawable.startTransition(500);
+    public boolean isOpen() {
+        return mMenuDialog != null;
     }
 
     @Override
+    @DebugLog
     public void close() {
+        if (!isOpen()) {
+            return;
+        }
+
         super.close();
         mMenuLayout = null;
+
+        mMenuDialog.dismiss();
+        mMenuDialog = null;
     }
 
     @Override

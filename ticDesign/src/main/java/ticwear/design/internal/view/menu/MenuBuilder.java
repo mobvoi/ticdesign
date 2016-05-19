@@ -181,7 +181,7 @@ public class MenuBuilder implements Menu {
 
     @Override
     public void close() {
-
+        dispatchMenuClosed(this);
     }
 
     @Override
@@ -217,6 +217,11 @@ public class MenuBuilder implements Menu {
 
     boolean dispatchMenuItemSelected(MenuBuilder menu, MenuItem item) {
         return mCallback != null && mCallback.onMenuItemSelected(menu, item);
+    }
+
+    void dispatchMenuClosed(MenuBuilder menu) {
+        if (mCallback != null)
+            mCallback.onMenuClosed(menu);
     }
 
     /**
@@ -328,6 +333,8 @@ public class MenuBuilder implements Menu {
          * @return whether the menu item selection was handled
          */
         boolean onMenuItemSelected(MenuBuilder menu, MenuItem item);
+
+        void onMenuClosed(MenuBuilder menu);
     }
 
 }
