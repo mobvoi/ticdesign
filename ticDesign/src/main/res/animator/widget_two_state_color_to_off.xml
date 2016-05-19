@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Animate of color change -->
+<objectAnimator
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:interpolator="@android:interpolator/accelerate_cubic"
+    android:duration="@integer/design.anim.button_state"
+    android:propertyName="fillColor"
+    android:valueFrom="?android:colorControlActivated"
+    android:valueTo="?android:colorControlNormal"
+    />

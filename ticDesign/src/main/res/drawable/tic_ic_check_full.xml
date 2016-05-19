@@ -4,24 +4,24 @@
     android:height="@dimen/tic_compound_button_drawable_size"
     android:viewportHeight="104.0"
     android:viewportWidth="104.0">
-    <path
-        android:name="bgOffPath"
-        android:pathData="@string/tic.svg.btn.two_state.half_bg"
-        android:strokeColor="?android:colorControlNormal"
-        android:strokeWidth="@integer/tic.svg.btn.radius" />
-    <path
-        android:name="bgOnPath"
-        android:pathData="@string/tic.svg.btn.two_state.half_bg"
-        android:strokeColor="?android:colorControlActivated"
-        android:strokeWidth="@integer/tic.svg.btn.radius" />
-
-    <group android:name="fgOn"
-        android:pivotX="49.0"
-        android:pivotY="61.0">
+    <group
+        android:name="container"
+        android:pivotX="52"
+        android:pivotY="52">
         <path
-            android:name="fgOnPath"
-            android:pathData="@string/tic.svg.btn.check.on"
-            android:strokeColor="#FFFFFF"
-            android:strokeWidth="7" />
+            android:name="bgPath"
+            android:pathData="@string/tic.svg.btn.two_state.bg"
+            android:fillColor="?android:colorControlActivated" />
+
+        <group
+            android:name="fgOn"
+            android:pivotX="49.0"
+            android:pivotY="61.0">
+            <path
+                android:name="fgOnPath"
+                android:pathData="@string/tic.svg.btn.check.on"
+                android:strokeColor="#FFFFFF"
+                android:strokeWidth="7" />
+        </group>
     </group>
 </vector>

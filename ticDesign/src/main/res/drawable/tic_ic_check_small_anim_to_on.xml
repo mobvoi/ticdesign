@@ -2,11 +2,11 @@
 <animated-vector xmlns:android="http://schemas.android.com/apk/res/android"
     android:drawable="@drawable/tic_ic_check_small_full" >
     <target
-        android:name="bgOnPath"
-        android:animation="@animator/widget_two_state_expose" />
+        android:name="container"
+        android:animation="@animator/widget_two_state_scale_press" />
     <target
-        android:name="bgOffPath"
-        android:animation="@animator/widget_two_state_cover" />
+        android:name="bgPath"
+        android:animation="@animator/widget_two_state_color_to_on" />
 
     <target
         android:name="fgOnPath"
