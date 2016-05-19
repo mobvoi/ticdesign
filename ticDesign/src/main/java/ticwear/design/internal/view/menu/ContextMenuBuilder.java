@@ -17,7 +17,6 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.RelativeLayout;
 
-import hugo.weaving.DebugLog;
 import ticwear.design.R;
 import ticwear.design.app.AlertDialog;
 import ticwear.design.app.AlertDialog.Builder;
@@ -79,7 +78,6 @@ public class ContextMenuBuilder extends MenuBuilder implements ContextMenu {
         mIcon = null;
     }
 
-    @DebugLog
     public void open() {
 
         mMenuDialog = new Builder(getContext(), R.style.Theme_Ticwear_Dialog_Alert_ContextMenu)
@@ -178,7 +176,6 @@ public class ContextMenuBuilder extends MenuBuilder implements ContextMenu {
     }
 
     @Override
-    @DebugLog
     public void close() {
         if (!isOpen()) {
             return;

@@ -7,7 +7,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnAttachStateChangeListener;
 
-import hugo.weaving.DebugLog;
 import ticwear.design.internal.view.menu.ContextMenuBuilder;
 import ticwear.design.internal.view.menu.MenuBuilder;
 import ticwear.design.internal.view.menu.MenuBuilder.Callback;
@@ -60,7 +59,6 @@ public class FloatingContextMenu implements Callback {
      * @param view the view to bind menu with.
      * @return if the menu success to show
      */
-    @DebugLog
     public boolean show(View view) {
         if (mContextMenuCreator == null) {
             return false;
@@ -88,7 +86,6 @@ public class FloatingContextMenu implements Callback {
         return mMenuBuilder.size() > 0;
     }
 
-    @DebugLog
     public void close() {
         if (mMenuBuilder != null) {
             mMenuBuilder.close();
@@ -96,19 +93,16 @@ public class FloatingContextMenu implements Callback {
     }
 
     @Override
-    @DebugLog
     public boolean onMenuItemSelected(@NonNull MenuBuilder menu, MenuItem item) {
         return mOnMenuSelectedListener != null &&
                 mOnMenuSelectedListener.onContextItemSelected(item);
     }
 
     @Override
-    @DebugLog
     public void onMenuClosed(MenuBuilder menu) {
         unbindView();
     }
 
-    @DebugLog
     private void bindView(View view) {
         if (mBindingView == view) {
             return;
@@ -121,7 +115,6 @@ public class FloatingContextMenu implements Callback {
         }
     }
 
-    @DebugLog
     private void unbindView() {
         if (mBindingView != null) {
             mBindingView.removeOnAttachStateChangeListener(mOnAttachStateChangeListener);
