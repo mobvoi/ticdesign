@@ -26,7 +26,6 @@
             android:gravity="center"
             android:text="@null"
             app:tic_layout_scrollFlags="scroll|overScrollBounce"
-            app:tic_scaleFactor="0.5"
             tools:text="Settings"
             />
 
