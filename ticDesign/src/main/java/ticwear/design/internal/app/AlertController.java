@@ -1300,8 +1300,8 @@ public class AlertController {
 
         @Override
         public void onScrolled(RecyclerView view, int dx, int dy) {
-            int scrollX = view.getScrollX();
-            int scrollY = view.getScrollY();
+            int scrollX = view.computeHorizontalScrollOffset();
+            int scrollY = view.computeVerticalScrollOffset();
             onViewScroll(view, scrollX, scrollY, oldScrollX, oldScrollY);
             oldScrollX = scrollX;
             oldScrollY = scrollY;
