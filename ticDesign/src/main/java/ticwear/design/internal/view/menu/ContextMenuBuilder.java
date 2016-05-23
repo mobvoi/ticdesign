@@ -131,19 +131,12 @@ public class ContextMenuBuilder extends MenuBuilder implements ContextMenu {
             }
         });
 
-        // Show dialog after blur.
+        // Show dialog then blur.
+        mMenuDialog.show();
         BlurBehind.from(getContext())
                 .color(maskColor)
                 .sampling(2)
                 .capture(getBackgroundWindow())
-                .preSetBackground(new Runnable() {
-                    @Override
-                    public void run() {
-                        if (mMenuDialog != null) {
-                            mMenuDialog.show();
-                        }
-                    }
-                })
                 .into(mMenuDialog.getWindow());
     }
 
