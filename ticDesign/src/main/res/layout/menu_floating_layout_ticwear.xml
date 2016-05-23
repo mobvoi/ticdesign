@@ -22,7 +22,7 @@
         android:orientation="horizontal"
         android:gravity="center"/>
 
-    <ticwear.design.widget.TicklableListView
+    <ticwear.design.widget.TicklableRecyclerView
         style="@style/Widget.Ticwear.ListView"
         android:id="@+id/tic_menu_list_layout"
         android:layout_width="match_parent"

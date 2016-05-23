@@ -25,14 +25,6 @@
     </declare-styleable>
 
 
-    <declare-styleable name="TicklableListView">
-        <!-- Set padding only for focused state.
-             This attribute only works when clipToPadding is false.
-             When clipToPadding is true, we clip the focused list to padding, and ignore this value.
-             -->
-        <attr name="tic_focusedStatePadding" format="dimension" />
-    </declare-styleable>
-
     <!-- The set of attributes that describe a AlertDialog's theme. -->
     <declare-styleable name="AlertDialog">
         <attr name="android:fullDark" />

@@ -91,7 +91,6 @@
     </style>
 
     <style name="PreferenceHeaderList.Ticwear" parent="Widget.Ticwear.ListView">
-        <item name="tic_focusedStatePadding">@dimen/preference_list_focused_padding_ticwear</item>
         <item name="android:paddingStart">@dimen/preference_screen_header_padding_side_ticwear</item>
         <item name="android:paddingEnd">@dimen/preference_screen_header_padding_side_ticwear</item>
         <item name="android:scrollbarStyle">@integer/preference_screen_header_scrollbarStyle_ticwear</item>
@@ -101,7 +100,6 @@
     </style>
 
     <style name="PreferenceFragmentList.Ticwear" parent="PreferenceHeaderList.Ticwear">
-        <item name="tic_focusedStatePadding">@dimen/preference_list_focused_padding_ticwear</item>
         <item name="android:paddingStart">@dimen/preference_fragment_padding_side_ticwear</item>
         <item name="android:paddingEnd">@dimen/preference_fragment_padding_side_ticwear</item>
     </style>

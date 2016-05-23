@@ -18,7 +18,7 @@ import java.util.List;
 import ticwear.design.R;
 import ticwear.design.internal.view.menu.MenuItemView.MenuItemType;
 import ticwear.design.widget.FocusableLinearLayoutManager;
-import ticwear.design.widget.TicklableListView;
+import ticwear.design.widget.TicklableRecyclerView;
 
 /**
  * Layout contains some menu items.
@@ -47,7 +47,7 @@ public class MenuFloatingLayout extends LinearLayout {
 
     LinearLayout mMenuLinearLayout1;
     LinearLayout mMenuLinearLayout2;
-    TicklableListView mMenuListLayout;
+    TicklableRecyclerView mMenuListLayout;
 
     RecyclerView.Adapter mListAdapter;
 
@@ -75,7 +75,7 @@ public class MenuFloatingLayout extends LinearLayout {
 
         mMenuLinearLayout1 = (LinearLayout) findViewById(R.id.tic_menu_linear_layout_1);
         mMenuLinearLayout2 = (LinearLayout) findViewById(R.id.tic_menu_linear_layout_2);
-        mMenuListLayout = (TicklableListView) findViewById(R.id.tic_menu_list_layout);
+        mMenuListLayout = (TicklableRecyclerView) findViewById(R.id.tic_menu_list_layout);
         mMenuListLayout.setLayoutManager(new FocusableLinearLayoutManager(getContext()));
     }
 

@@ -179,24 +179,24 @@ int color = ColorPalette.from(context)
 
 `TickableListView`继承了[`RecyclerView`][recycler-view]，你可以像使用`RecyclerView`一样使用`TickableListView`，但是需要注意的是，你的`Adapter`需要继承`TickableListView.Adapter`，`ViewHolder`需要继承`TickableListView.ViewHolder`。
 
-`TickableListView.ViewHolder` 设置了默认的聚焦态动效，即聚焦时放大、变亮，非聚焦时缩小、变暗。如果你想定义更细致的动画效果。可以使你的`ItemView`实现`TicklableListView.OnFocusStateChangedListener`接口，或者，直接重载`ViewHolder.onFocusStateChanged`方法。
+`TickableListView.ViewHolder` 设置了默认的聚焦态动效，即聚焦时放大、变亮，非聚焦时缩小、变暗。如果你想定义更细致的动画效果。可以使你的`ItemView`实现`TicklableRecyclerView.OnFocusStateChangedListener`接口，或者，直接重载`ViewHolder.onFocusStateChanged`方法。
 
 下面是一个比较粗糙简单的重载方式（与默认动效相同）：
 
 ``` Java
 @Override
-protected void onFocusStateChanged(@TicklableListView.FocusState int focusState,
+protected void onFocusStateChanged(@TicklableRecyclerView.FocusState int focusState,
                                    boolean animate) {
     float scale = 1.0f;
     float alpha = 1.0f;
     switch (focusState) {
-        case TicklableListView.FOCUS_STATE_NORMAL:
+        case TicklableRecyclerView.FOCUS_STATE_NORMAL:
             break;
-        case TicklableListView.FOCUS_STATE_CENTRAL:
+        case TicklableRecyclerView.FOCUS_STATE_CENTRAL:
             scale = 1.1f;
             alpha = 1.0f;
             break;
-        case TicklableListView.FOCUS_STATE_NON_CENTRAL:
+        case TicklableRecyclerView.FOCUS_STATE_NON_CENTRAL:
             scale = 0.9f;
             alpha = 0.6f;
             break;
@@ -220,7 +220,7 @@ protected void onFocusStateChanged(@TicklableListView.FocusState int focusState,
 
 ### <a id="preference"></a> 设置系统
 
-Ticwear 的设置系统类似 [Android Settings][android-settings]，你可以使用与 Android Preference 相同的方式来使用 Ticwear Preference。但请注意，Ticwear Preference 已经将内置的 `ListView` 改成了 `TicklableListView`，你需要使用 `RecyclerView.ViewHolder` 的方式来绑定数据到 Preference view 上面。
+Ticwear 的设置系统类似 [Android Settings][android-settings]，你可以使用与 Android Preference 相同的方式来使用 Ticwear Preference。但请注意，Ticwear Preference 已经将内置的 `ListView` 改成了 `TicklableRecyclerView`，你需要使用 `RecyclerView.ViewHolder` 的方式来绑定数据到 Preference view 上面。
 
 当你需要实现自定义的 `Preference` 时，需要继承 `Preference.ViewHolder`，并按需要覆盖其方法，以绑定你的自定义数据。
 

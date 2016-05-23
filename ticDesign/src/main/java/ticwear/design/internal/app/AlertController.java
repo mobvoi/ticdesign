@@ -62,7 +62,7 @@ import ticwear.design.widget.FloatingActionButton.DelayedConfirmationListener;
 import ticwear.design.widget.FocusableLinearLayoutManager;
 import ticwear.design.widget.FocusableLinearLayoutManager.ViewHolder;
 import ticwear.design.widget.SubscribedScrollView;
-import ticwear.design.widget.TicklableListView;
+import ticwear.design.widget.TicklableRecyclerView;
 import ticwear.design.widget.TrackSelectionAdapterWrapper;
 import ticwear.design.widget.TrackSelectionAdapterWrapper.OnItemClickListener;
 
@@ -80,7 +80,7 @@ public class AlertController {
 
     private CharSequence mTitle;
     private CharSequence mMessage;
-    private TicklableListView mListView;
+    private TicklableRecyclerView mListView;
     private View mView;
 
     private int mViewLayoutResId;
@@ -411,7 +411,7 @@ public class AlertController {
         mDelayConfirmRequest = request;
     }
 
-    public TicklableListView getListView() {
+    public TicklableRecyclerView getListView() {
         return mListView;
     }
 
@@ -575,7 +575,7 @@ public class AlertController {
 
         a.recycle();
 
-        final TicklableListView listView = mListView;
+        final TicklableRecyclerView listView = mListView;
         if (listView != null && mAdapter != null) {
             listView.setAdapter(mAdapter);
         }
@@ -922,7 +922,7 @@ public class AlertController {
              * Called before the ListView is bound to an adapter.
              * @param listView The ListView that will be shown in the dialog.
              */
-            void onPrepareListView(TicklableListView listView);
+            void onPrepareListView(TicklableRecyclerView listView);
         }
 
         public AlertParams(Context context) {
@@ -988,7 +988,7 @@ public class AlertController {
         }
 
         private void createListView(final AlertController dialog) {
-            final TicklableListView listView = (TicklableListView)
+            final TicklableRecyclerView listView = (TicklableRecyclerView)
                     mInflater.inflate(dialog.mListLayout, null);
             listView.setLayoutManager(new FocusableLinearLayoutManager(mContext));
             RecyclerView.Adapter adapter;

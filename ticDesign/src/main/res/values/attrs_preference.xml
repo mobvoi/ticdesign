@@ -25,7 +25,7 @@
     <!-- Default style for seekbar preferences. -->
     <attr name="tic_seekBarPreferenceStyle" format="reference" />
 
-    <attr name="tic_centeredPreferenceStyle" format="reference" />
+    <attr name="tic_preferenceCenteredStyle" format="reference" />
 
     <!-- Preference frame layout styles. -->
     <attr name="tic_preferenceFrameLayoutStyle" format="reference" />
