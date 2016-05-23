@@ -1,6 +1,6 @@
 package com.mobvoi.design.demo.fragments;
 
-import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.StringRes;
 import android.view.ContextMenu;
 import android.view.MenuInflater;
@@ -21,8 +21,6 @@ import ticwear.design.widget.FloatingContextMenu.OnMenuSelectedListener;
  */
 public class MenuFragment extends ListFragment implements OnMenuSelectedListener, ContextMenuCreator {
 
-    private FloatingContextMenu mFloatingContextMenu;
-
     @Override
     protected int[] getItemTitles() {
         return new int[]{
@@ -35,15 +33,6 @@ public class MenuFragment extends ListFragment implements OnMenuSelectedListener
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-        mFloatingContextMenu = new FloatingContextMenu(getActivity());
-        mFloatingContextMenu.setContextMenuCreator(this);
-        mFloatingContextMenu.setOnMenuSelectedListener(this);
-    }
-
-    @Override
     public boolean onTitleLongClicked(View view, @StringRes int titleResId) {
         int[] titles = getItemTitles();
         int count = 0;
@@ -53,7 +42,10 @@ public class MenuFragment extends ListFragment implements OnMenuSelectedListener
             }
         }
         view.setTag(count);
-        return mFloatingContextMenu.show(view);
+        return new FloatingContextMenu(getActivity())
+                .setContextMenuCreator(this)
+                .setOnMenuSelectedListener(this)
+                .show(view);
     }
 
     @Override
@@ -69,7 +61,7 @@ public class MenuFragment extends ListFragment implements OnMenuSelectedListener
     }
 
     @Override
-    public boolean onContextItemSelected(MenuItem item) {
+    public boolean onContextItemSelected(@NonNull MenuItem item) {
         Toast.makeText(getActivity(), item.getTitle(), Toast.LENGTH_SHORT).show();
         return true;
     }
