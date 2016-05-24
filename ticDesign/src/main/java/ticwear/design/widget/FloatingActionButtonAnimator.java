@@ -23,8 +23,8 @@ import android.animation.StateListAnimator;
 import android.support.annotation.Nullable;
 import android.support.v4.view.ViewCompat;
 import android.view.View;
-import android.view.animation.Interpolator;
 import android.view.animation.AnimationUtils;
+import android.view.animation.Interpolator;
 
 class FloatingActionButtonAnimator {
 
@@ -40,6 +40,9 @@ class FloatingActionButtonAnimator {
     private AnimState mAnimState = AnimState.Idle;
 
     private Interpolator mInterpolator;
+
+    private int mMinimizeTranslationX = 0;
+    private int mMinimizeTranslationY = 0;
 
     FloatingActionButtonAnimator(VisibilityAwareImageButton view) {
 
@@ -71,6 +74,11 @@ class FloatingActionButtonAnimator {
         mView.setStateListAnimator(stateListAnimator);
     }
 
+    void setMinimizeTranslation(int x, int y) {
+        mMinimizeTranslationX = x;
+        mMinimizeTranslationY = y;
+    }
+
     private Animator setupAnimator(Animator animator) {
         animator.setInterpolator(mInterpolator);
         return animator;
@@ -97,6 +105,8 @@ class FloatingActionButtonAnimator {
             mView.animate()
                     .scaleX(0f)
                     .scaleY(0f)
+                    .translationX(mMinimizeTranslationX)
+                    .translationY(mMinimizeTranslationY)
                     .setDuration(SHOW_HIDE_ANIM_DURATION)
                     .setInterpolator(ticwear.design.widget.AnimationUtils.FAST_OUT_LINEAR_IN_INTERPOLATOR)
                     .setListener(new AnimatorListenerAdapter() {
@@ -137,10 +147,14 @@ class FloatingActionButtonAnimator {
                     // If the view isn't visible currently, we'll animate it from a single pixel
                     mView.setScaleY(0f);
                     mView.setScaleX(0f);
+                    mView.setTranslationX(mMinimizeTranslationX);
+                    mView.setTranslationY(mMinimizeTranslationY);
                 }
                 mView.animate()
                         .scaleX(1f)
                         .scaleY(1f)
+                        .translationX(0)
+                        .translationY(0)
                         .setDuration(SHOW_HIDE_ANIM_DURATION)
                         .setInterpolator(ticwear.design.widget.AnimationUtils.LINEAR_OUT_SLOW_IN_INTERPOLATOR)
                         .setListener(new AnimatorListenerAdapter() {
@@ -164,6 +178,8 @@ class FloatingActionButtonAnimator {
                 mView.internalSetVisibility(View.VISIBLE, fromUser);
                 mView.setScaleY(1f);
                 mView.setScaleX(1f);
+                mView.setTranslationX(0);
+                mView.setTranslationY(0);
                 mView.setClickable(true);
                 mView.setImageAlpha(0xFF);
                 if (listener != null) {
@@ -194,13 +210,17 @@ class FloatingActionButtonAnimator {
                 // If the view isn't visible currently, we'll animate it from a single pixel
                 mView.setScaleY(0f);
                 mView.setScaleX(0f);
+                mView.setTranslationX(mMinimizeTranslationX);
+                mView.setTranslationY(mMinimizeTranslationY);
                 mView.setImageAlpha(0);
             }
             mView.animate()
                     .scaleX(targetScale)
                     .scaleY(targetScale)
+                    .translationX(mMinimizeTranslationX)
+                    .translationY(mMinimizeTranslationY)
                     .setDuration(SHOW_HIDE_ANIM_DURATION)
-                    .setInterpolator(ticwear.design.widget.AnimationUtils.LINEAR_OUT_SLOW_IN_INTERPOLATOR)
+                    .setInterpolator(ticwear.design.widget.AnimationUtils.FAST_OUT_LINEAR_IN_INTERPOLATOR)
                     .setListener(new AnimatorListenerAdapter() {
                         @Override
                         public void onAnimationStart(Animator animation) {
@@ -223,6 +243,8 @@ class FloatingActionButtonAnimator {
             mView.internalSetVisibility(View.VISIBLE, fromUser);
             mView.setScaleY(targetScale);
             mView.setScaleX(targetScale);
+            mView.setTranslationX(mMinimizeTranslationX);
+            mView.setTranslationY(mMinimizeTranslationY);
             mView.setClickable(false);
             mView.setImageAlpha(0);
             if (listener != null) {

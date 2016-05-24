@@ -144,6 +144,9 @@ public class FloatingActionButton extends VisibilityAwareImageButton {
 
         int resId = a.getResourceId(R.styleable.FloatingActionButton_tic_circularDrawableStyle, 0);
 
+        int translationX = a.getDimensionPixelOffset(R.styleable.FloatingActionButton_tic_minimizeTranslationX, 0);
+        int translationY = a.getDimensionPixelOffset(R.styleable.FloatingActionButton_tic_minimizeTranslationY, 0);
+
         a.recycle();
 
         Drawable shapeDrawable = createShapeDrawable();
@@ -168,6 +171,7 @@ public class FloatingActionButton extends VisibilityAwareImageButton {
 
         mAnimator = new FloatingActionButtonAnimator(this);
         mAnimator.setPressedTranslationZ(pressedTranslationZ);
+        setMinimizeTranslation(translationX, translationY);
 
         mShowProgress = false;
     }
@@ -413,6 +417,10 @@ public class FloatingActionButton extends VisibilityAwareImageButton {
     CircularProgressDrawable createProgressDrawable(Context context, int defStyleRes) {
         return new CircularProgressDrawable.Builder(context, defStyleRes)
                 .build();
+    }
+
+    public void setMinimizeTranslation(int x, int y) {
+        mAnimator.setMinimizeTranslation(x, y);
     }
 
     /**

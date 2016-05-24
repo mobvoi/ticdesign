@@ -32,6 +32,9 @@
 
         <attr name="tic_circularDrawableStyle" format="reference"/>
 
+        <attr name="tic_minimizeTranslationX" format="dimension" />
+        <attr name="tic_minimizeTranslationY" format="dimension" />
+
     </declare-styleable>
 
 

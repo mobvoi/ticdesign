@@ -470,6 +470,7 @@ public class AlertController {
      */
     public void minimizeButtons() {
         mWindow.getDecorView().removeCallbacks(buttonRestoreRunnable);
+
         mButtonBundlePositive.minimizeButton();
         mButtonBundleNegative.minimizeButton();
         mButtonBundleNeutral.minimizeButton();
@@ -816,9 +817,9 @@ public class AlertController {
     }
 
     private void offsetIconButtons(int iconButtonCount) {
-        int paddingBottom = mContext.getResources()
+        int paddingBottomUnit = mContext.getResources()
                 .getDimensionPixelOffset(R.dimen.alert_dialog_round_padding_bottom);
-        paddingBottom = iconButtonCount > 1 ? paddingBottom * 2 : paddingBottom;
+        int paddingBottom = iconButtonCount > 1 ? paddingBottomUnit * 2 : paddingBottomUnit;
         int paddingHorizontal;
         if (iconButtonCount == 3) {
             paddingHorizontal = mContext.getResources().getDimensionPixelOffset(
@@ -859,6 +860,28 @@ public class AlertController {
             lp.bottomMargin = paddingBottom;
             mButtonBundleNeutral.iconButton.setLayoutParams(lp);
         }
+
+        int translateY = mContext.getResources()
+                .getDimensionPixelOffset(R.dimen.alert_dialog_button_translate_vertical) +
+                (paddingBottom - paddingBottomUnit);
+        int translateX = mContext.getResources()
+                .getDimensionPixelOffset(R.dimen.alert_dialog_button_translate_horizontal);
+
+        if (iconButtonCount == 2) {
+            mButtonBundlePositive.setMinimizeTranslation(-translateX, translateY);
+            mButtonBundleNegative.setMinimizeTranslation(translateX, translateY);
+            mButtonBundleNeutral.setMinimizeTranslation(mButtonBundlePositive.hasIconButton() ?
+                    translateX : -translateX, translateY);
+        } else if (iconButtonCount == 3) {
+            mButtonBundlePositive.setMinimizeTranslation(-translateX, translateY);
+            mButtonBundleNegative.setMinimizeTranslation(translateX, translateY);
+            mButtonBundleNeutral.setMinimizeTranslation(0, translateY);
+        } else {
+            mButtonBundlePositive.setMinimizeTranslation(0, translateY);
+            mButtonBundleNegative.setMinimizeTranslation(0, translateY);
+            mButtonBundleNeutral.setMinimizeTranslation(0, translateY);
+        }
+
     }
 
     private CoordinatorLayout.LayoutParams getCoordinatorLayoutParams(View view) {
@@ -1204,6 +1227,12 @@ public class AlertController {
                 setupIconContent();
                 iconButton.setVisibility(View.VISIBLE);
                 return true;
+            }
+        }
+
+        public void setMinimizeTranslation(int x, int y) {
+            if (hasIconButton()) {
+                iconButton.setMinimizeTranslation(x, y);
             }
         }
 
