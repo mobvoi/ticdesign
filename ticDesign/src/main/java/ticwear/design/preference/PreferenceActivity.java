@@ -34,8 +34,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
 import android.support.annotation.XmlRes;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.RecyclerView.ViewHolder;
+import android.support.v7.widget.RecyclerView.AdapterDataObserver;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.util.TypedValue;
@@ -185,8 +184,6 @@ public abstract class PreferenceActivity extends RecyclerActivity implements
         protected class ViewHolder extends PreferenceViewHolder
                 implements View.OnClickListener {
 
-            boolean clickEntering = false;
-
             public ViewHolder(@NonNull ViewGroup parent, @LayoutRes int layoutResId) {
                 super(parent, layoutResId);
                 itemView.setOnClickListener(this);
@@ -194,11 +191,11 @@ public abstract class PreferenceActivity extends RecyclerActivity implements
 
             @Override
             public void onClick(View v) {
-                if (mOnHeaderClickListener != null && !clickEntering) {
+                if (mOnHeaderClickListener != null && !mClickEntering) {
                     final int position = getAdapterPosition();
                     final Header header = getItem(position);
                     if (mOnHeaderClickListener.onHeaderClick(header, position)) {
-                        clickEntering = true;
+                        mClickEntering = true;
                     }
                 }
             }
@@ -214,6 +211,7 @@ public abstract class PreferenceActivity extends RecyclerActivity implements
         private final List<Header> mHeaders;
 
         private OnHeaderClickListener mOnHeaderClickListener;
+        private boolean mClickEntering = false;
 
         public HeaderAdapter(Context context, List<Header> objects, int layoutResId,
                              boolean removeIconBehavior) {
@@ -224,6 +222,37 @@ public abstract class PreferenceActivity extends RecyclerActivity implements
             mHeaders = objects;
 
             setHasStableIds(true);
+
+            registerAdapterDataObserver(new AdapterDataObserver() {
+                @Override
+                public void onChanged() {
+                    onDataChanged();
+                }
+
+                @Override
+                public void onItemRangeChanged(int positionStart, int itemCount) {
+                    onDataChanged();
+                }
+
+                @Override
+                public void onItemRangeInserted(int positionStart, int itemCount) {
+                    onDataChanged();
+                }
+
+                @Override
+                public void onItemRangeRemoved(int positionStart, int itemCount) {
+                    onDataChanged();
+                }
+
+                @Override
+                public void onItemRangeMoved(int fromPosition, int toPosition, int itemCount) {
+                    onDataChanged();
+                }
+
+                private void onDataChanged() {
+                    resetClickEntering();
+                }
+            });
         }
 
         public void setOnHeaderClickListener(OnHeaderClickListener onHeaderClickListener) {
@@ -237,8 +266,6 @@ public abstract class PreferenceActivity extends RecyclerActivity implements
 
         @Override
         public void onBindViewHolder(HeaderAdapter.ViewHolder holder, int position) {
-            holder.clickEntering = false;
-
             Header header = getItem(position);
 
             PreferenceViewHolder.PreferenceData data = new PreferenceViewHolder.PreferenceData();
@@ -264,10 +291,8 @@ public abstract class PreferenceActivity extends RecyclerActivity implements
             return mHeaders.get(position);
         }
 
-        public void resetClickEntering(RecyclerView.ViewHolder viewHolder) {
-            if (viewHolder instanceof ViewHolder) {
-                ((ViewHolder) viewHolder).clickEntering = false;
-            }
+        public void resetClickEntering() {
+            mClickEntering = false;
         }
     }
 
@@ -934,12 +959,7 @@ public abstract class PreferenceActivity extends RecyclerActivity implements
         super.onResume();
         if (getListAdapter() instanceof HeaderAdapter) {
             HeaderAdapter headerAdapter = (HeaderAdapter) getListAdapter();
-            TicklableRecyclerView listView = getListView();
-
-            for (int i = 0; i < listView.getChildCount(); i++) {
-                ViewHolder viewHolder = listView.getChildViewHolder(listView.getChildAt(i));
-                headerAdapter.resetClickEntering(viewHolder);
-            }
+            headerAdapter.resetClickEntering();
         }
     }
 
