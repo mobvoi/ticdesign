@@ -80,7 +80,6 @@
     </style>
 
     <style name="Widget.Ticwear.ListView">
-        <item name="tic_focusedStatePadding">@dimen/tic_list_focused_padding_ticwear</item>
         <item name="android:clipToPadding">false</item>
         <item name="android:paddingBottom">@dimen/tic_list_padding_bottom_ticwear</item>
         <item name="android:divider">@android:color/transparent</item>

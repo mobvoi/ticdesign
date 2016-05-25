@@ -42,12 +42,12 @@ import java.util.Set;
 
 import ticwear.design.R;
 import ticwear.design.internal.CharSequences;
-import ticwear.design.widget.TicklableListView;
+import ticwear.design.widget.TicklableRecyclerView;
 
 /**
  * Represents the basic Preference UI building
  * block displayed by a {@link PreferenceActivity} in the form of a
- * {@link TicklableListView}. This class provides the {@link View} to be displayed in
+ * {@link TicklableRecyclerView}. This class provides the {@link View} to be displayed in
  * the activity and associates with a {@link SharedPreferences} to
  * store/retrieve the preference data.
  */

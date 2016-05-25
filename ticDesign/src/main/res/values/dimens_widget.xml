@@ -33,4 +33,18 @@
     <dimen name="tic_primary_button_width">132dp</dimen>
     <dimen name="tic_primary_button_height">56dp</dimen>
 
+    <dimen name="tic_menu_item_margin_horizontal_small">1dp</dimen>
+    <dimen name="tic_menu_item_margin_horizontal_large">3dp</dimen>
+    <dimen name="tic_menu_item_content_margin_small">6dp</dimen>
+    <dimen name="tic_menu_item_content_margin_large">8dp</dimen>
+    <dimen name="tic_menu_item_icon_padding_1">21dp</dimen>
+    <dimen name="tic_menu_item_icon_padding_2">@dimen/tic_round_button_src_padding_large</dimen>
+    <dimen name="tic_menu_item_icon_padding_3">@dimen/tic_round_button_src_padding_normal</dimen>
+    <dimen name="tic_menu_item_icon_size_1">84dp</dimen>
+    <dimen name="tic_menu_item_icon_size_2">@dimen/tic_round_button_size_large</dimen>
+    <dimen name="tic_menu_item_icon_size_3">@dimen/tic_round_button_size_normal</dimen>
+    <dimen name="tic_menu_item_title_size_1">@dimen/tic_text_size_medium_1</dimen>
+    <dimen name="tic_menu_item_title_size_2">@dimen/tic_text_size_medium_2</dimen>
+    <dimen name="tic_menu_item_title_size_3">@dimen/tic_text_size_small_1</dimen>
+
 </resources>

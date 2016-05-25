@@ -14,19 +14,19 @@ import android.view.View;
  */
 class FocusLayoutHelper {
 
-    private final TicklableListView mTicklableListView;
+    private final TicklableRecyclerView mTicklableRecyclerView;
     private final RecyclerView.LayoutManager mLayoutManager;
 
     private final GestureDetector mGestureDetector;
 
 
-    FocusLayoutHelper(@NonNull TicklableListView ticklableListView, @NonNull RecyclerView.LayoutManager layoutManager) {
+    FocusLayoutHelper(@NonNull TicklableRecyclerView ticklableRecyclerView, @NonNull RecyclerView.LayoutManager layoutManager) {
 
-        this.mTicklableListView = ticklableListView;
+        this.mTicklableRecyclerView = ticklableRecyclerView;
         this.mLayoutManager = layoutManager;
 
         OnGestureListener mOnGestureListener = new OnGestureListener();
-        mGestureDetector = new GestureDetector(ticklableListView.getContext(), mOnGestureListener);
+        mGestureDetector = new GestureDetector(ticklableRecyclerView.getContext(), mOnGestureListener);
 
     }
 
@@ -38,7 +38,7 @@ class FocusLayoutHelper {
     }
 
     public boolean dispatchTouchSidePanelEvent(MotionEvent ev) {
-        mTicklableListView.onTouchEvent(ev);
+        mTicklableRecyclerView.onTouchEvent(ev);
         mGestureDetector.onTouchEvent(ev);
         return true;    // return true to skip event dispatch to children.
     }
@@ -47,13 +47,13 @@ class FocusLayoutHelper {
         View firstChild = getChildAt(0);
         // first child is on top of list.
         return firstChild != null &&
-                mTicklableListView.getChildAdapterPosition(firstChild) <= 0 &&
-                firstChild.getTop() >= mTicklableListView.getPaddingTop();
+                mTicklableRecyclerView.getChildAdapterPosition(firstChild) <= 0 &&
+                firstChild.getTop() >= mTicklableRecyclerView.getPaddingTop();
     }
 
     int getVerticalPadding() {
         if (getChildCount() > 0) {
-            int height = ViewPropertiesHelper.getAdjustedHeight(mTicklableListView);
+            int height = ViewPropertiesHelper.getAdjustedHeight(mTicklableRecyclerView);
             int itemHeight = getCentralItemHeight();
             return (height - itemHeight) / 2;
         } else {
@@ -95,7 +95,7 @@ class FocusLayoutHelper {
 
         for (int i = 0; i < count; ++i) {
             View child = getChildAt(i);
-            int childCenterY = mTicklableListView.getTop() + ViewPropertiesHelper.getCenterYPos(child);
+            int childCenterY = mTicklableRecyclerView.getTop() + ViewPropertiesHelper.getCenterYPos(child);
             int distance = Math.abs(centerY - childCenterY);
             if (distance < closest) {
                 closest = distance;
@@ -111,7 +111,7 @@ class FocusLayoutHelper {
     }
 
     private int getCenterYPos() {
-        return ViewPropertiesHelper.getCenterYPos(mTicklableListView);
+        return ViewPropertiesHelper.getCenterYPos(mTicklableRecyclerView);
     }
 
     private int getChildCount() {
@@ -161,7 +161,7 @@ class FocusLayoutHelper {
             if (mLayoutManager.canScrollVertically()) {
                 int dx = Math.round(distanceX);
                 int dy = Math.round(distanceY);
-                mTicklableListView.scrollBySkipNestedScroll(dx, dy);
+                mTicklableRecyclerView.scrollBySkipNestedScroll(dx, dy);
             }
             return false;
         }

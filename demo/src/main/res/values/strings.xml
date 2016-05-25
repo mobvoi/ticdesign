@@ -38,13 +38,25 @@
 
     <string name="category.showcase.title">Showcase</string>
 
+    <string name="category.menu.title">Menu</string>
+    <string name="category.menu.hint.1">Long press to show 1 menu</string>
+    <string name="category.menu.hint.2">Long press to show 2 menu</string>
+    <string name="category.menu.hint.3">Long press to show 3 menu</string>
+    <string name="category.menu.hint.4">Long press to show 4 menu</string>
+    <string name="category.menu.hint.5">Long press to show 5 menu</string>
+    <string name="category.menu.hint.create">Create New</string>
+    <string name="category.menu.hint.open">Open file</string>
+    <string name="category.menu.hint.edit">Edit</string>
+    <string name="category.menu.hint.share">Share</string>
+    <string name="category.menu.hint.delete">Delete</string>
+
     <string name="text.short_content">To keep good look of page, put message less than 3 lines.</string>
     <string name="text.long_content">Jarlsberg lancashire edam. Dolcelatte hard cheese brie st. agur blue
     cheese caerphilly bavarian bergkase cheese and biscuits mascarpone. Cheeseburger swiss bavarian
     bergkase cream cheese fromage frais cheesy feet port-salut airedale. St. agur blue cheese rubber
     cheese caerphilly cheddar cheesecake cream cheese manchego lancashire. Roquefort squirty cheese
     the big cheese.</string>
-    <string name="text.dialog.delay_confirm">操作即将完成，可以点击立刻执行。</string>
+    <string name="text.dialog.delay_confirm">Action will be done in a second. Click to do it now.</string>
 
     <string name="spec.text_size.line_height">All text with line spacing 1.4</string>
 

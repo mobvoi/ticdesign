@@ -57,7 +57,7 @@ import ticwear.design.R;
 import ticwear.design.app.RecyclerActivity;
 import ticwear.design.internal.XmlUtils;
 import ticwear.design.widget.SelectableAdapter;
-import ticwear.design.widget.TicklableListView;
+import ticwear.design.widget.TicklableRecyclerView;
 
 public abstract class PreferenceActivity extends RecyclerActivity implements
         PreferenceFragment.OnPreferenceStartFragmentCallback {
@@ -745,8 +745,8 @@ public abstract class PreferenceActivity extends RecyclerActivity implements
     }
 
     @Override
-    public TicklableListView getListView() {
-        return (TicklableListView) super.getListView();
+    public TicklableRecyclerView getListView() {
+        return (TicklableRecyclerView) super.getListView();
     }
 
     /**
@@ -934,7 +934,7 @@ public abstract class PreferenceActivity extends RecyclerActivity implements
         super.onResume();
         if (getListAdapter() instanceof HeaderAdapter) {
             HeaderAdapter headerAdapter = (HeaderAdapter) getListAdapter();
-            TicklableListView listView = getListView();
+            TicklableRecyclerView listView = getListView();
 
             for (int i = 0; i < listView.getChildCount(); i++) {
                 ViewHolder viewHolder = listView.getChildViewHolder(listView.getChildAt(i));

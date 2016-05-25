@@ -41,7 +41,7 @@ import ticwear.design.internal.app.AlertController.AlertParams.OnPrepareListView
 import ticwear.design.widget.CheckedTextView;
 import ticwear.design.widget.CursorRecyclerViewAdapter;
 import ticwear.design.widget.FocusableLinearLayoutManager;
-import ticwear.design.widget.TicklableListView;
+import ticwear.design.widget.TicklableRecyclerView;
 import ticwear.design.widget.TrackSelectionAdapterWrapper;
 
 /**
@@ -209,7 +209,7 @@ public final class RingtonePickerActivity extends AlertActivity implements
     }
 
     @Override
-    public void onPrepareListView(TicklableListView listView) {
+    public void onPrepareListView(TicklableRecyclerView listView) {
 
         if (mHasDefaultItem) {
             mDefaultRingtonePos = addDefaultRingtoneItem(listView);
@@ -244,13 +244,13 @@ public final class RingtonePickerActivity extends AlertActivity implements
      * @param textResId The resource ID of the text for the item.
      * @return The position of the inserted item.
      */
-    private int addStaticItem(TicklableListView listView, int textResId) {
+    private int addStaticItem(TicklableRecyclerView listView, int textResId) {
         String text = getString(textResId);
         mStaticItemCount++;
         return mWithHeaderCursorAdapter.addHeader(text) - 1;
     }
 
-    private int addDefaultRingtoneItem(TicklableListView listView) {
+    private int addDefaultRingtoneItem(TicklableRecyclerView listView) {
         if (mType == RingtoneManager.TYPE_NOTIFICATION) {
             return addStaticItem(listView, R.string.notification_sound_default);
         } else if (mType == RingtoneManager.TYPE_ALARM) {
@@ -260,7 +260,7 @@ public final class RingtonePickerActivity extends AlertActivity implements
         return addStaticItem(listView, R.string.ringtone_default);
     }
 
-    private int addSilentItem(TicklableListView listView) {
+    private int addSilentItem(TicklableRecyclerView listView) {
         return addStaticItem(listView, R.string.ringtone_silent);
     }
 

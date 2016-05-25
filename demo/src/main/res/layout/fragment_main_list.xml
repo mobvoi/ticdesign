@@ -38,7 +38,7 @@
 
     </ticwear.design.widget.AppBarLayout>
 
-    <ticwear.design.widget.TicklableListView
+    <ticwear.design.widget.TicklableRecyclerView
         style="@style/Widget.Ticwear.ListView"
         android:id="@+id/list_sub_demo"
         android:layout_width="match_parent"

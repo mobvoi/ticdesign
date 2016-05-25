@@ -33,7 +33,7 @@ import android.widget.TextView;
 
 import ticwear.design.R;
 import ticwear.design.widget.FocusableLinearLayoutManager;
-import ticwear.design.widget.TicklableListView;
+import ticwear.design.widget.TicklableRecyclerView;
 
 /**
  * Represents a top-level {@link Preference} that
@@ -94,7 +94,7 @@ public final class PreferenceScreen extends PreferenceGroup implements
 
     private Dialog mDialog;
 
-    private TicklableListView mListView;
+    private TicklableRecyclerView mListView;
 
     /**
      * Do NOT use this constructor, use {@link PreferenceManager#createPreferenceScreen(Context)}.
@@ -137,13 +137,13 @@ public final class PreferenceScreen extends PreferenceGroup implements
     }
 
     /**
-     * Binds a {@link TicklableListView} to the preferences contained in this {@link PreferenceScreen} via
+     * Binds a {@link TicklableRecyclerView} to the preferences contained in this {@link PreferenceScreen} via
      * {@link #getRootAdapter()}. It also handles passing list item clicks to the corresponding
      * {@link Preference} contained by this {@link PreferenceScreen}.
      *
      * @param listView The list view to attach to.
      */
-    public void bind(TicklableListView listView) {
+    public void bind(TicklableRecyclerView listView) {
         PreferenceGroupAdapter adapter = getRootAdapter();
         adapter.setOnPreferenceItemClickListener(this);
         listView.setAdapter(adapter);
@@ -184,7 +184,7 @@ public final class PreferenceScreen extends PreferenceGroup implements
                 context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View childPrefScreen = inflater.inflate(
                 R.layout.preference_list_fragment, null);
-        mListView = (TicklableListView) childPrefScreen.findViewById(android.R.id.list);
+        mListView = (TicklableRecyclerView) childPrefScreen.findViewById(android.R.id.list);
         mListView.setLayoutManager(new FocusableLinearLayoutManager(context));
         bind(mListView);
         final TextView titleView = (TextView) childPrefScreen.findViewById(android.R.id.title);

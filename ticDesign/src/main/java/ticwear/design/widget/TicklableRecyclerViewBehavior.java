@@ -6,21 +6,21 @@ import android.util.Log;
 import android.view.View;
 
 /**
- * Behavior which should be used by {@link TicklableListViewBehavior} which can scroll and support
+ * Behavior which should be used by {@link TicklableRecyclerViewBehavior} which can scroll and support
  * nested scrolling to automatically scroll any {@link AppBarLayout} siblings.
  */
-public class TicklableListViewBehavior extends AppBarLayout.ScrollingViewBehavior {
+public class TicklableRecyclerViewBehavior extends AppBarLayout.ScrollingViewBehavior {
 
-    final static String TAG = TicklableListView.TAG;
+    final static String TAG = TicklableRecyclerView.TAG + "Behavior";
 
     private boolean scrolling = false;
     private View hostView;
 
-    public TicklableListViewBehavior() {
+    public TicklableRecyclerViewBehavior() {
         super();
     }
 
-    public TicklableListViewBehavior(Context context, AttributeSet attrs) {
+    public TicklableRecyclerViewBehavior(Context context, AttributeSet attrs) {
         super(context, attrs);
     }
 
@@ -38,8 +38,8 @@ public class TicklableListViewBehavior extends AppBarLayout.ScrollingViewBehavio
         }
         scrolling = true;
         boolean done = false;
-        if (hostView instanceof TicklableListView) {
-            TicklableListView listView = (TicklableListView) hostView;
+        if (hostView instanceof TicklableRecyclerView) {
+            TicklableRecyclerView listView = (TicklableRecyclerView) hostView;
             if (listView.useScrollAsOffset()) {
                 done = setOffsetForFocusListView(listView, offset);
             }
@@ -55,8 +55,8 @@ public class TicklableListViewBehavior extends AppBarLayout.ScrollingViewBehavio
 
     @Override
     public int getTopAndBottomOffset() {
-        if (hostView instanceof TicklableListView) {
-            TicklableListView listView = (TicklableListView) hostView;
+        if (hostView instanceof TicklableRecyclerView) {
+            TicklableRecyclerView listView = (TicklableRecyclerView) hostView;
             return getRawTopAndBottomOffset() + listView.getScrollOffset();
         }
         return super.getTopAndBottomOffset();
@@ -72,8 +72,8 @@ public class TicklableListViewBehavior extends AppBarLayout.ScrollingViewBehavio
 
     @Override
     public boolean requestInterceptPreScroll(CoordinatorLayout parent) {
-        if (hostView instanceof TicklableListView) {
-            TicklableListView listView = (TicklableListView) hostView;
+        if (hostView instanceof TicklableRecyclerView) {
+            TicklableRecyclerView listView = (TicklableRecyclerView) hostView;
             if (listView.interceptPreScroll()) {
                 return true;
             }
@@ -94,7 +94,7 @@ public class TicklableListViewBehavior extends AppBarLayout.ScrollingViewBehavio
      *
      * @return If we have successfully set the offset.
      */
-    private boolean setOffsetForFocusListView(TicklableListView listView, int offset) {
+    private boolean setOffsetForFocusListView(TicklableRecyclerView listView, int offset) {
         // If we have offset, first try to remove it
         offset = reduceRemovableOffset(offset);
         // Then, we try to do the scroll to mock a offset for focus state ticklable list-view

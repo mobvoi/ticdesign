@@ -27,7 +27,7 @@ import butterknife.ButterKnife;
 import ticwear.design.widget.FocusableLinearLayoutManager;
 import ticwear.design.widget.FocusableLinearLayoutManager.FocusState;
 import ticwear.design.widget.SimpleRecyclerAdapter;
-import ticwear.design.widget.TicklableListView;
+import ticwear.design.widget.TicklableRecyclerView;
 
 /**
  * Created by tankery on 1/12/16.
@@ -46,7 +46,7 @@ public class TransitionsFragment extends Fragment {
     TextView textTitle;
 
     @Bind(R.id.list_sub_demo)
-    TicklableListView listSubDemo;
+    TicklableRecyclerView listSubDemo;
 
     private final static String[] fromList = {
             "icon",

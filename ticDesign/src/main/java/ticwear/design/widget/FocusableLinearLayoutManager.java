@@ -65,7 +65,7 @@ public class FocusableLinearLayoutManager extends LinearLayoutManager
     private final Handler mUiHandler;
 
     @Nullable
-    private TicklableListView mTicklableListView;
+    private TicklableRecyclerView mTicklableRecyclerView;
     @Nullable
     private FocusLayoutHelper mFocusLayoutHelper;
 
@@ -97,7 +97,7 @@ public class FocusableLinearLayoutManager extends LinearLayoutManager
 
         mScrollOffset = INVALID_SCROLL_OFFSET;
 
-        mAppBarScrollController = new AppBarScrollController(mTicklableListView);
+        mAppBarScrollController = new AppBarScrollController(mTicklableRecyclerView);
 
         setInFocusState(false);
     }
@@ -129,8 +129,8 @@ public class FocusableLinearLayoutManager extends LinearLayoutManager
             return;
         }
 
-        if (toFocus && mTicklableListView != null) {
-            mFocusLayoutHelper = new FocusLayoutHelper(mTicklableListView, this);
+        if (toFocus && mTicklableRecyclerView != null) {
+            mFocusLayoutHelper = new FocusLayoutHelper(mTicklableRecyclerView, this);
         } else if (mFocusLayoutHelper != null) {
             mFocusLayoutHelper.destroy();
             mFocusLayoutHelper = null;
@@ -154,24 +154,24 @@ public class FocusableLinearLayoutManager extends LinearLayoutManager
         requestSimpleAnimationsInNextLayout();
 
 
-        if (mTicklableListView != null && mTicklableListView.getAdapter() != null) {
-            mTicklableListView.getAdapter().notifyDataSetChanged();
+        if (mTicklableRecyclerView != null && mTicklableRecyclerView.getAdapter() != null) {
+            mTicklableRecyclerView.getAdapter().notifyDataSetChanged();
         }
     }
 
     private void restoreOffset() {
-        if (mTicklableListView == null)
+        if (mTicklableRecyclerView == null)
             return;
 
         mScrollResetting = true;
         if (mFocusLayoutHelper != null) {
-            mScrollOffset = mTicklableListView.getTop();
-            mTicklableListView.offsetTopAndBottom(-mScrollOffset);
-            mTicklableListView.scrollBy(0, -mScrollOffset);
+            mScrollOffset = mTicklableRecyclerView.getTop();
+            mTicklableRecyclerView.offsetTopAndBottom(-mScrollOffset);
+            mTicklableRecyclerView.scrollBy(0, -mScrollOffset);
         } else {
             if (mScrollOffset != INVALID_SCROLL_OFFSET) {
-                mTicklableListView.offsetTopAndBottom(mScrollOffset);
-                mTicklableListView.scrollBy(0, mScrollOffset);
+                mTicklableRecyclerView.offsetTopAndBottom(mScrollOffset);
+                mTicklableRecyclerView.scrollBy(0, mScrollOffset);
                 mScrollOffset = INVALID_SCROLL_OFFSET;
             }
         }
@@ -179,14 +179,14 @@ public class FocusableLinearLayoutManager extends LinearLayoutManager
     }
 
     @Override
-    public void setTicklableListView(TicklableListView ticklableListView) {
-        mTicklableListView = ticklableListView;
+    public void setTicklableRecyclerView(TicklableRecyclerView ticklableRecyclerView) {
+        mTicklableRecyclerView = ticklableRecyclerView;
     }
 
     @Override
     public boolean validAdapter(Adapter adapter) {
         if (adapter != null) {
-            RecyclerView.ViewHolder viewHolder = adapter.createViewHolder(mTicklableListView,
+            RecyclerView.ViewHolder viewHolder = adapter.createViewHolder(mTicklableRecyclerView,
                     adapter.getItemViewType(0));
             if (!(viewHolder instanceof ViewHolder)) {
                 String msg = "adapter's ViewHolder should be instance of FocusableLinearLayoutManager.ViewHolder";
@@ -227,7 +227,7 @@ public class FocusableLinearLayoutManager extends LinearLayoutManager
      */
     @Override
     public int updateScrollOffset(int scrollOffset) {
-        if (mTicklableListView == null ||
+        if (mTicklableRecyclerView == null ||
                 this.mScrollOffset == INVALID_SCROLL_OFFSET ||
                 mAppBarScrollController.isAppBarChanging()) {
             this.mScrollOffset = scrollOffset;
@@ -241,10 +241,10 @@ public class FocusableLinearLayoutManager extends LinearLayoutManager
         int delta = scrollOffset - this.mScrollOffset;
         int scroll = -delta;
 
-        int pre = mTicklableListView.computeVerticalScrollOffset();
+        int pre = mTicklableRecyclerView.computeVerticalScrollOffset();
         // Temporary disable nested scrolling.
-        mTicklableListView.scrollBySkipNestedScroll(0, scroll);
-        int real = mTicklableListView.computeVerticalScrollOffset() - pre;
+        mTicklableRecyclerView.scrollBySkipNestedScroll(0, scroll);
+        int real = mTicklableRecyclerView.computeVerticalScrollOffset() - pre;
 
         this.mScrollOffset -= real;
 
@@ -473,13 +473,13 @@ public class FocusableLinearLayoutManager extends LinearLayoutManager
             return;
         }
 
-        boolean isRunning = mTicklableListView != null &&
-                mTicklableListView.getItemAnimator().isRunning(
+        boolean isRunning = mTicklableRecyclerView != null &&
+                mTicklableRecyclerView.getItemAnimator().isRunning(
                         new ItemAnimatorFinishedListener() {
                             @Override
                             public void onAnimationsFinished() {
-                                if (mTicklableListView != null) {
-                                    notifyChildrenStateChanged(mTicklableListView, request);
+                                if (mTicklableRecyclerView != null) {
+                                    notifyChildrenStateChanged(mTicklableRecyclerView, request);
                                 }
                             }
                         });
@@ -489,7 +489,7 @@ public class FocusableLinearLayoutManager extends LinearLayoutManager
         }
     }
 
-    private void notifyChildrenStateChanged(@NonNull TicklableListView listView,
+    private void notifyChildrenStateChanged(@NonNull TicklableRecyclerView listView,
                                             FocusStateRequest request) {
         int top = ViewPropertiesHelper.getTop(listView);
         int bottom = ViewPropertiesHelper.getBottom(listView);
@@ -573,7 +573,7 @@ public class FocusableLinearLayoutManager extends LinearLayoutManager
         viewHolder.onCentralProgressUpdated(progress, duration);
     }
 
-    private void notifyChildFocusStateChanged(@NonNull TicklableListView listView,
+    private void notifyChildFocusStateChanged(@NonNull TicklableRecyclerView listView,
                                               int focusState, boolean animate, View view) {
         ViewHolder viewHolder = (ViewHolder) listView.getChildViewHolder(view);
 
@@ -592,7 +592,7 @@ public class FocusableLinearLayoutManager extends LinearLayoutManager
         }
     }
 
-    private void notifyOnCentralPositionChanged(@NonNull TicklableListView listView,
+    private void notifyOnCentralPositionChanged(@NonNull TicklableRecyclerView listView,
                                                 int centerIndex) {
         int centerPosition = centerIndex == RecyclerView.NO_POSITION ?
                 RecyclerView.NO_POSITION : listView.getChildAdapterPosition(getChildAt(centerIndex));
@@ -706,15 +706,15 @@ public class FocusableLinearLayoutManager extends LinearLayoutManager
     }
 
     /**
-     * An OnCentralPositionChangedListener can be set on a TicklableListView to receive messages
-     * when a central position changed event has occurred on that TicklableListView when tickled.
+     * An OnCentralPositionChangedListener can be set on a TicklableRecyclerView to receive messages
+     * when a central position changed event has occurred on that TicklableRecyclerView when tickled.
      *
      * @see #addOnCentralPositionChangedListener(OnCentralPositionChangedListener)
      */
     public interface OnCentralPositionChangedListener {
 
         /**
-         * Callback method to be invoked when TicklableListView's central item changed.
+         * Callback method to be invoked when TicklableRecyclerView's central item changed.
          *
          * @param position The adapter position of the central item, can be {@link RecyclerView#NO_POSITION}.
          *                 If is {@link RecyclerView#NO_POSITION}, means the tickle state is changed to normal,

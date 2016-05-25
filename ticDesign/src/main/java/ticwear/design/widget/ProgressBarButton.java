@@ -42,7 +42,6 @@ public class ProgressBarButton extends ImageView {
     @Override
     protected void onDetachedFromWindow() {
         stopLongPressUpdate();
-        setTouchListener(null);
         super.onDetachedFromWindow();
     }
 

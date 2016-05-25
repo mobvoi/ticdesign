@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ticwear.design.internal.view.menu.MenuItemView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    tools:layout_gravity="center"
+    style="@style/Widget.Ticwear.ListItem"
+    >
+
+    <ImageButton
+        android:id="@android:id/icon"
+        android:layout_width="@dimen/tic_list_item_icon_frame_size_large"
+        android:layout_height="@dimen/tic_list_item_icon_frame_size_large"
+        android:layout_weight="0"
+        android:layout_marginStart="@dimen/preference_icon_frame_margin_diff"
+        android:layout_marginTop="@dimen/preference_icon_frame_margin_diff"
+        android:layout_marginBottom="@dimen/preference_icon_frame_margin_diff"
+        android:layout_marginEnd="@dimen/preference_icon_frame_margin_end"
+        android:background="@drawable/tic_selectable_round_item_background"
+        android:clipToPadding="false"
+        android:gravity="center"
+        android:tint="@android:color/white"
+        android:contentDescription="@null"
+        style="@style/Widget.Ticwear.ImageButton.Normal"
+        />
+
+    <TextView
+        style="@style/TextAppearance.Ticwear.Subhead"
+        android:id="@android:id/title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:layout_marginStart="@dimen/tic_menu_item_content_margin_large"
+        android:gravity="center_vertical"
+        android:maxLines="2"
+        android:visibility="visible"
+        tools:text="Action"/>
+
+</ticwear.design.internal.view.menu.MenuItemView>

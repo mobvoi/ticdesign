@@ -73,7 +73,7 @@
         <item name="android:preferenceInformationStyle">@style/Preference.Ticwear.Information</item>
         <item name="android:checkBoxPreferenceStyle">@style/Preference.Ticwear.CheckBoxPreference</item>
         <item name="android:switchPreferenceStyle">@style/Preference.Ticwear.SwitchPreference</item>
-        <item name="tic_centeredPreferenceStyle">@style/Preference.Ticwear.Centered</item>
+        <item name="tic_preferenceCenteredStyle">@style/Preference.Ticwear.Centered</item>
         <!--<item name="tic_seekBarPreferenceStyle">@style/Preference.Ticwear.SeekBarPreference</item>-->
         <item name="android:dialogPreferenceStyle">@style/Preference.Ticwear.DialogPreference</item>
         <item name="android:ringtonePreferenceStyle">@style/Preference.Ticwear.RingtonePreference</item>
@@ -96,8 +96,8 @@
         <!-- DatePicker style -->
         <item name="android:datePickerStyle">@style/Widget.Ticwear.DatePicker</item>
         <!-- TimePicker & DatePicker dialog theme, they must be same in ticwear -->
-        <item name="android:timePickerDialogTheme">@style/Theme.Ticwear.Dialog.Datetime</item>
-        <item name="android:datePickerDialogTheme">@style/Theme.Ticwear.Dialog.Datetime</item>
+        <item name="android:timePickerDialogTheme">@style/Theme.Ticwear.Dialog.Alert.Datetime</item>
+        <item name="android:datePickerDialogTheme">@style/Theme.Ticwear.Dialog.Alert.Datetime</item>
 
         <item name="tic_primaryButtonStyle">@style/Widget.Ticwear.PrimaryButton</item>
 
@@ -178,7 +178,16 @@
         <item name="tic_dialogContentStyle">@style/Widget.Ticwear.ListView.Dialog.Compact</item>
     </style>
 
-    <style name="Theme.Ticwear.Dialog.Datetime">
+    <style name="Theme.Ticwear.Dialog.Alert.Datetime">
+        <item name="tic_windowAppBarStyle">@style/WindowAppBar.Ticwear.Minimize</item>
+    </style>
+
+    <style name="Theme.Ticwear.Dialog.Alert.NonSwipe">
+        <item name="android:windowAnimationStyle">@style/Animation.Ticwear.Dialog.NonSwipe</item>
+        <item name="android:windowSwipeToDismiss">false</item>
+    </style>
+
+    <style name="Theme.Ticwear.Dialog.Alert.ContextMenu" parent="Theme.Ticwear.Dialog.Alert.NonSwipe">
         <item name="tic_windowAppBarStyle">@style/WindowAppBar.Ticwear.Minimize</item>
     </style>
 

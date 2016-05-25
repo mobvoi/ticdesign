@@ -11,7 +11,7 @@ import android.view.MotionEvent;
  */
 public interface TicklableLayoutManager {
 
-    void setTicklableListView(TicklableListView ticklableListView);
+    void setTicklableRecyclerView(TicklableRecyclerView ticklableRecyclerView);
 
     /**
      * Check if the adapter is valid for this layout manager.

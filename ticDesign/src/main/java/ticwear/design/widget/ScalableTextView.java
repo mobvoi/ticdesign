@@ -8,6 +8,7 @@ import android.graphics.RectF;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
+import android.util.TypedValue;
 import android.widget.TextView;
 
 import ticwear.design.R;
@@ -54,7 +55,15 @@ public class ScalableTextView extends TextView {
         TypedArray a = context.obtainStyledAttributes(attrs,
                 R.styleable.ScalableTextView, defStyleAttr, defStyleRes);
 
-        mScaleFactor = a.getFloat(R.styleable.ScalableTextView_tic_scaleFactor, 0.5f);
+        float defaultFactor;
+        if (isInEditMode()) {
+            defaultFactor = 0;
+        } else {
+            TypedValue typedValue = new TypedValue();
+            getResources().getValue(R.integer.design_factor_title_scale, typedValue, true);
+            defaultFactor = typedValue.getFloat();
+        }
+        mScaleFactor = a.getFloat(R.styleable.ScalableTextView_tic_scaleFactor, defaultFactor);
 
         a.recycle();
     }

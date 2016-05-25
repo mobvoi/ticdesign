@@ -31,7 +31,7 @@ import android.widget.TextView;
 
 import ticwear.design.R;
 import ticwear.design.widget.FocusableLinearLayoutManager;
-import ticwear.design.widget.TicklableListView;
+import ticwear.design.widget.TicklableRecyclerView;
 
 public abstract class PreferenceFragment extends Fragment implements
         PreferenceManager.OnPreferenceTreeClickListener {
@@ -39,7 +39,7 @@ public abstract class PreferenceFragment extends Fragment implements
     private static final String PREFERENCES_TAG = "android:preferences";
 
     private PreferenceManager mPreferenceManager;
-    private TicklableListView mList;
+    private TicklableRecyclerView mList;
     private TextView mTitleView;
     private boolean mHavePrefs;
     private boolean mInitDone;
@@ -290,7 +290,7 @@ public abstract class PreferenceFragment extends Fragment implements
     }
 
     /** @hide */
-    public TicklableListView getListView() {
+    public TicklableRecyclerView getListView() {
         ensureList();
         return mList;
     }
@@ -305,10 +305,10 @@ public abstract class PreferenceFragment extends Fragment implements
             return false;
         }
         View rawListView = root.findViewById(android.R.id.list);
-        if (!(rawListView instanceof TicklableListView)) {
+        if (!(rawListView instanceof TicklableRecyclerView)) {
             return false;
         }
-        mList = (TicklableListView)rawListView;
+        mList = (TicklableRecyclerView)rawListView;
         return true;
     }
 
@@ -323,15 +323,15 @@ public abstract class PreferenceFragment extends Fragment implements
         View rawListView = root.findViewById(android.R.id.list);
         if (rawListView == null) {
             throw new RuntimeException(
-                    "Your content must have a TicklableListView whose id attribute is " +
+                    "Your content must have a TicklableRecyclerView whose id attribute is " +
                             "'android.R.id.list'");
         }
-        if (!(rawListView instanceof TicklableListView)) {
+        if (!(rawListView instanceof TicklableRecyclerView)) {
             throw new RuntimeException(
                     "Content has view with id attribute 'android.R.id.list' "
-                            + "that is not a TicklableListView class");
+                            + "that is not a TicklableRecyclerView class");
         }
-        mList = (TicklableListView)rawListView;
+        mList = (TicklableRecyclerView)rawListView;
         mList.setLayoutManager(new FocusableLinearLayoutManager(getActivity()));
         mTitleView = (TextView) root.findViewById(android.R.id.title);
         mHandler.post(mRequestFocus);

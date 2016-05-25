@@ -10,7 +10,6 @@
     <dimen name="tic_list_item_padding_horizontal_large_ticwear">36dp</dimen>
     <dimen name="tic_list_item_padding_horizontal_ticwear">@dimen/tic_page_horizontal_padding_small</dimen>
 
-    <dimen name="tic_list_focused_padding_ticwear">8dp</dimen>
     <dimen name="tic_list_padding_top_ticwear">8dp</dimen>
     <dimen name="tic_list_padding_bottom_ticwear">20dp</dimen>
     <dimen name="tic_list_title_padding_top_ticwear">20dp</dimen>

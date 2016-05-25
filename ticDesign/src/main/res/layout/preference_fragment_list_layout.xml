@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:scrollbars="vertical">
 
-    <ticwear.design.widget.TicklableListView
+    <ticwear.design.widget.TicklableRecyclerView
         style="?attr/tic_preferenceFragmentListStyle"
         android:id="@android:id/list"
         android:layout_width="match_parent"
@@ -26,7 +26,6 @@
             android:gravity="center"
             android:text="@null"
             app:tic_layout_scrollFlags="scroll|overScrollBounce"
-            app:tic_scaleFactor="0.5"
             tools:text="Settings"
             />
 

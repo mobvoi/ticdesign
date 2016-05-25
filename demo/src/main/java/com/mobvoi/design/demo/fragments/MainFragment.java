@@ -26,6 +26,7 @@ public class MainFragment extends ListFragment {
                 R.string.category_dialog_title,
                 R.string.category_settings_title,
                 R.string.category_widgets_title,
+                R.string.category_menu_title,
                 R.string.category_showcase_title,
                 R.string.app_name,
                 R.string.app_name,

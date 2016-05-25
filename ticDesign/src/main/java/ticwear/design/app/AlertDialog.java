@@ -43,7 +43,7 @@ import android.widget.ListView;
 import ticwear.design.internal.app.AlertController;
 import ticwear.design.internal.app.AlertController.DelayConfirmRequest;
 import ticwear.design.utils.ThemeUtils;
-import ticwear.design.widget.TicklableListView;
+import ticwear.design.widget.TicklableRecyclerView;
 import ticwear.design.widget.TrackSelectionAdapterWrapper;
 
 /**
@@ -191,7 +191,7 @@ public class AlertDialog extends Dialog implements DialogInterface {
      *
      * @return The {@link ListView} from the dialog.
      */
-    public TicklableListView getListView() {
+    public TicklableRecyclerView getListView() {
         return mAlert.getListView();
     }
 

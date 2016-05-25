@@ -23,7 +23,7 @@
     This layout file is inflated and used as the ListView to display the items.
     Assign an ID so its state will be saved/restored.
 -->
-<view class="ticwear.design.widget.TicklableListView"
+<view class="ticwear.design.widget.TicklableRecyclerView"
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/select_dialog_listview"
     android:layout_width="match_parent"

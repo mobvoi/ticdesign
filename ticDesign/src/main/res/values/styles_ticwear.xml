@@ -98,6 +98,11 @@
         <item name="android:windowExitAnimation">@anim/slide_out_ticwear</item>
     </style>
 
+    <style name="Animation.Ticwear.Dialog.NonSwipe">
+        <item name="android:windowEnterAnimation">@android:anim/fade_in</item>
+        <item name="android:windowExitAnimation">@android:anim/fade_out</item>
+    </style>
+
     <!-- Dialog styles -->
 
     <style name="AlertDialog.Ticwear" parent="android:Theme.Material.Dialog.Alert">

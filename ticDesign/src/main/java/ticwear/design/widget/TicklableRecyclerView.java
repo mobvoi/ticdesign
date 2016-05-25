@@ -15,11 +15,11 @@ import com.mobvoi.ticwear.view.SidePanelEventDispatcher;
 import ticwear.design.R;
 
 @TargetApi(20)
-@CoordinatorLayout.DefaultBehavior(TicklableListViewBehavior.class)
-public class TicklableListView extends RecyclerView
+@CoordinatorLayout.DefaultBehavior(TicklableRecyclerViewBehavior.class)
+public class TicklableRecyclerView extends RecyclerView
         implements SidePanelEventDispatcher {
 
-    static final String TAG = "TicklableLV";
+    static final String TAG = "TicklableRV";
 
     /**
      * {@link LayoutManager} for focus state.
@@ -29,19 +29,19 @@ public class TicklableListView extends RecyclerView
 
     private boolean mSkipNestedScroll;
 
-    public TicklableListView(Context context) {
+    public TicklableRecyclerView(Context context) {
         this(context, null);
     }
 
-    public TicklableListView(Context context, AttributeSet attrs) {
+    public TicklableRecyclerView(Context context, AttributeSet attrs) {
         this(context, attrs, 0);
     }
 
-    public TicklableListView(Context context, AttributeSet attrs, int defStyleAttr) {
+    public TicklableRecyclerView(Context context, AttributeSet attrs, int defStyleAttr) {
         this(context, attrs, defStyleAttr, 0);
     }
 
-    public TicklableListView(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
+    public TicklableRecyclerView(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr);
 
         setHasFixedSize(true);
@@ -60,7 +60,7 @@ public class TicklableListView extends RecyclerView
     /**
      * Set a new adapter to provide child views on demand.
      *
-     * @param adapter new adapter that should be instance of {@link TicklableListView.Adapter}
+     * @param adapter new adapter that should be instance of {@link TicklableRecyclerView.Adapter}
      */
     @Override
     public void setAdapter(RecyclerView.Adapter adapter) {
@@ -75,15 +75,19 @@ public class TicklableListView extends RecyclerView
     public void setLayoutManager(LayoutManager layout) {
         super.setLayoutManager(layout);
 
+        if (isInEditMode()) {
+            return;
+        }
+
         if (mTicklableLayoutManager == layout) {
             return;
         }
 
         if (mTicklableLayoutManager != null) {
-            mTicklableLayoutManager.setTicklableListView(null);
+            mTicklableLayoutManager.setTicklableRecyclerView(null);
         }
         if (!(layout instanceof TicklableLayoutManager)) {
-            Log.w(TAG, "To let TicklableListView support complex tickle events," +
+            Log.w(TAG, "To let TicklableRecyclerView support complex tickle events," +
                     " let LayoutManager implements TicklableLayoutManager.");
             mTicklableLayoutManager = null;
             return;
@@ -92,9 +96,9 @@ public class TicklableListView extends RecyclerView
         TicklableLayoutManager ticklableLayoutManager = (TicklableLayoutManager) layout;
         if (ticklableLayoutManager.validAdapter(getAdapter())) {
             mTicklableLayoutManager = (TicklableLayoutManager) layout;
-            mTicklableLayoutManager.setTicklableListView(this);
+            mTicklableLayoutManager.setTicklableRecyclerView(this);
         } else {
-            Log.w(TAG, "To let TicklableListView support complex tickle events," +
+            Log.w(TAG, "To let TicklableRecyclerView support complex tickle events," +
                     " make sure your Adapter is compat with TicklableLayoutManager.");
             mTicklableLayoutManager = null;
         }

@@ -23,13 +23,13 @@ import android.support.v7.widget.RecyclerView;
 
 import ticwear.design.R;
 import ticwear.design.widget.FocusableLinearLayoutManager;
-import ticwear.design.widget.TicklableListView;
+import ticwear.design.widget.TicklableRecyclerView;
 
 /**
  * An activity that displays a list of items by binding to a data source such as
  * an array or Cursor, and exposes event handlers when the user selects an item.
  * <p>
- * ListActivity hosts a {@link TicklableListView} object that can
+ * ListActivity hosts a {@link TicklableRecyclerView} object that can
  * be bound to different data sources, typically either an array or a Cursor
  * holding query results.
  */
@@ -84,7 +84,7 @@ public class RecyclerActivity extends Activity {
     @Override
     public void onContentChanged() {
         super.onContentChanged();
-        mList = (TicklableListView) findViewById(android.R.id.list);
+        mList = (TicklableRecyclerView) findViewById(android.R.id.list);
         mList.setLayoutManager(new FocusableLinearLayoutManager(this));
         if (mList == null) {
             throw new RuntimeException(
