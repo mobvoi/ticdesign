@@ -3,6 +3,7 @@ package ticwear.design.widget;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Point;
 import android.graphics.RectF;
@@ -101,34 +102,41 @@ public class ScrollBarHelper {
         float thumbSweep = (extent * sweepAngle) / range;
         thumbSweep = MathUtils.constrain(thumbSweep, minSweep, sweepAngle);
         float thumbRotation = (sweepAngle - thumbSweep) * (offset) / (range - extent);
-        mPaint.setAlpha(alpha);
+
+        float opacity = alpha / 255f;
 
         if (DesignConfig.DEBUG_SCROLLBAR && offsetY != 0) {
             Log.v(TAG, "offset " + offsetY + ", extra " + extraAngle +
-                    ", scrollbar (" + startAngle + "," + sweepAngle + ")");
+                    ", scrollbar (" + startAngle + "," + sweepAngle + "), with opacity " + opacity);
         }
 
         canvas.save();
         canvas.translate(-mOffset.x, -mOffset.y);
         if (mIsRound) {
-            mPaint.setColor(mBgColor);
+            setColorWithOpacity(mPaint, mBgColor, opacity);
             canvas.drawArc(mOval, startAngle, sweepAngle, false, mPaint);
-            mPaint.setColor(mSweepColor);
+            setColorWithOpacity(mPaint, mSweepColor, opacity);
             canvas.rotate(thumbRotation, mOval.centerX(), mOval.centerY());
             canvas.drawArc(mOval, startAngle, thumbSweep, false, mPaint);
         } else {
             float x = mOval.right;
-            mPaint.setColor(mBgColor);
+            setColorWithOpacity(mPaint, mBgColor, opacity);
             float startY = getY(startAngle, x);
             float length = getY(startAngle + sweepAngle, x) - startY;
             canvas.drawLine(x, startY, x, startY + length, mPaint);
-            mPaint.setColor(mSweepColor);
+            setColorWithOpacity(mPaint, mSweepColor, opacity);
             float start = startY + (thumbRotation / sweepAngle) * length;
             float end = startY + ((thumbRotation + thumbSweep) / sweepAngle) * length;
             canvas.drawLine(x, start, x, end, mPaint);
         }
         canvas.restore();
 
+    }
+
+    private void setColorWithOpacity(Paint paint, int color, float opacity) {
+        int targetAlpha = (int) (Color.alpha(color) * opacity);
+        paint.setColor(color);
+        paint.setAlpha(targetAlpha);
     }
 
     public float getY(float angle, float x) {

@@ -23,7 +23,7 @@ public class CrescentEdgeEffect extends EdgeEffect {
     /**
      * glow-scale = glow-height / container-height
      */
-    private static final float GLOW_SCALE = 0.1f;
+    private static final float GLOW_SCALE = 0.15f;
     /**
      * crescent edge stop is the distribute stop between the center and edge.
      */
