@@ -1,6 +1,6 @@
 @charset "utf-8";
 /* CSS Document */
-html, body, div, applet, object, iframe, h1, h2, h3, h4, h5, h6, blockquote, pre, abbr, acronym, address, cite, code, del, dfn, img, ins, kbd, q, s, samp, strike, sub, sup, tt, var, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td{ margin:0; padding:0; border:0; outline:0; font:14px/1.6 "Microsoft Yahei", Verdana, Geneva, sans-serif; -webkit-text-size-adjust:none; font-weight:inherit; color:#333;}
+html, body, div, applet, object, iframe, h1, h2, h3, h4, h5, h6, blockquote, pre, abbr, acronym, address, cite, code, del, dfn, img, ins, kbd, q, s, samp, strike, sub, sup, tt, var, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td{ margin:0; padding:0; border:0; outline:0; font:14px/1.6 "Microsoft Yahei", Verdana, Geneva, sans-serif; -webkit-text-size-adjust:none; font-weight:inherit; -webkit-font-smoothing:antialiased; color:#333;}
 p, span, big, small{ font:inherit;}
 :focus, a:focus, input[type=button] ,input[type=submit], a:active{ outline:0; -moz-outline-style:none;}
 ::-moz-focus-inner{ outline:0; border-color:transparent;}
@@ -25,6 +25,14 @@ blockquote, q{ quotes:"" "";}
 .none{ display:none;}
 
 /*header&bottom*/
+.hamburgerControler{ position:absolute; left:31px; top:35px; z-index:2; display:none; width:30px; height:25px; background:url(../img/hamburger.gif) 0 0 no-repeat; cursor:pointer;}
+.hamburger{ position:absolute; z-index:1; display:none; width:100%; background-color:#FFF;}
+.hamburger h3{ text-align:center;}
+.hamburger dl dt, .hamburger h3, .hamburger dl dd{ height:90px; padding-left:30px; line-height:90px; border-bottom:1px solid #e8e8e8; font-size:26px;}
+.hamburger dl dd{ padding-left:90px; background-color:#f7f7f7;}
+.hamburger dl:last-child dd:last-child{ border-bottom-width:100px;}
+.hamburger a{ color:#222;}
+.hamburger a:hover{ color:#5e83e1; text-decoration:none;}
 .menu{ height:60px; margin:0 auto; padding-top:30px; border-bottom:1px solid #eaeaea;}
 .menu ul{ max-width:1080px; margin:0 auto; padding:0 20px;}
 .menu ul li{ float:right; font-size:18px;}
@@ -34,7 +42,9 @@ blockquote, q{ quotes:"" "";}
 .menu ul li small a{ margin-right:0; padding-bottom:0; border-bottom:0;}
 .menu ul li small a:hover, .menu ul li small a.current, .menu ul li a:hover, .menu ul li a.current{ color:#5e83e1; text-decoration:none;}
 @media screen and (max-width:800px){
+	.hamburgerControler{ display:block;}
 	.menu ul li{ display:none;}
+	.menu ul h1{ margin:0 auto; text-align:center;}
 }
 
 .footer{ margin:0 auto 60px auto; border-top:1px solid #eaeaea;}
@@ -44,31 +54,35 @@ blockquote, q{ quotes:"" "";}
 .footer ul li a{ margin:0 15px;}
 
 /*index*/
-.banner{ height:679px; margin:0 auto 105px auto; background:url(../img/bannerSVG.png) center no-repeat, url(../img/bannerBg.png) center;}
+.banner{ height:679px; margin:0 auto 105px auto; padding:0 20px; background:url(../img/bannerSVG.png) center no-repeat, url(../img/bannerBg.png) center;}
 .banner ul{ max-width:1120px; height:499px; margin:0 auto; padding-top:180px;}
-.banner ul h3{ font-size:54px; color:#FFF;}
-.banner ul li{ font-size:30px; color:#FFF;}
+.banner ul h3{ font-size:50px; color:#FFF;}
+.banner ul li{ font-size:28px; color:#FFF;}
 .banner ul li p{ margin:0;}
-.banner ul li a{ display:inline-block; width:215px; height:70px; margin:90px 15px 0 0; border:2px solid #5e83e1; border-radius:8px; text-align:center; line-height:70px; background:rgba(94,131,225,.6); color:#FFF; font-size:20px;}
+.banner ul li a{ display:inline-block; max-width:215px; width:40%; height:70px; margin:90px 15px 0 0; border:2px solid #5e83e1; border-radius:8px; text-align:center; line-height:70px; background:rgba(94,131,225,.6); color:#FFF; font-size:20px;}
 .banner ul li a:hover{ text-decoration:none; background:rgba(94,131,225,.8);}
 .banner ul li small{ font-size:17px; opacity:.5;}
-.slide{ margin-bottom:90px; text-align:center;}
+@media screen and (max-width:800px){
+	.banner{ background:url(../img/bannerSVGs.png) center no-repeat, url(../img/bannerBg.png) center;}
+	.banner ul li, .banner ul h3{ text-align:center;}
+}
+.slide{ margin:0 auto 90px auto; text-align:center;}
 .slide ul:first-child:after{ content:""; display:block; width:100%; height:1px; margin:0 auto 115px auto; overflow:hidden;
 	background:-webkit-linear-gradient(left, #FFFFFF, #f3f3f3, #FFFFFF);
 	background:-o-linear-gradient(right, #FFFFFF, #f3f3f3, #FFFFFF);
 	background:-moz-linear-gradient(right, #FFFFFF, #f3f3f3, #FFFFFF);
 	background:linear-gradient(to right, #FFFFFF, #f3f3f3, #FFFFFF);
 }
-.slide ul h2{ font-size:36px;}
-.slide ul li{ margin:10px 0 30px 0; font-size:22px; color:#666;}
+.slide ul h2{ padding:0 20px; font-size:36px;}
+.slide ul li{ margin:10px 0 30px 0; padding:0 20px; font-size:22px; color:#666;}
 .slide ul li a{ color:#5e83e1;}
-.slide ul div{ margin-bottom:108px; background:url(../img/CircleBg.png) center no-repeat;}
+.slide ul div{ margin-bottom:108px; background:url(../img/CircleBg.png) center no-repeat; background-size:auto;}
 @media screen and (max-width:1045px){
-	.slide ul div{ background:none;}
+	.slide ul div{ background-size:cover;}
 }
-.slide ul div span{ display:inline-block; width:100%; max-width:320px; margin:10px;}
+.slide ul div span{ display:inline-block; width:30%; max-width:320px; margin:1%;}
 .slide ul div span img{ width:100%;}
-.slide ul h3{ margin-top:80px;}
+.slide ul h3{ margin-top:80px; padding:0 20px;}
 .slide ul h3 img{ max-width:900px; width:100%;}
 
 /*doc*/

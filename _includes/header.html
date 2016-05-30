@@ -1,24 +1,81 @@
 <header class="site-header">
+  <div class="hamburgerControler"></div>
+  <div class="hamburger">
+      <h3>
+      	<a href="">设计经验</a>
+      </h3>
+      <dl>
+      	<dt>
+          	<a href="">首页</a>
+          </dt>
+      </dl>
+      <dl>
+      	<dt>
+          	<a href="">设计经验</a>
+          </dt>
+          <dd>
+          	<a href="">设计原则</a>
+          </dd>
+          <dd>
+          	<a href="">布局</a>
+          </dd>
+          <dd>
+          	<a href="">设计原则</a>
+          </dd>
+          <dd>
+          	<a href="">布局</a>
+          </dd>
+      </dl>
+      <dl>
+      	<dt>
+          	<a href="">设计经验</a>
+          </dt>
+          <dd>
+          	<a href="">设计原则</a>
+          </dd>
+          <dd>
+          	<a href="">布局</a>
+          </dd>
+          <dd>
+          	<a href="">设计原则</a>
+          </dd>
+          <dd>
+          	<a href="">布局</a>
+          </dd>
+      </dl>
+  </div>
+  <script type="text/javascript">
+  $(function(){
+  	$(".hamburgerControler").toggle(function(){
+  		$(".hamburger").show();
+  		$(this).css("background-position","0 -25px")
+  	},function(){
+  		$(".hamburger").hide();
+  		$(this).css("background-position","0 0")
+  	})
+  })
+  </script>
 
+  {% assign current_doc = page.url | split: '/' | last %}
   <div class="menu">
-  	<ul>
-      	<li>
-          	<a href="{{ site.baseurl }}/design/">设计指南</a>
-          </li>
-      	<li>
-          	<a href="{{ site.baseurl }}/dev/">开发文档</a>
-          </li>
-      	<li>
-          	<a href="">下载示例</a>
-        </li>
-        <li>
-        	<small>
-            	<a href="">EN</a> / <a href="" class="current">中文</a>
-            </small>
-        </li>
-        <h1>
-            <a href="{{ site.baseurl }}/"><img src="{{ site.baseurl }}/assets/img/logo.png"></a>
-        </h1>
+	<ul>
+      <li>
+      	<small>
+          	<a href="">EN</a> / <a href="" class="current">中文</a>
+          </small>
+      </li>
+    	<li>
+      	<a href="">下载示例</a>
+      </li>
+    	<li>
+      	<a href="{{ site.baseurl }}/dev/" class="{% if current_doc == 'dev' %} current {% endif %}">开发文档</a>
+      </li>
+    	<li>
+        	<a href="{{ site.baseurl }}/design/" class="{% if current_doc == 'design' %} current {% endif %}">设计指南</a>
+      </li>
+      <h1>
+          <a href="{{ site.baseurl }}/"><img src="{{ site.baseurl }}/assets/img/logo.png"></a>
+      </h1>
     </ul>
   </div>
 
