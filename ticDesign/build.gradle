@@ -21,19 +21,10 @@ android {
     compileSdkVersion rootProject.ext.compileSdkVersion
     buildToolsVersion rootProject.ext.buildToolsVersion
 
-    defaultPublishConfig "release"
-    publishNonDefault true
-
     defaultConfig {
         minSdkVersion 21
         targetSdkVersion 23
-        versionCode 1
-        versionName "1.0"
-    }
-    buildTypes {
-        all {
-            consumerProguardFiles 'proguard-rules.pro'
-        }
+        consumerProguardFiles 'proguard-rules.pro'
     }
     sourceSets {
         main.res.srcDirs 'src/main/res', 'src/main/res-public'
@@ -45,3 +36,5 @@ dependencies {
     compile "com.android.support:recyclerview-v7:${rootProject.ext.supportLibVersion}"
     compile "com.android.support:support-v4:${rootProject.ext.supportLibVersion}"
 }
+
+apply from: rootProject.file('gradle/bintray-push.gradle')
