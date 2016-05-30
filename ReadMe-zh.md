@@ -1,17 +1,17 @@
 # TicDesign
 
-[中文](ReadMe-zh.md)
+[English](ReadMe.md)
 
-Using TicDesign, you can make your wear App full of elegant user interaction, and follow the Ticwear [Design Guide][ticwear-design]. If your App running on Ticwatch, Tickle is also built in to interaction with your App.
+使用 TicDesign，你可以轻松让你的手表应用获得优雅的用户交互，并符合 Ticwear 的[设计规范][ticwear-design]。如果你的应用运行在 Ticwear 系统上，它还可以支持挠挠等新型交互方式。
 
 <img src="art/settings.png" width="320">
 <img src="art/delay-confirm-dialog.png" width="320">
 
-Checkout [TicDesign website][ticdesign-site] for how we think of UX on watch, and how to use the TicDesign.
+访问 [TicDesign 官方网站][ticdesign-site]，深入了解 TicDeign 的设计思想、功能和使用方式。
 
-# How to Use
+# 如何使用
 
-Add dependencies in your module `build.gradle`:
+在需要使用的 module 中，添加对 TicDesign 的依赖：
 
 ``` gradle
 dependencies {
@@ -19,19 +19,19 @@ dependencies {
 }
 ```
 
-For details of development, checkout [TicDesign Dev Doc][ticdesign-develop] or find it in code。
+详细的使用帮助，参看 [TicDesign 开发文档][ticdesign-develop]。
 
-# Has Question or Found Bug?
+# 遇到问题？
 
-Feel free to post [issues][ticdesign-issues] when you have questions or found a bug.
+如有疑问或遇到 bug，请提交 [issues][ticdesign-issues]。
 
-# Contribution
+# 贡献
 
-[Pull Request][ticdesign-pr] is welcome if you are interesting in share your code to contribute the open source community.
+如果你希望为这个开源库贡献代码、文档或任何能帮助到其他开发者的东西。我们欢迎你提交 [Pull Request][ticdesign-pr]。
 
-Please send pull request to `dev` branch. we will merge your code after review. When we finished testing, a new version of library will be released from `dev` to `master`, and deploy to repository center.
+请往 `dev` 分支提交代码，我们帮助你审查后，会合并你的代码。经过测试后，`dev` 分支的代码将会发布到 `master` 分支，并部署到代码中心。
 
-# License
+# 开源协议
 
 ``` txt
 Copyright (c) 2016 Mobvoi Inc.
