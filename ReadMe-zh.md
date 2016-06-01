@@ -1,5 +1,7 @@
 # TicDesign
 
+[![](https://api.bintray.com/packages/ticwear/maven/ticDesign/images/download.svg)](https://jcenter.bintray.com/com/ticwear/ticdesign/0.1.2/)
+
 [English](ReadMe.md)
 
 使用 TicDesign，你可以轻松让你的手表应用获得优雅的用户交互，并符合 Ticwear 的[设计规范][ticwear-design]。如果你的应用运行在 Ticwear 系统上，它还可以支持挠挠等新型交互方式。
