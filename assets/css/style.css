@@ -53,7 +53,7 @@ blockquote, q{ quotes:"" "";}
 .footer ul h3{ margin:50px 0 20px 0; font-size:18px;}
 .footer ul li{ margin-bottom:5px; color:#666;}
 .footer ul li a{ margin:0 15px; white-space:nowrap;}
-.footer ul li:last-child a{ color:#666;}
+.footer ul li:last-child a{ margin:0; color:#666;}
 
 /*index*/
 .banner{ height:679px; margin:91px auto 105px auto; padding:0 20px; background:url(../img/bannerSVG.png) center no-repeat, url(../img/bannerBg.png) center;}
@@ -64,7 +64,9 @@ blockquote, q{ quotes:"" "";}
 .banner ul li:nth-child(3){ margin-bottom:20px; padding-top:70px;}
 .banner ul li a{ display:inline-block; max-width:215px; width:40%; height:70px; margin:20px 15px 0 0; border:2px solid #5e83e1; border-radius:8px; text-align:center; line-height:70px; background:rgba(94,131,225,.6); color:#FFF; font-size:20px;}
 .banner ul li a:hover{ text-decoration:none; background:rgba(94,131,225,.8);}
-.banner ul li small{ font-size:17px; opacity:.5;}
+.banner ul li small{ font-size:17px;}
+.banner ul li small a{ display:inline; margin:0; border:0; background:none; font-size:inherit; line-height:1.8; opacity:.5;}
+.banner ul li small a:hover{ background:none; opacity:1;}
 @media screen and (max-width:800px){
 	.banner{ background:url(../img/bannerSVGs.png) center no-repeat, url(../img/bannerBg.png) center;}
 	.banner ul li, .banner ul h3{ text-align:center;}
@@ -93,19 +95,19 @@ blockquote, q{ quotes:"" "";}
 .doc{ max-width:1120px; margin:91px auto 0 auto;}
 .docLeft{ float:left; width:18%; padding-top:60px;}
 .docLeft ul{ width:205px;}
-.docLeft ul li{ margin-bottom:20px; text-align:center; font-size:18px;}
+.docLeft ul li{ margin-bottom:20px; padding:0 20px; font-size:18px;}
 .docLeft ul li a{ color:#444;}
 .docLeft ul li a:hover, .docLeft ul li a.current{ text-decoration:none; color:#5e83e1;}
 .docRight{ float:left; width:76%; min-height:400px; padding:0 0 70px 5%; border-left:1px solid #eaeaea;}
 .docRight h2, .docRight h1{ margin:55px 0 20px 0; font-size:28px;}
 .docRight h3{ margin-top:20px; font-size:24px;}
-.docRight p{ font-size:16px; line-height:1.8; word-break:break-all; word-wrap: break-word;
+.docRight p{ font-size:16px; line-height:1.8; word-break:break-all; word-wrap: break-word; 
 word-break: normal;}
 .docRight img.img1{ width:100%; max-width:844px;}
 .docRight img.img2{ float:right; max-width:70%; margin:0 0 40px 40px;}
-.docRight .block1 ul li{ float:left; width:47%;}
-.docRight .block1 ul li:first-child{ margin-right:6%;}
-.docRight .block1 ul li p img{ width:100%;}
+.block1 ul li{ float:left; width:47%;}
+.block1 ul li:first-child{ margin-right:6%;}
+.block1 ul li p img{ width:100%;}
 @media screen and (max-width:800px){
 	.docLeft{ display:none;}
 	.docRight{ float:none; width:90%; margin:0 auto; padding:0; border-left:0;}
