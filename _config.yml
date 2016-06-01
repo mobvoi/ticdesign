@@ -12,8 +12,12 @@ owner:
   link: http://www.mobvoi.com/
 description: > # this means to ignore newlines until "baseurl:"
   专门为智能手表设计的UI开源库，针对智能手表的小屏幕提出了一整套UI解决方案。
-baseurl: "/TicDesign" # the subpath of your site, e.g. /blog
+baseurl: "/ticdesign" # the subpath of your site, e.g. /blog
 url: "http://mobvoi.github.io" # the base hostname & protocol for your site
+
+github:
+  name: GitHub
+  link: https://github.com/mobvoi/ticdesign/
 
 # folders
 collections:

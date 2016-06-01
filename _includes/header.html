@@ -3,15 +3,20 @@
   <div class="hamburgerControler"></div>
   <div class="hamburger">
       <ul>
+        <li>
+            <a href="{{ site.baseurl }}/">首页</a>
+        </li>
+        {% for tab in site.data.tabs %}
+          {% assign protocal = tab.url | split: '://' | first %}
+          {% if protocal %}
+            {% assign tab_url = tab.url %}
+          {% else %}
+            {% assign tab_url = site.baseurl + tab.url %}
+          {% endif %}
           <li>
-              <a href="">首页</a>
+            <a href="{{ tab_url }}">{{ tab.title }}</a>
           </li>
-          <li>
-              <a href="">设计经验</a>
-          </li>
-          <li>
-              <a href="">设计经验</a>
-          </li>
+        {% endfor %}
       </ul>
   </div>
   <script type="text/javascript">
@@ -49,20 +54,22 @@
   {% assign current_doc = page.url | split: '/' | last %}
   <div class="menu">
     <ul>
-      <li>
+      <!-- <li>
         <small>
           <a href="">EN</a> / <a href="" class="current">中文</a>
         </small>
-      </li>
-      <li>
-        <a href="">下载示例</a>
-      </li>
-      <li>
-        <a href="{{ site.baseurl }}/dev/" class="{% if current_doc == 'dev' %} current {% endif %}">开发文档</a>
-      </li>
-      <li>
-        <a href="{{ site.baseurl }}/design/" class="{% if current_doc == 'design' %} current {% endif %}">设计指南</a>
-      </li>
+      </li> -->
+      {% for tab in site.data.tabs reversed %}
+        {% assign protocal = tab.url | split: '://' | first %}
+        {% if protocal %}
+          {% assign tab_url = tab.url %}
+        {% else %}
+          {% assign tab_url = site.baseurl + tab.url %}
+        {% endif %}
+        <li>
+          <a href="{{ tab_url }}" class="{% if current_doc == tab.url | split: '/' | last %} current {% endif %}">{{ tab.title }}</a>
+        </li>
+      {% endfor %}
       <h1>
         <a href="{{ site.baseurl }}/"><img src="{{ site.baseurl }}/assets/img/logo.png"></a>
       </h1>
