@@ -1,13 +1,13 @@
 jQuery(
 function($) {
-	
+
 	$(document).ready(function(){
 		var contentButton = [];
 		var contentTop = [];
 		var content = [];
 		var lastScrollTop = 0;
 		var scrollDir = '';
-		var itemClass = '';
+		var itemSelector = '';
 		var itemHover = '';
 		var menuSize = null;
 		var stickyHeight = 0;
@@ -26,20 +26,29 @@ function($) {
 		$.fn.stickUp = function( options ) {
 			// adding a class to users div
 			$(this).addClass('stuckMenu');
-        	//getting options
-        	var objn = 0;
-        	if(options != null) {
+      	//getting options
+      	var objn = 0;
+      	if(options != null) {
+
+          if (options.parts) {
 	        	for(var o in options.parts) {
 	        		if (options.parts.hasOwnProperty(o)){
 	        			content[objn] = options.parts[objn];
 	        			objn++;
 	        		}
 	        	}
+          } else {
+            $(options.selector).each(function(i, element) {
+              content[i] = element.id;
+              objn = i + 1;
+            });
+          }
+
 	  			if(objn == 0) {
 	  				console.log('error:needs arguments');
 	  			}
 
-	  			itemClass = options.itemClass;
+	  			itemSelector = options.itemSelector;
 	  			itemHover = options.itemHover;
 	  			if(options.topMargin != null) {
 	  				if(options.topMargin == 'auto') {
@@ -52,13 +61,13 @@ function($) {
 	  					} else {
 	  						console.log("incorrect argument, ignored.");
 	  						topMargin = 0;
-	  					}	
+	  					}
 	  				}
 	  			} else {
 	  				topMargin = 0;
 	  			}
-	  			menuSize = $('.'+itemClass).size();
-  			}			
+	  			menuSize = $(itemSelector).size();
+  			}
 			stickyHeight = parseInt($(this).height());
 			stickyMarginB = parseInt($(this).css('margin-bottom'));
 			currentMarginT = parseInt($(this).next().closest('div').css('margin-top'));
@@ -70,22 +79,24 @@ function($) {
 			if(menuSize != null){
 				for(var i=0;i < menuSize;i++)
 				{
-					contentTop[i] = $('#'+content[i]+'').offset().top;
+          if (contentTop[i] == undefined) {
+  					contentTop[i] = $('#'+content[i]+'').offset().top;
+          }
 					function bottomView(i) {
 						contentView = $('#'+content[i]+'').height()*.4;
 						testView = contentTop[i] - contentView;
 						//console.log(varscroll);
 						if(varscroll > testView){
-							$('.'+itemClass).removeClass(itemHover);
-							$('.'+itemClass+':eq('+i+')').addClass(itemHover);
+							$(itemSelector).removeClass(itemHover);
+							$(itemSelector+':eq('+i+')').addClass(itemHover);
 						} else if(varscroll < 50){
-							$('.'+itemClass).removeClass(itemHover);
-							$('.'+itemClass+':eq(0)').addClass(itemHover);
+							$(itemSelector).removeClass(itemHover);
+							$(itemSelector+':eq(0)').addClass(itemHover);
 						}
 					}
 					if(scrollDir == 'down' && varscroll > contentTop[i]-50 && varscroll < contentTop[i]+50) {
-						$('.'+itemClass).removeClass(itemHover);
-						$('.'+itemClass+':eq('+i+')').addClass(itemHover);
+						$(itemSelector).removeClass(itemHover);
+						$(itemSelector+':eq('+i+')').addClass(itemHover);
 					}
 					if(scrollDir == 'up') {
 						bottomView(i);
@@ -102,19 +113,18 @@ function($) {
 				}, 10);
 				$('.stuckMenu').css("position","fixed");
 				$('.isStuck').css({
-					top: '50px'
+					top: '60px'
 				}, 10, function(){
 
 				});
 			};
 
 			if(varscroll + topMargin < vartop){
-				$('.isStuck').css("top","0px");
 				$('.stuckMenu').removeClass('isStuck');
 				$('.stuckMenu').next().closest('div').css({
 					'margin-top': currentMarginT + 'px'
 				}, 10);
-				$('.stuckMenu').css("position","relative");
+				$('.stuckMenu').css({"position":"relative","top":"0"});
 			};
 
 		});

@@ -1,6 +1,6 @@
 @charset "utf-8";
 /* CSS Document */
-html, body, div, applet, object, iframe, h1, h2, h3, h4, h5, h6, blockquote, pre, abbr, acronym, address, cite, code, del, dfn, img, ins, kbd, q, s, samp, strike, sub, sup, tt, var, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td{ margin:0; padding:0; border:0; outline:0; font:14px/1.6 "Microsoft Yahei", Verdana, Geneva, sans-serif; -webkit-text-size-adjust:none; font-weight:inherit; -webkit-font-smoothing:antialiased; color:#333;}
+html, body, div, applet, object, iframe, h1, h2, h3, h4, h5, h6, blockquote, pre, abbr, acronym, address, cite, code, del, dfn, img, ins, kbd, q, s, samp, strike, sub, sup, tt, var, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td{ margin:0; padding:0; border:0; outline:0; font:14px/1.6 Tahoma,Arial,'microsoft yahei', 'Roboto','Droid Sans','Helvetica Neue','Droid Sans Fallback','Heiti SC','Hiragino Sans GB','Simsun','sans-self'; letter-spacing:0.1px; -webkit-text-size-adjust:none; font-weight:inherit; -webkit-font-smoothing:antialiased; color:#333;}
 p, span, big, small{ font:inherit;}
 :focus, a:focus, input[type=button] ,input[type=submit], a:active{ outline:0; -moz-outline-style:none;}
 ::-moz-focus-inner{ outline:0; border-color:transparent;}
@@ -25,16 +25,14 @@ blockquote, q{ quotes:"" "";}
 .none{ display:none;}
 
 /*header&bottom*/
-.hamburgerControler{ position:absolute; left:31px; top:35px; z-index:2; display:none; width:30px; height:25px; background:url(../img/hamburger.gif) 0 0 no-repeat; cursor:pointer;}
-.hamburger{ position:absolute; z-index:1; display:none; width:100%; background-color:#FFF;}
-.hamburger h3{ text-align:center;}
-.hamburger dl dt, .hamburger h3, .hamburger dl dd{ height:90px; padding-left:30px; line-height:90px; border-bottom:1px solid #e8e8e8; font-size:26px;}
-.hamburger dl dd{ padding-left:90px; background-color:#f7f7f7;}
-.hamburger dl:last-child dd:last-child{ border-bottom-width:100px;}
+.hamburgerControler{ position:absolute; left:31px; top:35px; z-index:12; display:none; width:30px; height:25px; background:url(../img/hamburger.gif) 0 0 no-repeat; cursor:pointer;}
+.hamburger{ position:absolute; top:91px; z-index:1; display:none; width:100%; background-color:#FFF;}
+.hamburger ul li{ height:90px; padding-left:30px; line-height:90px; border-bottom:1px solid #e8e8e8; font-size:26px;}
 .hamburger a{ color:#222;}
 .hamburger a:hover{ color:#5e83e1; text-decoration:none;}
-.menu{ height:60px; margin:0 auto; padding-top:30px; border-bottom:1px solid #eaeaea;}
+.menu{ height:60px; margin:0 auto; padding-top:30px; border-bottom:1px solid #eaeaea; background-color:#FFF;}
 .menu ul{ max-width:1080px; margin:0 auto; padding:0 20px;}
+.menu ul h1{ padding-top:3px;}
 .menu ul li{ float:right; font-size:18px;}
 .menu ul li small{ font-size:14px;}
 .menu ul li a{ display:inline-block; margin-right:80px; padding-bottom:30px; border-bottom:2px solid rgba(94,131,225,0);}
@@ -46,25 +44,31 @@ blockquote, q{ quotes:"" "";}
 	.menu ul li{ display:none;}
 	.menu ul h1{ margin:0 auto; text-align:center;}
 }
-
+.header--fixed{ position:fixed; z-index:10; right:0; left:0; top:0;}
+.headroom{ transition:transform .25s ease-in-out; will-change:transform;}
+.headroom--pinned{ transform:translateY(0);}
+.headroom--unpinned{ transform:translateY(-100%);}
 .footer{ margin:0 auto 60px auto; border-top:1px solid #eaeaea;}
 .footer ul{ max-width:1080px; margin:0 auto; padding:0 20px; text-align:center;}
 .footer ul h3{ margin:50px 0 20px 0; font-size:18px;}
 .footer ul li{ margin-bottom:5px; color:#666;}
-.footer ul li a{ margin:0 15px;}
+.footer ul li a{ margin:0 15px; white-space:nowrap;}
+.footer ul li:last-child a{ color:#666;}
 
 /*index*/
-.banner{ height:679px; margin:0 auto 105px auto; padding:0 20px; background:url(../img/bannerSVG.png) center no-repeat, url(../img/bannerBg.png) center;}
-.banner ul{ max-width:1120px; height:499px; margin:0 auto; padding-top:180px;}
+.banner{ height:679px; margin:91px auto 105px auto; padding:0 20px; background:url(../img/bannerSVG.png) center no-repeat, url(../img/bannerBg.png) center;}
+.banner ul{ max-width:1120px; height:499px; margin:0 auto; padding-top:130px;}
 .banner ul h3{ font-size:50px; color:#FFF;}
 .banner ul li{ font-size:28px; color:#FFF;}
 .banner ul li p{ margin:0;}
-.banner ul li a{ display:inline-block; max-width:215px; width:40%; height:70px; margin:90px 15px 0 0; border:2px solid #5e83e1; border-radius:8px; text-align:center; line-height:70px; background:rgba(94,131,225,.6); color:#FFF; font-size:20px;}
+.banner ul li:nth-child(3){ margin-bottom:20px; padding-top:70px;}
+.banner ul li a{ display:inline-block; max-width:215px; width:40%; height:70px; margin:20px 15px 0 0; border:2px solid #5e83e1; border-radius:8px; text-align:center; line-height:70px; background:rgba(94,131,225,.6); color:#FFF; font-size:20px;}
 .banner ul li a:hover{ text-decoration:none; background:rgba(94,131,225,.8);}
 .banner ul li small{ font-size:17px; opacity:.5;}
 @media screen and (max-width:800px){
 	.banner{ background:url(../img/bannerSVGs.png) center no-repeat, url(../img/bannerBg.png) center;}
 	.banner ul li, .banner ul h3{ text-align:center;}
+	.banner ul li a{ min-width:315px;}
 }
 .slide{ margin:0 auto 90px auto; text-align:center;}
 .slide ul:first-child:after{ content:""; display:block; width:100%; height:1px; margin:0 auto 115px auto; overflow:hidden;
@@ -76,7 +80,7 @@ blockquote, q{ quotes:"" "";}
 .slide ul h2{ padding:0 20px; font-size:36px;}
 .slide ul li{ margin:10px 0 30px 0; padding:0 20px; font-size:22px; color:#666;}
 .slide ul li a{ color:#5e83e1;}
-.slide ul div{ margin-bottom:108px; background:url(../img/CircleBg.png) center no-repeat; background-size:auto;}
+.slide ul div{ margin:50px auto 100px auto; background:url(../img/CircleBg.png) center no-repeat; background-size:auto;}
 @media screen and (max-width:1045px){
 	.slide ul div{ background-size:cover;}
 }
@@ -86,21 +90,22 @@ blockquote, q{ quotes:"" "";}
 .slide ul h3 img{ max-width:900px; width:100%;}
 
 /*doc*/
-.doc{ max-width:1120px; margin:0 auto;}
+.doc{ max-width:1120px; margin:91px auto 0 auto;}
 .docLeft{ float:left; width:18%; padding-top:60px;}
 .docLeft ul{ width:205px;}
 .docLeft ul li{ margin-bottom:20px; text-align:center; font-size:18px;}
 .docLeft ul li a{ color:#444;}
 .docLeft ul li a:hover, .docLeft ul li a.current{ text-decoration:none; color:#5e83e1;}
 .docRight{ float:left; width:76%; min-height:400px; padding:0 0 70px 5%; border-left:1px solid #eaeaea;}
-.docRight h2{ margin:60px 0 20px 0; font-size:28px;}
-.docRight h3{ font-size:24px;}
-.docRight p{ font:16px/1.8 "Microsoft Yahei", Verdana, Geneva, sans-serif;}
+.docRight h2, .docRight h1{ margin:55px 0 20px 0; font-size:28px;}
+.docRight h3{ margin-top:20px; font-size:24px;}
+.docRight p{ font-size:16px; line-height:1.8; word-break:break-all; word-wrap: break-word;
+word-break: normal;}
 .docRight img.img1{ width:100%; max-width:844px;}
 .docRight img.img2{ float:right; max-width:70%; margin:0 0 40px 40px;}
-.block1 ul li{ float:left; width:47%;}
-.block1 ul li:first-child{ margin-right:6%;}
-.block1 ul li p img{ width:100%;}
+.docRight .block1 ul li{ float:left; width:47%;}
+.docRight .block1 ul li:first-child{ margin-right:6%;}
+.docRight .block1 ul li p img{ width:100%;}
 @media screen and (max-width:800px){
 	.docLeft{ display:none;}
 	.docRight{ float:none; width:90%; margin:0 auto; padding:0; border-left:0;}

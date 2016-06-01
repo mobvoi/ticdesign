@@ -4,24 +4,9 @@ layout: default
 <article class="post">
 
   <div class="doc clearfix">
-  	<div class="docLeft">
-    	<ul id="nav">
-        	<li>
-                <a class="link" href="#tip1">思路</a>
-          </li>
-        	<li>
-                <a class="link" href="#tip2">布局</a>
-          </li>
-        	<li>
-                <a class="link" href="#tip3">文字</a>
-          </li>
-        	<li>
-                <a class="link" href="#tip4">颜色</a>
-          </li>
-        	<li>
-                <a class="link" href="#tip5">控件</a>
-          </li>
-      </ul>
+    <!-- <div class="docLeft table-of-contents"></div> -->
+    <div class="docLeft">
+      <div class="table-of-contents"></div>
     </div>
     <div class="docRight">
 
@@ -36,3 +21,6 @@ layout: default
   </div>
 
 </article>
+
+
+{% include toc_gen.html %}

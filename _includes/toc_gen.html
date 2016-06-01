@@ -1,0 +1,30 @@
+<script type="text/javascript" src="{{ site.baseurl }}/assets/js/toc.js"></script>
+<script type="text/javascript" src="{{ site.baseurl }}/assets/js/stickUp.js"></script>
+<script type="text/javascript">
+jQuery(function($){
+  $(document).ready(function() {
+
+    // Floating-Fixed table of contents
+    $('.table-of-contents').toc({
+      title: '',
+      listType: 'ul',
+      headers: '.post-content h2',
+      minimumHeaders: 2,
+      showEffect: 'slideDown',
+      classes: { item: 'link' }
+    });
+
+    $('.table-of-contents ul').stickUp({
+      selector:'.post-content h2',
+      itemSelector:'.table-of-contents .link a',
+      itemHover:'current',
+      topMargin: 'auto'
+    });
+
+    // $('.post-content h2').scrollSpy();
+    //
+    // $('.table-of-contents > ul').pushpin({ top: $('.table-of-contents').offset().top });
+
+  });
+});
+</script>

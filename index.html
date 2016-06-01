@@ -3,41 +3,58 @@ layout: default
 ---
 
 <div class="banner">
-	<ul>
-    	<h3>TicDesign</h3>
+  <ul>
+    <h3>TicDesign</h3>
         <li>
-            <p>专门为智能手表设计的UI开源库</p>
-        	<p>针对智能手表的小屏幕提出了一整套UI解决方案。</p>
+          <p>专门为智能手表设计的UI开源库</p>
+          <p>针对智能手表的小屏幕提出了一整套UI解决方案。</p>
         </li>
         <li>
-        	<a href="">Github</a>
-            <a href="">demo.zip</a>
+          <a class="button" href="">Github</a>
+          <a class="button" href="">demo.zip</a>
         </li>
-        <li>
-        	<small>当前版本  V1.2.3  2016.5.23</small>
+        <li class="github">
+          <a class="download" href=""><small><span class="version">Loading version...</span> <span class="release_date"></span></small></a>
+          <!-- <a href=""><img src="https://api.bintray.com/packages/ticwear/maven/ticDesign/images/download.svg"></a> -->
         </li>
     </ul>
 </div>
 <div class="slide">
-	<ul>
-    	<h2>优雅、贴合的展现，为智能手表去繁就简</h2>
+  <ul>
+      <h2>优雅、贴合的展现，为智能手表去繁就简</h2>
         <li>不错过，在意最重要的，一目了然。</li>
         <li>
-        	<a href="">进一步了解 TicDesign 设计 &gt;</a>
+          <a href="">进一步了解 TicDesign 设计 &gt;</a>
         </li>
         <div>
-        	<span><img src="{{ site.baseurl }}/assets/img/img1.png"></span>
-        	<span><img src="{{ site.baseurl }}/assets/img/img2.png"></span>
-        	<span><img src="{{ site.baseurl }}/assets/img/img3.png"></span>
+          <span><img src="{{ site.baseurl }}/assets/img/img1.png"></span>
+          <span><img src="{{ site.baseurl }}/assets/img/img2.png"></span>
+          <span><img src="{{ site.baseurl }}/assets/img/img3.png"></span>
         </div>
         <div></div>
     </ul>
     <ul>
-    	<h2>熟悉的语言，三言两语，便是妙颜</h2>
+      <h2>熟悉的语言，三言两语，便是妙颜</h2>
         <li>TicDesign 基于Android系统，只需要很少的代码便可以实现与 Ticwear4.0 系统原生应用一样的UI效果。</li>
         <li>
-        	<a href="">进一步了解 TicDesign 开发文档 &gt;</a>
+          <a href="">进一步了解 TicDesign 开发文档 &gt;</a>
         </li>
         <h3><img src="{{ site.baseurl }}/assets/img/CodeBox.png"></h3>
     </ul>
 </div>
+
+<script>
+var url = "https://api.github.com/repos/tankery/circularSeekBar/releases/latest?callback=?";
+$.getJSON(url, function(json) {
+  var release = json.data;
+  if (json.data == undefined) {
+    return;
+  }
+  var version = release.tag_name;
+  var date = new Date(release.published_at);
+  var link = release.html_url;
+  $('.github .download').attr('href', link);
+  $('.github .version').text('Version ' + version);
+  $('.github .release_date').text(date.getFullYear() + '.' + (date.getMonth() + 1) + '.' + date.getDate());
+});
+</script>

@@ -20,7 +20,7 @@ permalink: /dev/
 6. [悬浮菜单](#menu)：类似 Android 的[长按弹出菜单][android-FloatingContextMenu]，你可以通过 [Menu resource][android-menu-resource] 来创建菜单项，并利用 `FloatingContextMenu` 来加载和显示菜单，并获取菜单选中的回调事件。
 7. [其他小控件](#widgets)：Ticwear提供了一系列适合手表使用的小控件，包括[可缩放文本框](#scale-textview)、[悬浮按钮](#fab)、[重要按钮](#primary-button)、[数值选择器](#number-picker)、[日期时间选择器](#date-picker)、[Checkbox、RadioButton、SimpleSwitch](#two-state-button)等。
 
-### <a id="style-and-theme"></a> 样式和主题
+## <a name="style-and-theme"></a>样式和主题 {#style-and-theme}
 
 Ticwear为开发者提供了一套符合Ticwear设计规范的主题。开发者可以直接使用或基于此主题进行自己的个性化扩展。包括以下主题：
 
@@ -29,7 +29,7 @@ Ticwear为开发者提供了一套符合Ticwear设计规范的主题。开发者
 
 除了主题，开发者可以使用我们定义好的一系列样式。详情参看`styles_ticwear.xml`代码。
 
-#### <a id="list-styles"></a> 列表样式
+### <a name="list-styles"></a>列表样式 {#list-styles}
 
 要获得更好的用户体验，请：
 
@@ -39,7 +39,7 @@ Ticwear为开发者提供了一套符合Ticwear设计规范的主题。开发者
 这两个样式，已经较好的处理了手表上列表的显示，包括列表顶部、底部的边距、列表项左右边距，列表项点击效果等等。
 
 
-#### <a id="text-styles"></a> 文本样式
+### <a name="text-styles"></a>文本样式 {#text-styles}
 
 Ticwear 定义了一系列适用于手表的文本样式，包括文本大小、行间距、字体等。并使之兼容了 [Material Design Typography](https://www.google.com/design/spec/style/typography.html#typography-styles) 的文本样式（Display字体对于手表来说太大，故没有做定义）。
 
@@ -83,7 +83,7 @@ TextAppearance.Ticwear.Widget.Button
 
 开发者可以随意使用和组合这些样式以及字体大小。
 
-#### <a id="color-styles"></a> Ticwear 调色板
+### <a name="color-styles"></a>Ticwear 调色板 {#color-styles}
 
 我们为开发者定义了一套 Ticwear 风格的调色板资源。开发者可以通过资源直接使用某种颜色。基础颜色命名符合下面的规范：
 
@@ -112,7 +112,7 @@ int color = ColorPalette.from(context)
                 .value();
 ```
 
-### <a id="title-bar"></a> 响应内容滚动操作的标题栏
+## <a name="title-bar"></a>响应内容滚动操作的标题栏 {#title-bar}
 
 类似 [Android Design Support][google-design-support]，使用`CoordinatorLayout`来组织`AppBarLayout`以及页面内容，可以使得标题响应页面内容的滚动，实现多种标题效果。
 
@@ -161,11 +161,11 @@ int color = ColorPalette.from(context)
 * `app:tic_layout_scrollResistanceFactor` 指定了标题在拉伸时，整体高度的变化倍数。为1时，标题高度变化与滚动距离对应，没有阻尼效果。越接近0，阻尼效果越大，高度变化越小。
 * `app:tic_scaleFactor` 指定了可缩放文字的缩放倍数。为1时，文字会跟随文本框大小做等比缩放，约接近0则缩放效果越不明显。详情可以参考[可缩放文本框](#scale-textview)。
 
-#### 启用滚动条和滑动边缘效果
+### 启用滚动条和滑动边缘效果
 
 使用 `CoordinatorLayout`，开发者就可以获得
 
-### <a id="support-tickle"></a> 对挠挠的支持
+## <a name="support-tickle"></a>对挠挠的支持 {#support-tickle}
 
 通过实现 `SidePanelEventTarget` 或 `SidePanelGestureTarget`，开发者可以方便的为其自定义view增加对挠挠的支持。
 
@@ -178,7 +178,7 @@ int color = ColorPalette.from(context)
 
 对挠挠事件派发的详细说明，可以参看[挠挠API](http://developer.ticwear.com/doc/tickle-api)。
 
-#### <a id="ticklable-listview"></a> 支持挠挠交互的 Listview
+### <a name="ticklable-listview"></a>支持挠挠交互的 Listview {#ticklable-listview}
 
 `TickableListView` 结合了`ListView`和`WearableListView`的优势，使得列表控件在正常状态时表现的像普通的ListView，以呈现较丰富、美观的视觉效果，且可以任意点击视图中的列表项；而在挠挠触碰上去之后，转变成聚焦态，内容变大，聚焦在页面中部的元素，使得操作变得准确有目标。
 
@@ -227,17 +227,17 @@ protected void onFocusStateChanged(@TicklableRecyclerView.FocusState int focusSt
 为了方便开发者，我们提供了一个`SimpleRecyclerAdapter`来快速构造列表所需的内容。其使用方式类似[`ListView.SimpleAdapter`][simple-adapter]。
 
 
-### <a id="preference"></a> 设置系统
+## <a name="preference"></a>设置系统 {#preference}
 
 Ticwear 的设置系统类似 [Android Settings][android-settings]，你可以使用与 Android Preference 相同的方式来使用 Ticwear Preference。但请注意，Ticwear Preference 已经将内置的 `ListView` 改成了 `TicklableRecyclerView`，你需要使用 `RecyclerView.ViewHolder` 的方式来绑定数据到 Preference view 上面。
 
 当你需要实现自定义的 `Preference` 时，需要继承 `Preference.ViewHolder`，并按需要覆盖其方法，以绑定你的自定义数据。
 
-### <a id="dialogs"></a> 对话框
+## <a name="dialogs"></a>对话框 {#dialogs}
 
 我们深知Dialog使用的便捷性，因此我们改造了Dialog，使Dialog也能适合展示在手表上，并扩展了对话框的按钮、列表展示，也提供了一些数值选择对话框，所有这些，在保持Android接口的便捷性同时，也提供了手表上较为便捷的用户体验。
 
-#### <a id="alert-dialog"></a> 弹出式对话框
+### <a name="alert-dialog"></a>弹出式对话框 {#alert-dialog}
 
 移植并扩展了 Android 的 [`AlertDialog`][android-alert-dialog]。为其定制了适用于手表的主题。并提供了利于手表显示的圆形图标按钮，以替代原生的文字按钮。
 
@@ -271,7 +271,7 @@ new AlertDialog.Builder(context)
 6. `tic_iconButtonBarNeutralButtonStyle`：指定中立选项的按钮样式，由于手表的屏幕较小，我们不推荐为对话框指定中立选项的按钮。
 
 
-#### <a id="list-choice-dialog"></a> 列表选择对话框
+### <a name="list-choice-dialog"></a>列表选择对话框 {#list-choice-dialog}
 
 类似 Android 的 [`AlertDialog`][android-alert-dialog]，你也可以通过设置Dialog的items、singleChoiceItems 和 multipleChoiceItems 来创建一个列表选择对话框，来获取用户对于一个列表的选择结果。
 
@@ -304,7 +304,7 @@ dialog = new AlertDialog.Builder(getActivity())
         .show();
 ```
 
-#### <a id="number-picker-dialog"></a> 数值选择对话框
+### <a name="number-picker-dialog"></a>数值选择对话框 {#number-picker-dialog}
 
 通过内嵌 [`NumberPicker`](#number-picker)，开发者可以使用[`AlertDialog`][android-alert-dialog]来显示一个对话框让用户选择一个值。使用方式如下：
 
@@ -324,7 +324,7 @@ new NumberPickerDialog.Builder(context)
         .show();
 ```
 
-#### <a id="date-picker-dialog"></a> 日期时间选择器
+### <a name="date-picker-dialog"></a>日期时间选择器 {#date-picker-dialog}
 
 为了开发的方便，我们封装了[`DatePicker`和`TimePicker`](#date-picker)，提供了一个日期时间选择对话框，`DatetimePickerDialog`，可以像使用[`AlertDialog`][android-alert-dialog]一样，显示一个对话框让用户选择日期、时间，或同时选择两者。使用方式如下：
 
@@ -347,7 +347,7 @@ new DatetimePickerDialog.Builder(getActivity())
 
 如果你只想让用户选择日期，或者只选择时间，那么你需要做的，是在 Building 时，指定 `disableTimePicker()` 或者 `disableDatePicker()`。详情可以参考我们 Demo 中的 `DialogsFragment`。
 
-### <a id="menu"></a> 悬浮上下文菜单
+## <a name="menu"></a>悬浮上下文菜单 {#menu}
 
 通过 `FloatingContextMenu`，你可以非常方便的创建一个悬浮在内容之上的上下文内容相关的选择菜单。
 
@@ -382,9 +382,9 @@ new FloatingContextMenu(context)
 需要注意的是，目前我们的 `FloatingContextMenu` 仅支持基础的菜单项内容（icon、 title 和 intent），不支持嵌套菜单（menu group）和 action 等复杂属性。
 
 
-### <a id="widgets"></a> 小控件
+## <a name="widgets"></a>小控件 {#widgets}
 
-#### <a id="scale-textview"></a> 可缩放文本框
+### <a name="scale-textview"></a>可缩放文本框 {#scale-textview}
 
 `ScalableTextView`，可缩放文本框，可以跟随控件大小而改变文字大小。常用于`TitleBar`中的标题显示。
 
@@ -424,7 +424,7 @@ $$
 </ticwear.design.widget.AppBarLayout>
 ```
 
-#### <a id="fab"></a> 悬浮按钮
+### <a name="fab"></a>悬浮按钮 {#fab}
 
 `FloatingActionButton`，悬浮按钮，是一个扩展的`ImageButton`。我们从 [Android Design Support][google-design-support] 库中将其移植过来，去除了一些不利于手表展示的部分（比如与`SnackBar`的交互），增加了Ticwear特有的设计元素。
 
@@ -436,7 +436,7 @@ $$
 
 `backgroundDrawable`中引用了[圆形进度条](#cpd)，并可对进度条的进度，透明度，模式等进行设置
 
-#### <a id="cpd"></a> 圆形进度条（CircularProgressDrawable）
+### <a name="cpd"></a>圆形进度条（CircularProgressDrawable） {#cpd}
 
 圆形的进度条，仿照安卓的[`progressBar`][android-progressbar]，效果模式分为`determinate`及`indeterminate`，`determinate`模式静态显示当前`progressBar`的进度，`indeterminate`模式动态旋转`progressBar`。
 
@@ -448,21 +448,21 @@ $$
 在FAB中使用者可选择是否包含进度条，当无进度条时，FAB仍可设
 置进度，`progressbar`颜色等，但无任何效果。
 
-#### <a id="primary-button"></a> 主要按钮（PrimaryButton）
+### <a name="primary-button"></a>主要按钮（PrimaryButton） {#primary-button}
 
 手表界面开发的一项原则，是精简内容和选择，让用户能迅速明白自己需要做什么。为此，我们经常需要一个放置在页面底部，占用较大区域的主要按钮。而 `PrimaryButton` 则提供这样一个按钮。
 
 `PrimaryButton` 是一个特殊的 `ImageButton`，它的背景是一个半圆的色块，放置在圆表底部时，会显得非常和谐。
 
-#### <a id="number-picker"></a> 数值选择器
+### <a name="number-picker"></a>数值选择器 {#number-picker}
 
 类似 Android 的 [`NumberPicker`][android-numberpicker]，我们实现了符合Ticwear设计标准的数值选择器。开发者可以直接使用到其 layout 中。如果你只是需要一个页面来获取用户输入的数值。我们还提供了一个便于使用的[`NumberPickerDialog`](#number-picker-dialog)，方便你快速开发。
 
-#### <a id="date-picker"></a> 日期时间选择器
+### <a name="date-picker"></a>日期时间选择器 {#date-picker}
 
 类似于 Android 的 [`TimePicker`][android-timepicker] 和 [`DatePicker`][android-datepicker]，我们实现了符合Ticwear设计标准的日期和时间选择器。开发者可以像 Android 控件一样使用它们。同样的，我们也提供了[`DateTimePickerDialog`](#date-picker-dialog)来快速获取用户的时间、日期输入。
 
-#### <a id="two-state-button"></a> Checkbox、RadioButton 和 SimpleSwitch
+### <a name="two-state-button"></a>Checkbox、RadioButton 和 SimpleSwitch {#two-state-button}
 
 我们为 [Ticwear Theme](#style-and-theme) 设置了符合Ticwear设计风格的 `Checkbox` 和 `RadioButton`，并提供了一个 `SimpleSwitch`，简化 `Switch` 按钮的操作，并与其他两个状态切换Button统一了风格。以提供一套美观的状态切换按钮。
 
