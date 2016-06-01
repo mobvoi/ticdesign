@@ -232,5 +232,16 @@
         </attr>
 
     </declare-styleable>
-
+    <declare-styleable name="SwipeTodoView">
+        <attr name="tic_centerBtnImage" format="reference" />
+        <attr name="tic_centerBtnBg" format="reference" />
+        <attr name="tic_leftBtnImage" format="reference" />
+        <attr name="tic_rightBtnImage" format="reference" />
+        <attr name="tic_leftBtnColor" format="color" />
+        <attr name="tic_rightBtnColor" format="color" />
+        <attr name="tic_leftBtnBgColor" format="color" />
+        <attr name="tic_rightBtnBgColor" format="color" />
+        <attr name="tic_content" format="string" />
+        <attr name="tic_subContent" format="string" />
+    </declare-styleable>
 </resources>

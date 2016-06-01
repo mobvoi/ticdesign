@@ -29,17 +29,18 @@ import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.support.annotation.ColorInt;
 import android.support.annotation.NonNull;
+import android.view.Gravity;
 
 /**
  * An arc shape drawable that draw with a semi-circle clip.
- *
+ * <p/>
  * Created by tankery on 4/8/16.
  */
 public class ArcDrawable extends Drawable {
-
     private final Paint mArcPaint = new Paint();
     private final Drawable srcDrawable;
     private final Path mClipPath = new Path();
+    private int mGravity = Gravity.BOTTOM;
 
     public ArcDrawable(int color) {
         this(new ColorDrawable(color));
@@ -65,6 +66,10 @@ public class ArcDrawable extends Drawable {
     @Override
     public void setTintMode(@NonNull PorterDuff.Mode tintMode) {
         srcDrawable.setTintMode(tintMode);
+    }
+
+    public void setGravity(int gravity) {
+        mGravity = gravity;
     }
 
     @Override
@@ -112,9 +117,28 @@ public class ArcDrawable extends Drawable {
             mArcPaint.setColor(color);
             Rect rect = getBounds();
             RectF rectF = new RectF(rect);
-            rectF.right = rectF.left + size;
-            rectF.bottom = rectF.top + size;
-            canvas.drawArc(rectF, 180, 180, true, mArcPaint);
+            switch (mGravity) {
+                case Gravity.LEFT:
+                    rectF.left = rectF.right - size;
+                    canvas.drawArc(rectF, 270, 180, true, mArcPaint);
+                    break;
+                case Gravity.RIGHT:
+                    rectF.right = rectF.left + size;
+                    canvas.drawArc(rectF, 90, 180, true, mArcPaint);
+                    break;
+                case Gravity.BOTTOM:
+                    rectF.right = rectF.left + size;
+                    rectF.bottom = rectF.top + size;
+                    canvas.drawArc(rectF, 180, 180, true, mArcPaint);
+                    break;
+                case Gravity.TOP:
+                    rectF.top = rectF.bottom - size;
+                    canvas.drawArc(rectF, 0, 180, true, mArcPaint);
+                    break;
+                default:
+                    break;
+
+            }
             // Restore original color filter.
 //            mArcPaint.setColorFilter(colorFilter);
         }

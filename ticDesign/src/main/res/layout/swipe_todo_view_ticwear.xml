@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/content_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="34dp"
+        android:ellipsize="end"
+        android:fontFamily="sans-serif"
+        android:includeFontPadding="false"
+        android:singleLine="true"
+        android:textColor="#ffffff"
+        android:textSize="17sp" />
+
+    <ImageView
+        android:id="@+id/outer_circle_iv"
+        android:layout_width="29dp"
+        android:layout_height="29dp"
+        android:layout_centerInParent="true"
+        android:background="@drawable/tic_round_item_icon_background" />
+
+    <ImageView
+        android:id="@+id/middle_circle_iv"
+        android:layout_width="29dp"
+        android:layout_height="29dp"
+        android:layout_centerInParent="true"
+        android:background="@drawable/tic_round_item_icon_background" />
+
+    <ImageView
+        android:id="@+id/inner_circle_iv"
+        android:layout_width="29dp"
+        android:layout_height="29dp"
+        android:layout_centerInParent="true"
+        android:background="@drawable/tic_round_item_icon_background" />
+
+    <ImageView
+        android:id="@+id/center_iv"
+        android:layout_width="69dp"
+        android:layout_height="69dp"
+        android:layout_centerInParent="true" />
+
+    <ImageView
+        android:id="@+id/left_iv"
+        android:layout_width="55dp"
+        android:layout_height="132dp"
+        android:layout_alignParentLeft="true"
+        android:layout_centerVertical="true"
+        android:visibility="invisible" />
+
+    <ImageView
+        android:id="@+id/right_iv"
+        android:layout_width="55dp"
+        android:layout_height="132dp"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:visibility="invisible" />
+
+    <TextView
+        android:id="@+id/sub_content_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="35dp"
+        android:ellipsize="end"
+        android:fontFamily="sans-serif"
+        android:includeFontPadding="false"
+        android:singleLine="true"
+        android:textColor="@android:color/white"
+        android:textSize="13sp" />
+</RelativeLayout>
