@@ -7,7 +7,8 @@
             <a href="{{ site.baseurl }}/">首页</a>
         </li>
         {% for tab in site.data.tabs %}
-          {% assign protocal = tab.url | split: '://' | first %}
+          {% assign path = tab.url | split: '://' | last %}
+          {% assign protocal = tab.url | replace: path | split: '://' | first %}
           {% if protocal %}
             {% assign tab_url = tab.url %}
           {% else %}
@@ -60,7 +61,8 @@
         </small>
       </li> -->
       {% for tab in site.data.tabs reversed %}
-        {% assign protocal = tab.url | split: '://' | first %}
+        {% assign path = tab.url | split: '://' | last %}
+        {% assign protocal = tab.url | replace: path | split: '://' | first %}
         {% if protocal %}
           {% assign tab_url = tab.url %}
         {% else %}
