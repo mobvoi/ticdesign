@@ -2,7 +2,7 @@
 
 [![](https://api.bintray.com/packages/ticwear/maven/ticdesign/images/download.svg)](https://jcenter.bintray.com/com/ticwear/ticdesign/0.3.0/)
 
-[中文](ReadMe-zh.md)
+[中文](README.zh.md)
 
 Using TicDesign, you can make your wear App full of elegant user interaction, and follow the Ticwear [Design Guide][ticwear-design]. If your App running on Ticwatch, Tickle is also built in to interaction with your App.
 
@@ -51,9 +51,9 @@ See the License for the specific language governing permissions and
 limitations under the License.
 ```
 
-[ticwear-design]: http://developer.ticwear.com/doc/guideline
-[ticdesign-site]: #
-[ticdesign-develop]: doc/ReadMe.md
+[ticwear-design]: http://ticdesign.chumenwenwen.com/design/
+[ticdesign-site]: http://ticdesign.chumenwenwen.com/
+[ticdesign-develop]: http://ticdesign.chumenwenwen.com/doc/
 [ticdesign-issues]: https://github.com/mobvoi/TicDesign/issues
 [ticdesign-pr]: https://github.com/mobvoi/TicDesign/pulls
 

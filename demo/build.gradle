@@ -29,8 +29,20 @@ android {
         versionCode 1
         versionName "1.0"
     }
-    buildTypes {
+    signingConfigs {
         release {
+            storeFile file("publish/publish.keystore")
+            storePassword "ticdesign"
+            keyAlias "Tic Design"
+            keyPassword "ticdesign"
+        }
+    }
+    buildTypes {
+        debug {
+            signingConfig signingConfigs.release
+        }
+        release {
+            signingConfig signingConfigs.release
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
