@@ -99,15 +99,7 @@ blockquote, q{ quotes:"" "";}
 .docLeft ul li a{ color:#444;}
 .docLeft ul li a:hover, .docLeft ul li a.current{ text-decoration:none; color:#5e83e1;}
 .docRight{ float:left; width:76%; min-height:400px; padding:0 0 70px 5%; border-left:1px solid #eaeaea;}
-.docRight h2, .docRight h1{ margin:55px 0 20px 0; font-size:28px;}
-.docRight h3{ margin-top:20px; font-size:24px;}
-.docRight p{ font-size:16px; line-height:1.8; word-break:break-all; word-wrap: break-word; 
-word-break: normal;}
-.docRight img.img1{ width:100%; max-width:844px;}
-.docRight img.img2{ float:right; max-width:70%; margin:0 0 40px 40px;}
-.block1 ul li{ float:left; width:47%;}
-.block1 ul li:first-child{ margin-right:6%;}
-.block1 ul li p img{ width:100%;}
+.docRight h1{ margin:55px 0 40px 0; font-size:36px;}
 @media screen and (max-width:800px){
 	.docLeft{ display:none;}
 	.docRight{ float:none; width:90%; margin:0 auto; padding:0; border-left:0;}

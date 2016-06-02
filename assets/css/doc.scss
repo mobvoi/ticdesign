@@ -1,0 +1,42 @@
+---
+---
+@charset "utf-8";
+
+// Import grid system from https://github.com/Dogfalo/materialize
+@import "grid";
+
+@import "post_theme";
+
+.post-content {
+  .row .col {
+    float: left;
+    box-sizing: border-box;
+    padding: 0;
+  }
+
+  .row .col.padding {
+    padding: 0 0.75rem;
+  }
+
+
+  .col-full {
+    @extend .col;
+    @extend .s12;
+    @extend .padding;
+  }
+
+  .col-half {
+    @extend .col;
+    @extend .s6;
+    @extend .padding;
+  }
+
+  .col-right {
+    @extend .col;
+    @extend .push-s1;
+  }
+}
+
+.post-content {
+  @include post-theme;
+}
