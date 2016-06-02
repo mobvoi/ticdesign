@@ -16,5 +16,5 @@
 
 include ':demo'
 // For legacy code, we remain DesignSupport as module name.
-include ':DesignSupport'
-project(':DesignSupport').projectDir = new File('ticDesign')
+include ':ticdesign'
+project(':ticdesign').projectDir = new File('ticDesign')
