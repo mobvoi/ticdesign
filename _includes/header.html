@@ -52,7 +52,6 @@
   </script>
   <!--/headroom-->
 
-  {% assign current_doc = page.url | split: '/' | last %}
   <div class="menu">
     <ul>
       <!-- <li>
@@ -60,6 +59,7 @@
           <a href="">EN</a> / <a href="" class="current">中文</a>
         </small>
       </li> -->
+      {% assign current_doc = page.url | split: '/' | last %}
       {% for tab in site.data.tabs reversed %}
         {% assign path = tab.url | split: '://' | last %}
         {% assign protocal = tab.url | replace: path | split: '://' | first %}
@@ -69,7 +69,7 @@
           {% assign tab_url = tab.url | prepend: site.baseurl %}
         {% endif %}
         <li>
-          <a href="{{ tab_url }}" class="{% if current_doc == tab.url | split: '/' | last %} current {% endif %}">{{ tab.title }}</a>
+          <a href="{{ tab_url }}" class="{% if page.url == tab_url %} current {% endif %}">{{ tab.title }}</a>
         </li>
       {% endfor %}
       <h1>

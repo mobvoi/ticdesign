@@ -21,9 +21,9 @@ github:
 
 # folders
 collections:
-  docs:
+  doc:
     output: true
-  specs:
+  design:
     output: true
 
 # Build settings

@@ -1,7 +1,7 @@
 ---
 layout: doc
 title: TicDesign 使用说明
-permalink: /dev/
+permalink: /doc/
 ---
 
 使用 Ticwear 设计辅助库（后文简称设计库），你可以轻松让你的应用符合 Ticwear 的[设计规范][ticwear-design]，并支持挠挠等新型交互方式。
