@@ -44,10 +44,10 @@ layout: default
 </div>
 
 <script>
-var url = "https://api.github.com/repos/tankery/circularSeekBar/releases/latest?callback=?";
+var url = "https://api.github.com/repos/mobvoi/ticdesign/releases/latest?callback=?";
 $.getJSON(url, function(json) {
   var release = json.data;
-  if (json.data == undefined) {
+  if (release == undefined) {
     return;
   }
   var version = release.tag_name;

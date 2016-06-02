@@ -10,12 +10,12 @@
           {% assign path = tab.url | split: '://' | last %}
           {% assign protocal = tab.url | replace: path | split: '://' | first %}
           {% if protocal %}
-            {% assign tab_url = tab.url %}
+            {% assign full_url = tab.url %}
           {% else %}
-            {% assign tab_url = tab.url | prepend: site.baseurl %}
+            {% assign full_url = tab.url | prepend: site.baseurl %}
           {% endif %}
           <li>
-            <a href="{{ tab_url }}">{{ tab.title }}</a>
+            <a href="{{ full_url }}">{{ tab.title }}</a>
           </li>
         {% endfor %}
       </ul>
@@ -64,12 +64,12 @@
         {% assign path = tab.url | split: '://' | last %}
         {% assign protocal = tab.url | replace: path | split: '://' | first %}
         {% if protocal %}
-          {% assign tab_url = tab.url %}
+          {% assign full_url = tab.url %}
         {% else %}
-          {% assign tab_url = tab.url | prepend: site.baseurl %}
+          {% assign full_url = tab.url | prepend: site.baseurl %}
         {% endif %}
         <li>
-          <a href="{{ tab_url }}" class="{% if page.url == tab_url %} current {% endif %}">{{ tab.title }}</a>
+          <a href="{{ full_url }}" class="{% if page.url == tab.url %} current {% endif %}">{{ tab.title }}</a>
         </li>
       {% endfor %}
       <h1>

@@ -18,8 +18,13 @@ function($) {
    			var st = $(this).scrollTop();
    			if (st > lastScrollTop){
        			scrollDir = 'down';
+				$('.stuckMenu').css({"marginTop":"0px"},50);
    			} else {
       			scrollDir = 'up';
+				$('.stuckMenu').css({"marginTop":"91px"},50);
+				if($(this).scrollTop()==0){
+					$('.stuckMenu').css({"marginTop":"0px"},50);
+				}
    			}
   			lastScrollTop = st;
 		});
