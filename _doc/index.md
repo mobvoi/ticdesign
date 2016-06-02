@@ -190,7 +190,7 @@ int color = ColorPalette.from(context)
 
 `TickableListView.ViewHolder` 设置了默认的聚焦态动效，即聚焦时放大、变亮，非聚焦时缩小、变暗。如果你想定义更细致的动画效果。可以使你的`ItemView`实现`TicklableRecyclerView.OnFocusStateChangedListener`接口，或者，直接重载`ViewHolder.onFocusStateChanged`方法。
 
-下面是一个比较粗糙简单的重载方式（与默认动效相同）：
+下面是一个比较简单粗暴的重载方式（与默认动效相同）：
 
 ``` Java
 @Override
