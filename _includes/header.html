@@ -3,9 +3,6 @@
   <div class="hamburgerControler"></div>
   <div class="hamburger">
       <ul>
-        <li>
-            <a href="{{ site.baseurl }}/">首页</a>
-        </li>
         {% for tab in site.data.tabs %}
           {% assign path = tab.url | split: '://' | last %}
           {% assign protocal = tab.url | replace: path | split: '://' | first %}
@@ -73,7 +70,10 @@
         </li>
       {% endfor %}
       <h1>
-        <a href="{{ site.baseurl }}/"><img src="{{ site.baseurl }}/assets/img/logo.png"></a>
+        <a href="{{ site.baseurl }}/">
+          <img alt="my awesome image" src="{{ site.baseurl }}/assets/img/logo.png"
+               srcset="{{ site.baseurl }}/assets/img/logo-hd.png 2x"
+               width="187"></a>
       </h1>
     </ul>
   </div>

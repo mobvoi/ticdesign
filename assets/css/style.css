@@ -27,7 +27,8 @@ blockquote, q{ quotes:"" "";}
 /*header&bottom*/
 .hamburgerControler{ position:absolute; left:31px; top:35px; z-index:12; display:none; width:30px; height:25px; background:url(../img/hamburger.gif) 0 0 no-repeat; cursor:pointer;}
 .hamburger{ position:absolute; top:91px; z-index:1; display:none; width:100%; background-color:#FFF;}
-.hamburger ul li{ height:90px; padding-left:30px; line-height:90px; border-bottom:1px solid #e8e8e8; font-size:26px;}
+.hamburger ul li{ border-bottom:1px solid #e8e8e8;}
+.hamburger ul li a{ height:90px; padding-left:30px; line-height:90px; font-size:26px; display: block;}
 .hamburger a{ color:#222;}
 .hamburger a:hover{ color:#5e83e1; text-decoration:none;}
 .menu{ height:60px; margin:0 auto; padding-top:30px; border-bottom:1px solid #eaeaea; background-color:#FFF;}
