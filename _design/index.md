@@ -19,7 +19,7 @@ permalink: /design/
 这里是正文。360度纯圆显示，72.3%超高屏占比，令人眼前一亮。强大的中文智能语音交互功能，帮你解放双手，动动嘴就能查找周边热点、拨打电话或打车。来自手机的消息推送和日程提醒，在手腕上一览无遗。内置麦克风、扬声器，可接打电话、微信语音聊天。丰富传感器，全面监测并持续记录运动数据。可自定义的22mm表带及海量表盘，轻松表达真我个性。此系列Ticwatch通过苹果官方MFi认证。
 
 <div class="row">
-<div class="col-full">
+<div class="col-full center">
 <img src="res/CodeBox.png">
 </div>
 </div>
@@ -29,10 +29,10 @@ permalink: /design/
 ### 标题二
 
 <div class="row">
-<p class="col s7">
+<p class="col-two-third">
 这里是正文。360度纯圆显示，72.3%超高屏占比，令人眼前一亮。强大的中文智能语音交互功能，帮你解放双手，动动嘴就能查找周边热点、拨打电话或打车。来自手机的消息推送和日程提醒，在手腕上一览无遗。内置麦克风、扬声器，可接打电话、微信语音聊天。丰富传感器，全面监测并持续记录运动数据。可自定义的22mm表带及海量表盘，轻松表达真我个性。此系列Ticwatch通过苹果官方MFi认证。
 </p>
-<img class="col s4 push-s1" src="res/img3.png">
+<img class="col-third center" src="res/img3.png">
 </div>
 
 ## 文字
@@ -40,7 +40,7 @@ permalink: /design/
 这里是正文。360度纯圆显示，72.3%超高屏占比，令人眼前一亮。强大的中文智能语音交互功能，帮你解放双手，动动嘴就能查找周边热点、拨打电话或打车。来自手机的消息推送和日程提醒，在手腕上一览无遗。内置麦克风、扬声器，可接打电话、微信语音聊天。丰富传感器，全面监测并持续记录运动数据。可自定义的22mm表带及海量表盘，轻松表达真我个性。此系列Ticwatch通过苹果官方MFi认证。
 
 <div class="row">
-<div class="col-half" markdown="1">
+<div class="col-half center" markdown="1">
 
 ![](res/img1.png)
 
@@ -52,7 +52,7 @@ permalink: /design/
 
 </div>
 
-<div class="col-half" markdown="1">
+<div class="col-half center" markdown="1">
 
 ![](res/img2.png)
 
@@ -65,7 +65,7 @@ permalink: /design/
 这里是正文。360度纯圆显示，72.3%超高屏占比，令人眼前一亮。强大的中文智能语音交互功能，帮你解放双手，动动嘴就能查找周边热点、拨打电话或打车。来自手机的消息推送和日程提醒，在手腕上一览无遗。内置麦克风、扬声器，可接打电话、微信语音聊天。丰富传感器，全面监测并持续记录运动数据。可自定义的22mm表带及海量表盘，轻松表达真我个性。此系列Ticwatch通过苹果官方MFi认证。
 
 <div class="row">
-<div class="col s4 padding" markdown="1">
+<div class="col-third center" markdown="1">
 
 ![](res/img1.png)
 
@@ -73,7 +73,7 @@ permalink: /design/
 
 </div>
 
-<div class="col s4 padding" markdown="1">
+<div class="col-third center" markdown="1">
 
 ![](res/img2.png)
 
@@ -81,7 +81,7 @@ permalink: /design/
 
 </div>
 
-<div class="col s4 padding" markdown="1">
+<div class="col-third center" markdown="1">
 
 ![](res/img3.png)
 

@@ -23,18 +23,37 @@
     @extend .col;
     @extend .s12;
     @extend .padding;
+
+    text-align: center;
   }
 
   .col-half {
     @extend .col;
-    @extend .s6;
+    @extend .s12;
+    @extend .m6;
     @extend .padding;
+
+    text-align: center;
   }
 
-  .col-right {
+  .col-third {
     @extend .col;
-    @extend .push-s1;
+    @extend .s12;
+    @extend .m4;
+    @extend .padding;
+
+    text-align: center;
   }
+
+  .col-two-third {
+    @extend .col;
+    @extend .s12;
+    @extend .m8;
+    @extend .padding;
+
+    text-align: center;
+  }
+
 }
 
 .post-content {
