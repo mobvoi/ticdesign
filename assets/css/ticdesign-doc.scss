@@ -1,0 +1,23 @@
+---
+# A raw document theme file for TicDesign.
+---
+@charset "utf-8";
+
+/*
+ * A raw document theme file for TicDesign.
+ * You can use it in any Markdown Editor as a custom theme, to bring the style
+ * of the doc on website to your own editor.
+ *
+ * This is very convenient that you can see the final style when you edit
+ * markdown files.
+ */
+
+ // Import grid system from https://github.com/Dogfalo/materialize
+ @import "grid";
+ // Override some grid property for post only
+ @import "post_grid_override";
+ // An markdown theme like GitHub, import from [MWeb App](http://www.mweb.im/)
+ @import "post_theme";
+
+ @include post-grid-override;
+ @include post-theme;

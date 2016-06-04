@@ -19,7 +19,7 @@ github:
   name: GitHub
   link: https://github.com/mobvoi/ticdesign/
 
-# folders
+# Folders
 collections:
   doc:
     output: true
@@ -32,5 +32,7 @@ kramdown:
   input: GFM
   syntax_highlighter: rouge
 
-sass:
-  style: compressed
+exclude:
+  - CNAME
+  - README.md
+  - README.*.md

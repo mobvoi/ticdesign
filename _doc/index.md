@@ -87,7 +87,7 @@ TextAppearance.Ticwear.Widget.Button
 
 我们为开发者定义了一套 Ticwear 风格的调色板资源。开发者可以通过资源直接使用某种颜色。基础颜色命名符合下面的规范：
 
-```
+``` java
 R.color.tic_basic_<name>{_<decorate>}
 ```
 
@@ -105,7 +105,7 @@ R.color.tic_basic_<name>{_<decorate>}
 
 例如，我们需要获取 `Indigo Darken` 这个修饰后的颜色值，我们需要调用以下代码：
 
-``` Java
+``` java
 int color = ColorPalette.from(context)
                 .color(ColorPalette.ColorName.INDIGO)
                 .darken()
@@ -192,7 +192,7 @@ int color = ColorPalette.from(context)
 
 下面是一个比较简单粗暴的重载方式（与默认动效相同）：
 
-``` Java
+``` java
 @Override
 protected void onFocusStateChanged(@TicklableRecyclerView.FocusState int focusState,
                                    boolean animate) {
@@ -245,7 +245,7 @@ Ticwear 的设置系统类似 [Android Settings][android-settings]，你可以�
 
 使用方式与原生的 `AlertDialog` 无异，只是需要制定图标资源文件，或图标的`Drawable`，类似下面的使用方式：
 
-``` Java
+``` java
 new AlertDialog.Builder(context)
         .setTitle(R.string.dialog_title)
         .setMessage(R.string.dialog_content)
@@ -277,7 +277,7 @@ new AlertDialog.Builder(context)
 
 使用方式与[弹出式对话框](#alert-dialog)一致，类似下面的代码：
 
-``` Java
+``` java
 final List<Integer> selection = new ArrayList<>();
 dialog = new AlertDialog.Builder(getActivity())
         .setTitle(R.string.category_dialog_multiple_choice)
@@ -308,7 +308,7 @@ dialog = new AlertDialog.Builder(getActivity())
 
 通过内嵌 [`NumberPicker`](#number-picker)，开发者可以使用[`AlertDialog`][android-alert-dialog]来显示一个对话框让用户选择一个值。使用方式如下：
 
-``` Java
+``` java
 new NumberPickerDialog.Builder(context)
         .minValue(0)
         .maxValue(20)
@@ -328,7 +328,7 @@ new NumberPickerDialog.Builder(context)
 
 为了开发的方便，我们封装了[`DatePicker`和`TimePicker`](#date-picker)，提供了一个日期时间选择对话框，`DatetimePickerDialog`，可以像使用[`AlertDialog`][android-alert-dialog]一样，显示一个对话框让用户选择日期、时间，或同时选择两者。使用方式如下：
 
-``` Java
+``` java
 new DatetimePickerDialog.Builder(getActivity())
         .defaultValue(Calendar.getInstance())
         .listener(new DatetimePickerDialog.OnCalendarSetListener() {
@@ -481,3 +481,5 @@ $$
 [android-progressbar]: http://developer.android.com/intl/zh-cn/reference/android/widget/ProgressBar.html
 [android-FloatingContextMenu]: https://developer.android.com/guide/topics/ui/menus.html#FloatingContextMenu
 [android-menu-resource]: https://developer.android.com/guide/topics/resources/menu-resource.html
+
+
