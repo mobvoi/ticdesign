@@ -31,7 +31,7 @@
 
 ## 增加或修改文档
 
-如果你认为我们的设计或开发文档有什么问题，或需要新增内容，欢迎修改设计文档 [_design/index.md]() 或开发文档 [_doc/index.md]()
+如果你认为我们的设计或开发文档有什么问题，或需要新增内容，欢迎修改设计文档 [_design/index.md](_design/index.md) 或开发文档 [_doc/index.md](_doc/index.md)
 
 ### 文档编写方式
 
@@ -75,7 +75,7 @@ GFM 语法请参考 [GitHub Guides][gfm]。
 
 > 注：为了移动端更好的体验，我们定制的宽度属性，在手机小屏幕上都会占满整屏宽度。
 
-> 详情可以查阅 [_sass/_post_grid_overrid.scss]()。
+> 详情可以查阅 [_sass/_post_grid_override.scss](_sass/_post_grid_override.scss)。
 
 使用这些布局样式，你需要：
 
@@ -83,7 +83,7 @@ GFM 语法请参考 [GitHub Guides][gfm]。
 2. 根据你的需要，通过 `<div class="col-*"></div>` 为你的内容分配合适宽度的大小。
 3. 将你的内容（图片、视屏或文字）包装在 col 的 div 中。
 
-你可以通过 [_design/index.md]() 来学习如何使用这些属性。
+你可以通过 [_design/index.md](_design/index.md) 来学习如何使用这些属性。
 
 如果你使用的 Markdown 编辑器，支持导入自定义 css 来定义主题，你可以使用我们提供的 [TicDesign Doc Style][tic-doc-style]，使得你的 Markdown 编辑器的预览也可以支持我们定义的的布局样式。
 
