@@ -31,7 +31,21 @@ dependencies {
 
 如果你希望为这个开源库贡献代码、文档或任何能帮助到其他开发者的东西。我们欢迎你提交 [Pull Request][ticdesign-pr]。
 
+## 修改代码
+
 请往 `dev` 分支提交代码，我们帮助你审查后，会合并你的代码。经过测试后，`dev` 分支的代码将会发布到 `master` 分支，并部署到代码中心。
+
+如果你有新的控件需要增加到 TicDesign，请：
+
+1. 把控件增加到 `ticwear.design.widget` 包中。
+2. 将控件涉及到的资源，放入 `*_widget.xml` 中。
+3. 为你的新控件增加文档（增加方式参看下面的修改文档）。
+
+## 修改文档
+
+TicDesign 的文档，以[网站形式][ticdesign-site]发布，托管在 [GitHub Pages][gh-pages] 上。如果你希望修改或增加文档，请修改 `gh-pages` 分支的 Markdown 格式文档。
+
+详情请看 `gh-pages` 分支的 [README.md][gh-pages-readme]。
 
 # 开源协议
 
@@ -56,4 +70,6 @@ limitations under the License.
 [ticdesign-develop]: http://ticdesign.chumenwenwen.com/doc/
 [ticdesign-issues]: https://github.com/mobvoi/TicDesign/issues
 [ticdesign-pr]: https://github.com/mobvoi/TicDesign/pulls
+[gh-pages]: https://pages.github.com/
+[gh-pages-readme]: https://github.com/mobvoi/ticdesign/blob/gh-pages/README.md
 

@@ -31,7 +31,21 @@ Feel free to post [issues][ticdesign-issues] when you have questions or found a 
 
 [Pull Request][ticdesign-pr] is welcome if you are interesting in share your code to contribute the open source community.
 
+## Contribute Code
+
 Please send pull request to `dev` branch. we will merge your code after review. When we finished testing, a new version of library will be released from `dev` to `master`, and deploy to repository center.
+
+If you have new widget want's to add to TicDesign, please:
+
+1. Add your widget code to `ticwear.design.widget` package.
+2. Add your resources relative to the widget to files like `*_widget.xml`.
+3. Add doc for your new widget. (Read following section for how to do this)
+
+## Contribute Doc
+
+Document for TicDesign, is published by [Website][ticdesign-site], hosting on [GitHub Pages][gh-pages], and writing by Markdown. But currentlly we only have a Chinese language version of site. We will let it support other language later. Or if you are familiar with Chinese, you are very welcome to translate it to Other language.
+
+To modify or add doc, you need to checkout `gh-pages` branch, and read the [README.en.md][gh-pages-readme] for details.
 
 # License
 
@@ -56,4 +70,6 @@ limitations under the License.
 [ticdesign-develop]: http://ticdesign.chumenwenwen.com/doc/
 [ticdesign-issues]: https://github.com/mobvoi/TicDesign/issues
 [ticdesign-pr]: https://github.com/mobvoi/TicDesign/pulls
+[gh-pages]: https://pages.github.com/
+[gh-pages-readme]: https://github.com/mobvoi/ticdesign/blob/gh-pages/README.en.md
 
