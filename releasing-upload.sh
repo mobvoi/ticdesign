@@ -28,11 +28,5 @@ exit_if_error "Commit failed."
 
 exit_if_error "Upload failed."
 
-git tag -a $version -m "Version $version"
-
-exit_if_error "Tagging failed."
-
-git push $remote && git push $remote --tags
-
-exit_if_error "Push to repo failed."
+echo "Now review your code on Gerrit. Then do release push after pull from Gerrit."
 
