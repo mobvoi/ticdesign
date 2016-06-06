@@ -158,6 +158,7 @@ public class SwipeTodoView extends RelativeLayout {
                         v.setX(event.getRawX() + mDeltaX);
                         break;
                     case MotionEvent.ACTION_UP:
+                    case MotionEvent.ACTION_CANCEL:
                         mRawX = (int) (event.getRawX());
                         if (mRawX < mCenterIv.getWidth()) {
                             if (null != mLeftListener) {
