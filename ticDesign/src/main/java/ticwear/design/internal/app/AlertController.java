@@ -23,6 +23,7 @@ import android.content.DialogInterface;
 import android.content.res.ColorStateList;
 import android.content.res.TypedArray;
 import android.database.Cursor;
+import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.StateListDrawable;
 import android.os.Handler;
@@ -1297,9 +1298,11 @@ public class AlertController {
                         ENABLED_STATE_SET,
                         DISABLED_STATE_SET
                 };
+                int alpha = Color.alpha(normalColor);
+                float opacity = ((float) alpha / 0xff) * ((float) getAlphaValue(context) / 0xff);
                 int[] colors = {
                         normalColor,
-                        normalColor & 0xffffff | (getAlphaValue(context) << 24)
+                        normalColor & 0xffffff | ((int) (0xff * opacity) << 24)
                 };
                 filledList = new ColorStateList(states, colors);
             }

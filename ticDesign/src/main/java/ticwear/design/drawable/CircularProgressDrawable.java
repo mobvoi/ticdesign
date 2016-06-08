@@ -260,6 +260,18 @@ public class CircularProgressDrawable extends Drawable implements Animatable {
     }
 
     @Override
+    public boolean isStateful() {
+        return true;
+    }
+
+    @Override
+    protected boolean onStateChange(int[] state) {
+        mTintFilter = createTintFilter(mState.mTint, mState.mTintMode);
+        invalidateSelf();
+        return true;
+    }
+
+    @Override
     public void draw(Canvas canvas) {
         if (mPaint.getColorFilter() != mTintFilter) {
             mPaint.setColorFilter(mTintFilter);

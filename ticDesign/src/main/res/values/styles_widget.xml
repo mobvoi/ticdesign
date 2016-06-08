@@ -181,7 +181,7 @@
 
     <style name="Widget.Ticwear.FloatingActionButton.Dialog">
         <item name="android:alpha">@dimen/tic_alert_dialog_button_alpha</item>
-        <item name="tic_circularDrawableStyle">@style/Widget.Ticwear.CircularProgressDrawable.Dialog</item>
+        <item name="tic_circularDrawableStyle">@style/Widget.Ticwear.CircularProgressDrawable</item>
     </style>
 
     <style name="Widget.Ticwear.FloatingActionButton.Dialog.Negative">
@@ -204,10 +204,6 @@
         <item name="tic_cpd_inAnimDuration">0</item>
         <item name="tic_cpd_outAnimDuration">@android:integer/config_shortAnimTime</item>
         <item name="tic_cpd_progressAlpha">0x7f</item>
-    </style>
-
-    <style name="Widget.Ticwear.CircularProgressDrawable.Dialog">
-        <item name="tic_cpd_progressAlpha">0xff</item>
     </style>
 
     <style name="Widget.Ticwear.ScrollBar" parent="android:Widget">
