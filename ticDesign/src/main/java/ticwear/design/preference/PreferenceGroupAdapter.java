@@ -22,7 +22,6 @@ import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Adapter;
 import android.widget.ListView;
 
 import java.util.ArrayList;
@@ -66,11 +65,6 @@ public class PreferenceGroupAdapter
     private ArrayList<PreferenceLayout> mPreferenceLayouts;
 
     private PreferenceLayout mTempPreferenceLayout = new PreferenceLayout();
-
-    /**
-     * Blocks the mPreferenceClassNames from being changed anymore.
-     */
-    private boolean mHasReturnedViewTypeCount = false;
 
     private volatile boolean mIsSyncing = false;
 
@@ -161,9 +155,7 @@ public class PreferenceGroupAdapter
 
             preferences.add(preference);
 
-            if (!mHasReturnedViewTypeCount) {
-                addPreferenceClassName(preference);
-            }
+            addPreferenceClassName(preference);
 
             if (preference instanceof PreferenceGroup) {
                 final PreferenceGroup preferenceAsGroup = (PreferenceGroup) preference;
@@ -265,22 +257,17 @@ public class PreferenceGroupAdapter
 
     @Override
     public int getItemViewType(int position) {
-        if (!mHasReturnedViewTypeCount) {
-            mHasReturnedViewTypeCount = true;
-        }
-
         final Preference preference = this.getItem(position);
 
         mTempPreferenceLayout = createPreferenceLayout(preference, mTempPreferenceLayout);
 
         int viewType = Collections.binarySearch(mPreferenceLayouts, mTempPreferenceLayout);
         if (viewType < 0) {
-            // This is a class that was seen after we returned the count, so
-            // don't recycle it.
-            return Adapter.IGNORE_ITEM_VIEW_TYPE;
-        } else {
-            return viewType;
+            throw new RuntimeException("viewType is " + viewType +
+                    ", seems that addPreferenceClassName not been invoked before layout.");
         }
+
+        return viewType;
     }
 
     public interface OnPreferenceItemClickListener {
