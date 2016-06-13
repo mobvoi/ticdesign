@@ -25,9 +25,8 @@
   caption, tbody, tfoot, thead, tr, th, td, p {
     -ms-text-size-adjust: 100%;
     -webkit-text-size-adjust: 100%;
-    color: #333;
+    
     font-family: "Helvetica Neue", Helvetica, "Segoe UI", Arial, freesans, sans-serif;
-    font-size: 16px;
     line-height: 1.6;
   }
 
@@ -159,17 +158,13 @@
     font-size: 30px;
   }
 
-  h2 {
-    font-size: 21px;
-  }
+  
 
   h3 {
     font-size: 16px;
   }
 
-  h4 {
-    font-size: 14px;
-  }
+
 
   h5 {
     font-size: 12px;
@@ -298,6 +293,9 @@
   h6:hover .anchor .octicon-link {
     display: inline-block;
   }
+  
+  
+//------------------  really worked style for hn @zhongshu -----------------------
 
   h1 {
     padding-bottom: 0.3em;
@@ -307,19 +305,31 @@
   }
 
   h2 {
-    padding-bottom: 0.3em;
-    font-size: 1.75em;
+    padding-bottom: 0.4em;
+    font-size: 2.125em;
+    color: #5e83e1;
     line-height: 1.225;
-    border-bottom: 1px solid #eee;
+    border-bottom: 5px solid #8aabf6;
+    margin-bottom: 1em;
+    margin-top: 2.2em;
   }
 
   h3 {
-    font-size: 1.5em;
+    margin-top: 2em;
+    font-size: 1.625em;
     line-height: 1.43;
+    border-bottom: 1px solid #e1e1e1;
+    padding-bottom: 0.25em;
+    margin-bottom: 0.8em;
   }
+
 
   h4 {
     font-size: 1.25em;
+    border-left: 1px solid #e1e1e1;
+    line-height:1;
+    padding-left:0.6em;
+    margin-top:1.8em;
   }
 
   h5 {
@@ -327,9 +337,18 @@
   }
 
   h6 {
+    margin-top: 8em;
     font-size: 1em;
     color: #777;
+    border-top:1px solid #e1e1e1;
+    padding-top:1em;
+	
   }
+  img {
+	  margin-top: 1.8em;
+  }
+  
+//------------------ end  @zhongshu -----------------------
 
   p,
   blockquote,
@@ -352,7 +371,7 @@
 
   ul,
   ol {
-    padding-left: 2em;
+    padding-left: 1.2em;
   }
 
   ul ul,
@@ -385,8 +404,9 @@
   }
 
   blockquote {
+	  margin-top:2em;
     padding: 0 15px;
-    color: #777;
+    color: #666;
     border-left: 4px solid #ddd;
   }
 

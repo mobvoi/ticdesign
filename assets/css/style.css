@@ -1,7 +1,7 @@
 @charset "utf-8";
 /* CSS Document */
-html, body, div, applet, object, iframe, h1, h2, h3, h4, h5, h6, blockquote, pre, abbr, acronym, address, cite, code, del, dfn, img, ins, kbd, q, s, samp, strike, sub, sup, tt, var, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td{ margin:0; padding:0; border:0; outline:0; font:14px/1.6 Tahoma,Arial,'microsoft yahei', 'Roboto','Droid Sans','Helvetica Neue','Droid Sans Fallback','Heiti SC','Hiragino Sans GB','Simsun','sans-self'; letter-spacing:0.1px; -webkit-text-size-adjust:none; font-weight:inherit; -webkit-font-smoothing:antialiased; color:#333;}
-p, span, big, small{ font:inherit;}
+html, body, div, applet, object, iframe, h1, h2, h3, h4, h5, h6, blockquote, pre, abbr, acronym, address, cite, code, del, dfn, img, ins, kbd, q, s, samp, strike, sub, sup, tt, var, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td{ margin:0; padding:0; border:0; outline:0; font:16px Tahoma,Arial,'microsoft yahei', 'Roboto','Droid Sans','Helvetica Neue','Droid Sans Fallback','Heiti SC','Hiragino Sans GB','Simsun','sans-self'; letter-spacing:0.1px; -webkit-text-size-adjust:none; font-weight:inherit; -webkit-font-smoothing:antialiased; color:#333;}
+p, span, big, small{ font:inherit; }
 :focus, a:focus, input[type=button] ,input[type=submit], a:active{ outline:0; -moz-outline-style:none;}
 ::-moz-focus-inner{ outline:0; border-color:transparent;}
 a, a:visited{ color:#333; text-decoration:none;
@@ -31,12 +31,11 @@ blockquote, q{ quotes:"" "";}
 .hamburger ul li a{ height:90px; padding-left:30px; line-height:90px; font-size:26px; display: block;}
 .hamburger a{ color:#222;}
 .hamburger a:hover{ color:#5e83e1; text-decoration:none;}
-.menu{ height:60px; margin:0 auto; padding-top:30px; border-bottom:1px solid #eaeaea; background-color:#FFF;}
-.menu ul{ max-width:1080px; margin:0 auto; padding:0 20px;}
-.menu ul h1{ padding-top:3px;}
+.menu{ height:90px; margin:0 auto; border-bottom:1px solid #eaeaea; background-color:#FFF;}
+.menu ul{ max-width:1080px; margin:0 auto; padding:33px 20px;}
 .menu ul li{ float:right; font-size:18px;}
 .menu ul li small{ font-size:14px;}
-.menu ul li a{ display:inline-block; margin-right:80px; padding-bottom:30px; border-bottom:2px solid rgba(94,131,225,0);}
+.menu ul li a{ display:inline-block; margin-right:80px; padding-bottom:31px; border-bottom:2px solid rgba(94,131,225,0);}
 .menu ul li a:hover, .menu ul li a.current{ border-bottom-color:rgba(94,131,225,1);}
 .menu ul li small a{ margin-right:0; padding-bottom:0; border-bottom:0;}
 .menu ul li small a:hover, .menu ul li small a.current, .menu ul li a:hover, .menu ul li a.current{ color:#5e83e1; text-decoration:none;}
@@ -57,12 +56,12 @@ blockquote, q{ quotes:"" "";}
 .footer ul li:last-child a{ margin:0; color:#666;}
 
 /*index*/
-.banner{ height:679px; margin:91px auto 105px auto; padding:0 20px; background:url(../img/bannerSVG.png) center no-repeat, url(../img/bannerBg.png) center;}
-.banner ul{ max-width:1120px; height:499px; margin:0 auto; padding-top:130px;}
-.banner ul h3{ font-size:50px; color:#FFF;}
-.banner ul li{ font-size:28px; color:#FFF;}
+.banner{ height:680px; margin:91px auto 105px auto; padding:0 20px; background:url(../img/bannerSVG.png) center no-repeat}
+.banner ul{ max-width:1120px; height:499px; margin:0 auto; padding-top:170px;}
+.banner ul h3{ font-size:58px; color:#FFF;}
+.banner ul li{ font-size:30px; color:#FFF;}
 .banner ul li p{ margin:0;}
-.banner ul li:nth-child(3){ margin-bottom:20px; padding-top:70px;}
+.banner ul li:nth-child(3){ margin-bottom:20px; padding-top:30px;}
 .banner ul li a{ display:inline-block; max-width:215px; width:40%; height:70px; margin:20px 15px 0 0; border:2px solid #5e83e1; border-radius:8px; text-align:center; line-height:70px; background:rgba(94,131,225,.6); color:#FFF; font-size:20px;}
 .banner ul li a:hover{ text-decoration:none; background:rgba(94,131,225,.8);}
 .banner ul li small{ font-size:17px;}
@@ -99,7 +98,7 @@ blockquote, q{ quotes:"" "";}
 .docLeft ul li{ margin-bottom:20px; padding:0 20px; font-size:18px;}
 .docLeft ul li a{ color:#444;}
 .docLeft ul li a:hover, .docLeft ul li a.current{ text-decoration:none; color:#5e83e1;}
-.docRight{ float:left; width:76%; min-height:400px; padding:0 0 70px 5%; border-left:1px solid #eaeaea;}
+.docRight{ float:left; width:76%; min-height:400px; padding:0 0 70px 6%; }
 .docRight h1{ margin:55px 0 40px 0; font-size:36px;}
 @media screen and (max-width:800px){
 	.docLeft{ display:none;}
