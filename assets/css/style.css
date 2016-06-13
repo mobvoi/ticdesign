@@ -31,12 +31,11 @@ blockquote, q{ quotes:"" "";}
 .hamburger ul li a{ height:90px; padding-left:30px; line-height:90px; font-size:26px; display: block;}
 .hamburger a{ color:#222;}
 .hamburger a:hover{ color:#5e83e1; text-decoration:none;}
-.menu{ height:60px; margin:0 auto; padding-top:30px; border-bottom:1px solid #eaeaea; background-color:#FFF;}
-.menu ul{ max-width:1080px; margin:0 auto; padding:0 20px;}
-.menu ul h1{ padding-top:3px;}
+.menu{ height:90px; margin:0 auto; border-bottom:1px solid #eaeaea; background-color:#FFF;}
+.menu ul{ max-width:1080px; margin:0 auto; padding:33px 20px;}
 .menu ul li{ float:right; font-size:18px;}
 .menu ul li small{ font-size:14px;}
-.menu ul li a{ display:inline-block; margin-right:80px; padding-bottom:30px; border-bottom:2px solid rgba(94,131,225,0);}
+.menu ul li a{ display:inline-block; margin-right:80px; padding-bottom:31px; border-bottom:2px solid rgba(94,131,225,0);}
 .menu ul li a:hover, .menu ul li a.current{ border-bottom-color:rgba(94,131,225,1);}
 .menu ul li small a{ margin-right:0; padding-bottom:0; border-bottom:0;}
 .menu ul li small a:hover, .menu ul li small a.current, .menu ul li a:hover, .menu ul li a.current{ color:#5e83e1; text-decoration:none;}
