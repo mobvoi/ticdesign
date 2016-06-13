@@ -18,7 +18,7 @@
 <resources>
 
     <integer name="design.time.action_idle_timeout">1500</integer>
-    <integer name="design.time.action_idle_timeout_short">1000</integer>
+    <integer name="design.time.action_idle_timeout_short">400</integer>
     <integer name="design.anim.button_state">300</integer>
     <integer name="design.anim.button_state_half">150</integer>
     <integer name="design.anim.list_item_state_change">200</integer>
