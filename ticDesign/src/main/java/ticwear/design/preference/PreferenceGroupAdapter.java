@@ -25,8 +25,9 @@ import android.view.ViewGroup;
 import android.widget.ListView;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
+
+import ticwear.design.preference.Preference.ViewHolder;
 
 /**
  * An adapter that returns the {@link Preference} contained in this group.
@@ -184,14 +185,22 @@ public class PreferenceGroupAdapter
 
     private void addPreferenceClassName(Preference preference) {
         final PreferenceLayout pl = createPreferenceLayout(preference, null);
-        int insertPos = Collections.binarySearch(mPreferenceLayouts, pl);
+        int insertPos = findViewType(pl);
 
         // Only insert if it doesn't exist (when it is negative).
         if (insertPos < 0) {
-            // Convert to insert index
-            insertPos = insertPos * -1 - 1;
-            mPreferenceLayouts.add(insertPos, pl);
+            mPreferenceLayouts.add(pl);
         }
+    }
+
+    private int findViewType(PreferenceLayout pl) {
+        int position;
+        for (position = mPreferenceLayouts.size() - 1; position >= 0; position--) {
+            if (mPreferenceLayouts.get(position).compareTo(pl) == 0) {
+                break;
+            }
+        }
+        return position;
     }
 
     @Override
@@ -227,13 +236,15 @@ public class PreferenceGroupAdapter
             throw new RuntimeException("viewType " + viewType + " should contains in synced layouts.");
         }
         PreferenceLayout preferenceLayout = mPreferenceLayouts.get(viewType);
+        ViewHolder viewHolder;
         if (preferenceLayout.viewHolderCreator != null) {
-            return preferenceLayout.viewHolderCreator.create(parent,
+            viewHolder = preferenceLayout.viewHolderCreator.create(parent,
                     preferenceLayout.resId, preferenceLayout.widgetResId);
         } else {
-            return new Preference.ViewHolder(parent,
+            viewHolder = new ViewHolder(parent,
                     preferenceLayout.resId, preferenceLayout.widgetResId);
         }
+        return viewHolder;
     }
 
     @Override
@@ -261,7 +272,7 @@ public class PreferenceGroupAdapter
 
         mTempPreferenceLayout = createPreferenceLayout(preference, mTempPreferenceLayout);
 
-        int viewType = Collections.binarySearch(mPreferenceLayouts, mTempPreferenceLayout);
+        int viewType = findViewType(mTempPreferenceLayout);
         if (viewType < 0) {
             throw new RuntimeException("viewType is " + viewType +
                     ", seems that addPreferenceClassName not been invoked before layout.");

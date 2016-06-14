@@ -14,32 +14,35 @@
  * limitations under the License.
  */
 
-package com.mobvoi.design.demo.fragments;
+package com.mobvoi.design.demo;
 
+import android.app.Activity;
+import android.app.Fragment;
 import android.os.Bundle;
-import android.widget.Toast;
 
 import com.ticwear.design.demo.R;
 
-import ticwear.design.preference.PreferenceFragment;
-
 /**
- * Created by tankery on 2/25/16.
+ * An Activity contains
  *
+ * Created by tankery on 6/14/16.
  */
-public class SettingsFragment extends PreferenceFragment {
+public abstract class FragmentActivity extends Activity {
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        String settings = getArguments().getString("settings");
-        if ("preference".equals(settings)) {
-            addPreferencesFromResource(R.xml.preferences_widget);
-        } else if ("about".equals(settings)) {
-            addPreferencesFromResource(R.xml.preferences_about);
-        } else {
-            Toast.makeText(getActivity(), "No such settings.", Toast.LENGTH_SHORT).show();
-            getActivity().finish();
+        setContentView(R.layout.activity_fragment);
+        Fragment fragment = onCreateFragment();
+        if (fragment == null) {
+            finish();
+            return;
         }
+        getFragmentManager().beginTransaction()
+                .add(R.id.fragment_container, fragment)
+                .commitAllowingStateLoss();
     }
+
+    protected abstract Fragment onCreateFragment();
+
 }

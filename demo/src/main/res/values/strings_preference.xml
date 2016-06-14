@@ -239,4 +239,8 @@
         <item>@string/spec.text_size.xs.name</item>
     </string-array>
 
+
+    <string name="preference.adding_pref">Adding an item</string>
+    <string name="preference.dynamic_pref">Dynamic Pref %d</string>
+
 </resources>

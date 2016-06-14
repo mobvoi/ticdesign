@@ -224,4 +224,8 @@
     <string name="preference.can_not_factory_reset">电量低，请勿重置</string>
     <string name="preference.hardware_version">硬件版本</string>
 
+
+    <string name="preference.adding_pref">添加一项</string>
+    <string name="preference.dynamic_pref">动态项目 %d</string>
+
 </resources>

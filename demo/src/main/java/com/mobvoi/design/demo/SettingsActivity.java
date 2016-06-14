@@ -16,11 +16,13 @@
 
 package com.mobvoi.design.demo;
 
+import com.mobvoi.design.demo.fragments.DynamicSettingsFragment;
 import com.mobvoi.design.demo.fragments.SettingsFragment;
-import ticwear.design.preference.PreferenceActivity;
 import com.ticwear.design.demo.R;
 
 import java.util.List;
+
+import ticwear.design.preference.PreferenceActivity;
 
 /**
  * Created by tankery on 3/1/16.
@@ -36,6 +38,7 @@ public class SettingsActivity extends PreferenceActivity {
 
     @Override
     protected boolean isValidFragment(String fragmentName) {
-        return SettingsFragment.class.getName().equals(fragmentName);
+        return SettingsFragment.class.getName().equals(fragmentName) ||
+                DynamicSettingsFragment.class.getName().equals(fragmentName);
     }
 }

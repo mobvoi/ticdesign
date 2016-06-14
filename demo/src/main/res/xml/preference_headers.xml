@@ -25,6 +25,10 @@
             android:value="preference" />
     </header>
     <header
+        android:fragment="com.mobvoi.design.demo.fragments.DynamicSettingsFragment"
+        android:icon="@drawable/ic_wifi"
+        android:title="@string/preference.wifi_setting" />
+    <header
         android:fragment="com.mobvoi.design.demo.fragments.SettingsFragment"
         android:icon="@drawable/ic_about"
         android:title="@string/preference.about" >
@@ -38,9 +42,6 @@
     <header
         android:icon="@drawable/ic_plane"
         android:title="@string/preference.airplane_mode_service_name" />
-    <header
-        android:icon="@drawable/ic_wifi"
-        android:title="@string/preference.wifi_setting" />
     <header
         android:icon="@drawable/ic_3g"
         android:title="@string/preference.network_saved" />
