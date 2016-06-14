@@ -27,8 +27,8 @@ blockquote, q{ quotes:"" "";}
 /*header&bottom*/
 .hamburgerControler{ position:absolute; left:31px; top:35px; z-index:12; display:none; width:30px; height:25px; background:url(../img/hamburger.gif) 0 0 no-repeat; cursor:pointer;}
 .hamburger{ position:absolute; top:91px; z-index:1; display:none; width:100%; background-color:#FFF;}
-.hamburger ul li{ border-bottom:1px solid #e8e8e8;}
-.hamburger ul li a{ height:90px; padding-left:30px; line-height:90px; font-size:26px; display: block;}
+.hamburger ul li{ border-bottom:1px solid #eeeeee;}
+.hamburger ul li a{padding-left:30px; line-height:56px; font-size:1em; display: block;}
 .hamburger a{ color:#222;}
 .hamburger a:hover{ color:#5e83e1; text-decoration:none;}
 .menu{ height:90px; margin:0 auto; border-bottom:1px solid #eaeaea; background-color:#FFF;}
@@ -93,14 +93,15 @@ blockquote, q{ quotes:"" "";}
 
 /*doc*/
 .doc{ max-width:1120px; margin:91px auto 0 auto;}
-.docLeft{ float:left; width:18%; padding-top:60px;}
-.docLeft ul{ width:205px;}
+.docLeft{ float:left; width:20%; padding-top:60px;}
+.docLeft ul { width: 224px; }
 .docLeft ul li{ margin-bottom:20px; padding:0 20px; font-size:18px;}
 .docLeft ul li a{ color:#444;}
 .docLeft ul li a:hover, .docLeft ul li a.current{ text-decoration:none; color:#5e83e1;}
-.docRight{ float:left; width:76%; min-height:400px; padding:0 0 70px 6%; }
+.docRight{ float:left; width:76%; min-height:400px; padding:0 0 70px 4%; }
 .docRight h1{ margin:55px 0 40px 0; font-size:36px;}
 @media screen and (max-width:800px){
+	.doc{ width:100%; margin:91px auto 0 auto;}
 	.docLeft{ display:none;}
-	.docRight{ float:none; width:90%; margin:0 auto; padding:0; border-left:0;}
+	.docRight{ float:initial; width:90%; margin:0 auto; padding: 0.1em 1em; border-left:0;}
 }
