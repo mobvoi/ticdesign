@@ -16,7 +16,6 @@
 
 package com.mobvoi.design.demo;
 
-import android.app.Activity;
 import android.app.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
@@ -34,7 +33,7 @@ import com.ticwear.design.demo.R;
  *
  * Activity for details.
  */
-public class DetailsActivity extends Activity {
+public class DetailsActivity extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

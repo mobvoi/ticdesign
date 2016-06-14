@@ -35,6 +35,7 @@ import java.util.List;
 import ticwear.design.app.AlertDialog;
 import ticwear.design.app.DatetimePickerDialog;
 import ticwear.design.app.NumberPickerDialog;
+import ticwear.design.utils.WindowUtils;
 
 /**
  * Created by tankery on 1/12/16.
@@ -101,9 +102,7 @@ public class DialogsFragment extends ListFragment {
     @Override
     public void onTitleClicked(View view, @StringRes int titleResId) {
         Dialog dialog = createDialog(view.getContext(), titleResId);
-        if (dialog != null) {
-            dialog.show();
-        }
+        showDialogIfNeed(dialog);
     }
 
     private Dialog createStandardDialog(final Context context, @StringRes int resId) {
@@ -359,9 +358,7 @@ public class DialogsFragment extends ListFragment {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 Dialog dlg = createStandardDialog(getActivity(), standardDialogIds[which]);
-                                if (dlg != null) {
-                                    dlg.show();
-                                }
+                                showDialogIfNeed(dlg);
                             }
                         })
                         .create();
@@ -374,9 +371,7 @@ public class DialogsFragment extends ListFragment {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 Dialog dlg = createValuePickerDialog(getActivity(), valuePickerIds[which]);
-                                if (dlg != null) {
-                                    dlg.show();
-                                }
+                                showDialogIfNeed(dlg);
                             }
                         })
                         .create();
@@ -389,9 +384,7 @@ public class DialogsFragment extends ListFragment {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 Dialog dlg = createListChoiceDialog(getActivity(), listChoiceIds[which]);
-                                if (dlg != null) {
-                                    dlg.show();
-                                }
+                                showDialogIfNeed(dlg);
                             }
                         })
                         .create();
@@ -404,6 +397,13 @@ public class DialogsFragment extends ListFragment {
         }
 
         return dialog;
+    }
+
+    private static void showDialogIfNeed(final Dialog dlg) {
+        if (dlg != null) {
+            WindowUtils.clipToScreenShape(dlg.getWindow());
+            dlg.show();
+        }
     }
 
 }

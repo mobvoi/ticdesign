@@ -41,7 +41,7 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class ContentActivity extends Activity {
+public class ContentActivity extends BaseActivity {
 
     @Bind(R.id.layout_container)
     ViewGroup layoutContainer;

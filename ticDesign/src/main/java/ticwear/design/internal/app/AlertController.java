@@ -232,8 +232,6 @@ public class AlertController {
     }
 
     public void installContent() {
-        /* We use a custom title so never request a window title */
-        mWindow.requestFeature(Window.FEATURE_NO_TITLE);
         int contentView = selectContentView();
         mWindow.setContentView(contentView);
         setupView();
@@ -505,10 +503,9 @@ public class AlertController {
     };
 
     private void setupDecor() {
-        final View decor = mWindow.getDecorView();
         final View parent = mWindow.findViewById(R.id.parentPanel);
-        if (parent != null && decor != null) {
-            decor.setOnApplyWindowInsetsListener(new View.OnApplyWindowInsetsListener() {
+        if (parent != null) {
+            parent.setOnApplyWindowInsetsListener(new View.OnApplyWindowInsetsListener() {
                 @Override
                 public WindowInsets onApplyWindowInsets(View view, WindowInsets insets) {
                     if (insets.isRound()) {
@@ -520,8 +517,8 @@ public class AlertController {
                     return insets.consumeSystemWindowInsets();
                 }
             });
-            decor.setFitsSystemWindows(true);
-            decor.requestApplyInsets();
+            parent.setFitsSystemWindows(true);
+            parent.requestApplyInsets();
         }
     }
 

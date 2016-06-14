@@ -16,32 +16,22 @@
 
 package com.mobvoi.design.demo;
 
-import android.app.Fragment;
+import android.app.Activity;
 import android.os.Bundle;
 
-import com.ticwear.design.demo.R;
+import ticwear.design.utils.WindowUtils;
 
 /**
- * An Activity contains
+ * Base Activity to clip window to round.
  *
  * Created by tankery on 6/14/16.
  */
-public abstract class FragmentActivity extends BaseActivity {
+public class BaseActivity extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_fragment);
-        Fragment fragment = onCreateFragment();
-        if (fragment == null) {
-            finish();
-            return;
-        }
-        getFragmentManager().beginTransaction()
-                .add(R.id.fragment_container, fragment)
-                .commitAllowingStateLoss();
+        WindowUtils.clipToScreenShape(getWindow());
     }
-
-    protected abstract Fragment onCreateFragment();
 
 }
