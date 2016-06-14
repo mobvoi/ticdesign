@@ -201,7 +201,8 @@ public class FocusableLinearLayoutManager extends LinearLayoutManager
 
     @Override
     public boolean validAdapter(Adapter adapter) {
-        if (adapter != null) {
+        // TODO: find a better way to valid adapter instead of instance a ViewHolder.
+        if (adapter != null && adapter.getItemCount() > 0) {
             RecyclerView.ViewHolder viewHolder = adapter.createViewHolder(mTicklableRecyclerView,
                     adapter.getItemViewType(0));
             if (!(viewHolder instanceof ViewHolder)) {
