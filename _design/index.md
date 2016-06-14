@@ -34,7 +34,9 @@ permalink: /design/
 #### 请坚持解放双手
 虽然设计单手操作很有挑战，可能需要硬件上提供更多支持，但请坚持。如果连一个手表都能捆绑你的双手，你还愿意戴它吗？
   
-  <!-- **手表不是小手机**。如果能在其他大屏终端上得到更佳的体验，而且更方便快捷，就要认真思考一个应用在手表上的必要性，不要不假思索复制一个手机app到手表。-->
+#### 手表不是小手机
+因为智能手表和智能手机都有触屏，都是基于类似的操作系统来设计开发，所以设计起来难免会用到相同的思路和方法。但是人类过去使用过的任何手表，都是不需要另一只手来操作的。正是人类希望一抬手就能看时间，才发明了手表。而我们相信，智能手表应该更像手表。
+所以，如果能在其他大屏终端上得到更佳的体验，而且更方便快捷，就要认真思考一个应用在手表上的必要性，请不要不假思索复制一个手机应用到手表。
 
 #### 要时尚
 传统手表早已经超越了他原本的属性，成为非常重要的饰品。智能手表也同样具备时尚属性。时尚的外观，精美的表盘，优雅的软件界面都是智能手表重要的时尚元素。
@@ -42,11 +44,11 @@ permalink: /design/
 ## 样式
 
 ### 布局
-设计圆形屏幕的界面布局，是一件很有趣的事情。圆形的屏幕边缘会让你不由自主的尝试一些独特的布局方式，也会发现很多传统布局方式需要针对圆形屏幕做细微的调整。
+设计圆形屏幕的界面布局是一件很有趣的事情。圆形的屏幕边缘会让你不由自主的尝试一些独特的布局方式，同时你也会发现很多传统布局方式需要针对圆形屏幕做细微的调整。
 
 #### 界面与屏幕形状的结合
 
-我们建议设计师尽可能将UI元素与屏幕形状相关联，这样能更好的利用屏幕空间，可以使得软件界面和硬件结合的更自然。这一点很有挑战，但也是圆形屏幕智能手表的界面设计最有魅力的地方。
+我们建议设计师尽可能将UI元素与屏幕形状相关联，这样能更好的利用屏幕空间，可以使得软件界面和硬件外观结合的更自然。这一点很有挑战，也是圆形屏幕智能手表的界面设计最有魅力的地方。
 
 <div class="row">
 <div class="col-third" markdown="1">
@@ -63,7 +65,20 @@ permalink: /design/
 </div>
 </div>
 
-<!-- 可以补充两个图：1、listview的挠挠状态，2、弧形排列的导航点 -->
+<div class="row">
+<div class="col-third" markdown="1">
+<img src="res/listview_focused.png">
+<p>有聚焦效果的列表</p>
+</div>
+<div class="col-third" markdown="1">
+<img src="res/navigationdots.png">
+<p>弧形排布的导航点</p>
+</div>
+<div class="col-third" markdown="1">
+<img src="res/threebutton.png">
+<p>按钮布局</p>
+</div>
+</div>
 
 #### 边距和参考线
 也许有些界面并不能有很好的结合圆形的设计方案，但他依然可以很易懂、很美观。这就需要给界面留适当的边距，避免界面整体的局促，避免元素间的碰撞。内切正方形、内切黄金矩形、同心的圆形所形成的边距空间能给设计带来很大帮助。当然，你也可以根据实际设计需要选择更合适的布局。
@@ -91,9 +106,9 @@ permalink: /design/
 
 
 ### 颜色
-关于颜色，我们不想规定颜色的使用，因为这样会给设计带来很大的局限性。我们会给出一些建议和我们在Ticwear系统中使用的颜色作为参考。
+关于颜色，我们不想规定如何使用颜色，因为这样会给设计带来很大的局限性。我们会给出一些建议和我们在Ticwear系统中使用的颜色作为参考。
 
->*如果展开来说颜色的选择和搭配，可能会远远超出这篇文档的范围，开发者和设计师们可以参阅网络上的其他文档来获取更多关于颜色的知识。*
+>*如果展开说颜色的选择和搭配，可能会远远超出这篇文档的范围，开发者和设计师们可以参阅网络上的其他文档来获取更多关于颜色的知识。*
 
 #### **建议采用黑色主背景**
 手表的屏幕很小，白色的背景会显得屏幕格外的亮，非常刺眼，在运动中使用也不容易聚焦。所以我们推荐大部分界面采用黑色（或者深色）背景。黑色在一些新技术的屏幕上会更节能，也可以提升智能手表的续航能力，同时也更容易和硬件本身浑然一体。
@@ -101,22 +116,37 @@ permalink: /design/
 #### **TiColor**
 我们认为智能手表应该富有科技感和时尚感。我们从未来、宇宙、科幻电影、尖端科技、游戏这些关键词中找到了灵感，提炼了一套颜色。这些颜色在纯黑色的背景上效果更好。
 
+<div class="row">
+<div class="col-full">
 <img src="res/ticolor.png">
+</div>
+</div>
+
 
 #### **应用程序的颜色**
-手表界面的内容通常很少，完成一个任务可能需要多个界面，所以同一个应用的不同页面间的关联性显得更加重要。为了保证这一点，可以尝试在应用内保持一致的色调。
+手表界面的内容通常很少，完成一个任务可能需要多个界面，所以同一个应用的不同页面间的关联性显得更加重要。为了保证这一点，可以尝试在应用内保持一致的色调.
 
-<!--需要一个例子 -->
+<div class="row">
+<div class="col-third" markdown="1">
+<img src="res/addalarm.png">
+</div>
+<div class="col-third" markdown="1">
+<img src="res/setalarm.png">
+</div>
+<div class="col-third" markdown="1">
+<img src="res/alarmlist.png">
+</div>
+</div>
 
 #### **合适的对比度**
 背景和内容不要使用色相和明度相近的颜色，在手表上对比度要更大一些，这样能保证在运动中清楚的读取信息。
 
 <div class="row">
 <div class="col-half" markdown="1">
-<img src="res/contrast_wrong.png">
+<img src="res/contrast_right.png">
 </div>
 <div class="col-half" markdown="1">
-<img src="res/contrast_right.png">
+<img src="res/contrast_wrong.png">
 </div>
 </div>
 
@@ -126,6 +156,8 @@ permalink: /design/
 文字排版对一个应用程序的设计至关重要。选择合适的字号、合适的行距，不但会让用户在阅读时获得更好的体验，也会让应用程序获得更好视觉效果。在手表上，合适的文字大小才能保证“一瞥即知”，才能保证在某些特定场景的阅读体验。大部分情况下，建议开发者和设计师尊守操作系统的文字排版规范，因为操作系统的开发者更熟悉系统所适配的硬件的特性。
 
 #### **字号**
+在一个界面上，尽可能不要出现超过两种字号，并且同一个页面的不同字号间的大小区分要明显，这条经验不只适用在智能手表领域。
+
 下面是Ticwear系统中的字号规范。如果你也在设计一块1.4寸屏幕的智能手表界面，这套字号规范将更具参考价值。<a href="../doc/#style-and-theme">开发者可以在开发文档中查看如何使用。</a>
 
 <div class="row">
@@ -142,11 +174,18 @@ permalink: /design/
   
 #### **行间距**
 
+行与行之间的距离非常影响阅读体验，我们所采用行距和字号的关系经验值：行距为字号的0.4倍。这只是个参考值，理论上讲，不过密，不过疏都是合适的。
+
 <div class="row">
-<p class="col s12 m5">
-行距和字号的关系经验值：行距为字号的0.4倍。这只是个参考，理论上讲，不过密，不过疏都是合适的。
-</p>
-<img class="col s12 m5 push-m1" src="res/line_spacing.png">
+<div class="col-third" markdown="1">
+<img src="res/lineheight_right.png">
+</div>
+<div class="col-third" markdown="1">
+<img src="res/lineheight_wrong.png">
+</div>
+<div class="col-third" markdown="1">
+<img src="res/lineheight_wrong2.png">
+</div>
 </div>
 
 
@@ -168,10 +207,10 @@ permalink: /design/
 
 <div class="row">
 <div class="col-half" markdown="1">
-<img src="res/responsezone_wrong.png">
+<img src="res/responsezone_right.png">
 </div>
 <div class="col-half" markdown="1">
-<img src="res/responsezone_right.png">
+<img src="res/responsezone_wrong.png">
 </div>
 </div>
 
@@ -180,10 +219,10 @@ permalink: /design/
 
 <div class="row">
 <div class="col-half" markdown="1">
-<img src="res/btnspacing_wrong.png">
+<img src="res/btnspacing_right.png">
 </div>
 <div class="col-half" markdown="1">
-<img src="res/btnspacing_right.png">
+<img src="res/btnspacing_wrong.png">
 </div>
 </div>
 
