@@ -23,11 +23,13 @@
     >
 
     <ScrollView
-        android:paddingStart="?android:listPreferredItemPaddingStart"
-        android:paddingEnd="?android:listPreferredItemPaddingEnd"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:nestedScrollingEnabled="true"
+        android:paddingStart="?android:listPreferredItemPaddingStart"
+        android:paddingEnd="?android:listPreferredItemPaddingEnd"
+        android:paddingTop="@dimen/tic_list_title_padding_top_ticwear"
+        android:paddingBottom="@dimen/tic_list_padding_bottom_ticwear"
         app:tic_layout_behavior="@string/tic_appbar_scrolling_view_behavior"
         style="@style/Widget.Ticwear.ListView"
         >
@@ -36,7 +38,6 @@
             android:id="@+id/text_content"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
             android:textAppearance="?android:textAppearanceSmall"
             android:text="@string/text.long_content"
             />
