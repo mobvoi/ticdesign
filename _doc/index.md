@@ -13,12 +13,14 @@ permalink: /doc/
 设计库包含下面几个部分：
 
 1. [样式和主题](#style-and-theme)：定义了一些列文字、页面和控件的样式，以及页面切换等动效支持。
-2. [可拉伸、响应内容滚动的标题](#title-bar)：基于 [Android Design Support][google-design-support]，构建了一套适合手表展示的页面结构，除了 Google Design 中的跟随滚动等效果，我们还为标题栏增加了可拉伸等效果。
+2. [协作布局](#coordinator-layout)：基于 [Android Design Support][google-design-support]，构建了一套适合手表展示的页面结构，除了 Google Design 中的跟随滚动等效果，我们还为标题栏增加了可拉伸等效果。
 3. [对侧面挠挠的支持](#support-tickle)：我们提供了一套较为便捷的方式为开发者提供了对挠挠的支持，并增加了一些对挠挠有较好交互的控件。比如[支持挠挠的 RecyclerView](#ticklable-RV) 以及[挠挠触碰时有聚焦效果的 LayoutManger](#focusable-LM) 等。
 4. [设置](#preference)：提供一套类似 [Android Settings][android-settings] 的、符合 [Ticwear Design][ticwear-design] 的设置系统，更适合手表展示，并支持挠挠交互。
 5. [对话框](#dialogs)：对应 Android 的 [AlertDialog][android-alert-dialog]，我们也提供了一系列适合手表展示的对话框。包括[普通弹出式对话框](#alert-dialog)、[数值选择对话框](#number-picker-dialog)、[日期时间选择对话框](#date-picker-dialog)、[列表选择对话框](#list-choice-dialog)等。
 6. [悬浮菜单](#menu)：类似 Android 的[长按弹出菜单][android-FloatingContextMenu]，你可以通过 [Menu resource][android-menu-resource] 来创建菜单项，并利用 `FloatingContextMenu` 来加载和显示菜单，并获取菜单选中的回调事件。
 7. [其他小控件](#widgets)：Ticwear提供了一系列适合手表使用的小控件，包括[可缩放文本框](#scale-textview)、[悬浮按钮](#fab)、[重要按钮](#primary-button)、[数值选择器](#number-picker)、[日期时间选择器](#date-picker)、[Checkbox、RadioButton、SimpleSwitch](#two-state-button)等。
+
+> 文档中的所有内容，均可通过阅读[源码][ticdesign-source]中的 demo 代码来获得使用示例。
 
 ## <a name="style-and-theme"></a>样式和主题 {#style-and-theme}
 
@@ -112,11 +114,63 @@ int color = ColorPalette.from(context)
                 .value();
 ```
 
-## <a name="title-bar"></a>响应内容滚动操作的标题栏 {#title-bar}
+## <a name="coordinator-layout"></a>协作布局 {#coordinator-layout}
 
-类似 [Android Design Support][google-design-support]，使用`CoordinatorLayout`来组织`AppBarLayout`以及页面内容，可以使得标题响应页面内容的滚动，实现多种标题效果。
+类似 [Android Design Support][google-design-support]，使用 `CoordinatorLayout` 来组织 `AppBarLayout` 以及页面内容，可以使得标题响应页面内容的滚动，实现多种效果。
 
-除了 Android Design 支持的“固定、滚动、快速进入、折叠”等效果外，Ticwear Design 额外支持了“拉伸回弹”效果，并配套提供了可缩放的文本框，`ScalableTextView`，使得标题可以在拉伸时变大，并伴随着阻尼效果。
+### 启用圆形滚动条和滑动边缘效果
+
+<div class="row">
+<div class="col s12 m7" markdown="1">
+
+使用 `CoordinatorLayout` 嵌套可以滚动的内容，开发者就可以获得圆形滚动条、滑动到边缘的光源特效以及拉伸回弹效果。
+
+使用时，为内部可滑动的 View 指定 `app:tic_layout_behavior` 为 `"@string/tic_appbar_scrolling_view_behavior"`，以使得 `CoordinatorLayout` 可以操作你的 View。
+
+</div>
+<div class="col s12 m4 push-m1 center">
+<img src="res/scroll-edge-effect.png">
+</div>
+</div>
+
+请看示例：
+
+``` xml
+<ticwear.design.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    >
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:nestedScrollingEnabled="true"
+        android:paddingStart="?android:listPreferredItemPaddingStart"
+        android:paddingEnd="?android:listPreferredItemPaddingEnd"
+        android:paddingTop="@dimen/tic_list_padding_bottom_ticwear"
+        android:paddingBottom="@dimen/tic_list_padding_bottom_ticwear"
+        app:tic_layout_behavior="@string/tic_appbar_scrolling_view_behavior"
+        style="@style/Widget.Ticwear.ListView"
+        >
+
+        <TextView
+            android:id="@+id/text_content"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:textAppearanceSmall"
+            android:text="@string/text.long_content"
+            />
+
+    </ScrollView>
+
+</ticwear.design.widget.CoordinatorLayout>
+```
+
+### <a name="title-bar"></a>响应内容滚动操作的标题栏 {#title-bar}
+
+除了 Android Design 的 `AppBarLayout` 支持的“固定、滚动、快速进入、折叠”等效果外，TicDesign 额外支持了“拉伸回弹”效果，并配套提供了可缩放的文本框，`ScalableTextView`，使得标题可以在拉伸时变大，并伴随着阻尼效果。
 
 下面的代码给出了一个页面的布局示例：
 
@@ -161,10 +215,6 @@ int color = ColorPalette.from(context)
 * `app:tic_layout_scrollResistanceFactor` 指定了标题在拉伸时，整体高度的变化倍数。为1时，标题高度变化与滚动距离对应，没有阻尼效果。越接近0，阻尼效果越大，高度变化越小。
 * `app:tic_scaleFactor` 指定了可缩放文字的缩放倍数。为1时，文字会跟随文本框大小做等比缩放，约接近0则缩放效果越不明显。详情可以参考[可缩放文本框](#scale-textview)。
 
-### 启用滚动条和滑动边缘效果
-
-使用 `CoordinatorLayout`，开发者就可以获得
-
 ## <a name="support-tickle"></a>对挠挠的支持 {#support-tickle}
 
 通过实现 `SidePanelEventTarget` 或 `SidePanelGestureTarget`，开发者可以方便的为其自定义view增加对挠挠的支持。
@@ -195,6 +245,15 @@ int color = ColorPalette.from(context)
 ### <a name="focusable-LM"></a>有聚焦效果的 LayoutManger {#focusable-LM}
 
 `FocusableLinearLayoutManager` 结合了 `LinearLayoutManager` 和 `WearableListView` 的优势，使得列表控件在正常状态时表现的像普通的 LinearLayout RecyclerView，以呈现较丰富、美观的视觉效果，且可以任意点击视图中的列表项；而在挠挠触碰上去之后，转变成聚焦态，内容变大，聚焦在页面中部的元素，使得操作变得准确有目标。
+
+<div class="row">
+<div class="col-half">
+<img src="res/settings.png" width="320">
+</div>
+<div class="col-half">
+<img src="res/settings-tickle.png" width="320">
+</div>
+</div>
 
 使用 `FocusableLinearLayoutManager`，你需要使你的 `ViewHolder` 继承`FocusableLinearLayoutManager.ViewHolder`，以定义聚焦、非聚焦和普通状态的动画切换效果。
 
@@ -256,7 +315,16 @@ Ticwear 的设置系统类似 [Android Settings][android-settings]，你可以�
 
 ## <a name="dialogs"></a>对话框 {#dialogs}
 
-我们深知Dialog使用的便捷性，因此我们改造了Dialog，使Dialog也能适合展示在手表上，并扩展了对话框的按钮、列表展示，也提供了一些数值选择对话框，所有这些，在保持Android接口的便捷性同时，也提供了手表上较为便捷的用户体验。
+<div class="row">
+<div class="col s12 m7" markdown="1">
+
+我们深知 Dialog 使用的便捷性，因此我们改造了 Dialog，使 Dialog 也能适合展示在手表上，并扩展了对话框的按钮、列表展示，也提供了一些数值选择对话框，所有这些，在保持 Android 接口的便捷性同时，也提供了手表上较为便捷的用户体验。
+
+</div>
+<div class="col s12 m4 push-m1 center">
+<img src="res/delay-confirm-dialog.png">
+</div>
+</div>
 
 ### <a name="alert-dialog"></a>弹出式对话框 {#alert-dialog}
 
@@ -488,8 +556,8 @@ $$
 我们为 [Ticwear Theme](#style-and-theme) 设置了符合Ticwear设计风格的 `Checkbox` 和 `RadioButton`，并提供了一个 `SimpleSwitch`，简化 `Switch` 按钮的操作，并与其他两个状态切换Button统一了风格。以提供一套美观的状态切换按钮。
 
 
-
-[ticwear-design]: http://developer.ticwear.com/doc/guideline
+[ticdesign-source]: https://github.com/mobvoi/ticdesign
+[ticwear-design]: ../design/
 [google-design-support]: http://android-developers.blogspot.hk/2015/05/android-design-support-library.html
 [android-settings]: http://developer.android.com/guide/topics/ui/settings.html
 [android-alert-dialog]: http://developer.android.com/reference/android/app/AlertDialog.html

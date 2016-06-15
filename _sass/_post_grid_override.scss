@@ -12,13 +12,16 @@
     padding: 0 0.75rem;
   }
 
+  .center {
+    text-align: center;
+  }
+
 
   .col-full {
     @extend .col;
     @extend .s12;
     @extend .padding;
-
-    text-align: center;
+    @extend .center;
   }
 
   .col-half {
@@ -26,8 +29,7 @@
     @extend .s12;
     @extend .m6;
     @extend .padding;
-
-    text-align: center;
+    @extend .center;
   }
 
   .col-third {
@@ -35,8 +37,7 @@
     @extend .s12;
     @extend .m4;
     @extend .padding;
-
-    text-align: center;
+    @extend .center;
   }
 
   .col-two-third {
@@ -44,7 +45,6 @@
     @extend .s12;
     @extend .m8;
     @extend .padding;
-
-    text-align: center;
+    @extend .center;
   }
 }
