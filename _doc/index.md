@@ -14,7 +14,7 @@ permalink: /doc/
 
 1. [样式和主题](#style-and-theme)：定义了一些列文字、页面和控件的样式，以及页面切换等动效支持。
 2. [可拉伸、响应内容滚动的标题](#title-bar)：基于 [Android Design Support][google-design-support]，构建了一套适合手表展示的页面结构，除了 Google Design 中的跟随滚动等效果，我们还为标题栏增加了可拉伸等效果。
-3. [对侧面挠挠的支持](#support-tickle)：我们提供了一套较为便捷的方式为开发者提供了对挠挠的支持，并增加了一些对挠挠有较好交互的控件。比如[支持挠挠的 Listview](#ticklable-listview)等。
+3. [对侧面挠挠的支持](#support-tickle)：我们提供了一套较为便捷的方式为开发者提供了对挠挠的支持，并增加了一些对挠挠有较好交互的控件。比如[支持挠挠的 RecyclerView](#ticklable-RV) 以及[挠挠触碰时有聚焦效果的 LayoutManger](#focusable-LM) 等。
 4. [设置](#preference)：提供一套类似 [Android Settings][android-settings] 的、符合 [Ticwear Design][ticwear-design] 的设置系统，更适合手表展示，并支持挠挠交互。
 5. [对话框](#dialogs)：对应 Android 的 [AlertDialog][android-alert-dialog]，我们也提供了一系列适合手表展示的对话框。包括[普通弹出式对话框](#alert-dialog)、[数值选择对话框](#number-picker-dialog)、[日期时间选择对话框](#date-picker-dialog)、[列表选择对话框](#list-choice-dialog)等。
 6. [悬浮菜单](#menu)：类似 Android 的[长按弹出菜单][android-FloatingContextMenu]，你可以通过 [Menu resource][android-menu-resource] 来创建菜单项，并利用 `FloatingContextMenu` 来加载和显示菜单，并获取菜单选中的回调事件。
@@ -33,7 +33,7 @@ Ticwear为开发者提供了一套符合Ticwear设计规范的主题。开发者
 
 要获得更好的用户体验，请：
 
-1. 为你的 `ListView` （或 `TickableListView` 等）设置一个style，指向 `Widget.Ticwear.ListView`。
+1. 为你的 `ListView` （或 `TickableRecyclerView` 等）设置一个style，指向 `Widget.Ticwear.ListView`。
 2. 为你的列表项容器设置style，指向 `Widget.Ticwear.ListItem`。
 
 这两个样式，已经较好的处理了手表上列表的显示，包括列表顶部、底部的边距、列表项左右边距，列表项点击效果等等。
@@ -178,44 +178,68 @@ int color = ColorPalette.from(context)
 
 对挠挠事件派发的详细说明，可以参看[挠挠API](http://developer.ticwear.com/doc/tickle-api)。
 
-### <a name="ticklable-listview"></a>支持挠挠交互的 Listview {#ticklable-listview}
+### <a name="ticklable-RV"></a>支持挠挠交互的 RecyclerView {#ticklable-RV}
 
-`TickableListView` 结合了`ListView`和`WearableListView`的优势，使得列表控件在正常状态时表现的像普通的ListView，以呈现较丰富、美观的视觉效果，且可以任意点击视图中的列表项；而在挠挠触碰上去之后，转变成聚焦态，内容变大，聚焦在页面中部的元素，使得操作变得准确有目标。
+`TickableRecyclerView` 扩展了 `RecyclerView`，使其支持挠挠的操作方式。你可以为它指定一个普通的 [`LayoutManager`][android-LM]。使其触摸行为与普通的 `RecyclerView` 无异，只是转发了挠挠的事件，使操作挠挠时，就相当于触摸 View 的最右侧。这样，`TickableRecyclerView` 结合普通 `LayoutManager` 就可以支持挠挠操作了。
 
-通过设置 `tic_focusedStatePadding` 你可以在 `clipToPadding=false` 时，指定聚焦态的上线padding，以获得更好的视觉效果。
+通过实现 `TicklableLayoutManager` 接口，你可以自定义支持挠挠操作的 [`LayoutManager`][android-LM]。详情可以参考 `FocusableLinearLayoutManager` 的实现。
 
-我们为`TickableListView`做了特别的设计，使得它能与`AppBarLayout`相互配合，在聚焦态时，也能较好的实现TitleBar的各种效果。详情可以阅读源码中的`TickableListViewBehavior`代码。
+我们为`TickableRecyclerView`做了特别的设计，使得它能与`AppBarLayout`相互配合，在聚焦态时，也能较好的实现 TitleBar 的各种效果。详情可以阅读源码中的 `TickableRecyclerViewBehavior` 代码。
 
-`TickableListView`继承了[`RecyclerView`][recycler-view]，你可以像使用`RecyclerView`一样使用`TickableListView`，但是需要注意的是，你的`Adapter`需要继承`TickableListView.Adapter`，`ViewHolder`需要继承`TickableListView.ViewHolder`。
+为了方便开发者，我们提供了一系列便捷的 Adapter 来快速实现特定需求：
 
-`TickableListView.ViewHolder` 设置了默认的聚焦态动效，即聚焦时放大、变亮，非聚焦时缩小、变暗。如果你想定义更细致的动画效果。可以使你的`ItemView`实现`TicklableRecyclerView.OnFocusStateChangedListener`接口，或者，直接重载`ViewHolder.onFocusStateChanged`方法。
+1. `SimpleRecyclerAdapter` 适用于简单的只有 icon 或文字的 item，通过映射关系来自动绑定数据和视图。其使用方式类似 [`ListView.SimpleAdapter`][simple-adapter]。
+2. `CursorRecyclerViewAdapter` 提供对数据库的访问，类似 `android.widget.CursorAdapter`。
+3. `TrackSelectionAdapterWrapper` 使用其包装其他 `Adapter` 可获得类似 `ListView` 中 selection 的能力。详情可以参考 `AlertController` 中对它的使用。
 
-下面是一个比较简单粗暴的重载方式（与默认动效相同）：
+### <a name="focusable-LM"></a>有聚焦效果的 LayoutManger {#focusable-LM}
+
+`FocusableLinearLayoutManager` 结合了 `LinearLayoutManager` 和 `WearableListView` 的优势，使得列表控件在正常状态时表现的像普通的 LinearLayout RecyclerView，以呈现较丰富、美观的视觉效果，且可以任意点击视图中的列表项；而在挠挠触碰上去之后，转变成聚焦态，内容变大，聚焦在页面中部的元素，使得操作变得准确有目标。
+
+使用 `FocusableLinearLayoutManager`，你需要使你的 `ViewHolder` 继承`FocusableLinearLayoutManager.ViewHolder`，以定义聚焦、非聚焦和普通状态的动画切换效果。
+
+`FocusableLinearLayoutManager.ViewHolder` 设置了默认的聚焦态动效，即聚焦时放大、变亮，非聚焦时缩小、变暗，普通态时原始样式。
+
+如果你想定义更细致的动画效果。可以使你的 `ItemView` 实现 `FocusableLinearLayoutManager.OnFocusStateChangedListener` 接口，或者，直接重载`ViewHolder.onFocusStateChanged`方法。
+
+如果你希望你的动效是跟手的，而不仅仅是聚焦、非聚焦的状态切换，你需要使你的 `ItemView` 进一步实现 `FocusableLinearLayoutManager.OnCentralProgressUpdatedListener` 或者，直接重载 `ViewHolder.onCentralProgressUpdated`。
+
+`FocusableLinearLayoutManager` 会在挠挠滑动时，先调用 `onFocusStateChanged` 来更新状态，再调用 `onCentralProgressUpdated` 来获得更加细腻的效果。而在聚焦态切换到普通状态时，调用 `onFocusStateChanged`。
+
+因此，一个比较好的方案是，在状态切换为普通态时，通过 `View.animate()` 来实现切换动效，而在聚焦态时，通过 progress 来更新 View 的大小和样式。
+
+下面是一个比较简单粗暴的重载示例（与默认动效相同）：
 
 ``` java
 @Override
-protected void onFocusStateChanged(@TicklableRecyclerView.FocusState int focusState,
-                                   boolean animate) {
-    float scale = 1.0f;
-    float alpha = 1.0f;
-    switch (focusState) {
-        case TicklableRecyclerView.FOCUS_STATE_NORMAL:
-            break;
-        case TicklableRecyclerView.FOCUS_STATE_CENTRAL:
-            scale = 1.1f;
-            alpha = 1.0f;
-            break;
-        case TicklableRecyclerView.FOCUS_STATE_NON_CENTRAL:
-            scale = 0.9f;
-            alpha = 0.6f;
-            break;
+protected void onCentralProgressUpdated(float progress, long animateDuration) {
+    float scaleMin = 1.0f;
+    float scaleMax = 1.1f;
+    float alphaMin = 0.6f;
+    float alphaMax = 1.0f;
+
+    float scale = scaleMin + (scaleMax - scaleMin) * progress;
+    float alphaProgress = getFocusInterpolator().getInterpolation(progress);
+    float alpha = alphaMin + (alphaMax - alphaMin) * alphaProgress;
+    transform(scale, alpha, animateDuration);
+}
+
+@Override
+protected void onFocusStateChanged(@FocusState int focusState, boolean animate) {
+    if (focusState == FocusableLinearLayoutManager.FOCUS_STATE_NORMAL) {
+        transform(1, 1, animate ? getDefaultAnimDuration() : 0);
     }
-    if (animate) {
+}
+
+private void transform(float scale, float alpha, long duration) {
+    itemView.animate().cancel();
+    if (duration > 0) {
         itemView.animate()
-                .setDuration(200)
+                .setDuration(duration)
                 .alpha(alpha)
                 .scaleX(scale)
-                .scaleY(scale);
+                .scaleY(scale)
+                .start();
     } else {
         itemView.setScaleX(scale);
         itemView.setScaleY(scale);
@@ -223,9 +247,6 @@ protected void onFocusStateChanged(@TicklableRecyclerView.FocusState int focusSt
     }
 }
 ```
-
-为了方便开发者，我们提供了一个`SimpleRecyclerAdapter`来快速构造列表所需的内容。其使用方式类似[`ListView.SimpleAdapter`][simple-adapter]。
-
 
 ## <a name="preference"></a>设置系统 {#preference}
 
@@ -481,5 +502,6 @@ $$
 [android-progressbar]: http://developer.android.com/intl/zh-cn/reference/android/widget/ProgressBar.html
 [android-FloatingContextMenu]: https://developer.android.com/guide/topics/ui/menus.html#FloatingContextMenu
 [android-menu-resource]: https://developer.android.com/guide/topics/resources/menu-resource.html
+[android-LM]: https://developer.android.com/reference/android/support/v7/widget/RecyclerView.LayoutManager.html
 
 
