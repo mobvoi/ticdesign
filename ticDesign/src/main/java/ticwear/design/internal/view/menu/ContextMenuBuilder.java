@@ -130,6 +130,9 @@ public class ContextMenuBuilder extends MenuBuilder implements ContextMenu {
         mMenuDialog.setOnShowListener(new OnShowListener() {
             @Override
             public void onShow(DialogInterface di) {
+                if (!isOpen() || mMenuDialog == null) {
+                    return;
+                }
                 mMenuLayout.postDelayed(new Runnable() {
                     @Override
                     public void run() {
