@@ -16,8 +16,10 @@
 
 package ticwear.design.widget;
 
+import android.app.Activity;
 import android.content.Context;
 import android.support.annotation.NonNull;
+import android.util.Log;
 import android.view.ContextMenu;
 import android.view.MenuItem;
 import android.view.View;
@@ -33,6 +35,8 @@ import ticwear.design.internal.view.menu.MenuBuilder.Callback;
  * Created by tankery on 5/16/16.
  */
 public class FloatingContextMenu implements Callback {
+
+    static final String TAG = "FloatingContextMenu";
 
     private final Context mContext;
 
@@ -77,6 +81,17 @@ public class FloatingContextMenu implements Callback {
      */
     public boolean show(View view) {
         if (mContextMenuCreator == null) {
+            Log.e(TAG, "You should specific a ContextMenuCreator for FloatingContextMenu to show.");
+            return false;
+        }
+
+        if (!(mContext instanceof Activity)) {
+            Log.e(TAG, "FloatingContextMenu can only be shown with Activity context.");
+            return false;
+        }
+
+        if (((Activity) mContext).isFinishing()) {
+            Log.e(TAG, "FloatingContextMenu can only be shown when Activity is foreground.");
             return false;
         }
 
