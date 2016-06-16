@@ -41,7 +41,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
 import android.view.Window;
-import android.view.WindowInsets;
 import android.view.WindowManager;
 import android.widget.AbsListView;
 import android.widget.Button;
@@ -235,7 +234,6 @@ public class AlertController {
         int contentView = selectContentView();
         mWindow.setContentView(contentView);
         setupView();
-        setupDecor();
     }
 
     private int selectContentView() {
@@ -501,26 +499,6 @@ public class AlertController {
             showButtons();
         }
     };
-
-    private void setupDecor() {
-        final View parent = mWindow.findViewById(R.id.parentPanel);
-        if (parent != null) {
-            parent.setOnApplyWindowInsetsListener(new View.OnApplyWindowInsetsListener() {
-                @Override
-                public WindowInsets onApplyWindowInsets(View view, WindowInsets insets) {
-                    if (insets.isRound()) {
-                        // TODO: Get the padding as a function of the window size.
-                        int roundOffset = mContext.getResources().getDimensionPixelOffset(
-                                R.dimen.alert_dialog_round_padding);
-                        parent.setPadding(roundOffset, roundOffset, roundOffset, roundOffset);
-                    }
-                    return insets.consumeSystemWindowInsets();
-                }
-            });
-            parent.setFitsSystemWindows(true);
-            parent.requestApplyInsets();
-        }
-    }
 
     private void setupView() {
         final ViewGroup contentPanel = (ViewGroup) mWindow.findViewById(R.id.contentPanel);
