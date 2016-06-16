@@ -3,18 +3,7 @@
   <div class="hamburgerControler"></div>
   <div class="hamburger">
       <ul>
-        {% for tab in site.data.tabs %}
-          {% assign path = tab.url | split: '://' | last %}
-          {% assign protocal = tab.url | replace: path | split: '://' | first %}
-          {% if protocal %}
-            {% assign full_url = tab.url %}
-          {% else %}
-            {% assign full_url = tab.url | prepend: site.baseurl %}
-          {% endif %}
-          <li>
-            <a href="{{ full_url }}">{{ tab.title }}</a>
-          </li>
-        {% endfor %}
+      {% include header_links.html %}
       </ul>
   </div>
   <script type="text/javascript">
@@ -39,10 +28,10 @@
       }
       var headroom = new Headroom(header, {
           tolerance: {
-            
-           
+
+
           },
-         
+
       });
       headroom.init();
   }());
@@ -50,32 +39,22 @@
   <!--/headroom-->
 
   <div class="menu">
-    <ul>
-      <!-- <li>
-        <small>
-          <a href="">EN</a> / <a href="" class="current">中文</a>
-        </small>
-      </li> -->
-      {% assign current_doc = page.url | split: '/' | last %}
-      {% for tab in site.data.tabs reversed %}
-        {% assign path = tab.url | split: '://' | last %}
-        {% assign protocal = tab.url | replace: path | split: '://' | first %}
-        {% if protocal %}
-          {% assign full_url = tab.url %}
-        {% else %}
-          {% assign full_url = tab.url | prepend: site.baseurl %}
-        {% endif %}
-        <li>
-          <a href="{{ full_url }}" class="{% if page.url == tab.url %} current {% endif %}">{{ tab.title }}</a>
-        </li>
-      {% endfor %}
+    <div class="menu-content">
       <h1>
         <a href="{{ site.baseurl }}/">
           <img alt="my awesome image" src="{{ site.baseurl }}/assets/img/logo.png"
                srcset="{{ site.baseurl }}/assets/img/logo-hd.png 2x"
                width="187"></a>
       </h1>
-    </ul>
+      <ul>
+        {% include header_links.html %}
+        <!-- <li>
+          <small>
+            <a href="">EN</a> / <a href="" class="current">中文</a>
+          </small>
+        </li> -->
+      </ul>
+    </div>
   </div>
 
 </header>

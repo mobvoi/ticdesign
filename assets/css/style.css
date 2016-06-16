@@ -32,17 +32,19 @@ blockquote, q{ quotes:"" "";}
 .hamburger a{ color:#222;}
 .hamburger a:hover{ color:#5e83e1; text-decoration:none;}
 .menu{ height:90px; margin:0 auto; border-bottom:1px solid #eaeaea; background-color:#FFF;}
-.menu ul{ max-width:1080px; margin:0 auto; padding:33px 20px;}
-.menu ul li{ float:right; font-size:18px;}
-.menu ul li small{ font-size:14px;}
-.menu ul li a{ display:inline-block; margin-right:80px; padding-bottom:31px; border-bottom:2px solid rgba(94,131,225,0);}
-.menu ul li a:hover, .menu ul li a.current{ border-bottom-color:rgba(94,131,225,1);}
-.menu ul li small a{ margin-right:0; padding-bottom:0; border-bottom:0;}
-.menu ul li small a:hover, .menu ul li small a.current, .menu ul li a:hover, .menu ul li a.current{ color:#5e83e1; text-decoration:none;}
+.menu .menu-content{ max-width:1080px; margin:0 auto; padding:33px 20px;}
+.menu .menu-content h1{ float:left;}
+.menu .menu-content ul{ float:right;}
+.menu .menu-content ul li{ float:left; font-size:18px;}
+.menu .menu-content ul li small{ font-size:14px;}
+.menu .menu-content ul li a{ display:inline-block; margin-right:80px; padding-bottom:31px; border-bottom:2px solid rgba(94,131,225,0);}
+.menu .menu-content ul li a:hover, .menu ul li a.current{ border-bottom-color:rgba(94,131,225,1);}
+.menu .menu-content ul li small a{ margin-right:0; padding-bottom:0; border-bottom:0;}
+.menu .menu-content ul li small a:hover, .menu ul li small a.current, .menu ul li a:hover, .menu ul li a.current{ color:#5e83e1; text-decoration:none;}
 @media screen and (max-width:800px){
 	.hamburgerControler{ display:block;}
-	.menu ul li{ display:none;}
-	.menu ul h1{ margin:0 auto; text-align:center;}
+	.menu .menu-content ul { display:none;}
+	.menu .menu-content h1 { float: none; margin:0 auto; text-align:center;}
 }
 .header--fixed{ position:fixed; z-index:10; right:0; left:0; top:0;}
 .headroom{ transition:transform .25s ease-in-out; will-change:transform;}
