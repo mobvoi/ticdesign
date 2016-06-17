@@ -21,7 +21,6 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.Rect;
-import android.util.FloatMath;
 import android.view.animation.AnimationUtils;
 import android.view.animation.DecelerateInterpolator;
 import android.view.animation.Interpolator;
@@ -201,7 +200,7 @@ abstract public class EdgeEffect {
             mGlowScaleY = mGlowScaleYStart = 0;
         } else {
             final float scale = Math.max(0, 1 - 1 /
-                    FloatMath.sqrt(Math.abs(mPullDistance) * mBounds.height()) - 0.3f) / 0.7f;
+                    (float) Math.sqrt(Math.abs(mPullDistance) * mBounds.height()) - 0.3f) / 0.7f;
 
             mGlowScaleY = mGlowScaleYStart = scale;
         }

@@ -16,10 +16,13 @@
 
 package ticwear.design.drawable;
 
+import android.annotation.SuppressLint;
 import android.graphics.Canvas;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.LayerDrawable;
+import android.os.Build;
+import android.support.annotation.Keep;
 import android.support.annotation.NonNull;
 
 import java.util.Arrays;
@@ -32,6 +35,8 @@ import java.util.Arrays;
 public class CircularProgressContainerDrawable extends LayerDrawable {
 
     private int mStrokeSize;
+
+    private boolean mBoundsChanged = true;
 
     /**
      * Create a drawable with the list of specified contents inside progress bar.
@@ -80,10 +85,15 @@ public class CircularProgressContainerDrawable extends LayerDrawable {
      */
     @Override
     public void draw(Canvas canvas) {
+        if (mBoundsChanged) {
+            updateBounds(getBounds());
+            mBoundsChanged = false;
+        }
         canvas.save();
         canvas.translate(mStrokeSize, mStrokeSize);
         for (int i = 0; i < getNumberOfLayers() - 1; i++ ) {
-            getContentDrawable(i).draw(canvas);
+            Drawable contentDrawable = getContentDrawable(i);
+            contentDrawable.draw(canvas);
         }
         canvas.restore();
         getProgressDrawable().draw(canvas);
@@ -94,6 +104,46 @@ public class CircularProgressContainerDrawable extends LayerDrawable {
      */
     @Override
     protected void onBoundsChange(Rect bounds) {
+        mBoundsChanged = true;
+        super.onBoundsChange(bounds);
+    }
+
+    @Override
+    protected boolean onStateChange(int[] state) {
+        mBoundsChanged = true;
+        return super.onStateChange(state);
+    }
+
+    @Override
+    protected boolean onLevelChange(int level) {
+        mBoundsChanged = true;
+        return super.onLevelChange(level);
+    }
+
+    // 1. The reason we use compat library instead of using API 23's method is that our
+    //    system build toolchain is based on API 22, we can't change the compileSdkVersion.
+    // 2. The reason we use custom class instead of compat library, is that the low level compat
+    //    library has bug that setLayoutDirection return void, and high level compat library
+    //    using an internal jar that make system is hard to use.
+    //
+    // @Override
+    @SuppressLint("Override")
+    @Keep
+    public boolean onLayoutDirectionChanged(int layoutDirection) {
+        boolean changed = false;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
+            for (int i = 0; i < getNumberOfLayers() - 1; i++) {
+                changed |= DrawableCompatJellybeanMr1.setLayoutDirection(getContentDrawable(i), layoutDirection);
+            }
+            changed |= DrawableCompatJellybeanMr1.setLayoutDirection(getProgressDrawable(), layoutDirection);
+        }
+
+        mBoundsChanged = true;
+
+        return changed;
+    }
+
+    private void updateBounds(Rect bounds) {
         for (int i = 0; i < getNumberOfLayers() - 1; i++ ) {
             getContentDrawable(i).setBounds(
                     bounds.left, bounds.top,
