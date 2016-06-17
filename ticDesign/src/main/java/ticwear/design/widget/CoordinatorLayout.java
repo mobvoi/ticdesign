@@ -51,6 +51,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewParent;
 import android.view.ViewTreeObserver;
+import android.view.WindowInsets;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -245,23 +246,7 @@ public class CoordinatorLayout extends ViewGroup implements NestedScrollingParen
             mEdgeGlowBottom = new ClassicEdgeEffect(context);
         }
 
-        ViewCompat.setOnApplyWindowInsetsListener(this,
-                new android.support.v4.view.OnApplyWindowInsetsListener() {
-                    @Override
-                    public WindowInsetsCompat onApplyWindowInsets(View v,
-                                                                  WindowInsetsCompat insets) {
-                        if (mLastInsets == null) {
-                            setupForWindowInsets();
-                        }
-
-                        if (isShown()) {
-                            setWindowInsets(insets);
-                            return insets.consumeSystemWindowInsets();
-                        } else {
-                            return insets;
-                        }
-                    }
-                });
+        setupForWindowInsets();
 
         if (isInEditMode()) {
             mOverScrollOffsetFactor = 0.5f;
@@ -278,10 +263,20 @@ public class CoordinatorLayout extends ViewGroup implements NestedScrollingParen
 
     private void setupForWindowInsets() {
         if (ViewCompat.getFitsSystemWindows(this)) {
+            // First apply the insets listener
+            ViewCompat.setOnApplyWindowInsetsListener(this, new ApplyInsetsListener());
             // Now set the sys ui flags to enable us to lay out in the window insets
             setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE
                     | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
         }
+    }
+
+    @Override
+    public WindowInsets onApplyWindowInsets(WindowInsets insets) {
+        if (insets != null) {
+            updateSystemShape(insets.isRound());
+        }
+        return super.onApplyWindowInsets(insets);
     }
 
     @Override
@@ -300,7 +295,7 @@ public class CoordinatorLayout extends ViewGroup implements NestedScrollingParen
             final ViewTreeObserver vto = getViewTreeObserver();
             vto.addOnPreDrawListener(mOnPreDrawListener);
         }
-        if (mLastInsets == null && ViewCompat.getFitsSystemWindows(this)) {
+        if ((mLastInsets == null && ViewCompat.getFitsSystemWindows(this))) {
             // We're set to fitSystemWindows but we haven't had any insets yet...
             // We should request a new dispatch of window insets
             ViewCompat.requestApplyInsets(this);
@@ -369,26 +364,31 @@ public class CoordinatorLayout extends ViewGroup implements NestedScrollingParen
             mLastInsets = insets;
             mDrawStatusBarBackground = insets != null && insets.getSystemWindowInsetTop() > 0;
 
+            // When we needs to set window insets, onApplyWindowInsets will not been called,
+            // so we need to update system shape here.
             if (insets != null) {
-                if (insets.isRound()) {
-                    if (!(mEdgeGlowTop instanceof CrescentEdgeEffect)) {
-                        mEdgeGlowTop = new CrescentEdgeEffect(getContext());
-                        mEdgeGlowBottom = new CrescentEdgeEffect(getContext());
-                    }
-                } else {
-                    if (!(mEdgeGlowTop instanceof ClassicEdgeEffect)) {
-                        mEdgeGlowTop = new ClassicEdgeEffect(getContext());
-                        mEdgeGlowBottom = new ClassicEdgeEffect(getContext());
-                    }
-                }
-
-                mScrollBarHelper.setIsRound(insets.isRound());
+                updateSystemShape(insets.isRound());
             }
 
-            setWillNotDraw(!mDrawStatusBarBackground && getBackground() == null && mEdgeGlowTop == null);
             dispatchChildApplyWindowInsets(insets);
             requestLayout();
         }
+    }
+
+    private void updateSystemShape(boolean systemIsRound) {
+        if (systemIsRound) {
+            if (!(mEdgeGlowTop instanceof CrescentEdgeEffect)) {
+                mEdgeGlowTop = new CrescentEdgeEffect(getContext());
+                mEdgeGlowBottom = new CrescentEdgeEffect(getContext());
+            }
+        } else {
+            if (!(mEdgeGlowTop instanceof ClassicEdgeEffect)) {
+                mEdgeGlowTop = new ClassicEdgeEffect(getContext());
+                mEdgeGlowBottom = new ClassicEdgeEffect(getContext());
+            }
+        }
+
+        mScrollBarHelper.setIsRound(systemIsRound);
     }
 
     /**
