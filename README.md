@@ -4,12 +4,12 @@
 
 [中文](README.zh.md)
 
-Using TicDesign, you can make your wear App full of elegant user interaction, and follow the Ticwear [Design Guide][ticwear-design]. If your App running on Ticwatch, Tickle is also built in to interaction with your App.
+Using TicDesign, you can make your wear App full of elegant user interaction, following the Ticwear [Design Guide][ticwear-design]. If your App runs on Ticwatch, Tickle support is also built in to interact with your App.
 
 <img src="art/settings.png" width="320">
 <img src="art/delay-confirm-dialog.png" width="320">
 
-Checkout [TicDesign website][ticdesign-site] for how we think of UX on watch, and how to use the TicDesign.
+Check out [TicDesign website][ticdesign-site] to see how we think of UX on watch, and how to use the TicDesign.
 
 # How to Use
 
@@ -21,7 +21,7 @@ dependencies {
 }
 ```
 
-For details of development, checkout [TicDesign Dev Doc][ticdesign-develop] or find it in code。
+For details of development, check out [TicDesign Dev Doc][ticdesign-develop] or find it in code。
 
 # Has Question or Found Bug?
 
@@ -29,23 +29,23 @@ Feel free to post [issues][ticdesign-issues] when you have questions or found a 
 
 # Contribution
 
-[Pull Request][ticdesign-pr] is welcome if you are interesting in share your code to contribute the open source community.
+[Pull Request][ticdesign-pr] is welcome if you are interested in sharing your code to contribute to the open source community.
 
 ## Contribute Code
 
-Please send pull request to `dev` branch. we will merge your code after review. When we finished testing, a new version of library will be released from `dev` to `master`, and deploy to repository center.
+Please send pull request to `dev` branch. we will merge your code after review. When we finished testing, a new version of library will be released from `dev` to `master`, and deployed to repository center.
 
-If you have new widget want's to add to TicDesign, please:
+If you have new widgets you want to add to TicDesign, please:
 
 1. Add your widget code to `ticwear.design.widget` package.
-2. Add your resources relative to the widget to files like `*_widget.xml`.
-3. Add doc for your new widget. (Read following section for how to do this)
+2. Add your resources related to the widget in files like `*_widget.xml`.
+3. Add doc for your new widget. (Read following section on how to do this)
 
 ## Contribute Doc
 
-Document for TicDesign, is published by [Website][ticdesign-site], hosting on [GitHub Pages][gh-pages], and writing by Markdown. But currentlly we only have a Chinese language version of site. We will let it support other language later. Or if you are familiar with Chinese, you are very welcome to translate it to Other language.
+Documentation for TicDesign, is published by [Website][ticdesign-site], hosted on [GitHub Pages][gh-pages], and written in Markdown. But currentlly we only have a Chinese version of the site. We will add support of other languages later. Or if you are familiar with Chinese, you are very welcome to translate it into other languages.
 
-To modify or add doc, you need to checkout `gh-pages` branch, and read the [README.en.md][gh-pages-readme] for details.
+To modify or add doc, you need to check out `gh-pages` branch, and read the [README.en.md][gh-pages-readme] for details.
 
 # License
 
