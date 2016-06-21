@@ -169,6 +169,7 @@ public class CoordinatorLayout extends ViewGroup implements NestedScrollingParen
     private OnPreDrawListener mOnPreDrawListener;
     private boolean mNeedsPreDrawListener;
 
+    private boolean mSystemShapeUpdated;
     private WindowInsetsCompat mLastInsets;
     private boolean mDrawStatusBarBackground;
     private Drawable mStatusBarBackground;
@@ -246,6 +247,7 @@ public class CoordinatorLayout extends ViewGroup implements NestedScrollingParen
             mEdgeGlowBottom = new ClassicEdgeEffect(context);
         }
 
+        mSystemShapeUpdated = false;
         setupForWindowInsets();
 
         if (isInEditMode()) {
@@ -295,8 +297,9 @@ public class CoordinatorLayout extends ViewGroup implements NestedScrollingParen
             final ViewTreeObserver vto = getViewTreeObserver();
             vto.addOnPreDrawListener(mOnPreDrawListener);
         }
-        if ((mLastInsets == null && ViewCompat.getFitsSystemWindows(this))) {
+        if ((mLastInsets == null && ViewCompat.getFitsSystemWindows(this)) || !mSystemShapeUpdated) {
             // We're set to fitSystemWindows but we haven't had any insets yet...
+            // Or we are not updated system shape.
             // We should request a new dispatch of window insets
             ViewCompat.requestApplyInsets(this);
         }
@@ -376,6 +379,8 @@ public class CoordinatorLayout extends ViewGroup implements NestedScrollingParen
     }
 
     private void updateSystemShape(boolean systemIsRound) {
+        mSystemShapeUpdated = true;
+
         if (systemIsRound) {
             if (!(mEdgeGlowTop instanceof CrescentEdgeEffect)) {
                 mEdgeGlowTop = new CrescentEdgeEffect(getContext());

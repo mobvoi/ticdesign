@@ -66,6 +66,9 @@
     <string name="category.menu.hint.share">Share</string>
     <string name="category.menu.hint.delete">Delete</string>
 
+    <string name="category.coordinator.title">CoordinatorLayout</string>
+
+
     <string name="text.short_content">To keep good look of page, put message less than 3 lines.</string>
     <string name="text.long_content">Jarlsberg lancashire edam. Dolcelatte hard cheese brie st. agur blue
     cheese caerphilly bavarian bergkase cheese and biscuits mascarpone. Cheeseburger swiss bavarian

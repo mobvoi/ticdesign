@@ -27,9 +27,9 @@ class MathUtils {
         return amount < low ? low : (amount > high ? high : amount);
     }
 
-    static boolean sameSign(int x, int y)
+    static boolean sameSign(int a, int b)
     {
-        return (x >= 0) ^ (y < 0);
+        return (a >= 0) ^ (b < 0);
     }
 
 }

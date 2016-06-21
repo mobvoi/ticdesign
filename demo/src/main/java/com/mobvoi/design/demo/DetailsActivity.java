@@ -20,6 +20,7 @@ import android.app.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
 
+import com.mobvoi.design.demo.fragments.CoordinatorFragment;
 import com.mobvoi.design.demo.fragments.DialogsFragment;
 import com.mobvoi.design.demo.fragments.ListFragment;
 import com.mobvoi.design.demo.fragments.MenuFragment;
@@ -62,6 +63,9 @@ public class DetailsActivity extends BaseActivity {
                 break;
             case R.string.category_spec_title:
                 detailFragment = new SpecFragment();
+                break;
+            case R.string.category_coordinator_title:
+                detailFragment = new CoordinatorFragment();
                 break;
             default:
                 detailFragment = null;

@@ -65,6 +65,10 @@
     <string name="category.menu.hint.share">分享</string>
     <string name="category.menu.hint.delete">删除</string>
 
+    <string name="category.coordinator.title">协作布局</string>
+
+
+
     <string name="text.short_content">想保持页面的美观，内容就不要超过27个字（三行）。</string>
     <string name="text.long_content">中国拥有众多的人口，也拥有世界上最丰富多元的自然景观，高原、山林、湖泊、海岸
         线，这种地理和气候的跨度有助于物种的形成和保存，任何一个国家都没有这样多潜在的食物原材料。人们采集、捡拾、
