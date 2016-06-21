@@ -1656,6 +1656,8 @@ public class NumberPicker extends LinearLayout implements SidePanelEventDispatch
             // with the new one.
             if ((showSelectorWheel && i != SELECTOR_MIDDLE_ITEM_INDEX) ||
                 (i == SELECTOR_MIDDLE_ITEM_INDEX && mInputText.getVisibility() != VISIBLE)) {
+                int color = mInputText.getCurrentTextColor();
+                mSelectorWheelPaint.setColor(color);
                 canvas.drawText(scrollSelectorValue, x, y, mSelectorWheelPaint);
             }
             y += mSelectorElementHeight;
