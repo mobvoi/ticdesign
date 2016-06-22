@@ -78,13 +78,20 @@ public class DatetimePickerDialog extends AlertDialog implements OnClickListener
 
     private NumberPicker mFocusedPicker;
 
+    private boolean mDismissOnConfirm;
+
     /**
      * @param context The context the dialog is to run in.
      * @param pageFlag Witch page will show.
      * @param defaultCalendar The initial datetime of the dialog.
      */
     public DatetimePickerDialog(Context context, int pageFlag, Calendar defaultCalendar) {
-        this(context, 0, pageFlag, defaultCalendar);
+        this(context, 0, pageFlag, defaultCalendar, true);
+    }
+
+    public DatetimePickerDialog(Context context, @StyleRes int theme, int pageFlag,
+                                Calendar defaultCalendar) {
+        this(context, theme, pageFlag, defaultCalendar, true);
     }
 
     @StyleRes
@@ -105,7 +112,7 @@ public class DatetimePickerDialog extends AlertDialog implements OnClickListener
      * @param defaultCalendar The initial datetime of the dialog.
      */
     public DatetimePickerDialog(Context context, @StyleRes int theme, int pageFlag,
-                                Calendar defaultCalendar) {
+                                Calendar defaultCalendar, boolean dismissOnConfirm) {
         super(context, resolveDialogTheme(context, theme));
 
         // Use getContext to use wrapper context.
@@ -177,6 +184,8 @@ public class DatetimePickerDialog extends AlertDialog implements OnClickListener
         setButtonPanelLayoutHint(LAYOUT_HINT_SIDE);
 
         setTitle(mPagerAdapter.getPageTitle(0));
+
+        mDismissOnConfirm = dismissOnConfirm;
     }
 
     @Override
@@ -222,7 +231,9 @@ public class DatetimePickerDialog extends AlertDialog implements OnClickListener
     public void onClick(View v) {
         if (mOnLastPage) {
             onConfirm();
-            dismiss();
+            if (mDismissOnConfirm) {
+                dismiss();
+            }
         } else {
             mViewPager.setCurrentItem(mViewPager.getCurrentItem() + 1);
         }
@@ -439,6 +450,7 @@ public class DatetimePickerDialog extends AlertDialog implements OnClickListener
         private int pageFlag;
         private OnCalendarSetListener listener;
         private Calendar defaultCalendar;
+        private boolean dismissOnConfirm;
 
         public Builder(Context context) {
             this.mContext = context;
@@ -481,9 +493,14 @@ public class DatetimePickerDialog extends AlertDialog implements OnClickListener
             return this;
         }
 
+        public Builder dismissOnConfirm(boolean dismiss) {
+            this.dismissOnConfirm = dismiss;
+            return this;
+        }
+
         public DatetimePickerDialog create() {
             DatetimePickerDialog dialog = new DatetimePickerDialog(mContext, theme,
-                    pageFlag, defaultCalendar);
+                    pageFlag, defaultCalendar, dismissOnConfirm);
             dialog.setOnCalendarSetListener(listener);
             return dialog;
         }
