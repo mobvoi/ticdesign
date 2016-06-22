@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ticwear.design.widget.SwipeTodoView
+        android:id="@+id/swipe_to_do"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/tic_basic_cyan_darken"
+        app:tic_centerBtnBg="@null"
+        app:tic_centerBtnImage="@drawable/ic_alarm_notify"
+        app:tic_leftBtnImage="@drawable/ic_snooze"
+        app:tic_leftBtnBgColor="@color/tic_basic_gold_grey_darken"
+        app:tic_leftBtnColor="@android:color/white"
+        app:tic_rightBtnImage="@drawable/ic_awake"
+        app:tic_rightBtnBgColor="@android:color/white"
+        app:tic_rightBtnColor="@color/swipe_todo_confirm"/>
+
+</LinearLayout>

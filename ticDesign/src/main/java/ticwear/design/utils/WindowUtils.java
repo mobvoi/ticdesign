@@ -27,7 +27,7 @@ import android.view.ViewOutlineProvider;
 import android.view.Window;
 import android.view.WindowInsets;
 
-import ticwear.design.drawable.ClipCircleDrawable;
+import ticwear.design.drawable.CircleDrawable;
 
 /**
  * Utilities for window.
@@ -89,7 +89,7 @@ public class WindowUtils {
             original = new ColorDrawable(Color.BLACK);
         }
         if (isRound) {
-            return new ClipCircleDrawable(original);
+            return new CircleDrawable(original);
         } else {
             return original;
         }

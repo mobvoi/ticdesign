@@ -43,6 +43,7 @@
     <string name="category.widgets.volume_bar">声音控件</string>
     <string name="category.widgets.progress">进度/加载</string>
     <string name="category.widgets.picker">数值选择器</string>
+    <string name="category.widgets.swipe_todo">滑动选择</string>
 
     <string name="category.settings.title">设置</string>
 

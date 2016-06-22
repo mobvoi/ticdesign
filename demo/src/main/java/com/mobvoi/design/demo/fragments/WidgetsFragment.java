@@ -35,6 +35,7 @@ import ticwear.design.app.AlertDialog;
 import ticwear.design.drawable.CircularProgressDrawable;
 import ticwear.design.widget.FloatingActionButton;
 import ticwear.design.widget.FloatingActionButton.DelayedConfirmationListener;
+import ticwear.design.widget.SwipeTodoView;
 import ticwear.design.widget.VolumeBar;
 
 /**
@@ -51,6 +52,7 @@ public class WidgetsFragment extends ListFragment {
                 R.string.category_widgets_fab_delay,
                 R.string.category_widgets_button,
                 R.string.category_widgets_volume_bar,
+                R.string.category_widgets_swipe_todo,
                 R.string.category_widgets_picker,
                 R.string.category_widgets_progress,
         };
@@ -84,26 +86,10 @@ public class WidgetsFragment extends ListFragment {
                 break;
             }
             case R.string.category_widgets_volume_bar:
-                dialog = new Dialog(context);
-                View layout = inflater.inflate(
-                        R.layout.widgets_volume_bar, null);
-                final VolumeBar vBar = (VolumeBar)layout.findViewById(R.id.volume_bar);
-                final TextView tv = (TextView) layout.findViewById(R.id.volume_text);
-                tv.setText(vBar.getProgress()+"");
-                vBar.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        vBar.setSelected(true);
-//                        vBar.setValueColor(Color.RED);
-                    }
-                }, 3000);
-                vBar.setOnVolumeChangedListetener(new VolumeBar.OnVolumeChangedListener() {
-                    @Override
-                    public void onVolumeChanged(VolumeBar volumeBar, int progress, boolean fromUser) {
-                        tv.setText(progress+"");
-                    }
-                });
-                dialog.setContentView(layout);
+                dialog = createVolumeBarDialog(context, inflater);
+                break;
+            case R.string.category_widgets_swipe_todo:
+                dialog = createSwipeTodoDialog(context, inflater);
                 break;
             case R.string.category_widgets_picker:
                 break;
@@ -211,6 +197,55 @@ public class WidgetsFragment extends ListFragment {
                 });
             }
         });
+        return dialog;
+    }
+
+    @NonNull
+    private Dialog createVolumeBarDialog(Context context, LayoutInflater inflater) {
+        Dialog dialog;
+        dialog = new Dialog(context);
+        View layout = inflater.inflate(
+                R.layout.widgets_volume_bar, null);
+        final VolumeBar vBar = (VolumeBar)layout.findViewById(R.id.volume_bar);
+        final TextView tv = (TextView) layout.findViewById(R.id.volume_text);
+        tv.setText(vBar.getProgress()+"");
+        vBar.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                vBar.setSelected(true);
+//                        vBar.setValueColor(Color.RED);
+            }
+        }, 3000);
+        vBar.setOnVolumeChangedListetener(new VolumeBar.OnVolumeChangedListener() {
+            @Override
+            public void onVolumeChanged(VolumeBar volumeBar, int progress, boolean fromUser) {
+                tv.setText(progress+"");
+            }
+        });
+        dialog.setContentView(layout);
+        return dialog;
+    }
+
+    @NonNull
+    private Dialog createSwipeTodoDialog(final Context context, LayoutInflater inflater) {
+        final Dialog dialog = new Dialog(context, ticwear.design.R.style.Theme_Ticwear_Dialog_Alert_NonSwipe);
+        View layout = inflater.inflate(R.layout.widgets_swipe_todo, null);
+        SwipeTodoView swipeToDo = (SwipeTodoView) layout.findViewById(R.id.swipe_to_do);
+        swipeToDo.setLeftIconListener(new SwipeTodoView.OnSelectChangedListener() {
+            @Override
+            public void onSelected() {
+                Toast.makeText(context, "Dismissed", Toast.LENGTH_SHORT).show();
+                dialog.dismiss();
+            }
+        });
+        swipeToDo.setRightIconListener(new SwipeTodoView.OnSelectChangedListener() {
+            @Override
+            public void onSelected() {
+                Toast.makeText(context, "Confirmed", Toast.LENGTH_SHORT).show();
+                dialog.dismiss();
+            }
+        });
+        dialog.setContentView(layout);
         return dialog;
     }
 }

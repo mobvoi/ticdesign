@@ -12,7 +12,6 @@ import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Handler;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
@@ -84,12 +83,14 @@ public class SwipeTodoView extends RelativeLayout {
         if (null == rightColorStateList) {
             rightColorStateList = defaultColorList;
         }
-        int leftBgColor = typedArray.getColor(R.styleable.SwipeTodoView_tic_leftBtnBgColor, Color.WHITE);
-        int rightBgColor = typedArray.getColor(R.styleable.SwipeTodoView_tic_rightBtnBgColor, Color.WHITE);
-        mLeftBgDrawable = new ArcDrawable(leftBgColor);
+        ColorStateList leftBgColor = typedArray.getColorStateList(R.styleable.SwipeTodoView_tic_leftBtnBgColor);
+        ColorStateList rightBgColor = typedArray.getColorStateList(R.styleable.SwipeTodoView_tic_rightBtnBgColor);
+        mLeftBgDrawable = new ArcDrawable(Color.WHITE);
+        mLeftBgDrawable.setTintList(leftBgColor);
         mLeftBgDrawable.setGravity(Gravity.LEFT);
-        mRightBgDrawable = new ArcDrawable(rightBgColor);
+        mRightBgDrawable = new ArcDrawable(Color.WHITE);
         mRightBgDrawable.setGravity(Gravity.RIGHT);
+        mRightBgDrawable.setTintList(rightBgColor);
         String content = typedArray.getString(R.styleable.SwipeTodoView_tic_content);
         String subContent = typedArray.getString(R.styleable.SwipeTodoView_tic_subContent);
         typedArray.recycle();
