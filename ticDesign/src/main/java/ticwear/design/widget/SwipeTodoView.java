@@ -34,6 +34,7 @@ public class SwipeTodoView extends RelativeLayout {
     private static final int ANIMATION_TIME = 400;
     private static final float ICON_SCALE_DEFAULT = 1.0f;
     private static final float ICON_SCALE_DOWN = 0.6f;
+    private float mCenterIvInitX;
     private TextView mContentTv;
     private ImageView mOuterCircleIv;
     private ImageView mMiddleCircleIv;
@@ -42,6 +43,7 @@ public class SwipeTodoView extends RelativeLayout {
     private ImageView mLeftIv;
     private ImageView mRightIv;
     private TextView mSubContentTv;
+    private TextView mTipTv;
     private ArcDrawable mLeftBgDrawable;
     private ArcDrawable mRightBgDrawable;
     private ObjectAnimator mIconAnimator;
@@ -100,6 +102,7 @@ public class SwipeTodoView extends RelativeLayout {
         mInnerCircleIv = (ImageView) findViewById(R.id.inner_circle_iv);
         mContentTv = (TextView) findViewById(R.id.content_tv);
         mSubContentTv = (TextView) findViewById(R.id.sub_content_tv);
+        mTipTv = (TextView) findViewById(R.id.tip_tv);
         mCenterIv = (ImageView) findViewById(R.id.center_iv);
         mLeftIv = (ImageView) findViewById(R.id.left_iv);
         mRightIv = (ImageView) findViewById(R.id.right_iv);
@@ -132,6 +135,7 @@ public class SwipeTodoView extends RelativeLayout {
                         v.setScaleX(ICON_SCALE_DOWN);
                         v.setScaleY(ICON_SCALE_DOWN);
                         mInitX = v.getX();
+                        mCenterIvInitX = mInitX;
                         mDeltaX = mInitX - event.getRawX();
                         if (mHasCenterIcon) {
                             mCenterIv.getDrawable().setAlpha(0);
@@ -170,17 +174,21 @@ public class SwipeTodoView extends RelativeLayout {
                                 mRightListener.onSelected();
                             }
                         } else {
-                            v.animate().scaleX(ICON_SCALE_DEFAULT).scaleY(ICON_SCALE_DEFAULT).x(mInitX).setDuration(0).start();
-                            if (mHasCenterIcon) {
-                                mCenterIv.getDrawable().setAlpha(255);
-                            }
-                            mLeftIv.setVisibility(View.GONE);
-                            mRightIv.setVisibility(View.GONE);
-                            resumeAnimation();
+                            resetState(v);
                         }
                         break;
                 }
                 return true;
+            }
+
+            private void resetState(View v) {
+                v.animate().scaleX(ICON_SCALE_DEFAULT).scaleY(ICON_SCALE_DEFAULT).x(mInitX).setDuration(0).start();
+                if (mHasCenterIcon) {
+                    mCenterIv.getDrawable().setAlpha(255);
+                }
+                mLeftIv.setVisibility(View.GONE);
+                mRightIv.setVisibility(View.GONE);
+                resumeAnimation();
             }
         });
     }
@@ -297,16 +305,24 @@ public class SwipeTodoView extends RelativeLayout {
         mLeftIv.setImageResource(resId);
     }
 
-    public void setLeftIconColor(int color) {
-        mLeftIv.setImageTintList(getResources().getColorStateList(color));
+    public void setLeftIconColor(ColorStateList color) {
+        mLeftIv.setImageTintList(color);
+    }
+
+    public void setLeftBgColor(ColorStateList color) {
+        mLeftBgDrawable.setTintList(color);
     }
 
     public void setRightIcon(int resId) {
         mRightIv.setImageResource(resId);
     }
 
-    public void setRightIconColor(int color) {
-        mRightIv.setImageTintList(getResources().getColorStateList(color));
+    public void setRightIconColor(ColorStateList color) {
+        mRightIv.setImageTintList(color);
+    }
+
+    public void setRightBgColor(ColorStateList color) {
+        mRightBgDrawable.setTintList(color);
     }
 
     public interface OnSelectChangedListener {
@@ -319,5 +335,21 @@ public class SwipeTodoView extends RelativeLayout {
 
     public void setRightIconListener(OnSelectChangedListener listener) {
         mRightListener = listener;
+    }
+
+    public void enableTipTv(String text) {
+        mTipTv.setVisibility(View.VISIBLE);
+        mTipTv.setText(text);
+    }
+
+    public void resetToInit() {
+        mCenterIv.clearAnimation();
+        mCenterIv.animate().scaleX(ICON_SCALE_DEFAULT).scaleY(ICON_SCALE_DEFAULT).x(mCenterIvInitX).setDuration(0).start();
+        if (mHasCenterIcon) {
+            mCenterIv.getDrawable().setAlpha(255);
+        }
+        mLeftIv.setVisibility(View.GONE);
+        mRightIv.setVisibility(View.GONE);
+        resumeAnimation();
     }
 }

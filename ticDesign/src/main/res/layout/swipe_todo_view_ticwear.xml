@@ -16,6 +16,17 @@
         android:textColor="#ffffff"
         android:textSize="17sp" />
 
+    <TextView
+        android:id="@+id/tip_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/content_tv"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="8dp"
+        android:textColor="#7fffffff"
+        android:textSize="@dimen/tic_text_size_small_2"
+        android:visibility="gone" />
+
     <ImageView
         android:id="@+id/outer_circle_iv"
         android:layout_width="29dp"
