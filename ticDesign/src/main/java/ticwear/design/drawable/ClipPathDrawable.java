@@ -104,6 +104,10 @@ abstract public class ClipPathDrawable extends Drawable {
         return mClipPath;
     }
 
+    public Paint getPathPaint() {
+        return mPathPaint;
+    }
+
     @Override
     protected void onBoundsChange(Rect bounds) {
         super.onBoundsChange(bounds);

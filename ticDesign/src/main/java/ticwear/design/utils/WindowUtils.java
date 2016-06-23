@@ -18,6 +18,8 @@ package ticwear.design.utils;
 
 import android.graphics.Color;
 import android.graphics.Outline;
+import android.graphics.Path;
+import android.graphics.Rect;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
@@ -78,7 +80,7 @@ public class WindowUtils {
         view.setOutlineProvider(new ViewOutlineProvider() {
             @Override
             public void getOutline(View view, Outline outline) {
-                outline.setOval(0, 0, view.getWidth(), view.getHeight());
+                outline.setOval(-1, -1, view.getWidth() + 1, view.getHeight() + 1);
             }
         });
     }
@@ -89,9 +91,22 @@ public class WindowUtils {
             original = new ColorDrawable(Color.BLACK);
         }
         if (isRound) {
-            return new CircleDrawable(original);
+            return new InfectCircleDrawable(original);
         } else {
             return original;
+        }
+    }
+
+    private static class InfectCircleDrawable extends CircleDrawable {
+
+        public InfectCircleDrawable(@NonNull Drawable drawable) {
+            super(drawable);
+        }
+
+        @Override
+        protected void onResetPath(Path path, Rect bounds) {
+            path.reset();
+            path.addOval(bounds.left - 1, bounds.top - 1, bounds.right + 1, bounds.bottom + 1, Path.Direction.CW);
         }
     }
 
