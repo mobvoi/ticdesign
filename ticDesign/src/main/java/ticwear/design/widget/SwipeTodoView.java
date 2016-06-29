@@ -50,6 +50,8 @@ public class SwipeTodoView extends RelativeLayout {
     private AnimatorSet mOuterAnimator = null;
     private AnimatorSet mMiddleAnimator = null;
     private AnimatorSet mInnerAnimator = null;
+    private boolean mShowLeftButton = false;
+    private boolean mShowRightButton = false;
     private boolean mHasCenterIcon = false;
     private boolean mIsStopAnimation = false;
     private OnSelectChangedListener mLeftListener = null;
@@ -74,19 +76,27 @@ public class SwipeTodoView extends RelativeLayout {
                 R.styleable.SwipeTodoView);
         Drawable centerIconBg = typedArray.getDrawable(R.styleable.SwipeTodoView_tic_centerBtnBg);
         int leftIconResId = typedArray.getResourceId(R.styleable.SwipeTodoView_tic_leftBtnImage, 0);
-        int rightIconResId = typedArray.getResourceId(R.styleable.SwipeTodoView_tic_rightBtnImage, 0);
-        int centerIconResId = typedArray.getResourceId(R.styleable.SwipeTodoView_tic_centerBtnImage, 0);
+        int rightIconResId = typedArray.getResourceId(R.styleable
+                .SwipeTodoView_tic_rightBtnImage, 0);
+        mShowLeftButton = (0 != leftIconResId);
+        mShowRightButton = (0 != rightIconResId);
+        int centerIconResId = typedArray.getResourceId(R.styleable
+                .SwipeTodoView_tic_centerBtnImage, 0);
         ColorStateList defaultColorList = ColorStateList.valueOf(Color.BLUE);
-        ColorStateList leftColorStateList = typedArray.getColorStateList(R.styleable.SwipeTodoView_tic_leftBtnColor);
+        ColorStateList leftColorStateList = typedArray.getColorStateList(R.styleable
+                .SwipeTodoView_tic_leftBtnColor);
         if (null == leftColorStateList) {
             leftColorStateList = defaultColorList;
         }
-        ColorStateList rightColorStateList = typedArray.getColorStateList(R.styleable.SwipeTodoView_tic_rightBtnColor);
+        ColorStateList rightColorStateList = typedArray.getColorStateList(R.styleable
+                .SwipeTodoView_tic_rightBtnColor);
         if (null == rightColorStateList) {
             rightColorStateList = defaultColorList;
         }
-        ColorStateList leftBgColor = typedArray.getColorStateList(R.styleable.SwipeTodoView_tic_leftBtnBgColor);
-        ColorStateList rightBgColor = typedArray.getColorStateList(R.styleable.SwipeTodoView_tic_rightBtnBgColor);
+        ColorStateList leftBgColor = typedArray.getColorStateList(R.styleable
+                .SwipeTodoView_tic_leftBtnBgColor);
+        ColorStateList rightBgColor = typedArray.getColorStateList(R.styleable
+                .SwipeTodoView_tic_rightBtnBgColor);
         mLeftBgDrawable = new ArcDrawable(Color.WHITE);
         mLeftBgDrawable.setTintList(leftBgColor);
         mLeftBgDrawable.setGravity(Gravity.LEFT);
@@ -140,18 +150,23 @@ public class SwipeTodoView extends RelativeLayout {
                         if (mHasCenterIcon) {
                             mCenterIv.getDrawable().setAlpha(0);
                         }
-                        mLeftIv.setVisibility(View.VISIBLE);
-                        mRightIv.setVisibility(View.VISIBLE);
-                        mLeftBgDrawable.setAlpha(0);
-                        mRightBgDrawable.setAlpha(0);
+                        if (mShowLeftButton) {
+                            mLeftIv.setVisibility(View.VISIBLE);
+                            mLeftBgDrawable.setAlpha(0);
+                        }
+                        if (mShowRightButton) {
+                            mRightIv.setVisibility(View.VISIBLE);
+                            mRightBgDrawable.setAlpha(0);
+                        }
                         pauseAnimation();
                         break;
                     case MotionEvent.ACTION_MOVE:
                         mRawX = (int) (event.getRawX());
-                        if (mRawX < mCenterIv.getWidth()) {
+                        if (mRawX < mCenterIv.getWidth() && mShowLeftButton) {
                             mLeftIv.setSelected(true);
                             mLeftBgDrawable.setAlpha(255);
-                        } else if (mRawX > getWidth() - mCenterIv.getWidth()) {
+                        } else if ((mRawX > getWidth() - mCenterIv.getWidth()) &&
+                                mShowRightButton) {
                             mRightIv.setSelected(true);
                             mRightBgDrawable.setAlpha(255);
                         } else {
@@ -165,11 +180,12 @@ public class SwipeTodoView extends RelativeLayout {
                     case MotionEvent.ACTION_UP:
                     case MotionEvent.ACTION_CANCEL:
                         mRawX = (int) (event.getRawX());
-                        if (mRawX < mCenterIv.getWidth()) {
+                        if (mRawX < mCenterIv.getWidth() && mShowLeftButton) {
                             if (null != mLeftListener) {
                                 mLeftListener.onSelected();
                             }
-                        } else if (mRawX > getWidth() - mCenterIv.getWidth()) {
+                        } else if ((mRawX > getWidth() - mCenterIv.getWidth()) &&
+                                mShowRightButton) {
                             if (null != mRightListener) {
                                 mRightListener.onSelected();
                             }
@@ -182,7 +198,8 @@ public class SwipeTodoView extends RelativeLayout {
             }
 
             private void resetState(View v) {
-                v.animate().scaleX(ICON_SCALE_DEFAULT).scaleY(ICON_SCALE_DEFAULT).x(mInitX).setDuration(0).start();
+                v.animate().scaleX(ICON_SCALE_DEFAULT).scaleY(ICON_SCALE_DEFAULT).x(mInitX)
+                        .setDuration(0).start();
                 if (mHasCenterIcon) {
                     mCenterIv.getDrawable().setAlpha(255);
                 }
@@ -303,6 +320,7 @@ public class SwipeTodoView extends RelativeLayout {
 
     public void setLeftIcon(int resId) {
         mLeftIv.setImageResource(resId);
+        mShowLeftButton = (0 != resId);
     }
 
     public void setLeftIconColor(ColorStateList color) {
@@ -315,6 +333,7 @@ public class SwipeTodoView extends RelativeLayout {
 
     public void setRightIcon(int resId) {
         mRightIv.setImageResource(resId);
+        mShowRightButton = (0 != resId);
     }
 
     public void setRightIconColor(ColorStateList color) {
@@ -344,7 +363,8 @@ public class SwipeTodoView extends RelativeLayout {
 
     public void resetToInit() {
         mCenterIv.clearAnimation();
-        mCenterIv.animate().scaleX(ICON_SCALE_DEFAULT).scaleY(ICON_SCALE_DEFAULT).x(mCenterIvInitX).setDuration(0).start();
+        mCenterIv.animate().scaleX(ICON_SCALE_DEFAULT).scaleY(ICON_SCALE_DEFAULT).x
+                (mCenterIvInitX).setDuration(0).start();
         if (mHasCenterIcon) {
             mCenterIv.getDrawable().setAlpha(255);
         }

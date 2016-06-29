@@ -60,7 +60,7 @@
         android:layout_height="132dp"
         android:layout_alignParentLeft="true"
         android:layout_centerVertical="true"
-        android:visibility="invisible" />
+        android:visibility="gone" />
 
     <ImageView
         android:id="@+id/right_iv"
@@ -68,7 +68,7 @@
         android:layout_height="132dp"
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
-        android:visibility="invisible" />
+        android:visibility="gone" />
 
     <TextView
         android:id="@+id/sub_content_tv"
