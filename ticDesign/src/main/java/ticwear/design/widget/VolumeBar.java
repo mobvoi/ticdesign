@@ -42,6 +42,7 @@ import ticwear.design.R;
  * Created by louxiaodan on 16/4/27.
  */
 public class VolumeBar extends FrameLayout {
+
     private ProgressBarButton mMinButton;
     private ProgressBarButton mMaxButton;
 
@@ -82,6 +83,8 @@ public class VolumeBar extends FrameLayout {
 
     private int mMinLimit = 0;
     private int mMaxLimit = 100;
+
+    private boolean needButtonStateChange;
 
     public VolumeBar(Context context) {
         this(context, null);
@@ -141,10 +144,8 @@ public class VolumeBar extends FrameLayout {
         // 设定各按钮监听器
         mMinButton = (ProgressBarButton) findViewById(R.id.min);
         mMinButton.setDefaultImageSize(mDrawableRadius * 2);
-        mMinButton.setTouchListener(mMinButtonListener);
 
         mMaxButton = (ProgressBarButton) findViewById(R.id.max);
-        mMaxButton.setTouchListener(mMaxButtonListener);
 
         mSeekbar = (SeekBar) findViewById(R.id.seekbar);
         mSeekbar.setProgress(mProgress);
@@ -171,6 +172,8 @@ public class VolumeBar extends FrameLayout {
             public void onStopTrackingTouch(SeekBar seekBar) {
             }
         });
+
+        needButtonStateChange = true;
     }
 
     public interface OnVolumeChangedListener {
@@ -206,29 +209,8 @@ public class VolumeBar extends FrameLayout {
      * @param isEnable 左右按钮和seekbar是否enable
      */
     public void setEnabled(boolean isEnable) {
-        mSeekbar.setEnabled(isEnable);
-        mMinButton.setEnabled(isEnable);
-        mMaxButton.setEnabled(isEnable);
-
-        // 更改颜色，若为enable状态，则完全不透明，若disable则半透明
-        if (isEnable) {
-            mMinButton.setTouchListener(mMinButtonListener);
-            mMaxButton.setTouchListener(mMaxButtonListener);
-            mPaint.setAlpha(FULL_ALPHA);
-            mMinButtonDrawable.setAlpha(FULL_ALPHA);
-            mMaxButtonDrawable.setAlpha(FULL_ALPHA);
-            mNoVolumeDrawable.setAlpha(FULL_ALPHA);
-            mVolumeDrawable.setAlpha(FULL_ALPHA);
-        }
-        else {
-            mMinButton.setTouchListener(null);
-            mMaxButton.setTouchListener(null);
-            mPaint.setAlpha(mDisabledAlpha);
-            mMinButtonDrawable.setAlpha(mDisabledAlpha);
-            mMaxButtonDrawable.setAlpha(mDisabledAlpha);
-            mNoVolumeDrawable.setAlpha(mDisabledAlpha);
-            mVolumeDrawable.setAlpha(mDisabledAlpha);
-        }
+        super.setEnabled(isEnable);
+        needButtonStateChange = true;
         invalidate();
     }
 
@@ -379,7 +361,35 @@ public class VolumeBar extends FrameLayout {
 
     @Override
     protected void onVisibilityChanged(@NonNull View changedView, int visibility) {
-        if (visibility == View.VISIBLE) {
+        super.onVisibilityChanged(changedView, visibility);
+        needButtonStateChange = true;
+        invalidate();
+    }
+
+    private void updateButtonState() {
+        final boolean isEnable = isEnabled();
+        final boolean isVisible = getVisibility() == View.VISIBLE;
+
+        mSeekbar.setEnabled(isEnable);
+        mMinButton.setEnabled(isEnable);
+        mMaxButton.setEnabled(isEnable);
+
+        // 更改颜色，若为enable状态，则完全不透明，若disable则半透明
+        if (isEnable) {
+            mPaint.setAlpha(FULL_ALPHA);
+            mMinButtonDrawable.setAlpha(FULL_ALPHA);
+            mMaxButtonDrawable.setAlpha(FULL_ALPHA);
+            mNoVolumeDrawable.setAlpha(FULL_ALPHA);
+            mVolumeDrawable.setAlpha(FULL_ALPHA);
+        }
+        else {
+            mPaint.setAlpha(mDisabledAlpha);
+            mMinButtonDrawable.setAlpha(mDisabledAlpha);
+            mMaxButtonDrawable.setAlpha(mDisabledAlpha);
+            mNoVolumeDrawable.setAlpha(mDisabledAlpha);
+            mVolumeDrawable.setAlpha(mDisabledAlpha);
+        }
+        if (isEnable && isVisible) {
             mMinButton.setTouchListener(mMinButtonListener);
             mMaxButton.setTouchListener(mMaxButtonListener);
         } else {
@@ -397,6 +407,11 @@ public class VolumeBar extends FrameLayout {
 
     @Override
     public void onDraw(Canvas canvas) {
+        if (needButtonStateChange) {
+            needButtonStateChange = false;
+            updateButtonState();
+        }
+
         int radius = getHeight() / 2 - mTouchPadding;
         int radiusWithPadding = radius + mTouchPadding;
 
