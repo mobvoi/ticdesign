@@ -51,10 +51,10 @@
             android:id="@+id/tic_divider"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:minWidth="16dp"
             android:layout_weight="1"
-            android:layout_marginStart="6dip"
-            android:layout_marginEnd="6dip"
             android:layout_gravity="center_vertical"
+            android:gravity="center_horizontal"
             android:importantForAccessibility="no"
             />
 
@@ -63,10 +63,32 @@
             android:id="@+id/tic_minute"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:focusable="true"
             android:focusableInTouchMode="true"
             />
 
+        <TextView
+            android:id="@+id/tic_divider2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:minWidth="16dp"
+            android:layout_weight="1"
+            android:layout_gravity="center_vertical"
+            android:gravity="center_horizontal"
+            android:importantForAccessibility="no"
+            android:visibility="gone"
+            />
+
+        <ticwear.design.widget.NumberPicker
+            android:id="@+id/tic_seconds"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:visibility="gone"
+            />
     </LinearLayout>
 
     <!-- AM / PM -->

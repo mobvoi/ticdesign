@@ -59,11 +59,14 @@ class TimePickerSpinnerDelegate extends TimePicker.AbstractTimePickerDelegate {
     // ui components
     private final NumberPicker mHourSpinner;
     private final NumberPicker mMinuteSpinner;
+    private final NumberPicker mSecondSpinner;
     private final NumberPicker mAmPmSpinner;
     private final EditText mHourSpinnerInput;
     private final EditText mMinuteSpinnerInput;
+    private final EditText mSecondSpinnerInput;
     private final EditText mAmPmSpinnerInput;
     private final TextView mDivider;
+    private final TextView mDivider2;
 
     // Note that the legacy implementation of the TimePicker is
     // using a button for toggling between AM/PM while the new
@@ -114,7 +117,7 @@ class TimePickerSpinnerDelegate extends TimePicker.AbstractTimePickerDelegate {
         // divider (only for the new widget style)
         mDivider = (TextView) mDelegator.findViewById(R.id.tic_divider);
         if (mDivider != null) {
-            setDividerText();
+            setDividerText(mDivider);
         }
 
         // minute
@@ -149,6 +152,35 @@ class TimePickerSpinnerDelegate extends TimePicker.AbstractTimePickerDelegate {
         });
         mMinuteSpinnerInput = (EditText) mMinuteSpinner.findViewById(R.id.numberpicker_input);
         mMinuteSpinnerInput.setImeOptions(EditorInfo.IME_ACTION_NEXT);
+
+        mDivider2 = (TextView) mDelegator.findViewById(R.id.tic_divider2);
+        if (mDivider2 != null) {
+            setDividerText(mDivider2);
+        }
+
+        mSecondSpinner = (NumberPicker) mDelegator.findViewById(R.id.tic_seconds);
+        mSecondSpinner.setMinValue(0);
+        mSecondSpinner.setMaxValue(59);
+        mSecondSpinner.setOnLongPressUpdateInterval(100);
+        mSecondSpinner.setFormatter(NumberPicker.getTwoDigitFormatter());
+        mSecondSpinner.setOnFocusChangeListener(mDelegator);
+        mSecondSpinner.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
+            public void onValueChange(NumberPicker spinner, int oldVal, int newVal) {
+                updateInputState();
+                int minValue = mSecondSpinner.getMinValue();
+                int maxValue = mSecondSpinner.getMaxValue();
+                if (oldVal == maxValue && newVal == minValue) {
+                    int newMinute = mMinuteSpinner.getValue() + 1;
+                    mMinuteSpinner.setValue(newMinute);
+                } else if (oldVal == minValue && newVal == maxValue) {
+                    int newMinute = mMinuteSpinner.getValue() - 1;
+                    mMinuteSpinner.setValue(newMinute);
+                }
+                onTimeChanged();
+            }
+        });
+        mSecondSpinnerInput = (EditText) mSecondSpinner.findViewById(R.id.numberpicker_input);
+        mSecondSpinnerInput.setImeOptions(EditorInfo.IME_ACTION_NEXT);
 
         // Get the localized am/pm strings and use them in the spinner.
         mAmPmStrings = getAmPmStrings(context);
@@ -210,11 +242,13 @@ class TimePickerSpinnerDelegate extends TimePicker.AbstractTimePickerDelegate {
         // update controls to initial state
         updateHourControl();
         updateMinuteControl();
+        updateSecondControl();
         updateAmPmControl();
 
         // set to current time
         setCurrentHour(mTempCalendar.get(Calendar.HOUR_OF_DAY));
         setCurrentMinute(mTempCalendar.get(Calendar.MINUTE));
+        setCurrentSecond(mTempCalendar.get(Calendar.SECOND));
 
         if (!isEnabled()) {
             setEnabled(false);
@@ -261,7 +295,7 @@ class TimePickerSpinnerDelegate extends TimePicker.AbstractTimePickerDelegate {
      * We pass the correct "skeleton" depending on 12 or 24 hours view and then extract the
      * separator as the character which is just after the hour marker in the returned pattern.
      */
-    private void setDividerText() {
+    private void setDividerText(TextView divider) {
         final String skeleton = (mIs24HourView) ? "Hm" : "hm";
         final String bestDateTimePattern = DateFormat.getBestDateTimePattern(mCurrentLocale,
                 skeleton);
@@ -281,7 +315,19 @@ class TimePickerSpinnerDelegate extends TimePicker.AbstractTimePickerDelegate {
                 separatorText = bestDateTimePattern.substring(hourIndex + 1, minuteIndex);
             }
         }
-        mDivider.setText(separatorText);
+        divider.setText(separatorText);
+    }
+
+    public void setSecondsPickerVisible(boolean visible){
+        int visibility = visible? View.VISIBLE : View.GONE;
+        mDivider2.setVisibility(visibility);
+        mSecondSpinner.setVisibility(visibility);
+        mSecondSpinnerInput.setVisibility(visibility);
+        if (visible) {
+            setIs24HourView(true);
+        } else {
+            setIs24HourView(DateFormat.is24HourFormat(mContext));
+        }
     }
 
     @Override
@@ -342,6 +388,20 @@ class TimePickerSpinnerDelegate extends TimePicker.AbstractTimePickerDelegate {
     }
 
     @Override
+    public void setCurrentSecond(Integer currentSecond) {
+        if (currentSecond == getCurrentSecond()) {
+            return;
+        }
+        mSecondSpinner.setValue(currentSecond);
+        onTimeChanged();
+    }
+
+    @Override
+    public Integer getCurrentSecond() {
+        return mSecondSpinner.getValue();
+    }
+
+    @Override
     public void setIs24HourView(Boolean is24HourView) {
         if (mIs24HourView == is24HourView) {
             return;
@@ -355,6 +415,7 @@ class TimePickerSpinnerDelegate extends TimePicker.AbstractTimePickerDelegate {
         // set value after spinner range is updated
         setCurrentHour(currentHour, false);
         updateMinuteControl();
+        updateSecondControl();
         updateAmPmControl();
     }
 
@@ -374,6 +435,10 @@ class TimePickerSpinnerDelegate extends TimePicker.AbstractTimePickerDelegate {
         if (mDivider != null) {
             mDivider.setEnabled(enabled);
         }
+        if (mDivider2 != null) {
+            mDivider2.setEnabled(enabled);
+        }
+        mSecondSpinner.setEnabled(enabled);
         mHourSpinner.setEnabled(enabled);
         if (mAmPmSpinner != null) {
             mAmPmSpinner.setEnabled(enabled);
@@ -400,7 +465,7 @@ class TimePickerSpinnerDelegate extends TimePicker.AbstractTimePickerDelegate {
 
     @Override
     public Parcelable onSaveInstanceState(Parcelable superState) {
-        return new SavedState(superState, getCurrentHour(), getCurrentMinute());
+        return new SavedState(superState, getCurrentHour(), getCurrentMinute(), getCurrentSecond());
     }
 
     @Override
@@ -489,6 +554,9 @@ class TimePickerSpinnerDelegate extends TimePicker.AbstractTimePickerDelegate {
             } else if (inputMethodManager.isActive(mMinuteSpinnerInput)) {
                 mMinuteSpinnerInput.clearFocus();
                 inputMethodManager.hideSoftInputFromWindow(mDelegator.getWindowToken(), 0);
+            } else if (inputMethodManager.isActive(mSecondSpinnerInput)) {
+                mSecondSpinnerInput.clearFocus();
+                inputMethodManager.hideSoftInputFromWindow(mDelegator.getWindowToken(), 0);
             } else if (inputMethodManager.isActive(mAmPmSpinnerInput)) {
                 mAmPmSpinnerInput.clearFocus();
                 inputMethodManager.hideSoftInputFromWindow(mDelegator.getWindowToken(), 0);
@@ -531,7 +599,7 @@ class TimePickerSpinnerDelegate extends TimePicker.AbstractTimePickerDelegate {
         mDelegator.sendAccessibilityEvent(AccessibilityEvent.TYPE_VIEW_SELECTED);
         if (mOnTimeChangedListener != null) {
             mOnTimeChangedListener.onTimeChanged(mDelegator, getCurrentHour(),
-                    getCurrentMinute());
+                    getCurrentMinute(), getCurrentSecond());
         }
     }
 
@@ -559,8 +627,16 @@ class TimePickerSpinnerDelegate extends TimePicker.AbstractTimePickerDelegate {
     }
 
     private void updateMinuteControl() {
-        if (is24HourView() || isAmPmAtStart()) {
+        if ((is24HourView() || isAmPmAtStart()) && (View.GONE == mSecondSpinner.getVisibility())) {
             mMinuteSpinnerInput.setImeOptions(EditorInfo.IME_ACTION_DONE);
+        } else {
+            mMinuteSpinnerInput.setImeOptions(EditorInfo.IME_ACTION_NEXT);
+        }
+    }
+
+    private void updateSecondControl() {
+        if (is24HourView() || isAmPmAtStart()) {
+            mSecondSpinnerInput.setImeOptions(EditorInfo.IME_ACTION_DONE);
         } else {
             mMinuteSpinnerInput.setImeOptions(EditorInfo.IME_ACTION_NEXT);
         }
@@ -572,17 +648,20 @@ class TimePickerSpinnerDelegate extends TimePicker.AbstractTimePickerDelegate {
     private static class SavedState extends View.BaseSavedState {
         private final int mHour;
         private final int mMinute;
+        private final int mSecond;
 
-        private SavedState(Parcelable superState, int hour, int minute) {
+        private SavedState(Parcelable superState, int hour, int minute, int second) {
             super(superState);
             mHour = hour;
             mMinute = minute;
+            mSecond = second;
         }
 
         private SavedState(Parcel in) {
             super(in);
             mHour = in.readInt();
             mMinute = in.readInt();
+            mSecond = in.readInt();
         }
 
         public int getHour() {
@@ -593,11 +672,16 @@ class TimePickerSpinnerDelegate extends TimePicker.AbstractTimePickerDelegate {
             return mMinute;
         }
 
+        public int getSecond() {
+            return mSecond;
+        }
+
         @Override
         public void writeToParcel(Parcel dest, int flags) {
             super.writeToParcel(dest, flags);
             dest.writeInt(mHour);
             dest.writeInt(mMinute);
+            dest.writeInt(mSecond);
         }
 
         @SuppressWarnings({"unused", "hiding"})

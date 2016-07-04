@@ -207,9 +207,10 @@ public class DatetimePickerDialog extends AlertDialog implements OnClickListener
     }
 
     @Override
-    public void onTimeChanged(TimePicker view, int hourOfDay, int minute) {
+    public void onTimeChanged(TimePicker view, int hourOfDay, int minute, int second) {
         mCurrentCalendar.set(Calendar.HOUR_OF_DAY, hourOfDay);
         mCurrentCalendar.set(Calendar.MINUTE, minute);
+        mCurrentCalendar.set(Calendar.SECOND, second);
     }
 
     @Override
