@@ -1,5 +1,11 @@
 {% assign current_doc = page.url | split: '/' | last %}
-{% for tab in site.data.tabs %}
+{% assign locale = page.url | truncate: 3, '' | remove: '/' %}
+
+{% unless site.authorized_locales contains locale %}
+  {% assign locale = site.default_locale %}
+{% endunless %}
+
+{% for tab in site.data.tabs[locale] %}
   {% assign path = tab.url | split: '://' | last %}
   {% assign protocal = tab.url | replace: path | split: '://' | first %}
   {% if protocal %}

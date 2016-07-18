@@ -1,11 +1,17 @@
+{% assign locale = page.url | truncate: 3, '' | remove: '/' %}
+
+{% unless site.authorized_locales contains locale %}
+  {% assign locale = site.default_locale %}
+{% endunless %}
+
 <footer class="site-footer">
 
   <div class="footer">
   	<ul>
-      <h3>本项目源码受 <a href="http://www.apache.org/licenses/LICENSE-2.0">Apache License 2.0</a> 保护，文档受 <a href="http://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> 保护</h3>
-      {% if site.data.links %}
+      <h3>{{ site.data.footer[locale].licenses | markdownify }}</h3>
+      {% if site.data.links[locale] %}
       <li>
-        {% for link in site.data.links %}
+        {% for link in site.data.links[locale] %}
         <a href="{{ link.url }}">{{ link.title }}</a>
         {% unless forloop.last %}
         |
@@ -13,7 +19,7 @@
         {% endfor %}
       </li>
       {% endif %}
-      <li>Copyright © {{ site.time | date: '%Y' }} <a href="{{ site.owner.link }}">{{ site.owner.name }}</a> All Rights Reserved. 沪ICP备13010933号-5</li>
+      <li>Copyright © {{ site.time | date: '%Y' }} <a href="{{ site.owner.link }}">{{ site.owner.name }}</a> All Rights Reserved. {{ site.data.footer[locale].record }}</li>
     </ul>
   </div>
 

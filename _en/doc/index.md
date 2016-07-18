@@ -1,51 +1,51 @@
 ---
 layout: doc
-title: TicDesign 使用说明
-permalink: /doc/
+title: TicDesign Developer Doc
+permalink: /en/doc/
 ---
 
-使用 Ticwear 设计辅助库（后文简称设计库），你可以轻松让你的应用符合 Ticwear 的[设计规范][ticwear-design]，并支持挠挠等新型交互方式。
+By using Ticwear Design Support Library (later referred to as the design lib), you can easily develop an app that meets Ticwear’s [design guideline][ticwear-design] and supports novel interactions like Tickle.
 
-除挠挠之类 Ticwear 特有的交互外，设计库的其他部分也可以工作在 Android Wear 上。
+Except Ticwear’s own unique interactions, other parts of work can be applied to Android Wear also.
 
-使用 Ticwear 设计辅助库。你需要首先将你的 Application theme，设置为 `Theme.Ticwear` 或其衍生主题。然后就可以开始使用 Ticwear 设计库的各类组件了。
+Before you start using the library,  you ought to set your Application Theme as either `Theme.Ticwear` or other derivative themes. Then you are able to use the various sorts of components in the library.
 
-设计库包含下面几个部分：
+The library includes the following parts:
 
-1. [样式和主题](#style-and-theme)：定义了一系列文字、页面和控件的样式，以及页面切换等动效支持。
-2. [协作布局](#coordinator-layout)：基于 [Android Design Support][google-design-support]，构建了一套适合手表展示的页面结构，除了 Google Design 中的跟随滚动等效果，我们还为标题栏增加了可拉伸等效果。
-3. [对侧面挠挠的支持](#support-tickle)：我们提供了一套较为便捷的方式为开发者提供了对挠挠的支持，并增加了一些对挠挠有较好交互的控件。比如[支持挠挠的 RecyclerView](#ticklable-RV) 以及[挠挠触碰时有聚焦效果的 LayoutManger](#focusable-LM) 等。
-4. [设置](#preference)：提供一套类似 [Android Settings][android-settings] 的、符合 [Ticwear Design][ticwear-design] 的设置系统，更适合手表展示，并支持挠挠交互。
-5. [对话框](#dialogs)：对应 Android 的 [AlertDialog][android-alert-dialog]，我们也提供了一系列适合手表展示的对话框。包括[普通弹出式对话框](#alert-dialog)、[数值选择对话框](#number-picker-dialog)、[日期时间选择对话框](#date-picker-dialog)、[列表选择对话框](#list-choice-dialog)等。
-6. [悬浮菜单](#menu)：类似 Android 的[长按弹出菜单][android-FloatingContextMenu]，你可以通过 [Menu resource][android-menu-resource] 来创建菜单项，并利用 `FloatingContextMenu` 来加载和显示菜单，并获取菜单选中的回调事件。
-7. [其他小控件](#widgets)：Ticwear提供了一系列适合手表使用的小控件，包括[可缩放文本框](#scale-textview)、[悬浮按钮](#fab)、[重要按钮](#primary-button)、[数值选择器](#number-picker)、[日期时间选择器](#date-picker)、[Checkbox、RadioButton、SimpleSwitch](#two-state-button)等。
+1. [Style and Theme](#style-and-theme): Defines some styles of text, page or widgets, and transitions of pages.
+2. [Coordinator Layout](#coordinator-layout): Based on [Android Design Support][google-design-support], We create a set of page structure for wearables, Besides scroll effect in Google Design, we also add a overscroll-bounce effect for the App bar.
+3. [Support Tickle](#support-tickle): We have provided developers a set of convenient methods to support Tickle, and a set of widgets that works better with Tickle. Such as [Ticklable RecycleView](#ticklable-RV), [Focusable LayoutManger](#focusable-LM), etc.
+4. [Preference](#preference): Provide a preference system like [Android Settings][android-settings], that fits [Ticwear Design][ticwear-design]. Its works better on wear, and support Tickle interaction.
+5. [Dialogs](#dialogs): Like Android's [AlertDialog][android-alert-dialog], We also provide a set of dialogs suitable on wear. Including [Normal AlertDialog](#alert-dialog), [Number Picker Dialog](#number-picker-dialog), [Date & Time Picker Dialog](#date-picker-dialog), [List Choice Dialog](#list-choice-dialog), etc.
+6. [Floating Context Menu](#menu): Similar to [Android's FloatingContextMenu][android-FloatingContextMenu], you can create menu items via [Menu resource][android-menu-resource], then use `FloatingContextMenu` to load and display them, and get the callback of their selection.
+7. [Other Widgets](#widgets): Ticwear provide a set of widgets suitable for wear, including [ScalableTextView](#scale-textview), [FloatingActionButton](#fab), [PrimaryButton](#primary-button), [NumberPicker](#number-picker), [DatetimePicker](#date-picker), and [Checkbox, RadioButton, SimpleSwitch](#two-state-button), etc.
 
-> 文档中的所有内容，均可通过阅读[源码][ticdesign-source]中的 demo 代码来获得使用示例。
+> Any of the content in the library can be demonstrate with "demo" App from the [source code][ticdesign-source].
 
-## <a name="style-and-theme"></a>样式和主题 {#style-and-theme}
+## <a name="style-and-theme"></a>Style and Theme {#style-and-theme}
 
-Ticwear为开发者提供了一套符合Ticwear设计规范的主题。开发者可以直接使用或基于此主题进行自己的个性化扩展。包括以下主题：
+Ticwear provide a set of Themes that meets Ticwear design guideline. Developer can use or extends those themes, including:
 
-1. `Theme.Ticwear` Ticwear Design 默认主题，定义了文字、窗口样式、页面切换效果、设置样式等一系列适用于手表的样式。
-2. `Theme.Ticwear.Dialog`，适用于手表的对话框。全屏显示、滑动方式的进入、退出动画。
+1. `Theme.Ticwear`: Default theme of Ticwear Design, defines a series of styles for text & page, transitions, and settings, etc.
+2. `Theme.Ticwear.Dialog`: Used for dialogs on wear. Fullscreen displayed, swipe to dismiss with slide in/out transition.
 
-除了主题，开发者可以使用我们定义好的一系列样式。详情参看`styles_ticwear.xml`代码。
+Except Themes, developers can also use a set of styles in `styles_ticwear.xml`.
 
-### <a name="list-styles"></a>列表样式 {#list-styles}
+### <a name="list-styles"></a>List Styles {#list-styles}
 
-要获得更好的用户体验，请：
+To acquire better user experience, please:
 
-1. 为你的 `ListView` （或 `TickableRecyclerView` 等）设置一个style，指向 `Widget.Ticwear.ListView`。
-2. 为你的列表项容器设置style，指向 `Widget.Ticwear.ListItem`。
+1. Set a style point to `Widget.Ticwear.ListView` for your `ListView` (or `TickableRecyclerView`)
+2. Set a style point to `Widget.Ticwear.ListItem` for your list item container.
 
-这两个样式，已经较好的处理了手表上列表的显示，包括列表顶部、底部的边距、列表项左右边距，列表项点击效果等等。
+These two styles, has covered display or list view on wear. Including top/bottom margin of page, horizontal padding of list items, and click effect of list items.
 
 
-### <a name="text-styles"></a>文本样式 {#text-styles}
+### <a name="text-styles"></a>Text Styles {#text-styles}
 
-Ticwear 定义了一系列适用于手表的文本样式，包括文本大小、行间距、字体等。并使之兼容了 [Material Design Typography](https://www.google.com/design/spec/style/typography.html#typography-styles) 的文本样式（Display字体对于手表来说太大，故没有做定义）。
+Ticwear defines a series of text styles that all compatible with the [Material Design Typography](https://www.google.com/design/spec/style/typography.html#typography-styles), including text size, line spacing, font, etc. ("Display" style is too large for smartwatches, so it not brings to TicDesign)
 
-Ticwear Design 定义了以下文本样式：
+Ticwear Design has defined the styles listing below：
 
 ``` xml
 TextAppearance.Ticwear
@@ -69,7 +69,7 @@ TextAppearance.Ticwear.Widget
 TextAppearance.Ticwear.Widget.Button
 ```
 
-除此之外，还定义了一系列基础字体大小：
+And, some basic font size:
 
 ``` xml
 <dimen name="tic_text_size_extra_extra_large">27sp</dimen>
@@ -83,29 +83,29 @@ TextAppearance.Ticwear.Widget.Button
 <dimen name="tic_text_size_extra_small">12sp</dimen>
 ```
 
-开发者可以随意使用和组合这些样式以及字体大小。
+Developers are free to use and combine the styles and sizes listed above.
 
-### <a name="color-styles"></a>Ticwear 调色板 {#color-styles}
+### <a name="color-styles"></a>TiColor palette {#color-styles}
 
-我们为开发者定义了一套 Ticwear 风格的调色板资源。开发者可以通过资源直接使用某种颜色。基础颜色命名符合下面的规范：
+We have provided a set of Ticwear-style palette resource for developers, allowing them to directly use a specific color through resource. The naming of basic colors conforms to the following format:
 
 ``` java
 R.color.tic_basic_<name>{_<decorate>}
 ```
 
-其中，`name` 是颜色名称，所有可用的颜色名称，定义在 `ColorPalette.ColorName` 中，标识了一种特定的颜色。而 `decorate` 则是对改颜色的修饰，是可选的，其值可用是 `darken`，`lighten` 和 `normal`，未指定 `decorate` 时，默认为 `normal`。
+In this format, `name` means color’s name. All available color names are defined in `ColorPalette.ColorName`, corresponding with a specific color. And `decorate` implies a modification of color with three options to choose from: `darken`, `lighten` and `normal`. When `decorate` is not assigned, the default setting is `normal`.
 
-除了直接只用资源文件外，开发者也可用通过 `ColorPalette` 这一辅助类来获取 Ticwear 颜色。
+In addition to directly using the resource files, developers are also able to acquire Ticwear colors via class `ColorPalette` programmatically:
 
-1. 调用 `ColorPalette.from(Context)` 并传入 `Context` 来获取调色板对象。
-2. 使用 `ColorPalette.color(ColorName)` 来获取 `ColorName` 对应的颜色对象。
-3. 如果需要修饰，调用 `ColorPalette.Color.lighten()` 或 `ColorPalette.Color.darken()` 来获取修饰后的颜色对象。
+1. Call `ColorPalette.from(Context)` to obtain a palette instance.
+2. Use `ColorPalette.color(ColorName)` to acquire color object that corresponds with `ColorName`.
+3. If decorate is needed, call `ColorPalette.Color.lighten()` or `ColorPalette.Color.darken()` to acquire the modified color object.
 
-  > 如果当前颜色不能做指定的修饰，将返回其本身，比如 'Indigo'.darken().darken() 将等于 'Indigo Darken'。
+  > If the color can not apply assigned modification, original instance of color will be returned. For example, 'Indigo'.darken().darken() equals to 'Indigo Darken'.
 
-4. 最后，通过 `ColorPalette.Color.value()` 来获取最终的颜色值。
+4. Finally, get value of color through `ColorPalette.Color.value()`.
 
-例如，我们需要获取 `Indigo Darken` 这个修饰后的颜色值，我们需要调用以下代码：
+For example, if we need to acquire `Indigo Darken` as a modified color value, we ought to call the following codes:
 
 ``` java
 int color = ColorPalette.from(context)
@@ -114,18 +114,18 @@ int color = ColorPalette.from(context)
                 .value();
 ```
 
-## <a name="coordinator-layout"></a>协作布局 {#coordinator-layout}
+## <a name="coordinator-layout"></a>Coordinator Layout {#coordinator-layout}
 
-类似 [Android Design Support][google-design-support]，使用 `CoordinatorLayout` 来组织 `AppBarLayout` 以及页面内容，可以使得标题响应页面内容的滚动，实现多种效果。
+Similar to [Android Design Support][google-design-support], Use `CoordinatorLayout` to structure `AppBarLayout` and other page content can let the App bar response to the scrolling of content, therefore achieving multiple effects.
 
-### 启用圆形滚动条和滑动边缘效果
+### Enable Circular Scroll Bar and Edge Effect
 
 <div class="row">
 <div class="col s12 m7" markdown="1">
 
-使用 `CoordinatorLayout` 嵌套可以滚动的内容，开发者就可以获得圆形滚动条、滑动到边缘的光源特效以及拉伸回弹效果。
+Use `CoordinatorLayout` to wrap scrollable content, developers are able to acquire a circular scroll bar, a edge effect with illuminant, and a overscroll-bounce effect.
 
-使用时，为内部可滑动的 View 指定 `app:tic_layout_behavior` 为 `"@string/tic_appbar_scrolling_view_behavior"`，以使得 `CoordinatorLayout` 可以操作你的 View。
+To enable this, assign a `app:tic_layout_behavior` with `"@string/tic_appbar_scrolling_view_behavior"` for the scrollable content, to let `CoordinatorLayout` to operate your View.
 
 </div>
 <div class="col s12 m4 push-m1 center">
@@ -133,7 +133,7 @@ int color = ColorPalette.from(context)
 </div>
 </div>
 
-请看示例：
+For example:
 
 ``` xml
 <ticwear.design.widget.CoordinatorLayout
@@ -168,11 +168,11 @@ int color = ColorPalette.from(context)
 </ticwear.design.widget.CoordinatorLayout>
 ```
 
-### <a name="title-bar"></a>响应内容滚动操作的标题栏 {#title-bar}
+### <a name="title-bar"></a>AppBar response to scroll {#title-bar}
 
-除了 Android Design 的 `AppBarLayout` 支持的“固定、滚动、快速进入、折叠”等效果外，TicDesign 额外支持了“拉伸回弹”效果，并配套提供了可缩放的文本框，`ScalableTextView`，使得标题可以在拉伸时变大，并伴随着阻尼效果。
+In addition to effect such as "fixed, scrolling, quick enter, collapsed" supported by Android's `AppBarLayout`, TicDesign also supports "overscroll-bount" effect, along with a `ScalableTextView`, to ensure that the Appbar can be strethed up with a resistance.
 
-下面的代码给出了一个页面的布局示例：
+Here is an example for page layout:
 
 ``` xml
 <?xml version="1.0" encoding="utf-8"?>
