@@ -50,6 +50,7 @@ android {
 
     lintOptions {
         disable 'InvalidPackage'
+        disable 'MissingTranslation','UnusedResources'
         checkReleaseBuilds false
         abortOnError false
     }
