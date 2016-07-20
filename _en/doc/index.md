@@ -206,45 +206,44 @@ Here is an example for page layout:
 </ticwear.design.widget.CoordinatorLayout>
 ```
 
-通过多种效果的配合，此布局实现了标题快速进入（页面滚动到底部后下拉，标题马上出现，而不用滚动到顶部才出现），和拉伸回弹效果（页面滚动到顶部后，继续下拉，标题会随滚动操作被拉大，松手后弹回原状）。
+Through a variety of effects, this layout to achieve the fast into the title (page scrolling to the bottom after the drop-down, the title appears immediately, without rolling to the top), and stretch rebound effect (after page scrolling to the top, continue the drop-down, title with rolling operation is widening, let go after snap back).
 
-其中，`tic_layout_XXX`，类似于`android:layout_XXX`，表示此View在parent中的布局行为，与内容无关。而其他非`tic_layout_`开头的属性，则是View本身的属性。下面对这些属性做详细解释：
+`Tic_layout_XXX`, similar to `android:layout_XXX`, reveals the layout behavior of View in parent, which is irrelevant to the content. The attributes that do not start with `tic_layout_` are the actual attributes of View. Here is an elaborate explanation of those attributes:  
 
-* `app:tic_overScrollEffect` 指定了页面内容滚动到头时的效果，当 `CoordinatorLayout` 的子元素没能消耗掉 nested scroll 事件时，将触发此处定义的效果。目前仅支持 `none`，无效果；以及 `bounce`，拉伸回弹效果。
-* `app:tic_layout_scrollFlags` 指定了标题的滚动响应行为，可以根据需要组合不同的行为。
-* `app:tic_layout_scrollResistanceFactor` 指定了标题在拉伸时，整体高度的变化倍数。为1时，标题高度变化与滚动距离对应，没有阻尼效果。越接近0，阻尼效果越大，高度变化越小。
-* `app:tic_scaleFactor` 指定了可缩放文字的缩放倍数。为1时，文字会跟随文本框大小做等比缩放，约接近0则缩放效果越不明显。详情可以参考[可缩放文本框](#scale-textview)。
+* `app:tic_overScrollEffect` assigns the effect when the page content is scrolled to the end. When `CoordinatorLayout’s` subelement fails to consume the nested scroll event, it will trigger the effect defined here. Currently, it merely supports `none` and `bounce` effect.
+* `app:tic_layout_scrollFlags` assigns the corresponding action as the headline scrolls, with a combination of various actions based on needs.
+* `app:tic_layout_scrollResistanceFactor` assigns the fold change of overall height when the tagline stretches. When the fold change is 1, corresponding header height change and rolling distance with no damping effect. As the fold change gets closer to 0, the damping effect becomes greater along with smaller changes in height.
+* `app:tic_scaleFactor` assigns the text scaleFactor. When scaleFactor is 1, the text will be aligned with the size of textView through geometric scaling. The scaling effect gets less and less obvious as the scaleFactor gradually reaches zero. Details you can refer to [scale-textview](#scale-textview). 
 
-## <a name="support-tickle"></a>对挠挠的支持 {#support-tickle}
+## <a name="support-tickle"></a>Support for Tickle {#support-tickle}
 
-通过实现 `SidePanelEventTarget` 或 `SidePanelGestureTarget`，开发者可以方便的为其自定义view增加对挠挠的支持。
+By enabling `SidePanelEventTarget` or `SidePanelGestureTarget`, developers can easily add support for Tickle for their self-defined view.
 
-`SidePanelEventTarget` 接口，包含了挠挠的基础事件的处理函数，类似 touch event，挠挠也包含下面步处理流程：
+`SidePanelEventTarget` interface contains a function for basic events. Similar to the touch event, Tickle also includes the following processing steps:
 
-1. `dispatchTouchSidePanelEvent`，在分发步骤，决定是使用当前 View 处理挠挠事件，还是分发下去。
-2. `onTouchSidePanel`，决定是否由当前 View 处理挠挠
+1. `DispatchTouchSidePanelEvent`: In the dispatch step, decide whether to use the current view to process Tickle event, or dispatch it.
+2. `onTouchSidePanel`: Decide if the current view will process Tickle
+3. `SidePanelGestureTarget`: Contains common Tickle gestures, such as single click, double click，long click, scroll, and so on. If these is no `SidePanelEventTarget` to process Tickle event，the tickle event will be viewed as Tickle gesture and be dispatched for the `SidePanelGestureTarget` for further processing.
 
-`SidePanelGestureTarget` 接口，封装了常见的挠挠手势，如单击、双击、长按，滚动、抛掷等。如果没有 `SidePanelEventTarget` 来处理挠挠事件，则挠挠事件会被封装成挠挠手势，分发给各个 `SidePanelGestureTarget` 来处理。
+Details you can refer to [Tickle API](http://developer.ticwear.com/doc/tickle-api)。
 
-对挠挠事件派发的详细说明，可以参看[挠挠API](http://developer.ticwear.com/doc/tickle-api)。
+### <a name="ticklable-RV"></a> RecyclerView for supporting Tickle interaction {#ticklable-RV}
 
-### <a name="ticklable-RV"></a>支持挠挠交互的 RecyclerView {#ticklable-RV}
+`TickableRecyclerView` expands `RecyclerView` to support the interaction ways in Tickle. You can assign a normal [`LayoutManager`][android-LM] for it. Then, the gesture of touch is no difference as the `RecyclerView` expect that it forwards the Tickle event. The tickle gesture equals to touching the right side of View. `TickableRecyclerView` can support Tickle when it combines with common `LayoutManager`.
 
-`TickableRecyclerView` 扩展了 `RecyclerView`，使其支持挠挠的操作方式。你可以为它指定一个普通的 [`LayoutManager`][android-LM]。使其触摸行为与普通的 `RecyclerView` 无异，只是转发了挠挠的事件，使操作挠挠时，就相当于触摸 View 的最右侧。这样，`TickableRecyclerView` 结合普通 `LayoutManager` 就可以支持挠挠操作了。
+Through `TicklableLayoutManager`, you can achieve the customized [`LayoutManager`][android-LM] for Tickle. For more information, you can see how `FocusableLinearLayoutManager` is realized.
 
-通过实现 `TicklableLayoutManager` 接口，你可以自定义支持挠挠操作的 [`LayoutManager`][android-LM]。详情可以参考 `FocusableLinearLayoutManager` 的实现。
+We have a special design for `TickableRecyclerView` so that it can work smoothly with `AppBarLayout`, and when it focuses, it can better realize various effects of TitleBar. You can read more about it in the `TickableRecyclerViewBehavior` code in the source code. 
 
-我们为`TickableRecyclerView`做了特别的设计，使得它能与`AppBarLayout`相互配合，在聚焦态时，也能较好的实现 TitleBar 的各种效果。详情可以阅读源码中的 `TickableRecyclerViewBehavior` 代码。
+To make it easier for developers, we have developed a series of Adapter to cater to specific needs quickly:
 
-为了方便开发者，我们提供了一系列便捷的 Adapter 来快速实现特定需求：
+1. `SimpleRecyclerAdapter` is applicable for simple items with icon or text only. It automatically binds data and views by mapping relationship. The method to use it is similar to that of [`ListView.SimpleAdapter`][simple-adapter].
+2. `CursorRecyclerViewAdapter` provides the visits to database, such as `android.widget.CursorAdapter`.
+3. `TrackSelectionAdapterWrapper` uses its ability to package other `Adapters` to get the selection ability in `ListView`. You can refer to its use in `AlertController` for more details.
 
-1. `SimpleRecyclerAdapter` 适用于简单的只有 icon 或文字的 item，通过映射关系来自动绑定数据和视图。其使用方式类似 [`ListView.SimpleAdapter`][simple-adapter]。
-2. `CursorRecyclerViewAdapter` 提供对数据库的访问，类似 `android.widget.CursorAdapter`。
-3. `TrackSelectionAdapterWrapper` 使用其包装其他 `Adapter` 可获得类似 `ListView` 中 selection 的能力。详情可以参考 `AlertController` 中对它的使用。
+### <a name="focusable-LM"></a>LayoutManager with focusing effects {#focusable-LM}
 
-### <a name="focusable-LM"></a>有聚焦效果的 LayoutManger {#focusable-LM}
-
-`FocusableLinearLayoutManager` 结合了 `LinearLayoutManager` 和 `WearableListView` 的优势，使得列表控件在正常状态时表现的像普通的 LinearLayout RecyclerView，以呈现较丰富、美观的视觉效果，且可以任意点击视图中的列表项；而在挠挠触碰上去之后，转变成聚焦态，内容变大，聚焦在页面中部的元素，使得操作变得准确有目标。
+`FocusableLinearLayoutManager` integrated the advantages of `LinearLayoutManager` and `WearableListView`, making the list controller perform as common LinearLayout RecyclerView in its normal state, in order to display diverse and elegant visual effects. In addition, the users can randomly click the listed item in the interface. After the user tickles the item, it enters into the focus state; its content will becomes larger and focuses on the item while entering the interface, making the operation more accurate and targeted.
 
 <div class="row">
 <div class="col-half">
@@ -255,19 +254,19 @@ Here is an example for page layout:
 </div>
 </div>
 
-使用 `FocusableLinearLayoutManager`，你需要使你的 `ViewHolder` 继承`FocusableLinearLayoutManager.ViewHolder`，以定义聚焦、非聚焦和普通状态的动画切换效果。
+When using `FocusableLinearLayoutManager`,  you need to have your ViewHolder inherit `FocusableLinearLayoutManager.ViewHolder`, to define the transition animations between the focusing state, non-focusing state and normal state.
 
-`FocusableLinearLayoutManager.ViewHolder` 设置了默认的聚焦态动效，即聚焦时放大、变亮，非聚焦时缩小、变暗，普通态时原始样式。
+`FocusableLinearLayoutManager.ViewHolder` has set the default focusing state animation, which is enlarging and brightening when in the focusing state and narrowing and darkening in the normal state. 
 
-如果你想定义更细致的动画效果。可以使你的 `ItemView` 实现 `FocusableLinearLayoutManager.OnFocusStateChangedListener` 接口，或者，直接重载`ViewHolder.onFocusStateChanged`方法。
+If you want to define a more delicate animation effect, you can realize `FocusableLinearLayoutManager.OnFocusStateChangedListener` interface with your `ItemView`. Or you can reload the method of `ViewHolder.onFocusStateChanged`.
 
-如果你希望你的动效是跟手的，而不仅仅是聚焦、非聚焦的状态切换，你需要使你的 `ItemView` 进一步实现 `FocusableLinearLayoutManager.OnCentralProgressUpdatedListener` 或者，直接重载 `ViewHolder.onCentralProgressUpdated`。
+If you wish that your animation is also consistent with the gesture, but not only just the switch between the focusing and non-focusing state, you will need to use your `ItemView` to further realize `FocusableLinearLayoutManager.OnCentralProgressUpdatedListener`; or, you can override `ViewHolder.onCentralProgressUpdated`.
 
-`FocusableLinearLayoutManager` 会在挠挠滑动时，先调用 `onFocusStateChanged` 来更新状态，再调用 `onCentralProgressUpdated` 来获得更加细腻的效果。而在聚焦态切换到普通状态时，调用 `onFocusStateChanged`。
+`FocusableLinearLayoutManager` will first update the state via `onFocusStateChanged`, and then get more delicate effects via `onCentralProgressUpdated` when the user Tickles. When the state is transited back to the normal state from the focused state, use `onFocusStateChanged`。
 
-因此，一个比较好的方案是，在状态切换为普通态时，通过 `View.animate()` 来实现切换动效，而在聚焦态时，通过 progress 来更新 View 的大小和样式。
+Thus, a better plan is to realize transition animations via `View.animate()` when the state is transited back to the normal state, and to update the size and style of View via progress in the Focusing state.  
 
-下面是一个比较简单粗暴的重载示例（与默认动效相同）：
+Below is a simple reloading example (same as the default animations)
 
 ``` java
 @Override
@@ -307,18 +306,18 @@ private void transform(float scale, float alpha, long duration) {
 }
 ```
 
-## <a name="preference"></a>设置系统 {#preference}
+## <a name="preference"></a>Setting System {#preference}
 
-Ticwear 的设置系统类似 [Android Settings][android-settings]，你可以使用与 Android Preference 相同的方式来使用 Ticwear Preference。但请注意，Ticwear Preference 已经将内置的 `ListView` 改成了 `TicklableRecyclerView`，你需要使用 `RecyclerView.ViewHolder` 的方式来绑定数据到 Preference view 上面。
+Ticwear‘s settings system is similar to [Android Settings][android-settings]. You can use Ticwear Preference in a similar way you would use Android Preference. But it should be noted that Ticwear Preference’s built-in `Listview` has been changed to `TicklableRecyclerView`. You need to use `RecyclerView.Viewholder` in order to bind statistics with Preference View.  
 
-当你需要实现自定义的 `Preference` 时，需要继承 `Preference.ViewHolder`，并按需要覆盖其方法，以绑定你的自定义数据。
+You have to inherit `Preference.VewHolder` when you need to achieve the customized `Preference`. We also need to cover its method as to bind your customized statistics.
 
-## <a name="dialogs"></a>对话框 {#dialogs}
+## <a name="dialogs"></a>Dialog Box {#dialogs}
 
 <div class="row">
 <div class="col s12 m7" markdown="1">
 
-我们深知 Dialog 使用的便捷性，因此我们改造了 Dialog，使 Dialog 也能适合展示在手表上，并扩展了对话框的按钮、列表展示，也提供了一些数值选择对话框，所有这些，在保持 Android 接口的便捷性同时，也提供了手表上较为便捷的用户体验。
+Being fully aware of the convenience of Dialog, we made a few modifications to make it look neater on smartwatch. We also extended the push button and list display of dialog ,and provide numerical selection dialog. All the changes listed above have helped provide handy user experience while remained the convenience of Android interface.
 
 </div>
 <div class="col s12 m4 push-m1 center">
@@ -326,13 +325,13 @@ Ticwear 的设置系统类似 [Android Settings][android-settings]，你可以�
 </div>
 </div>
 
-### <a name="alert-dialog"></a>弹出式对话框 {#alert-dialog}
+### <a name="alert-dialog"></a>Alert Dialog {#alert-dialog}
 
-移植并扩展了 Android 的 [`AlertDialog`][android-alert-dialog]。为其定制了适用于手表的主题。并提供了利于手表显示的圆形图标按钮，以替代原生的文字按钮。
+We transplanted and extended Android’s [`AlertDialog`][android-alert-dialog] with a customized theme for smartwatch. A circular button that suits smartwatch better is provided as well to replace the original text button.
 
-当设置的文本消息非常长时，消息将可以滚动，并且，滚动时底部的图标按钮会消失，以便更方便的阅读文本内容。
+When the set-up (设置的) text message gets really long, it can scroll up and down and the bottom of the icon button will disappear as it scrolls to ensure better reading experience.
 
-使用方式与原生的 `AlertDialog` 无异，只是需要制定图标资源文件，或图标的`Drawable`，类似下面的使用方式：
+The way to use it is no different from using the original `AlertDialog`. The only thing needed is to formulate either an icon document or the icon’s `Drawable`, similar to the method as shown below: 
 
 ``` java
 new AlertDialog.Builder(context)
@@ -348,23 +347,24 @@ new AlertDialog.Builder(context)
         .show();
 ```
 
-使用对话框时，可通过指定 `android:alertDialogTheme` 来自定义对话框的样式，以实现想要的效果。
+While we use the dialog, we can achieve the effects we want by assigning `android:alertDialogTheme` from a customized dialog style. 
 
-`AlertDialog` 中，有如下样式可以在主题中覆盖：
+`AlertDialog` has the following styles that can be included in themes:
 
-1. `tic_windowIconStyle`：指定弹出对话框标题图标的样式。
-2. `android:windowTitleStyle`：指定对话框标题样式。
-3. `tic_iconButtonBarStyle`：指定按钮条样式。
-4. `tic_iconButtonBarPositiveButtonStyle`：指定正面选项的按钮样式。
-5. `tic_iconButtonBarNegativeButtonStyle`：指定负面选项的按钮样式。
-6. `tic_iconButtonBarNeutralButtonStyle`：指定中立选项的按钮样式，由于手表的屏幕较小，我们不推荐为对话框指定中立选项的按钮。
+1. `tic_windowIconStyle`：assigning the style of alert dialog’s headline icon
+2. `android:windowTitleStyle`：assigning the style of dialog’s title
+3. `tic_iconButtonBarStyle`：assigning the style of icon button bar
+4. `tic_iconButtonBarPositiveButtonStyle`：assigning the button style of positve
+5. `tic_iconButtonBarNegativeButtonStyle`：assigning the button style of negative
+6. `tic_iconButtonBarNeutralButtonStyle`：assigning the button style of neutral. Since smartwatches have tiny screens,  we don’t recommend this option.
 
 
-### <a name="list-choice-dialog"></a>列表选择对话框 {#list-choice-dialog}
+### <a name="list-choice-dialog"></a>List Selection Dialog Box {#list-choice-dialog}
+ 
 
-类似 Android 的 [`AlertDialog`][android-alert-dialog]，你也可以通过设置Dialog的items、singleChoiceItems 和 multipleChoiceItems 来创建一个列表选择对话框，来获取用户对于一个列表的选择结果。
+Similar to Android’s [`AlertDialog`][android-alert-dialog], you can also create a list selcection dialog by setting the item, singleChoiceItems and multipleChoiceItems of Dialog, in order to acquire results of user’s selection of list.
 
-使用方式与[弹出式对话框](#alert-dialog)一致，类似下面的代码：
+The way to use it is no different from that of [AlertDialog](#alert-dialog), similar to the codes below: 
 
 ``` java
 final List<Integer> selection = new ArrayList<>();
@@ -393,9 +393,9 @@ dialog = new AlertDialog.Builder(getActivity())
         .show();
 ```
 
-### <a name="number-picker-dialog"></a>数值选择对话框 {#number-picker-dialog}
+### <a name="number-picker-dialog"></a>Number Picker Dialog {#number-picker-dialog}
 
-通过内嵌 [`NumberPicker`](#number-picker)，开发者可以使用[`AlertDialog`][android-alert-dialog]来显示一个对话框让用户选择一个值。使用方式如下：
+Through nested [`NumberPicker`](#number-picker), developers are able to use [`AlertDialog`][android-alert-dialog] to show users a dialog to pick a number. The way to use it is shown below:
 
 ``` java
 new NumberPickerDialog.Builder(context)
@@ -413,9 +413,9 @@ new NumberPickerDialog.Builder(context)
         .show();
 ```
 
-### <a name="date-picker-dialog"></a>日期时间选择器 {#date-picker-dialog}
+### <a name="date-picker-dialog"></a>Date and Time Picker {#date-picker-dialog}
 
-为了开发的方便，我们封装了[`DatePicker`和`TimePicker`](#date-picker)，提供了一个日期时间选择对话框，`DatetimePickerDialog`，可以像使用[`AlertDialog`][android-alert-dialog]一样，显示一个对话框让用户选择日期、时间，或同时选择两者。使用方式如下：
+To make the developing process easier, we have packed [`DatePicker` and `TimePicker`](#date-picker) together and provided a `DatetimePickerDialog`. Just as [`AlertDialog`][android-alert-dialog], we show one dialog to let the users pick the date, time or both. The way to use it is shown below:
 
 ``` java
 new DatetimePickerDialog.Builder(getActivity())
@@ -434,19 +434,19 @@ new DatetimePickerDialog.Builder(getActivity())
         .show();
 ```
 
-如果你只想让用户选择日期，或者只选择时间，那么你需要做的，是在 Building 时，指定 `disableTimePicker()` 或者 `disableDatePicker()`。详情可以参考我们 Demo 中的 `DialogsFragment`。
+If you only want users to pick the date or time, the only thing you need to do is to assign `disableTimePicker()` or `disableDatePicker()` while building it. Feel free to refer the `DialogsFragment` in our Demo for more information.
 
-## <a name="menu"></a>悬浮上下文菜单 {#menu}
 
-通过 `FloatingContextMenu`，你可以非常方便的创建一个悬浮在内容之上的上下文内容相关的选择菜单。
+## <a name="menu"></a>Floating Context Menu {#menu}
 
-类似 Android 的 [长按弹出菜单][android-FloatingContextMenu]，开发者可以在 [menu resource][android-menu-resource] 中创建菜单资源。并在 Menu 创建时，通过 `ContextMenuCreator` 回调为 `FloatingContextMenu` 指定内容。
+You can easily create a floating context menu that floats above the content through `FloatingContextMenu`. 
 
-用户的选择结果，将通过 `OnMenuSelectedListener` 回调给使用者。
+Similar to Android’s [long pop-up menu][android-FloatingContextMenu], developers can create a menu resource within [menu resource][android-menu-resource], and appoint content for `FloatingContextMenu` through `ContextMenuCreator` during the process.
 
-指定好菜单创建和选择的回调接口以后，开发者可以通过 `show(View)` 来显示悬浮菜单，并将菜单绑定到指定的 View 之上。这个 View 将会影响 menu 的生命周期，在 View 从窗口中 detach 时，绑定的 menu 将会销毁。另外，指定的 view，将会传递给 `ContextMenuCreator` 作为菜单资源创建的上下文参考。
+User’s selection of choice will be returned to the server through `OnMenuSelectedListener`.
+Specify your menu after the callback interface to create and choose, developers can display the floating menu through `show(View)`.  And bind on the menu to the appointed View with an effect on the menu’s life cycle. When the View gets detached from the window, the bound menu will be destroyed. Besides, the assigned view will be conveyed to `ContextMenuCreator` as a contextual reference for creating a menu resource. 
 
-下面是一个简单的使用示例：
+Here is a simple example:
 
 ``` java
 new FloatingContextMenu(context)
@@ -465,25 +465,23 @@ new FloatingContextMenu(context)
         })
         .show(view);
 ```
+By specifying the menu creation and select the callback, developers can appoint the menu content, and also obtain the results of menu selection.  
 
-通过指定菜单的创建和选择回调，开发者可以指定菜单的内容，并获取菜单选择的结果。
+One thing to note here is that our current `FloatingContextMenu` merely supports basic/rudimentary menu content (icon, title, and intent) without no support on nested menus (menu group), action, and other complex attributes. 
 
-需要注意的是，目前我们的 `FloatingContextMenu` 仅支持基础的菜单项内容（icon、 title 和 intent），不支持嵌套菜单（menu group）和 action 等复杂属性。
+## <a name="widgets"></a>Small Widgets {#widgets}
 
+### <a name="scale-textview"></a>Scalable Text Frames {#scale-textview}
 
-## <a name="widgets"></a>小控件 {#widgets}
+`ScalableTextView`, scalable text frames, can follow the control size in changing script size. This is commonly used in showing headlines in `TitleBar`.  
 
-### <a name="scale-textview"></a>可缩放文本框 {#scale-textview}
-
-`ScalableTextView`，可缩放文本框，可以跟随控件大小而改变文字大小。常用于`TitleBar`中的标题显示。
-
-使用时，可以从XML文件，或者代码中，指定缩放因子 `scaleFactor`。文字大小变化、文本框大小变化与缩放因子之间符合下面的等式：
+During usage, you can appoint scaling factors `scaleFactor` through either XML document or code.  The change of script size, text frame size, and scaling factors all follow the equation shown below:
 
 $$
 \Delta_{textScale} = \Delta_{frameScale} \times scaleFactor
 $$
 
-其中：
+Among them：
 
 $$
 \Delta_{frameScale} = max\left(
@@ -492,7 +490,7 @@ $$
 \right)
 $$
 
-需要注意的是，由于文字会进行缩放，所以可能会越出边界。使用时最好指定足量的padding，或者设置无变化的那边为 match_parent。例如，`TitleBar`中的`ScalableTextView`，通常会以如下方式布局：
+You need to be aware that when scripts undergo scaling, the boundary will likely be exceeded.  While using it, it is best to appoint a sufficient padding, or set up a non-changeable over there to match_parent.  For example, the `ScalableTextView` in the `TitleBar` usually follows the following layout: 
 
 ``` xml
 <ticwear.design.widget.AppBarLayout
@@ -513,47 +511,47 @@ $$
 </ticwear.design.widget.AppBarLayout>
 ```
 
-### <a name="fab"></a>悬浮按钮 {#fab}
+### <a name="fab"></a>Floating Action Button {#fab}
 
-`FloatingActionButton`，悬浮按钮，是一个扩展的`ImageButton`。我们从 [Android Design Support][google-design-support] 库中将其移植过来，去除了一些不利于手表展示的部分（比如与`SnackBar`的交互），增加了Ticwear特有的设计元素。
+`FloatingActionButton`, the floating action button, is an expanded `ImageButton`. We transplanted it from the [Android Design Support][google-design-support] library, and remove some unfavorable parts of wrist watch display, (for example, `SnackBar` interaction) as to increase Ticwear’s design element. 
 
-常规的使用方式，可以查看 [Android 官方文档][android-fab]。
+Regarding more ways for general usage, refer the [official Android file] [android-fab]. 
+ 
+Among Ticwear’s distinctive modifications, the principal change has been increasing the `minimum`, minimizing modes (original control only supports `shown` and `hidden` modes). This mode will cause the push button to reduce to a small dot, and not shelter the script.  It will also point out the user’s operable elements. 
 
-而Ticwear特有的修改，主要是增加了`minimum`，最小化状态（原生控件只支持`shown`和`hidden`状态），这个状态，会使得按钮缩小到一个小点，不会遮挡文字，又可以提示用户这里有可操作的元素。
+The usage is similar to `show()` and `hide()`.Call to minimize () to minimize button. It will tigger `OnVisibilityChangedListener.onMinimum` when the button gets minimized.  
 
-使用方式类似`show()`和`hide()`，调用`minimize()`可以最小化按钮，按钮在完成最小化以后，会触发 `OnVisibilityChangedListener.onMinimum` 回调。
+`BackgroundDrawable` cites a [circular progress drawable](#cpd) and sets the progress,  transparency, and mode for the drawable.
 
-`backgroundDrawable`中引用了[圆形进度条](#cpd)，并可对进度条的进度，透明度，模式等进行设置
 
-### <a name="cpd"></a>圆形进度条（CircularProgressDrawable） {#cpd}
+### <a name="cpd"></a>CircularProgressDrawable {#cpd}
 
-圆形的进度条，仿照安卓的[`progressBar`][android-progressbar]，效果模式分为`determinate`及`indeterminate`，`determinate`模式静态显示当前`progressBar`的进度，`indeterminate`模式动态旋转`progressBar`。
+The circular progress drawable, similar to Android’s [`progressBar`][android-progressbar], is divided into two modes, which are `determinate` and `indeterminate` according to its effect. The `indeterminate` mode displays the current progress of `progressBar` and the `indeterminate` mode dynamically rotates the `progressBar`.
 
-使用者可在代码中动态设置`progressBar`的progress，alpha值，
-及颜色，若使用者未做任何设置，则默认对`progressBar`及背景色进行`tint`，`alpha`值为50%，在任意情况下，当使用者在代码中设置`progress`的进度后，`progress`的模式自动变为`determinate`。
+Users can dynamically set the progress, alpha value, and color for `progressBar` within the codes. While no settings are done, we automatically `tint` the `progressBar` the background color and set an `alpha` value as 50%. In any cases, the `progress` mode automatically turns into `determinate` when it is set within the codes. 
 
-在初始化时，使用者可对`progressBar`进行各项设定，如设定每圈持续时间，初始角度，动态最大/最小角度等，这些属性在`CircularProgressDrawable`对象生成后不可修改。
+During initialization, the user can start various kinds of default settings for `progressBar`, such as every circle’s duration, initial angles, the maximum and minimum angles, etc. These attributes cannot be modified after being generated in `CircularProgressDrawable`.  
 
-在FAB中使用者可选择是否包含进度条，当无进度条时，FAB仍可设
-置进度，`progressbar`颜色等，但无任何效果。
+In FAB, users can choose whether to include the progress bar or not. When there is no progress bar, the progress and `progressbar’s ` color can be still set in FAB, but with no effect.
 
-### <a name="primary-button"></a>主要按钮（PrimaryButton） {#primary-button}
 
-手表界面开发的一项原则，是精简内容和选择，让用户能迅速明白自己需要做什么。为此，我们经常需要一个放置在页面底部，占用较大区域的主要按钮。而 `PrimaryButton` 则提供这样一个按钮。
+### <a name="primary-button"></a>Primary Button {#primary-button}
 
-`PrimaryButton` 是一个特殊的 `ImageButton`，它的背景是一个半圆的色块，放置在圆表底部时，会显得非常和谐。
+One principle of developing the smartwatch interface is simplifying content and selection, allowing users to quickly understand what they need to do. Therefore we constantly need to display one major button at the bottom of the page that occupies a relatively large area. In this case, the `PrimaryButton` will do. 
 
-### <a name="number-picker"></a>数值选择器 {#number-picker}
+`PrimaryButton` is a special `ImageButton`; it’s background is a semicircular color block that looks nice when placed at the bottom of the round watch.
 
-类似 Android 的 [`NumberPicker`][android-numberpicker]，我们实现了符合Ticwear设计标准的数值选择器。开发者可以直接使用到其 layout 中。如果你只是需要一个页面来获取用户输入的数值。我们还提供了一个便于使用的[`NumberPickerDialog`](#number-picker-dialog)，方便你快速开发。
+### <a name="number-picker"></a>Numerical Picker {#number-picker}
 
-### <a name="date-picker"></a>日期时间选择器 {#date-picker}
+Similar to Android’s [`NumberPicker`][android-numberpicker], we have developed a numerical picker aligning with Ticwear’s design standards. The picker can be directly applied to its layout if you need merely one page to obtain the numerical value entered by users. We also offer a handy, usable [`NumberPickerDialog`](#number-picker-dialog) to enable quick development.  
 
-类似于 Android 的 [`TimePicker`][android-timepicker] 和 [`DatePicker`][android-datepicker]，我们实现了符合Ticwear设计标准的日期和时间选择器。开发者可以像 Android 控件一样使用它们。同样的，我们也提供了[`DateTimePickerDialog`](#date-picker-dialog)来快速获取用户的时间、日期输入。
+### <a name="date-picker"></a>Date & Time Picker {#date-picker}
 
-### <a name="two-state-button"></a>Checkbox、RadioButton 和 SimpleSwitch {#two-state-button}
+Similar to Android’s [`TimePicker`][android-timepicker] and [`DatePicker`][android-datepicker], we have made a time and date picker that meets Ticwear’s design standards. Developers can use them as they would with Android ones.  We have also provided [`DateTimePickerDialog`](#date-picker-dialog) to quickly help obtain users’ date and time inputs.  
 
-我们为 [Ticwear Theme](#style-and-theme) 设置了符合Ticwear设计风格的 `Checkbox` 和 `RadioButton`，并提供了一个 `SimpleSwitch`，简化 `Switch` 按钮的操作，并与其他两个状态切换Button统一了风格。以提供一套美观的状态切换按钮。
+### <a name="two-state-button"></a>Checkbox、RadioButton and SimpleSwitch {#two-state-button}
+
+For [Ticwear Theme](#style-and-theme) We have set up a `Checkbox` and `RadioButton` that are in line with Ticwear’s design style. We also provided `SimpleSwitch` to simplify the `Switch` button operations in an unified style with the other two switchable buttons as a whole nicely designed set.
 
 
 [ticdesign-source]: https://github.com/mobvoi/ticdesign
