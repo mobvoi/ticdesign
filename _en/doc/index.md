@@ -206,34 +206,34 @@ Here is an example for page layout:
 </ticwear.design.widget.CoordinatorLayout>
 ```
 
-Through a variety of effects, this layout to achieve the fast into the title (page scrolling to the bottom after the drop-down, the title appears immediately, without rolling to the top), and stretch rebound effect (after page scrolling to the top, continue the drop-down, title with rolling operation is widening, let go after snap back).
+By incorporating a variety of effects, this layout achieves the fast into the Appbar (page is scrolled to the bottom then drop down, the Appbar appears immediately, without having to scroll to the top only appeared), and stretchs the rebound effect (scroll to the top of the page, continue the drop-down, the Appbar will be widened with the rolling operation, then let go , and be rebound).
 
-`Tic_layout_XXX`, similar to `android:layout_XXX`, reveals the layout behavior of View in parent, which is irrelevant to the content. The attributes that do not start with `tic_layout_` are the actual attributes of View. Here is an elaborate explanation of those attributes:  
+`Tic_layout_XXX`, is similar to `android:layout_XXX`, reveals the layout behavior of View in parent, which is irrelevant to the content. The attributes that do not start with `tic_layout_` are the actual attributes of View. Here is an elaborate explanation of those attributes:  
 
-* `app:tic_overScrollEffect` assigns the effect when the page content is scrolled to the end. When `CoordinatorLayout’s` subelement fails to consume the nested scroll event, it will trigger the effect defined here. Currently, it merely supports `none` and `bounce` effect.
-* `app:tic_layout_scrollFlags` assigns the corresponding action as the headline scrolls, with a combination of various actions based on needs.
-* `app:tic_layout_scrollResistanceFactor` assigns the fold change of overall height when the tagline stretches. When the fold change is 1, corresponding header height change and rolling distance with no damping effect. As the fold change gets closer to 0, the damping effect becomes greater along with smaller changes in height.
-* `app:tic_scaleFactor` assigns the text scaleFactor. When scaleFactor is 1, the text will be aligned with the size of textView through geometric scaling. The scaling effect gets less and less obvious as the scaleFactor gradually reaches zero. Details you can refer to [scale-textview](#scale-textview). 
+* `app:tic_overScrollEffect` assigns the effect when the page content is scrolled to the end. When `CoordinatorLayout’s` subelement fails to consume the nested scroll event, and it will trigger the effect defined here. Currently, it merely supports `none` and `bounce` effect(overscroll bounce).
+* `app:tic_layout_scrollFlags` assigns the corresponding action as the Appbar scrolls, with a combination of various actions based on needs.
+* `app:tic_layout_scrollResistanceFactor` assigns the fold change of overall height when the Appbar stretches. When the fold change is 1, corresponding the Appbar height change and rolling distance with no damping effect. As the fold change gets closer to 0, the damping effect becomes greater along with smaller changes in height.
+* `app:tic_scaleFactor` assigns the text scaleFactor. When scaleFactor is 1, the text will be aligned with the size of textView through geometric scaling. The scaling effect gets less and less obvious as the scaleFactor gradually reaches zero. Please refer to the details [scale-textview](#scale-textview). 
 
 ## <a name="support-tickle"></a>Support for Tickle {#support-tickle}
 
-By enabling `SidePanelEventTarget` or `SidePanelGestureTarget`, developers can easily add support for Tickle for their self-defined view.
+By achieving `SidePanelEventTarget` or `SidePanelGestureTarget`, developers can easily add support for Tickle for their self-defined view.
 
-`SidePanelEventTarget` interface contains a function for basic events. Similar to the touch event, Tickle also includes the following processing steps:
+`SidePanelEventTarget` interface contains a function for basic events. Similar to the touch event. Tickle also includes the following processing steps:
 
-1. `DispatchTouchSidePanelEvent`: In the dispatch step, decide whether to use the current view to process Tickle event, or dispatch it.
-2. `onTouchSidePanel`: Decide if the current view will process Tickle
-3. `SidePanelGestureTarget`: Contains common Tickle gestures, such as single click, double click，long click, scroll, and so on. If these is no `SidePanelEventTarget` to process Tickle event，the tickle event will be viewed as Tickle gesture and be dispatched for the `SidePanelGestureTarget` for further processing.
+1. `DispatchTouchSidePanelEvent`: In the dispatch step, it decides whether to use the current view to process Tickle event, or dispatch it.
+2. `onTouchSidePanel`: It decides if the current view will process Tickle
+3. `SidePanelGestureTarget`: It packages common Tickle gestures, such as single click, double click，long click, scroll, and so on. If these is no `SidePanelEventTarget` to process Tickle event，the tickle event will be packaged as Tickle gesture and be dispatched for the `SidePanelGestureTarget` for further processing.
 
-Details you can refer to [Tickle API](http://developer.ticwear.com/doc/tickle-api)。
+Please refer to the details [Tickle API](http://developer.ticwear.com/doc/tickle-api)。
 
 ### <a name="ticklable-RV"></a> RecyclerView for supporting Tickle interaction {#ticklable-RV}
 
 `TickableRecyclerView` expands `RecyclerView` to support the interaction ways in Tickle. You can assign a normal [`LayoutManager`][android-LM] for it. Then, the gesture of touch is no difference as the `RecyclerView` expect that it forwards the Tickle event. The tickle gesture equals to touching the right side of View. `TickableRecyclerView` can support Tickle when it combines with common `LayoutManager`.
 
-Through `TicklableLayoutManager`, you can achieve the customized [`LayoutManager`][android-LM] for Tickle. For more information, you can see how `FocusableLinearLayoutManager` is realized.
+Implementing `TicklableLayoutManager` interface, you can achieve the customized [`LayoutManager`][android-LM] for Tickle. For more information, you can see how `FocusableLinearLayoutManager` is realized.
 
-We have a special design for `TickableRecyclerView` so that it can work smoothly with `AppBarLayout`, and when it focuses, it can better realize various effects of TitleBar. You can read more about it in the `TickableRecyclerViewBehavior` code in the source code. 
+We have a special design for `TickableRecyclerView` so that it can work smoothly with `AppBarLayout`, and when it focuses, it can better realize multiple effects of TitleBar. You can read more about it in the `TickableRecyclerViewBehavior` code in the source code. 
 
 To make it easier for developers, we have developed a series of Adapter to cater to specific needs quickly:
 
@@ -243,7 +243,7 @@ To make it easier for developers, we have developed a series of Adapter to cater
 
 ### <a name="focusable-LM"></a>LayoutManager with focusing effects {#focusable-LM}
 
-`FocusableLinearLayoutManager` integrated the advantages of `LinearLayoutManager` and `WearableListView`, making the list controller perform as common LinearLayout RecyclerView in its normal state, in order to display diverse and elegant visual effects. In addition, the users can randomly click the listed item in the interface. After the user tickles the item, it enters into the focus state; its content will becomes larger and focuses on the item while entering the interface, making the operation more accurate and targeted.
+`FocusableLinearLayoutManager` combines the advantages of `LinearLayoutManager` and `WearableListView`, making the list controller perform as common LinearLayout RecyclerView in its normal state, in order to display diverse and elegant visual effects. In addition, the users can randomly click the listed item in the interface. After the user tickles the item, it enters into the focus state; its content will becomes larger and focuses on the item while entering the interface, making the operation more accurate and targeted.
 
 <div class="row">
 <div class="col-half">
@@ -256,17 +256,17 @@ To make it easier for developers, we have developed a series of Adapter to cater
 
 When using `FocusableLinearLayoutManager`,  you need to have your ViewHolder inherit `FocusableLinearLayoutManager.ViewHolder`, to define the transition animations between the focusing state, non-focusing state and normal state.
 
-`FocusableLinearLayoutManager.ViewHolder` has set the default focusing state animation, which is enlarging and brightening when in the focusing state and narrowing and darkening in the normal state. 
+`FocusableLinearLayoutManager.ViewHolder` sets the default focusing state animation, which is enlarging and brightening when in the focusing state and narrowing and darkening in the normal state. 
 
-If you want to define a more delicate animation effect, you can realize `FocusableLinearLayoutManager.OnFocusStateChangedListener` interface with your `ItemView`. Or you can reload the method of `ViewHolder.onFocusStateChanged`.
+If you want to define a more delicate animation effect, you can make implement `FocusableLinearLayoutManager.OnFocusStateChangedListener` interface with your `ItemView`. Or you can override the method of `ViewHolder.onFocusStateChanged`.
 
-If you wish that your animation is also consistent with the gesture, but not only just the switch between the focusing and non-focusing state, you will need to use your `ItemView` to further realize `FocusableLinearLayoutManager.OnCentralProgressUpdatedListener`; or, you can override `ViewHolder.onCentralProgressUpdated`.
+If you wish that your animation is also consistent with the gesture, but not only just the switch between the focusing and non-focusing state, you will need to use your `ItemView` to further implement `FocusableLinearLayoutManager.OnCentralProgressUpdatedListener`; or, you can override `ViewHolder.onCentralProgressUpdated`.
 
 `FocusableLinearLayoutManager` will first update the state via `onFocusStateChanged`, and then get more delicate effects via `onCentralProgressUpdated` when the user Tickles. When the state is transited back to the normal state from the focused state, use `onFocusStateChanged`。
 
 Thus, a better plan is to realize transition animations via `View.animate()` when the state is transited back to the normal state, and to update the size and style of View via progress in the Focusing state.  
 
-Below is a simple reloading example (same as the default animations)
+Below is a simple override example (same as the default animations)
 
 ``` java
 @Override
@@ -310,14 +310,14 @@ private void transform(float scale, float alpha, long duration) {
 
 Ticwear‘s settings system is similar to [Android Settings][android-settings]. You can use Ticwear Preference in a similar way you would use Android Preference. But it should be noted that Ticwear Preference’s built-in `Listview` has been changed to `TicklableRecyclerView`. You need to use `RecyclerView.Viewholder` in order to bind statistics with Preference View.  
 
-You have to inherit `Preference.VewHolder` when you need to achieve the customized `Preference`. We also need to cover its method as to bind your customized statistics.
+You have to inherit `Preference.VewHolder` when you need to achieve the customized `Preference`. We also need to override its method as to bind your customized statistics.
 
 ## <a name="dialogs"></a>Dialog Box {#dialogs}
 
 <div class="row">
 <div class="col s12 m7" markdown="1">
 
-Being fully aware of the convenience of Dialog, we made a few modifications to make it look neater on smartwatch. We also extended the push button and list display of dialog ,and provide numerical selection dialog. All the changes listed above have helped provide handy user experience while remained the convenience of Android interface.
+Being fully aware of the convenience of Dialog, we make a few modifications to use on smartwatch. We also extended the push button and list display of dialog ,and provide numerical selection dialog. All the changes listed above have helped provide handy user experience while remained the convenience of Android interface.
 
 </div>
 <div class="col s12 m4 push-m1 center">
@@ -327,9 +327,9 @@ Being fully aware of the convenience of Dialog, we made a few modifications to m
 
 ### <a name="alert-dialog"></a>Alert Dialog {#alert-dialog}
 
-We transplanted and extended Android’s [`AlertDialog`][android-alert-dialog] with a customized theme for smartwatch. A circular button that suits smartwatch better is provided as well to replace the original text button.
+We transplant and extend Android’s [`AlertDialog`][android-alert-dialog] with a customized theme for smartwatch. A circular button that suits smartwatch better is provided as well to replace the original text button.
 
-When the set-up (设置的) text message gets really long, it can scroll up and down and the bottom of the icon button will disappear as it scrolls to ensure better reading experience.
+When the set-up text message gets really long, it can scroll up and down and the bottom of the icon button will disappear as it scrolls to ensure better reading experience.
 
 The way to use it is no different from using the original `AlertDialog`. The only thing needed is to formulate either an icon document or the icon’s `Drawable`, similar to the method as shown below: 
 
@@ -364,7 +364,7 @@ While we use the dialog, we can achieve the effects we want by assigning `androi
 
 Similar to Android’s [`AlertDialog`][android-alert-dialog], you can also create a list selcection dialog by setting the item, singleChoiceItems and multipleChoiceItems of Dialog, in order to acquire results of user’s selection of list.
 
-The way to use it is no different from that of [AlertDialog](#alert-dialog), similar to the codes below: 
+The way to use it is no different from that of [AlertDialog](#alert-dialog). The following is the codes: 
 
 ``` java
 final List<Integer> selection = new ArrayList<>();
@@ -395,7 +395,7 @@ dialog = new AlertDialog.Builder(getActivity())
 
 ### <a name="number-picker-dialog"></a>Number Picker Dialog {#number-picker-dialog}
 
-Through nested [`NumberPicker`](#number-picker), developers are able to use [`AlertDialog`][android-alert-dialog] to show users a dialog to pick a number. The way to use it is shown below:
+Nesting [`NumberPicker`](#number-picker), developers are able to use [`AlertDialog`][android-alert-dialog] to show users a dialog to pick a number. The way to use it is shown below:
 
 ``` java
 new NumberPickerDialog.Builder(context)
@@ -415,7 +415,7 @@ new NumberPickerDialog.Builder(context)
 
 ### <a name="date-picker-dialog"></a>Date and Time Picker {#date-picker-dialog}
 
-To make the developing process easier, we have packed [`DatePicker` and `TimePicker`](#date-picker) together and provided a `DatetimePickerDialog`. Just as [`AlertDialog`][android-alert-dialog], we show one dialog to let the users pick the date, time or both. The way to use it is shown below:
+To make the developing process easier, we have packed [`DatePicker` and `TimePicker`](#date-picker) together and provided a `DatetimePickerDialog`. Just as [`AlertDialog`][android-alert-dialog], we show a dialog to let the users pick the date, time or both. The way to use it is shown below:
 
 ``` java
 new DatetimePickerDialog.Builder(getActivity())
@@ -473,7 +473,7 @@ One thing to note here is that our current `FloatingContextMenu` merely supports
 
 ### <a name="scale-textview"></a>Scalable Text Frames {#scale-textview}
 
-`ScalableTextView`, scalable text frames, can follow the control size in changing script size. This is commonly used in showing headlines in `TitleBar`.  
+`ScalableTextView` can follow the control size in changing script size. This is commonly used in showing title in `TitleBar`.  
 
 During usage, you can appoint scaling factors `scaleFactor` through either XML document or code.  The change of script size, text frame size, and scaling factors all follow the equation shown below:
 
@@ -490,7 +490,7 @@ $$
 \right)
 $$
 
-You need to be aware that when scripts undergo scaling, the boundary will likely be exceeded.  While using it, it is best to appoint a sufficient padding, or set up a non-changeable over there to match_parent.  For example, the `ScalableTextView` in the `TitleBar` usually follows the following layout: 
+You need to be aware that when scripts undergo scaling, it may be exceed boundary.  While using it, it is best to appoint a sufficient padding, or set up a non-changeable over there to match_parent.  For example, the `ScalableTextView` in the `TitleBar` usually follows the layout: 
 
 ``` xml
 <ticwear.design.widget.AppBarLayout
@@ -517,22 +517,22 @@ You need to be aware that when scripts undergo scaling, the boundary will likely
 
 Regarding more ways for general usage, refer the [official Android file] [android-fab]. 
  
-Among Ticwear’s distinctive modifications, the principal change has been increasing the `minimum`, minimizing modes (original control only supports `shown` and `hidden` modes). This mode will cause the push button to reduce to a small dot, and not shelter the script.  It will also point out the user’s operable elements. 
+Among Ticwear’s distinctive modifications, the principal change has been increasing the `minimum`, minimizing modes (original control only supports `shown` and `hidden` modes). This mode will cause the push button to reduce to a small dot, and not shelter the text.  It will also point out the user’s operable elements. 
 
 The usage is similar to `show()` and `hide()`.Call to minimize () to minimize button. It will tigger `OnVisibilityChangedListener.onMinimum` when the button gets minimized.  
 
-`BackgroundDrawable` cites a [circular progress drawable](#cpd) and sets the progress,  transparency, and mode for the drawable.
+`BackgroundDrawable` cites a [circular progress drawable](#cpd) and sets the progress, transparency, and mode for the drawable.
 
 
 ### <a name="cpd"></a>CircularProgressDrawable {#cpd}
 
 The circular progress drawable, similar to Android’s [`progressBar`][android-progressbar], is divided into two modes, which are `determinate` and `indeterminate` according to its effect. The `indeterminate` mode displays the current progress of `progressBar` and the `indeterminate` mode dynamically rotates the `progressBar`.
 
-Users can dynamically set the progress, alpha value, and color for `progressBar` within the codes. While no settings are done, we automatically `tint` the `progressBar` the background color and set an `alpha` value as 50%. In any cases, the `progress` mode automatically turns into `determinate` when it is set within the codes. 
+Users can dynamically set the progress, alpha value, and color for `progressBar` within the codes. While no settings are done, we automatically `tint` the `progressBar` the background color and set an `alpha` value as 50%. In any cases, the `progress` mode automatically turns into `determinate` when it is setted within the codes. 
 
 During initialization, the user can start various kinds of default settings for `progressBar`, such as every circle’s duration, initial angles, the maximum and minimum angles, etc. These attributes cannot be modified after being generated in `CircularProgressDrawable`.  
 
-In FAB, users can choose whether to include the progress bar or not. When there is no progress bar, the progress and `progressbar’s ` color can be still set in FAB, but with no effect.
+In FAB, users can choose whether to include the progress bar or not. When there is no progress bar, the progress and `progressbar’s ` color can be still set in FAB, but no effect.
 
 
 ### <a name="primary-button"></a>Primary Button {#primary-button}
@@ -547,7 +547,7 @@ Similar to Android’s [`NumberPicker`][android-numberpicker], we have developed
 
 ### <a name="date-picker"></a>Date & Time Picker {#date-picker}
 
-Similar to Android’s [`TimePicker`][android-timepicker] and [`DatePicker`][android-datepicker], we have made a time and date picker that meets Ticwear’s design standards. Developers can use them as they would with Android ones.  We have also provided [`DateTimePickerDialog`](#date-picker-dialog) to quickly help obtain users’ date and time inputs.  
+Similar to Android’s [`TimePicker`][android-timepicker] and [`DatePicker`][android-datepicker], we have made a time and date picker that meets Ticwear’s design standards. Developers can use them as they would with Android ones. We have also provided [`DateTimePickerDialog`](#date-picker-dialog) to quickly help obtain users’ date and time inputs.  
 
 ### <a name="two-state-button"></a>Checkbox、RadioButton and SimpleSwitch {#two-state-button}
 
