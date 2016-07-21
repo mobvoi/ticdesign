@@ -38,21 +38,58 @@
   </script>
   <!--/headroom-->
 
+  {% assign locale = page.url | truncate: 3, '' | remove: '/' %}
+
+  {% unless site.authorized_locales contains locale %}
+    {% assign locale = site.default_locale %}
+  {% endunless %}
+
+  {% if locale == site.default_locale %}
+    {% assign rootpath = '' %}
+  {% else %}
+    {% assign rootpath = locale | append: '/' %}
+  {% endif %}
+
+  {% assign pagepath = page.url | remove_first: '/' | remove: rootpath %}
+
   <div class="menu">
     <div class="menu-content">
       <h1>
-        <a href="{{ site.baseurl }}/">
-          <img alt="my awesome image" src="{{ site.baseurl }}/assets/img/logo.png"
+        <a href="{{ site.baseurl }}/{{ rootpath }}">
+          <img alt="TicDesign" src="{{ site.baseurl }}/assets/img/logo.png"
                srcset="{{ site.baseurl }}/assets/img/logo-hd.png 2x"
-               width="187"></a>
+               width="187">
+        </a>
       </h1>
       <ul>
         {% include header_links.html %}
-        <!-- <li>
+        {% if site.data.langs %}
+        <li>
           <small>
-            <a href="">EN</a> / <a href="" class="current">中文</a>
+            {% for lang in site.data.langs %}
+
+            <!-- Determinate the language's root path. -->
+            {% if lang[0] == site.default_locale %}
+              {% assign langpath = '' %}
+            {% else %}
+              {% assign langpath = lang[0] | append: '/' %}
+            {% endif %}
+
+            <!-- Check whether this language is current. -->
+            {% if langpath == rootpath %}
+              {% assign highlight = 'current' %}
+            {% else %}
+              {% assign highlight = '' %}
+            {% endif %}
+
+            <a href="{{ site.baseurl }}/{{ langpath }}{{ pagepath }}" class="{{ highlight }}">{{ lang[1] }}</a>
+            {% unless forloop.last %}
+            /
+            {% endunless %}
+            {% endfor %}
           </small>
-        </li> -->
+        </li>
+        {% endif %}
       </ul>
     </div>
   </div>

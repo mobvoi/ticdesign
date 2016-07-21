@@ -1,0 +1,33 @@
+<script>
+var url = "https://api.github.com/repos/mobvoi/ticdesign/releases/latest?callback=?";
+$.getJSON(url, function(json) {
+  var release = json.data;
+  if (release == undefined) {
+    return;
+  }
+  var version = release.tag_name;
+  var date = new Date(release.published_at);
+  var link = release.html_url;
+  $('.github .webpage').attr('href', link);
+  $('.github .version').text('Version ' + version);
+  $('.github .release_date').text(date.getFullYear() + '.' + (date.getMonth() + 1) + '.' + date.getDate());
+
+  if (typeof String.prototype.endsWith !== 'function') {
+    String.prototype.endsWith = function(suffix) {
+        return this.indexOf(suffix, this.length - suffix.length) !== -1;
+    };
+  }
+
+  var assets = release.assets;
+  var download = "";
+  for (var i in assets) {
+    if (assets[i].browser_download_url.endsWith('.apk') ) {
+      download = assets[i].browser_download_url;
+      break;
+    }
+  }
+  if (download) {
+    $('.github .download').attr('href', download);
+  }
+});
+</script>

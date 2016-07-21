@@ -1,6 +1,14 @@
-- title: 设计
-  url: /design/
-- title: 开发文档
-  url: /doc/
-- title: GitHub
-  url: https://github.com/mobvoi/ticdesign/
+zh:
+  - title: 设计
+    url: /design/
+  - title: 开发文档
+    url: /doc/
+  - title: GitHub
+    url: https://github.com/mobvoi/ticdesign/
+en:
+  - title: Design
+    url: /en/design/
+  - title: Develop
+    url: /en/doc/
+  - title: GitHub
+    url: https://github.com/mobvoi/ticdesign/
