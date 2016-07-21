@@ -317,7 +317,7 @@ You have to inherit `Preference.VewHolder` when you need to achieve the customiz
 <div class="row">
 <div class="col s12 m7" markdown="1">
 
-Being fully aware of the convenience of Dialog, we make a few modifications to use on smartwatch. We also extended the push button and list display of dialog ,and provide numerical selection dialog. All the changes listed above have helped provide handy user experience while remained the convenience of Android interface.
+Being fully aware of the convenience of Dialog, we make a few modifications to use on smartwatch. We also extended the push button and list display of dialog, and provide numerical selection dialog. All the changes listed above have helped provide handy user experience while remained the convenience of Android interface.
 
 </div>
 <div class="col s12 m4 push-m1 center">
