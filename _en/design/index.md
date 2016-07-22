@@ -6,9 +6,9 @@ permalink: /en/design/
 
 This doc applies to the UI design for round-screen smartwatch, a relatively new niche market. Generally speaking, the more subsidized the niche market is, the fewer available files there are for reference. Hence we have decided to make this file open-source, hoping that this friendly gesture helps boost the confidence of our work partners and remove the barriers for those who want to join us in the near future.
 
-Since it is quite demanding to continuously bring innovations to a niche market, we do not want to make this file as a permanent golden “rule” or “guideline” for you to follow. When we share those experiences with you, some design principles for Ticwear system are included ONLY  to ensure design quality. Yet feel free to be creative and not to get yourself restrained by those guidelines.
+Since it is quite demanding to continuously bring innovations to a niche market, we do not want to make this file as a permanent golden “rule” or “guideline” for you to follow. When we share those experiences with you, some design principles for Ticwear system are included only to ensure design quality. Yet feel free to be creative and not to get yourself restrained by those guidelines.
 
->*Over the process of designing Ticwear system interface, we have accumulated some valuable experiences that are carefully organized and compiled in this file. Great thanks to all work partners who have made a contribution to this file.*
+>*Over the process of designing Ticwear system interface, we have accumulated some valuable experiences that are carefully organized and compiled in this file. Great thanks to all who have made a contribution to this file.*
 
 ## Design Concept
 
@@ -16,7 +16,7 @@ Here are the basic concepts we have summed up for smartwatch UI design. While so
 
 #### Know through One Glance
 
-Traditional watch users are used to glancing their wrist to check time every now and then thanks to its extreme convenience. As for smartwatch users, the information they get from a rapid glance goes far beyond time, an user experience that matters the most. Optimizing this experience through design thus directly lies in readable, comprehensive text and simple, direct interface.
+Traditional watch users are used to glancing their wrist to check time every now and then thanks to its extreme convenience. As for smartwatch users, the information they get from a rapid glance goes far beyond time, an user experience that matters the most. Thus optimizing this experience through design directly lies in readable, comprehensive text and simple, direct interface.
 
 <!-- 此处最好有一个用户在合适的时候瞥一眼的动图 -->
 
@@ -28,9 +28,9 @@ Smartwatch usually comes with a delicate tiny screen, making it fiddly for users
 
 <!--用户的视线不应该长期停留在手表上，如果有足够的时间在手表上，应该也有足够的时间去看更大的屏幕。因此手表界面上的文字要尽可能易读、易于理解。不推荐使用大段的文字。-->
 
-#### Be Part of Your Life
+#### Seamlessly Blend Into Your Life
 
-The smartwatch is not supposed to make any noises at quiet places; it shall leave users alone while they exercise; it can be used for some light reading when we sit and drink coffee….When we design apps for smartwatches, we ought to make sure when users need to lift their wrist and whether it is convenient for them to use the other hand.
+The smartwatch is not supposed to make any noises at quiet places; it shall leave users alone while they exercise; it can be used for some light reading when we sit and drink coffee. When we design apps for smartwatches, we ought to make sure when users need to lift their wrist and whether it is convenient for them to use the other hand.
 
 <!-- 此处最好有一个符合以上描述的动图 -->
 
@@ -44,15 +44,15 @@ Smartwatch was born in the “smartphone” era. The earliest generation of smar
 
 Although designing a one-handed operation mode can be fairly challenging and might need more hardware support, insist on doing so. If wearing a watch refrains you from doing other things, why bother wearing it?
 
-#### Smartwatch is Not a Mini Smartphone
+#### A watch. Not a phone.
 
-Both smartwatches and smartphones have touch screen and are designed and developed based on similar operation system. Thus it is easy for us to inadvertently fall into habitual thinking patterns. Yet only one hand has been needed when wearing a watch since the very beginning. And watch itself was invented for the purpose of keeping track of time through a simple lift of wrist. We then firmly believe smartwatch should be like a watch, not the other way around.
+Both smartwatches and smartphones have touch screen and are designed and developed based on similar operation system. Thus it is easy for us to inadvertently fall into habitual thinking patterns. However, the concept of using one hand to check time through a quick lift of wrist has been ingrained into watch user’s mindset since the very beginning. And that is exactly what a traditional watch was invented for. We then firmly believe that smartwatch should be like a watch, not the other way around.
 
-If an app works better and faster on other big screens, we ought to assess whether it is necessary to apply it on smartwatch instead of copying it to the smartwatch without a second thought.
+If an app works better and faster on big screens, we ought to assess whether it is necessary to apply it to smartwatch rather than copying it to the smartwatch without a second thought.
 
 #### Be Stylish
 
-Traditional watches nowadays have gone far beyond its old attribute, and has become a crucial fashion accessory. The same thing applies to smartwatches. Trendy design, exquisite watch faces and elegant software interface are all essential fashion components of smartwatches.
+Timepieces nowadays have transcended their traditional functions, and have become a fashion statement. The same thing applies to smartwatches. Trendy design, exquisite watch faces and elegant software interface are all essential fashion components that matter to smartwatches.
 
 ## Style
 
@@ -62,7 +62,7 @@ Designing interface layout for round screen is quite fun. You just cannot help t
 
 #### Combination of Interface and Shape of Screen
 
-We usually recommend designers to let UI elements align with the screen shape, which helps them make a better use of the tiny screen space and enables a more natural combination of the software interface and hardware appearance. Achieving that could be fairly challenging, while we deem it as the most charming part of the interface design.
+We usually recommend designers to make  UI elements align with the screen shape, which helps them make a better use of the tiny screen space and enables a more natural combination of the software interface and hardware appearance. Achieving that could be fairly challenging, while we deem it as the most charming part of the interface design.
 
 <div class="row">
 <div class="col-third" markdown="1">
@@ -173,11 +173,11 @@ Do not apply colors with similar hue and brightness for the background and conte
 
 ### Typography
 
-Typography is essential to app design. Selecting appropriate font and spacing not only gives readers better reading experiences, but also ensures a nicer visual display of the app. In order to enable “know through one glance”, we have to pick an appropriate font size to bring good reading experience on smartwatch, especially under certain circumstances. Most of the time, we recommend you to follow the text layout guideline for the operation system since its developers are more familiar with the characteristics of the hardware that the system setup on.
+Typography is essential to app design. Selecting appropriate font and spacing not only gives readers greater reading experiences, but also ensures a nicer visual display of the app. In order to enable “know through one glance”, we have to pick an appropriate font size to bring good reading experience on the smartwatch, especially under certain circumstances. Most of the time, we recommend you to follow the text layout guideline for the operation system since its developers are more familiar with the characteristics of the hardware that the system setup on.
 
 #### Font Size
 
-Please try not to display more than two fonts on the same interface and keep the distinction between different fonts obvious. And this rule applies to more than smartphone.
+Please try not to display more than two fonts on the same interface and keep the distinction between different fonts obvious.And this rule applies to more than smartphones.
 
 What listed below is a whole set of font guideline for Ticwear system, which you might find helpful If you are trying to design an interface on a 36mm smartwatch screen. You are also welcome to refer to the [developer doc](../doc/#style-and-theme) for more usage guideline.
 
@@ -195,8 +195,9 @@ What listed below is a whole set of font guideline for Ticwear system, which you
 
 #### Row Spacing
 
-The spacing between rows significantly affects the reading experience.  We use the following reference: row spacing should be 0.4x the font size.  
-This is only a consideration.  In theory, neither too much or too little row spacing can be acceptable.
+The spacing between rows significantly affects the reading experience.  We use the following reference: row spacing should be 0.4x the font size.
+  
+This is only a consideration. Theoretically, a spacing that is neither too much or too little is  acceptable.
 
 <div class="row">
 <div class="col-third" markdown="1">
@@ -213,7 +214,7 @@ This is only a consideration.  In theory, neither too much or too little row spa
 
 #### English Text
 
-When you need English texts for designing an app, you are very likely to encounter the following case: Chinese text message, when translated into English, gets much longer horizontally, therefore disturbing the original balance of layout. This problem could be solved by the following two methods:
+When you need the English version for an app, you are very likely to encounter the following problem: Chinese text message, when translated into English, gets much longer horizontally, therefore disturbing the original balanced layout. This could be solved by the following two solutions:
 
 1. Making English text font at least 2px smaller than Chinese text font.
 2. Use some “condensed” text font: such as Google’s Roboto Condensed
@@ -226,7 +227,7 @@ When you need English texts for designing an app, you are very likely to encount
 
 #### Augment responding area as much as possible
 
-We suggest that you design pleasant visual and responding areas. This is an obvious rule, considering the user scenario and product positioning of smartwatch.
+We suggest you to design a safe and pleasant visual and responsive area for UI elements, an apparent rule to follow given the smartwatch's usage scenarios and product positioning.
 
 <div class="row">
 <div class="col-half" markdown="1">
@@ -239,7 +240,7 @@ We suggest that you design pleasant visual and responding areas. This is an obvi
 
 #### Ensure Enough Spacing
 
-In order to reduce the possibility of unwanted triggering, we suggest that you ensure enough spacing between any two UI elements for touch.
+In order to reduce the possibility of false triggering to the greatest extent, we suggest leaving enough and appropriate spacing between any two clickable UI elements. 
 
 <div class="row">
 <div class="col-half" markdown="1">
@@ -255,23 +256,24 @@ In order to reduce the possibility of unwanted triggering, we suggest that you e
 
 #### Natural Response
 
-The response to touch should be obvious and natural, in harmony with human gesture and motion directions. For example, when the users press downward, the button should respond with changes in the vertical direction; When the users drag the objects, the motion of the object should agree with the laws of motion.
+The response to touch should be obvious and natural that corresponds with human gesture and motion direction. For example, when pressing down, the button should respond with vertical changes; when dragging, the motion of the object should follow  the laws of mechanics.
+
 
 <!--需要一个例子 -->
 
 #### Use Toast As Less As Possible
 
-Use graphs to give response. Keep it short and simple if a toast is really necessary.
+Use graphs to give response. Keep the description  short and simple only if needed. 
 
 <!--需要一个例子 -->
 
 ## Animations
 
-Since smartwatch has a tiny screen, we recommend that developers design some transition animations when new elements appear or the page jumps, in order to better help users understand the level of pages and the state of the watch. Animation should be as natural and consistent with UI elements as possible.
+Since the smartwatch has a tiny screen, we recommend developers to provide some transitional animations over the process when there are appearance of new elements, redirection of the page, and behavior state in order to help users better understand the page level and the state of the watch. Animation should be as natural as possible to align with all sorts of UI elements.
 
 <!--需要：开关动效；神奇移动是啥不知道；表盘的动效也行；listview的挠挠动效也行； 至少3个-->
 
-In regards to animations, we don’t know how to introduce it in an appropriate way. On a smartwatch, there are few elegant animations that can draw people’s attention; at the same time, it is a battery killer to the smartwatch. Please always remember that animations is the upper level architecture in design, but it is the most tender part of the product.
+Regarding animations, we are not very sure how to introduce it in an appropriate way. It is rare to have a noticeable animation with elegant design; meanwhile animation is a battery killer to the smartwatch. Please always keep in mind that animation is the upper level architecture in design, but also the tenderest part of the product.
 
 
 <p class="signature">祝好，愿有温度</p>
