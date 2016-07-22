@@ -1,6 +1,6 @@
 ---
 layout: doc
-title: TicDesign Developer Doc
+title: Developer Doc
 permalink: /en/doc/
 ---
 
@@ -213,7 +213,7 @@ By incorporating a variety of effects, this layout achieves the fast into the Ap
 * `app:tic_overScrollEffect` assigns the effect when the page content is scrolled to the end. When `CoordinatorLayout’s` subelement fails to consume the nested scroll event, and it will trigger the effect defined here. Currently, it merely supports `none` and `bounce` effect(overscroll bounce).
 * `app:tic_layout_scrollFlags` assigns the corresponding action as the Appbar scrolls, with a combination of various actions based on needs.
 * `app:tic_layout_scrollResistanceFactor` assigns the fold change of overall height when the Appbar stretches. When the fold change is 1, corresponding the Appbar height change and rolling distance with no damping effect. As the fold change gets closer to 0, the damping effect becomes greater along with smaller changes in height.
-* `app:tic_scaleFactor` assigns the text scaleFactor. When scaleFactor is 1, the text will be aligned with the size of textView through geometric scaling. The scaling effect gets less and less obvious as the scaleFactor gradually reaches zero. Please refer to the details [scale-textview](#scale-textview). 
+* `app:tic_scaleFactor` assigns the text scaleFactor. When scaleFactor is 1, the text will be aligned with the size of textView through geometric scaling. The scaling effect gets less and less obvious as the scaleFactor gradually reaches zero. Please refer to the details [scale-textview](#scale-textview).
 
 ## <a name="support-tickle"></a>Support for Tickle {#support-tickle}
 
@@ -233,7 +233,7 @@ Please refer to the details [Tickle API](http://developer.ticwear.com/doc/tickle
 
 Implementing `TicklableLayoutManager` interface, you can achieve the customized [`LayoutManager`][android-LM] for Tickle. For more information, you can see how `FocusableLinearLayoutManager` is realized.
 
-We have a special design for `TickableRecyclerView` so that it can work smoothly with `AppBarLayout`, and when it focuses, it can better realize multiple effects of TitleBar. You can read more about it in the `TickableRecyclerViewBehavior` code in the source code. 
+We have a special design for `TickableRecyclerView` so that it can work smoothly with `AppBarLayout`, and when it focuses, it can better realize multiple effects of TitleBar. You can read more about it in the `TickableRecyclerViewBehavior` code in the source code.
 
 To make it easier for developers, we have developed a series of Adapter to cater to specific needs quickly:
 
@@ -256,7 +256,7 @@ To make it easier for developers, we have developed a series of Adapter to cater
 
 When using `FocusableLinearLayoutManager`,  you need to have your ViewHolder inherit `FocusableLinearLayoutManager.ViewHolder`, to define the transition animations between the focusing state, non-focusing state and normal state.
 
-`FocusableLinearLayoutManager.ViewHolder` sets the default focusing state animation, which is enlarging and brightening when in the focusing state and narrowing and darkening in the normal state. 
+`FocusableLinearLayoutManager.ViewHolder` sets the default focusing state animation, which is enlarging and brightening when in the focusing state and narrowing and darkening in the normal state.
 
 If you want to define a more delicate animation effect, you can make implement `FocusableLinearLayoutManager.OnFocusStateChangedListener` interface with your `ItemView`. Or you can override the method of `ViewHolder.onFocusStateChanged`.
 
@@ -331,7 +331,7 @@ We transplant and extend Android’s [`AlertDialog`][android-alert-dialog] with 
 
 When the set-up text message gets really long, it can scroll up and down and the bottom of the icon button will disappear as it scrolls to ensure better reading experience.
 
-The way to use it is no different from using the original `AlertDialog`. The only thing needed is to formulate either an icon document or the icon’s `Drawable`, similar to the method as shown below: 
+The way to use it is no different from using the original `AlertDialog`. The only thing needed is to formulate either an icon document or the icon’s `Drawable`, similar to the method as shown below:
 
 ``` java
 new AlertDialog.Builder(context)
@@ -347,7 +347,7 @@ new AlertDialog.Builder(context)
         .show();
 ```
 
-While we use the dialog, we can achieve the effects we want by assigning `android:alertDialogTheme` from a customized dialog style. 
+While we use the dialog, we can achieve the effects we want by assigning `android:alertDialogTheme` from a customized dialog style.
 
 `AlertDialog` has the following styles that can be included in themes:
 
@@ -360,11 +360,11 @@ While we use the dialog, we can achieve the effects we want by assigning `androi
 
 
 ### <a name="list-choice-dialog"></a>List Selection Dialog Box {#list-choice-dialog}
- 
+
 
 Similar to Android’s [`AlertDialog`][android-alert-dialog], you can also create a list selcection dialog by setting the item, singleChoiceItems and multipleChoiceItems of Dialog, in order to acquire results of user’s selection of list.
 
-The way to use it is no different from that of [AlertDialog](#alert-dialog). The following is the codes: 
+The way to use it is no different from that of [AlertDialog](#alert-dialog). The following is the codes:
 
 ``` java
 final List<Integer> selection = new ArrayList<>();
@@ -439,12 +439,12 @@ If you only want users to pick the date or time, the only thing you need to do i
 
 ## <a name="menu"></a>Floating Context Menu {#menu}
 
-You can easily create a floating context menu that floats above the content through `FloatingContextMenu`. 
+You can easily create a floating context menu that floats above the content through `FloatingContextMenu`.
 
 Similar to Android’s [long pop-up menu][android-FloatingContextMenu], developers can create a menu resource within [menu resource][android-menu-resource], and appoint content for `FloatingContextMenu` through `ContextMenuCreator` during the process.
 
 User’s selection of choice will be returned to the server through `OnMenuSelectedListener`.
-Specify your menu after the callback interface to create and choose, developers can display the floating menu through `show(View)`.  And bind on the menu to the appointed View with an effect on the menu’s life cycle. When the View gets detached from the window, the bound menu will be destroyed. Besides, the assigned view will be conveyed to `ContextMenuCreator` as a contextual reference for creating a menu resource. 
+Specify your menu after the callback interface to create and choose, developers can display the floating menu through `show(View)`.  And bind on the menu to the appointed View with an effect on the menu’s life cycle. When the View gets detached from the window, the bound menu will be destroyed. Besides, the assigned view will be conveyed to `ContextMenuCreator` as a contextual reference for creating a menu resource.
 
 Here is a simple example:
 
@@ -467,7 +467,7 @@ new FloatingContextMenu(context)
 ```
 By specifying the menu creation and select the callback, developers can appoint the menu content, and also obtain the results of menu selection.  
 
-One thing to note here is that our current `FloatingContextMenu` merely supports basic/rudimentary menu content (icon, title, and intent) without no support on nested menus (menu group), action, and other complex attributes. 
+One thing to note here is that our current `FloatingContextMenu` merely supports basic/rudimentary menu content (icon, title, and intent) without no support on nested menus (menu group), action, and other complex attributes.
 
 ## <a name="widgets"></a>Small Widgets {#widgets}
 
@@ -490,7 +490,7 @@ $$
 \right)
 $$
 
-You need to be aware that when scripts undergo scaling, it may be exceed boundary.  While using it, it is best to appoint a sufficient padding, or set up a non-changeable over there to match_parent.  For example, the `ScalableTextView` in the `TitleBar` usually follows the layout: 
+You need to be aware that when scripts undergo scaling, it may be exceed boundary.  While using it, it is best to appoint a sufficient padding, or set up a non-changeable over there to match_parent.  For example, the `ScalableTextView` in the `TitleBar` usually follows the layout:
 
 ``` xml
 <ticwear.design.widget.AppBarLayout
@@ -513,11 +513,11 @@ You need to be aware that when scripts undergo scaling, it may be exceed boundar
 
 ### <a name="fab"></a>Floating Action Button {#fab}
 
-`FloatingActionButton`, the floating action button, is an expanded `ImageButton`. We transplanted it from the [Android Design Support][google-design-support] library, and remove some unfavorable parts of wrist watch display, (for example, `SnackBar` interaction) as to increase Ticwear’s design element. 
+`FloatingActionButton`, the floating action button, is an expanded `ImageButton`. We transplanted it from the [Android Design Support][google-design-support] library, and remove some unfavorable parts of wrist watch display, (for example, `SnackBar` interaction) as to increase Ticwear’s design element.
 
-Regarding more ways for general usage, refer the [official Android file] [android-fab]. 
- 
-Among Ticwear’s distinctive modifications, the principal change has been increasing the `minimum`, minimizing modes (original control only supports `shown` and `hidden` modes). This mode will cause the push button to reduce to a small dot, and not shelter the text.  It will also point out the user’s operable elements. 
+Regarding more ways for general usage, refer the [official Android file] [android-fab].
+
+Among Ticwear’s distinctive modifications, the principal change has been increasing the `minimum`, minimizing modes (original control only supports `shown` and `hidden` modes). This mode will cause the push button to reduce to a small dot, and not shelter the text.  It will also point out the user’s operable elements.
 
 The usage is similar to `show()` and `hide()`.Call to minimize () to minimize button. It will tigger `OnVisibilityChangedListener.onMinimum` when the button gets minimized.  
 
@@ -528,7 +528,7 @@ The usage is similar to `show()` and `hide()`.Call to minimize () to minimize bu
 
 The circular progress drawable, similar to Android’s [`progressBar`][android-progressbar], is divided into two modes, which are `determinate` and `indeterminate` according to its effect. The `indeterminate` mode displays the current progress of `progressBar` and the `indeterminate` mode dynamically rotates the `progressBar`.
 
-Users can dynamically set the progress, alpha value, and color for `progressBar` within the codes. While no settings are done, we automatically `tint` the `progressBar` the background color and set an `alpha` value as 50%. In any cases, the `progress` mode automatically turns into `determinate` when it is setted within the codes. 
+Users can dynamically set the progress, alpha value, and color for `progressBar` within the codes. While no settings are done, we automatically `tint` the `progressBar` the background color and set an `alpha` value as 50%. In any cases, the `progress` mode automatically turns into `determinate` when it is setted within the codes.
 
 During initialization, the user can start various kinds of default settings for `progressBar`, such as every circle’s duration, initial angles, the maximum and minimum angles, etc. These attributes cannot be modified after being generated in `CircularProgressDrawable`.  
 
@@ -537,7 +537,7 @@ In FAB, users can choose whether to include the progress bar or not. When there 
 
 ### <a name="primary-button"></a>Primary Button {#primary-button}
 
-One principle of developing the smartwatch interface is simplifying content and selection, allowing users to quickly understand what they need to do. Therefore we constantly need to display one major button at the bottom of the page that occupies a relatively large area. In this case, the `PrimaryButton` will do. 
+One principle of developing the smartwatch interface is simplifying content and selection, allowing users to quickly understand what they need to do. Therefore we constantly need to display one major button at the bottom of the page that occupies a relatively large area. In this case, the `PrimaryButton` will do.
 
 `PrimaryButton` is a special `ImageButton`; it’s background is a semicircular color block that looks nice when placed at the bottom of the round watch.
 
@@ -569,5 +569,3 @@ For [Ticwear Theme](#style-and-theme) We have set up a `Checkbox` and `RadioButt
 [android-FloatingContextMenu]: https://developer.android.com/guide/topics/ui/menus.html#FloatingContextMenu
 [android-menu-resource]: https://developer.android.com/guide/topics/resources/menu-resource.html
 [android-LM]: https://developer.android.com/reference/android/support/v7/widget/RecyclerView.LayoutManager.html
-
-

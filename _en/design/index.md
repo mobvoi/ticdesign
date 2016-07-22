@@ -1,6 +1,6 @@
 ---
 layout: doc
-title: TicDesign Design Doc
+title: Design Doc
 permalink: /en/design/
 ---
 
@@ -196,7 +196,7 @@ What listed below is a whole set of font guideline for Ticwear system, which you
 #### Row Spacing
 
 The spacing between rows significantly affects the reading experience.  We use the following reference: row spacing should be 0.4x the font size.
-  
+
 This is only a consideration. Theoretically, a spacing that is neither too much or too little is  acceptable.
 
 <div class="row">
@@ -240,7 +240,7 @@ We suggest you to design a safe and pleasant visual and responsive area for UI e
 
 #### Ensure Enough Spacing
 
-In order to reduce the possibility of false triggering to the greatest extent, we suggest leaving enough and appropriate spacing between any two clickable UI elements. 
+In order to reduce the possibility of false triggering to the greatest extent, we suggest leaving enough and appropriate spacing between any two clickable UI elements.
 
 <div class="row">
 <div class="col-half" markdown="1">
@@ -263,7 +263,7 @@ The response to touch should be obvious and natural that corresponds with human 
 
 #### Use Toast As Less As Possible
 
-Use graphs to give response. Keep the description  short and simple only if needed. 
+Use graphs to give response. Keep the description  short and simple only if needed.
 
 <!--需要一个例子 -->
 
@@ -276,6 +276,4 @@ Since the smartwatch has a tiny screen, we recommend developers to provide some 
 Regarding animations, we are not very sure how to introduce it in an appropriate way. It is rare to have a noticeable animation with elegant design; meanwhile animation is a battery killer to the smartwatch. Please always keep in mind that animation is the upper level architecture in design, but also the tenderest part of the product.
 
 
-<p class="signature">祝好，愿有温度</p>
-
-
+<p class="signature">Warm design, better life.</p>
