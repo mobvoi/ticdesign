@@ -162,7 +162,7 @@ permalink: /design/
 #### 字号
 在一个界面上，尽可能不要出现超过两种字号，并且同一个页面的不同字号间的大小区分要明显，这条经验不只适用在智能手表领域。
 
-下面是Ticwear系统中的字号规范。如果你也在设计一块1.4寸屏幕的智能手表界面，这套字号规范将更具参考价值。<a href="../doc/#style-and-theme">开发者可以在开发文档中查看如何使用。</a>
+下面是Ticwear系统中的字号规范。如果你也在设计一块1.4寸屏幕的智能手表界面，这套字号规范将更具参考价值。开发者可以在[开发文档](../doc/#style-and-theme)中查看如何使用。
 
 <div class="row">
 <div class="col-third" markdown="1">
@@ -253,4 +253,5 @@ permalink: /design/
 
 
 <p class="signature">祝好，愿有温度</p>
+
 

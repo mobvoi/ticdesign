@@ -21,10 +21,16 @@ github:
 
 # Folders
 collections:
-  doc:
-    output: true
   design:
     output: true
+  doc:
+    output: true
+  en:
+    output: true
+
+# Localizations
+default_locale:     "zh"
+authorized_locales: ["en", "zh"]
 
 # Build settings
 markdown: kramdown

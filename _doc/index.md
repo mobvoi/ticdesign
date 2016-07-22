@@ -12,7 +12,7 @@ permalink: /doc/
 
 设计库包含下面几个部分：
 
-1. [样式和主题](#style-and-theme)：定义了一些列文字、页面和控件的样式，以及页面切换等动效支持。
+1. [样式和主题](#style-and-theme)：定义了一系列文字、页面和控件的样式，以及页面切换等动效支持。
 2. [协作布局](#coordinator-layout)：基于 [Android Design Support][google-design-support]，构建了一套适合手表展示的页面结构，除了 Google Design 中的跟随滚动等效果，我们还为标题栏增加了可拉伸等效果。
 3. [对侧面挠挠的支持](#support-tickle)：我们提供了一套较为便捷的方式为开发者提供了对挠挠的支持，并增加了一些对挠挠有较好交互的控件。比如[支持挠挠的 RecyclerView](#ticklable-RV) 以及[挠挠触碰时有聚焦效果的 LayoutManger](#focusable-LM) 等。
 4. [设置](#preference)：提供一套类似 [Android Settings][android-settings] 的、符合 [Ticwear Design][ticwear-design] 的设置系统，更适合手表展示，并支持挠挠交互。
@@ -69,7 +69,7 @@ TextAppearance.Ticwear.Widget
 TextAppearance.Ticwear.Widget.Button
 ```
 
-除此之外，还定义了一些列基础字体大小：
+除此之外，还定义了一系列基础字体大小：
 
 ``` xml
 <dimen name="tic_text_size_extra_extra_large">27sp</dimen>
