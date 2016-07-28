@@ -22,5 +22,5 @@
     android:viewportWidth="104.0">
     <path
         android:fillColor="?android:colorControlNormal"
-        android:pathData="@string/tic.svg.btn.two_state.bg" />
+        android:pathData="@string/tic_svg_btn_two_state_bg" />
 </vector>

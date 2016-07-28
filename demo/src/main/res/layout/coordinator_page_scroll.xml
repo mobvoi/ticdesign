@@ -35,7 +35,7 @@
             android:layout_width="match_parent"
             android:layout_height="32dp"
             android:gravity="center"
-            android:text="@string/main.title"
+            android:text="@string/main_title"
             app:tic_layout_scrollFlags="scroll|overScrollBounce"
             />
 
@@ -54,7 +54,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/text.long_content"/>
+            android:text="@string/text_long_content"/>
 
     </ticwear.design.widget.SubscribedScrollView>
 

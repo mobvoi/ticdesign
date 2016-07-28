@@ -20,33 +20,33 @@
     <set android:ordering="together">
         <objectAnimator
             android:interpolator="@android:interpolator/decelerate_cubic"
-            android:duration="@integer/design.anim.button_state_half"
+            android:duration="@integer/design_anim_button_state_half"
             android:propertyName="scaleX"
             android:valueType="floatType"
             android:valueFrom="1"
-            android:valueTo="@integer/design.anim.scale.button_press" />
+            android:valueTo="@integer/design_anim_scale_button_press" />
         <objectAnimator
             android:interpolator="@android:interpolator/decelerate_cubic"
-            android:duration="@integer/design.anim.button_state_half"
+            android:duration="@integer/design_anim_button_state_half"
             android:propertyName="scaleY"
             android:valueType="floatType"
             android:valueFrom="1"
-            android:valueTo="@integer/design.anim.scale.button_press" />
+            android:valueTo="@integer/design_anim_scale_button_press" />
     </set>
     <set android:ordering="together">
         <objectAnimator
             android:interpolator="@android:interpolator/accelerate_cubic"
-            android:duration="@integer/design.anim.button_state_half"
+            android:duration="@integer/design_anim_button_state_half"
             android:propertyName="scaleX"
             android:valueType="floatType"
-            android:valueFrom="@integer/design.anim.scale.button_press"
+            android:valueFrom="@integer/design_anim_scale_button_press"
             android:valueTo="1" />
         <objectAnimator
             android:interpolator="@android:interpolator/accelerate_cubic"
-            android:duration="@integer/design.anim.button_state_half"
+            android:duration="@integer/design_anim_button_state_half"
             android:propertyName="scaleY"
             android:valueType="floatType"
-            android:valueFrom="@integer/design.anim.scale.button_press"
+            android:valueFrom="@integer/design_anim_scale_button_press"
             android:valueTo="1" />
     </set>
 </set>

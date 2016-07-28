@@ -26,14 +26,14 @@
         android:pivotY="52">
         <path
             android:name="bgPath"
-            android:pathData="@string/tic.svg.btn.two_state.bg"
+            android:pathData="@string/tic_svg_btn_two_state_bg"
             android:fillColor="?android:colorControlActivated" />
 
         <group android:name="fgOff"
                android:pivotX="52.0"
                android:pivotY="52.0">
             <path
-                android:pathData="@string/tic.svg.btn.switch.off"
+                android:pathData="@string/tic_svg_btn_switch_off"
                 android:strokeColor="#FFFFFF"
                 android:strokeWidth="6" />
         </group>
@@ -42,7 +42,7 @@
                android:pivotY="52.0">
             <path
                 android:fillColor="#FFFFFF"
-                android:pathData="@string/tic.svg.btn.switch.on" />
+                android:pathData="@string/tic_svg_btn_switch_on" />
         </group>
     </group>
 </vector>

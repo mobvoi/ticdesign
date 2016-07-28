@@ -17,17 +17,17 @@
 
 <ticwear.design.preference.PreferenceScreen
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:title="@string/preference.wifi_setting">
+    android:title="@string/preference_wifi_setting">
 
     <ticwear.design.preference.SwitchPreference
         android:key="wifi_switch"
-        android:title="@string/preference.wifi_auto"
-        android:summaryOn="@string/preference.wifi_successful"
-        android:summaryOff="@string/preference.wifi_closed" />
+        android:title="@string/preference_wifi_auto"
+        android:summaryOn="@string/preference_wifi_successful"
+        android:summaryOff="@string/preference_wifi_closed" />
 
     <ticwear.design.preference.PreferenceScreen
         android:key="wifi_advanced"
-        android:title="@string/preference.wifi_more"
+        android:title="@string/preference_wifi_more"
         />
 
 </ticwear.design.preference.PreferenceScreen>

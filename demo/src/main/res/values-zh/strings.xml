@@ -18,65 +18,65 @@
 <resources>
     <string name="app_name">Tic设计</string>
 
-    <string name="category.dialog.title">对话框</string>
-    <string name="category.dialog.standard">常规对话框</string>
-    <string name="category.dialog.no_title">无标题对话框</string>
-    <string name="category.dialog.confirm">确认对话框</string>
-    <string name="category.dialog.choose">选择对话框</string>
-    <string name="category.dialog.delay_confirm">延时选择对话框</string>
-    <string name="category.dialog.long">长文本对话框</string>
-    <string name="category.dialog.value_picker">数值选择器</string>
-    <string name="category.dialog.number_picker">数字选择器</string>
-    <string name="category.dialog.time_picker">时间选择器</string>
-    <string name="category.dialog.date_picker">日期选择器</string>
-    <string name="category.dialog.datetime_picker">时间日期选择器</string>
-    <string name="category.dialog.choice">项目选择</string>
-    <string name="category.dialog.single_selection">选择后退出</string>
-    <string name="category.dialog.single_choice">单选对话框</string>
-    <string name="category.dialog.multiple_choice">多选对话框</string>
-    <string name="category.dialog.text_only">仅文字内容</string>
+    <string name="category_dialog_title">对话框</string>
+    <string name="category_dialog_standard">常规对话框</string>
+    <string name="category_dialog_no_title">无标题对话框</string>
+    <string name="category_dialog_confirm">确认对话框</string>
+    <string name="category_dialog_choose">选择对话框</string>
+    <string name="category_dialog_delay_confirm">延时选择对话框</string>
+    <string name="category_dialog_long">长文本对话框</string>
+    <string name="category_dialog_value_picker">数值选择器</string>
+    <string name="category_dialog_number_picker">数字选择器</string>
+    <string name="category_dialog_time_picker">时间选择器</string>
+    <string name="category_dialog_date_picker">日期选择器</string>
+    <string name="category_dialog_datetime_picker">时间日期选择器</string>
+    <string name="category_dialog_choice">项目选择</string>
+    <string name="category_dialog_single_selection">选择后退出</string>
+    <string name="category_dialog_single_choice">单选对话框</string>
+    <string name="category_dialog_multiple_choice">多选对话框</string>
+    <string name="category_dialog_text_only">仅文字内容</string>
 
-    <string name="category.widgets.title">控件</string>
-    <string name="category.widgets.fab">悬浮按钮</string>
-    <string name="category.widgets.fab_delay">延时确认</string>
-    <string name="category.widgets.button">按钮控件</string>
-    <string name="category.widgets.volume_bar">声音控件</string>
-    <string name="category.widgets.progress">进度/加载</string>
-    <string name="category.widgets.picker">数值选择器</string>
-    <string name="category.widgets.swipe_todo">滑动选择</string>
+    <string name="category_widgets_title">控件</string>
+    <string name="category_widgets_fab">悬浮按钮</string>
+    <string name="category_widgets_fab_delay">延时确认</string>
+    <string name="category_widgets_button">按钮控件</string>
+    <string name="category_widgets_volume_bar">声音控件</string>
+    <string name="category_widgets_progress">进度/加载</string>
+    <string name="category_widgets_picker">数值选择器</string>
+    <string name="category_widgets_swipe_todo">滑动选择</string>
 
-    <string name="category.settings.title">设置</string>
+    <string name="category_settings_title">设置</string>
 
-    <string name="category.spec.title">规范</string>
-    <string name="category.spec.text">文字样式</string>
-    <string name="category.spec.color">默认颜色</string>
-    <string name="category.spec.layout">常见布局</string>
+    <string name="category_spec_title">规范</string>
+    <string name="category_spec_text">文字样式</string>
+    <string name="category_spec_color">默认颜色</string>
+    <string name="category_spec_layout">常见布局</string>
 
-    <string name="category.showcase.title">眼前一亮</string>
+    <string name="category_showcase_title">眼前一亮</string>
 
-    <string name="category.menu.title">菜单</string>
-    <string name="category.menu.hint.1">长按弹出1项菜单</string>
-    <string name="category.menu.hint.2">长按弹出2项菜单</string>
-    <string name="category.menu.hint.3">长按弹出3项菜单</string>
-    <string name="category.menu.hint.4">长按弹出4项菜单</string>
-    <string name="category.menu.hint.5">长按弹出5项菜单</string>
-    <string name="category.menu.hint.create">创建新项目</string>
-    <string name="category.menu.hint.open">打开文件</string>
-    <string name="category.menu.hint.edit">编辑</string>
-    <string name="category.menu.hint.share">分享</string>
-    <string name="category.menu.hint.delete">删除</string>
+    <string name="category_menu_title">菜单</string>
+    <string name="category_menu_hint_1">长按弹出1项菜单</string>
+    <string name="category_menu_hint_2">长按弹出2项菜单</string>
+    <string name="category_menu_hint_3">长按弹出3项菜单</string>
+    <string name="category_menu_hint_4">长按弹出4项菜单</string>
+    <string name="category_menu_hint_5">长按弹出5项菜单</string>
+    <string name="category_menu_hint_create">创建新项目</string>
+    <string name="category_menu_hint_open">打开文件</string>
+    <string name="category_menu_hint_edit">编辑</string>
+    <string name="category_menu_hint_share">分享</string>
+    <string name="category_menu_hint_delete">删除</string>
 
-    <string name="category.coordinator.title">协作布局</string>
+    <string name="category_coordinator_title">协作布局</string>
 
 
 
-    <string name="text.short_content">想保持页面的美观，内容就不要超过27个字（三行）。</string>
-    <string name="text.long_content">中国拥有众多的人口，也拥有世界上最丰富多元的自然景观，高原、山林、湖泊、海岸
+    <string name="text_short_content">想保持页面的美观，内容就不要超过27个字（三行）。</string>
+    <string name="text_long_content">中国拥有众多的人口，也拥有世界上最丰富多元的自然景观，高原、山林、湖泊、海岸
         线，这种地理和气候的跨度有助于物种的形成和保存，任何一个国家都没有这样多潜在的食物原材料。人们采集、捡拾、
         挖掘、捕捞，为的是得到这份自然的馈赠。穿越四季，我们即将看到美味背后人和自然的故事。</string>
-    <string name="text.dialog.delay_confirm">操作即将完成，可以点击立刻执行。</string>
+    <string name="text_dialog_delay_confirm">操作即将完成，可以点击立刻执行。</string>
 
-    <string name="spec.text_size.line_height">所有文字设置 line spacing 为 1.4</string>
-    <string name="spec.text_size.base">基础文本样式</string>
-    <string name="spec.text_size.material">材料设计文本样式</string>
+    <string name="spec_text_size_line_height">所有文字设置 line spacing 为 1.4</string>
+    <string name="spec_text_size_base">基础文本样式</string>
+    <string name="spec_text_size_material">材料设计文本样式</string>
 </resources>

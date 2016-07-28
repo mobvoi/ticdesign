@@ -32,7 +32,7 @@
             android:singleLine="true"
             android:gravity="end"
             android:alpha="0.7"
-            android:text="@string/spec.text_size.headline.name"
+            android:text="@string/spec_text_size_headline_name"
             />
 
         <TextView
@@ -41,7 +41,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="4dp"
             android:singleLine="true"
-            android:text="@string/spec.text_size.headline.desc"
+            android:text="@string/spec_text_size_headline_desc"
             />
 
     </LinearLayout>
@@ -59,7 +59,7 @@
             android:singleLine="true"
             android:gravity="end"
             android:alpha="0.7"
-            android:text="@string/spec.text_size.title.name"
+            android:text="@string/spec_text_size_title_name"
             />
 
         <TextView
@@ -68,7 +68,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="4dp"
             android:singleLine="true"
-            android:text="@string/spec.text_size.title.desc"
+            android:text="@string/spec_text_size_title_desc"
             />
 
     </LinearLayout>
@@ -86,7 +86,7 @@
             android:singleLine="true"
             android:gravity="end"
             android:alpha="0.7"
-            android:text="@string/spec.text_size.subhead.name"
+            android:text="@string/spec_text_size_subhead_name"
             />
 
         <TextView
@@ -95,7 +95,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="4dp"
             android:singleLine="true"
-            android:text="@string/spec.text_size.subhead.desc"
+            android:text="@string/spec_text_size_subhead_desc"
             />
 
     </LinearLayout>
@@ -113,7 +113,7 @@
             android:singleLine="true"
             android:gravity="end"
             android:alpha="0.7"
-            android:text="@string/spec.text_size.body2.name"
+            android:text="@string/spec_text_size_body2_name"
             />
 
         <TextView
@@ -122,7 +122,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="4dp"
             android:singleLine="true"
-            android:text="@string/spec.text_size.body2.desc"
+            android:text="@string/spec_text_size_body2_desc"
             />
 
     </LinearLayout>
@@ -140,7 +140,7 @@
             android:singleLine="true"
             android:gravity="end"
             android:alpha="0.7"
-            android:text="@string/spec.text_size.body1.name"
+            android:text="@string/spec_text_size_body1_name"
             />
 
         <TextView
@@ -149,7 +149,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="4dp"
             android:singleLine="true"
-            android:text="@string/spec.text_size.body1.desc"
+            android:text="@string/spec_text_size_body1_desc"
             />
 
     </LinearLayout>
@@ -167,7 +167,7 @@
             android:singleLine="true"
             android:gravity="end"
             android:alpha="0.7"
-            android:text="@string/spec.text_size.caption.name"
+            android:text="@string/spec_text_size_caption_name"
             />
 
         <TextView
@@ -176,7 +176,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="4dp"
             android:singleLine="true"
-            android:text="@string/spec.text_size.caption.desc"
+            android:text="@string/spec_text_size_caption_desc"
             />
 
     </LinearLayout>
@@ -194,7 +194,7 @@
             android:singleLine="true"
             android:gravity="end"
             android:alpha="0.7"
-            android:text="@string/spec.text_size.button.name"
+            android:text="@string/spec_text_size_button_name"
             />
 
         <TextView
@@ -203,7 +203,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="4dp"
             android:singleLine="true"
-            android:text="@string/spec.text_size.button.desc"
+            android:text="@string/spec_text_size_button_desc"
             />
 
     </LinearLayout>

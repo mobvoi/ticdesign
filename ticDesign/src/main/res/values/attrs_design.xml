@@ -161,7 +161,7 @@
         <attr name="tic_layout_scrollResistanceFactor" format="float" />
 
         <!-- Use when overScrollBounce is set, represent the over scroll offset limit.
-             the default value is defined in @dimens/design.over_scroll_limit. -->
+             the default value is defined in @dimens/design_over_scroll_limit. -->
         <attr name="tic_layout_overScrollLimit" format="dimension" />
     </declare-styleable>
 

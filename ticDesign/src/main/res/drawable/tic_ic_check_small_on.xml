@@ -22,9 +22,9 @@
     android:viewportWidth="104.0">
     <path
         android:fillColor="?android:colorControlActivated"
-        android:pathData="@string/tic.svg.btn.two_state.bg" />
+        android:pathData="@string/tic_svg_btn_two_state_bg" />
     <path
-        android:pathData="@string/tic.svg.btn.check.on"
+        android:pathData="@string/tic_svg_btn_check_on"
         android:strokeColor="#FFFFFF"
         android:strokeWidth="7" />
 </vector>

@@ -16,17 +16,17 @@
   -->
 
 <resources>
-    <string name="tic.svg.btn.two_state.bg"      translatable="false">M52,52m-52,0a52,52 0,1 1,104 0a52,52 0,1 1,-104 0</string>
-    <string name="tic.svg.btn.two_state.half_bg" translatable="false">M52,52m-26,0a26,26 0,1 1, 52 0a26,26 0,1 1, -52 0</string>
-    <string name="tic.svg.btn.two_state.zero_bg" translatable="false">M52,52m-0 ,0a0 , 0 0,1 1,  0 0a0 , 0 0,1 1,  -0 0</string>
-    <item   name="tic.svg.btn.radius" type="integer" format="float">52.0</item>
+    <string name="tic_svg_btn_two_state_bg"      translatable="false">M52,52m-52,0a52,52 0,1 1,104 0a52,52 0,1 1,-104 0</string>
+    <string name="tic_svg_btn_two_state_half_bg" translatable="false">M52,52m-26,0a26,26 0,1 1, 52 0a26,26 0,1 1, -52 0</string>
+    <string name="tic_svg_btn_two_state_zero_bg" translatable="false">M52,52m-0 ,0a0 , 0 0,1 1,  0 0a0 , 0 0,1 1,  -0 0</string>
+    <item   name="tic_svg_btn_radius" type="integer" format="float">52.0</item>
 
-    <string name="tic.svg.btn.switch.on" translatable="false">M48,36h8v32h-8z</string>
-    <string name="tic.svg.btn.switch.off" translatable="false">M52,52m-16,0a16,16 0,1 1,32 0a16,16 0,1 1,-32 0</string>
+    <string name="tic_svg_btn_switch_on" translatable="false">M48,36h8v32h-8z</string>
+    <string name="tic_svg_btn_switch_off" translatable="false">M52,52m-16,0a16,16 0,1 1,32 0a16,16 0,1 1,-32 0</string>
 
-    <string name="tic.svg.btn.check.on" translatable="false">M36.23,49.27L50,63L71.98,41.02</string>
+    <string name="tic_svg_btn_check_on" translatable="false">M36.23,49.27L50,63L71.98,41.02</string>
 
-    <string name="tic.svg.btn.radio.on" translatable="false">M52,52m-19,0a19,19 0,1 1,38 0a19,19 0,1 1,-38 0</string>
+    <string name="tic_svg_btn_radio_on" translatable="false">M52,52m-19,0a19,19 0,1 1,38 0a19,19 0,1 1,-38 0</string>
 
-    <string name="tic.svg.btn.enter" translatable="false">M46.73,66.95l14.01,-14.35l-14.01,-14.71</string>
+    <string name="tic_svg_btn_enter" translatable="false">M46.73,66.95l14.01,-14.35l-14.01,-14.71</string>
 </resources>

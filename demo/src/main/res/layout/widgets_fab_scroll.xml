@@ -33,7 +33,7 @@
             android:layout_gravity="center"
             android:gravity="center"
             android:clipToPadding="false"
-            android:text="@string/category.widgets.fab"
+            android:text="@string/category_widgets_fab"
             app:tic_layout_scrollFlags="scroll|overScrollBounce"
             app:tic_layout_scrollResistanceFactor="0.5"
             app:tic_scaleFactor="0.5"
@@ -56,7 +56,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:textAppearance="?android:textAppearanceSmall"
-            android:text="@string/text.short_content"
+            android:text="@string/text_short_content"
             />
 
     </ScrollView>

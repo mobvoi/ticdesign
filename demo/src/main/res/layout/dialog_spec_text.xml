@@ -35,7 +35,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="8dp"
-            android:text="@string/spec.text_size.line_height"
+            android:text="@string/spec_text_size_line_height"
             />
 
         <TextView
@@ -54,7 +54,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="4dp"
             android:singleLine="true"
-            android:text="@string/spec.text_size.base"
+            android:text="@string/spec_text_size_base"
             />
 
         <include
@@ -76,7 +76,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="4dp"
             android:singleLine="true"
-            android:text="@string/spec.text_size.material"
+            android:text="@string/spec_text_size_material"
             />
 
         <include
