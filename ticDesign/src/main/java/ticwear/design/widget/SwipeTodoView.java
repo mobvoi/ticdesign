@@ -47,6 +47,10 @@ public class SwipeTodoView extends RelativeLayout {
     private ArcDrawable mLeftBgDrawable;
     private ArcDrawable mRightBgDrawable;
     private ObjectAnimator mIconAnimator;
+    private ObjectAnimator mLeftBtnShowAnimator;
+    private ObjectAnimator mRightBtnShowAnimator;
+    private ObjectAnimator mLeftBtnHideAnimator;
+    private ObjectAnimator mRightBtnHideAnimator;
     private AnimatorSet mOuterAnimator = null;
     private AnimatorSet mMiddleAnimator = null;
     private AnimatorSet mInnerAnimator = null;
@@ -66,6 +70,7 @@ public class SwipeTodoView extends RelativeLayout {
         super(context, attrs);
         inflate(context, R.layout.swipe_todo_view_ticwear, this);
         initView(context, attrs);
+        initButtonAnimator();
         addTouchListener();
         startRotationAnimation();
         startRippleAnimation();
@@ -100,9 +105,11 @@ public class SwipeTodoView extends RelativeLayout {
         mLeftBgDrawable = new ArcDrawable(Color.WHITE);
         mLeftBgDrawable.setTintList(leftBgColor);
         mLeftBgDrawable.setGravity(Gravity.LEFT);
+        mLeftBgDrawable.setAlpha(0);
         mRightBgDrawable = new ArcDrawable(Color.WHITE);
         mRightBgDrawable.setGravity(Gravity.RIGHT);
         mRightBgDrawable.setTintList(rightBgColor);
+        mRightBgDrawable.setAlpha(0);
         String content = typedArray.getString(R.styleable.SwipeTodoView_tic_content);
         String subContent = typedArray.getString(R.styleable.SwipeTodoView_tic_subContent);
         typedArray.recycle();
@@ -133,6 +140,31 @@ public class SwipeTodoView extends RelativeLayout {
         mRightIv.setBackground(mRightBgDrawable);
     }
 
+    private void initButtonAnimator() {
+        mLeftBtnShowAnimator = getButtonShowAnimator(mLeftIv);
+        mRightBtnShowAnimator = getButtonShowAnimator(mRightIv);
+        mLeftBtnHideAnimator = getButtonHideAnimator(mLeftIv);
+        mRightBtnHideAnimator = getButtonHideAnimator(mRightIv);
+    }
+
+    private ObjectAnimator getButtonShowAnimator(ImageView iv) {
+        ObjectAnimator animator = ObjectAnimator.ofPropertyValuesHolder(iv,
+                PropertyValuesHolder.ofFloat("scaleX", 0.3f, 1.0f),
+                PropertyValuesHolder.ofFloat("scaleY", 0.3f, 1.0f),
+                PropertyValuesHolder.ofFloat("alpha", 0, 1.0f));
+        animator.setDuration(320);
+        return animator;
+    }
+
+    private ObjectAnimator getButtonHideAnimator(ImageView iv) {
+        ObjectAnimator animator = ObjectAnimator.ofPropertyValuesHolder(iv,
+                PropertyValuesHolder.ofFloat("scaleX", 1.0f, 0.3f),
+                PropertyValuesHolder.ofFloat("scaleY", 1.0f, 0.3f),
+                PropertyValuesHolder.ofFloat("alpha", 1.0f, 0));
+        animator.setDuration(320);
+        return animator;
+    }
+
     private void addTouchListener() {
         mCenterIv.setOnTouchListener(new OnTouchListener() {
             private int mRawX;
@@ -150,14 +182,7 @@ public class SwipeTodoView extends RelativeLayout {
                         if (mHasCenterIcon) {
                             mCenterIv.getDrawable().setAlpha(0);
                         }
-                        if (mShowLeftButton) {
-                            mLeftIv.setVisibility(View.VISIBLE);
-                            mLeftBgDrawable.setAlpha(0);
-                        }
-                        if (mShowRightButton) {
-                            mRightIv.setVisibility(View.VISIBLE);
-                            mRightBgDrawable.setAlpha(0);
-                        }
+                        showButtons();
                         pauseAnimation();
                         break;
                     case MotionEvent.ACTION_MOVE:
@@ -203,8 +228,7 @@ public class SwipeTodoView extends RelativeLayout {
                 if (mHasCenterIcon) {
                     mCenterIv.getDrawable().setAlpha(255);
                 }
-                mLeftIv.setVisibility(View.GONE);
-                mRightIv.setVisibility(View.GONE);
+                hideButtons();
                 resumeAnimation();
             }
         });
@@ -304,6 +328,24 @@ public class SwipeTodoView extends RelativeLayout {
         mMiddleAnimator.end();
     }
 
+    private void showButtons() {
+        if (mShowLeftButton) {
+            mLeftBtnShowAnimator.start();
+        }
+        if (mShowRightButton) {
+            mRightBtnShowAnimator.start();
+        }
+    }
+
+    private void hideButtons() {
+        if (mShowLeftButton) {
+            mLeftBtnHideAnimator.start();
+        }
+        if (mShowRightButton) {
+            mRightBtnHideAnimator.start();
+        }
+    }
+
     @Override
     protected void onDetachedFromWindow() {
         endAnimation();
@@ -368,8 +410,7 @@ public class SwipeTodoView extends RelativeLayout {
         if (mHasCenterIcon) {
             mCenterIv.getDrawable().setAlpha(255);
         }
-        mLeftIv.setVisibility(View.GONE);
-        mRightIv.setVisibility(View.GONE);
+        hideButtons();
         resumeAnimation();
     }
 }
