@@ -89,6 +89,7 @@
     <public type="style" name="Widget.Ticwear.DatePicker" />
 
     <public type="style" name="Widget.Ticwear.ListView" />
+    <public type="style" name="Widget.Ticwear.ListView.Dialog" />
     <public type="style" name="Widget.Ticwear.ListItem" />
 
     <public type="style" name="Widget.Ticwear.CirclePageIndicator" />
