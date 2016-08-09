@@ -864,6 +864,7 @@ public class NumberPicker extends LinearLayout implements SidePanelEventDispatch
                 }
             }
             amountToScroll += overshootAdjustment;
+            amountToScroll %= mSelectorElementHeight;
             scrollBy(0, amountToScroll);
             return true;
         }
