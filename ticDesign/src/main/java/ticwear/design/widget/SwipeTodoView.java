@@ -5,6 +5,7 @@ import android.animation.AnimatorListenerAdapter;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.animation.PropertyValuesHolder;
+import android.app.ActivityManager;
 import android.content.Context;
 import android.content.res.ColorStateList;
 import android.content.res.TypedArray;
@@ -60,6 +61,7 @@ public class SwipeTodoView extends RelativeLayout {
     private boolean mIsStopAnimation = false;
     private OnSelectChangedListener mLeftListener = null;
     private OnSelectChangedListener mRightListener = null;
+    private ActionListener mActionListener = null;
     private Handler mHandler = new Handler();
 
     public SwipeTodoView(Context context) {
@@ -162,6 +164,29 @@ public class SwipeTodoView extends RelativeLayout {
                 PropertyValuesHolder.ofFloat("scaleY", 1.0f, 0.3f),
                 PropertyValuesHolder.ofFloat("alpha", 1.0f, 0));
         animator.setDuration(320);
+        animator.addListener(new Animator.AnimatorListener() {
+            @Override
+            public void onAnimationStart(Animator animation) {
+
+            }
+
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                if (mActionListener != null) {
+                    mActionListener.onActionUp();
+                }
+            }
+
+            @Override
+            public void onAnimationCancel(Animator animation) {
+
+            }
+
+            @Override
+            public void onAnimationRepeat(Animator animation) {
+
+            }
+        });
         return animator;
     }
 
@@ -184,6 +209,9 @@ public class SwipeTodoView extends RelativeLayout {
                         }
                         showButtons();
                         pauseAnimation();
+                        if (mActionListener != null) {
+                            mActionListener.onActionDown();
+                        }
                         break;
                     case MotionEvent.ACTION_MOVE:
                         mRawX = (int) (event.getRawX());
@@ -412,5 +440,15 @@ public class SwipeTodoView extends RelativeLayout {
         }
         hideButtons();
         resumeAnimation();
+    }
+
+    public interface ActionListener {
+        void onActionDown();
+
+        void onActionUp();
+    }
+
+    public void setActionListener(ActionListener listener) {
+        mActionListener = listener;
     }
 }
