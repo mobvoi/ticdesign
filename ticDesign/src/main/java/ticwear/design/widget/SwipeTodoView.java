@@ -33,7 +33,7 @@ public class SwipeTodoView extends RelativeLayout {
     private static final String TAG = "SwipeTodoView";
     private static final int ANIMATION_TIME = 400;
     private static final float ICON_SCALE_DEFAULT = 1.0f;
-    private static final float ICON_SCALE_DOWN = 0.6f;
+    private static final float ICON_SCALE_DOWN = 1.16f;
     private float mCenterIvInitX;
     private TextView mContentTv;
     private ImageView mOuterCircleIv;
