@@ -84,14 +84,16 @@ public class DatetimePickerDialog extends AlertDialog implements OnClickListener
      * @param context The context the dialog is to run in.
      * @param pageFlag Witch page will show.
      * @param defaultCalendar The initial datetime of the dialog.
+     * @param is24Hour whether time is 24 hour format.
      */
-    public DatetimePickerDialog(Context context, int pageFlag, Calendar defaultCalendar) {
-        this(context, 0, pageFlag, defaultCalendar, true);
+    public DatetimePickerDialog(Context context, int pageFlag, Calendar defaultCalendar,
+                                boolean is24Hour) {
+        this(context, 0, pageFlag, defaultCalendar, is24Hour, true);
     }
 
     public DatetimePickerDialog(Context context, @StyleRes int theme, int pageFlag,
-                                Calendar defaultCalendar) {
-        this(context, theme, pageFlag, defaultCalendar, true);
+                                Calendar defaultCalendar, boolean is24Hour) {
+        this(context, theme, pageFlag, defaultCalendar, is24Hour, true);
     }
 
     @StyleRes
@@ -112,7 +114,8 @@ public class DatetimePickerDialog extends AlertDialog implements OnClickListener
      * @param defaultCalendar The initial datetime of the dialog.
      */
     public DatetimePickerDialog(Context context, @StyleRes int theme, int pageFlag,
-                                Calendar defaultCalendar, boolean dismissOnConfirm) {
+                                Calendar defaultCalendar, boolean is24HourFormat,
+                                boolean dismissOnConfirm) {
         super(context, resolveDialogTheme(context, theme));
 
         // Use getContext to use wrapper context.
@@ -162,7 +165,7 @@ public class DatetimePickerDialog extends AlertDialog implements OnClickListener
         if (hasTimeView) {
             mTimePickerViewHolder = new TimePickerViewHolder(context);
             TimePicker timeView = mTimePickerViewHolder.init(mViewPager,
-                    hour, minute, DateFormat.is24HourFormat(context),
+                    hour, minute, is24HourFormat,
                     this, validationCallback);
             timeView.setMultiPickerClient(this);
             timeView.setTag(R.id.title_template, R.string.time_picker_dialog_title);
@@ -452,11 +455,13 @@ public class DatetimePickerDialog extends AlertDialog implements OnClickListener
         private OnCalendarSetListener listener;
         private Calendar defaultCalendar;
         private boolean dismissOnConfirm;
+        private boolean is24Hour;
 
         public Builder(Context context) {
             this.mContext = context;
             // Enable all pickers.
             this.pageFlag = PAGE_FLAG_DATE | PAGE_FLAG_TIME;
+            this.is24Hour = DateFormat.is24HourFormat(context);
         }
 
         public Builder theme(@StyleRes int theme) {
@@ -484,6 +489,11 @@ public class DatetimePickerDialog extends AlertDialog implements OnClickListener
             return this;
         }
 
+        public Builder set24Hour(boolean is24Hour){
+            this.is24Hour = is24Hour;
+            return this;
+        }
+
         public Builder listener(OnCalendarSetListener listener) {
             this.listener = listener;
             return this;
@@ -501,7 +511,7 @@ public class DatetimePickerDialog extends AlertDialog implements OnClickListener
 
         public DatetimePickerDialog create() {
             DatetimePickerDialog dialog = new DatetimePickerDialog(mContext, theme,
-                    pageFlag, defaultCalendar, dismissOnConfirm);
+                    pageFlag, defaultCalendar, is24Hour, dismissOnConfirm);
             dialog.setOnCalendarSetListener(listener);
             return dialog;
         }
