@@ -24,12 +24,10 @@
 
     <ticwear.design.widget.SubscribedScrollView
         android:id="@+id/scroll_view"
-        style="@style/Widget.Ticwear.ListView"
+        style="?tic_dialogContentStyle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:nestedScrollingEnabled="true"
-        android:paddingEnd="?android:listPreferredItemPaddingEnd"
-        android:paddingStart="?android:listPreferredItemPaddingStart"
         app:tic_layout_behavior="@string/tic_appbar_scrolling_view_behavior">
 
         <LinearLayout
@@ -46,9 +44,7 @@
                 android:layout_gravity="center_horizontal"
                 android:paddingTop="0dp"
                 android:textColor="#cccccc"
-                android:textSize="@dimen/tic_text_size_small_1"
-                android:layout_marginLeft="16dp"
-                android:layout_marginRight="16dp"/>
+                android:textSize="@dimen/tic_text_size_small_1"/>
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -70,7 +66,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
-                    android:layout_marginLeft="10dp"
+                    android:layout_marginStart="10dp"
                     android:paddingTop="0dp"
                     android:textColor="#cccccc"
                     android:textSize="@dimen/tic_text_size_small_1"/>
@@ -87,9 +83,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:src="@drawable/tic_ic_btn_cancel"
-                    android:layout_alignParentStart="true"
-                    android:layout_marginStart="?android:listPreferredItemPaddingStart"
-                    android:layout_centerHorizontal="true"/>
+                    android:layout_alignParentStart="true"/>
 
                 <ticwear.design.widget.FloatingActionButton
                     style="?tic_iconButtonBarPositiveButtonStyle"
@@ -97,9 +91,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:src="@drawable/tic_ic_btn_ok"
-                    android:layout_alignParentEnd="true"
-                    android:layout_marginEnd="?android:listPreferredItemPaddingEnd"
-                    android:layout_centerHorizontal="true"/>
+                    android:layout_alignParentEnd="true"/>
             </RelativeLayout>
         </LinearLayout>
     </ticwear.design.widget.SubscribedScrollView>
