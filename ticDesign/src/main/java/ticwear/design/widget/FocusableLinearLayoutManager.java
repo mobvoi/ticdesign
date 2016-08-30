@@ -258,12 +258,11 @@ public class FocusableLinearLayoutManager extends LinearLayoutManager
         int delta = scrollOffset - this.mScrollOffset;
         int scroll = -delta;
 
-        int pre = mTicklableRecyclerView.computeVerticalScrollOffset();
+        int[] consumed = new int[2];
         // Temporary disable nested scrolling.
-        mTicklableRecyclerView.scrollBySkipNestedScroll(0, scroll);
-        int real = mTicklableRecyclerView.computeVerticalScrollOffset() - pre;
+        mTicklableRecyclerView.scrollBySkipNestedScroll(0, scroll, consumed);
 
-        this.mScrollOffset -= real;
+        this.mScrollOffset -= consumed[1];
 
         return scrollOffset - this.mScrollOffset;
     }

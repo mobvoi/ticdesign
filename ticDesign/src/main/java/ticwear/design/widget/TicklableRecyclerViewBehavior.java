@@ -165,12 +165,12 @@ public class TicklableRecyclerViewBehavior extends AppBarLayout.ScrollingViewBeh
 
     private boolean offsetValidation(int allOffset, int rawOffset) {
         if (Math.abs(allOffset) < Math.abs(rawOffset)) {
-            Log.w(TAG, "total offset should not smaller than raw offset");
+            Log.w(TAG, "total offset should not smaller than raw offset, total " + allOffset + ", raw " + rawOffset);
             setRawTopAndBottomOffset(0);
             return false;
         }
         if (!MathUtils.sameSign(allOffset, rawOffset)) {
-            Log.w(TAG, "total offset has different sign than raw offset");
+            Log.w(TAG, "total offset has different sign than raw offset, total " + allOffset + ", raw " + rawOffset);
             setRawTopAndBottomOffset(0);
             return false;
         }

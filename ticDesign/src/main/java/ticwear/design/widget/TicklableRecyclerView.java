@@ -44,6 +44,7 @@ public class TicklableRecyclerView extends RecyclerView
     private TicklableLayoutManager mTicklableLayoutManager;
 
     private boolean mSkipNestedScroll;
+    private int[] consumedScroll;
 
     public TicklableRecyclerView(Context context) {
         this(context, null);
@@ -64,6 +65,7 @@ public class TicklableRecyclerView extends RecyclerView
         setOverScrollMode(OVER_SCROLL_NEVER);
 
         mSkipNestedScroll = false;
+        consumedScroll = new int[2];
 
         if (!isInEditMode() && getItemAnimator() != null) {
             long defaultAnimDuration = context.getResources()
@@ -164,13 +166,27 @@ public class TicklableRecyclerView extends RecyclerView
     }
 
     public void scrollBySkipNestedScroll(int x, int y) {
+        scrollBySkipNestedScroll(x, y, null);
+    }
+
+    public void scrollBySkipNestedScroll(int x, int y, int[] consumed) {
         mSkipNestedScroll = true;
+        // Use a scroll consume array to hold the scrolled distance. It will update in
+        // dispatchNestedScroll(), which been called from scrollByInternal()
+        consumedScroll[0] = 0;
+        consumedScroll[1] = 0;
         scrollBy(x, y);
+        if (consumed != null && consumed.length >= 2) {
+            consumed[0] = consumedScroll[0];
+            consumed[1] = consumedScroll[1];
+        }
         mSkipNestedScroll = false;
     }
 
     @Override
     public boolean dispatchNestedScroll(int dxConsumed, int dyConsumed, int dxUnconsumed, int dyUnconsumed, int[] offsetInWindow) {
+        consumedScroll[0] = dxConsumed;
+        consumedScroll[1] = dyConsumed;
         return !mSkipNestedScroll && super.dispatchNestedScroll(dxConsumed, dyConsumed, dxUnconsumed, dyUnconsumed, offsetInWindow);
     }
 
