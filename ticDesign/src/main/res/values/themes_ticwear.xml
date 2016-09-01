@@ -133,10 +133,10 @@
         <item name="android:listPreferredItemPaddingStart">@dimen/tic_list_item_padding_horizontal_ticwear</item>
         <item name="android:listPreferredItemPaddingEnd">@dimen/tic_list_item_padding_horizontal_ticwear</item>
 
-        <item name="android:colorAccent">@color/tic_basic_indigo</item>
-        <item name="android:colorControlNormal">@color/tic_widget_background_dark</item>
+        <item name="android:colorAccent">@color/tic_color_accent</item>
+        <item name="android:colorControlNormal">@color/tic_color_control_normal</item>
         <item name="android:colorControlActivated">?android:colorAccent</item>
-        <item name="android:colorEdgeEffect">@color/tic_basic_indigo_lighten</item>
+        <item name="android:colorEdgeEffect">@color/tic_color_edge_effect</item>
         <item name="android:disabledAlpha">@dimen/disabled_alpha_ticwear_dark</item>
     </style>
 
