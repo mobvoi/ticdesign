@@ -35,6 +35,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
 import android.support.annotation.XmlRes;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.RecyclerView.AdapterDataObserver;
 import android.text.TextUtils;
 import android.util.AttributeSet;
@@ -194,6 +195,9 @@ public abstract class PreferenceActivity extends RecyclerActivity implements
             public void onClick(View v) {
                 if (mOnHeaderClickListener != null && !mClickEntering) {
                     final int position = getAdapterPosition();
+                    if (position == RecyclerView.NO_POSITION) {
+                        return;
+                    }
                     final Header header = getItem(position);
                     if (mOnHeaderClickListener.onHeaderClick(header, position)) {
                         mClickEntering = true;
