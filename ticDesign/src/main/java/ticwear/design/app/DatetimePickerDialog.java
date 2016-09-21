@@ -21,6 +21,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
 import android.os.Bundle;
+import android.support.annotation.DrawableRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.StyleRes;
 import android.support.v4.view.PagerAdapter;
@@ -75,6 +76,12 @@ public class DatetimePickerDialog extends AlertDialog implements OnClickListener
 
     private boolean mOnLastPage = false;
     private boolean mIsSidePanelTouching = false;
+
+    private CharSequence mFixedTitle;
+    @DrawableRes
+    private int mNextBtnIconResId;
+    @DrawableRes
+    private int mLastBtnIconResId;
 
     private NumberPicker mFocusedPicker;
 
@@ -259,19 +266,24 @@ public class DatetimePickerDialog extends AlertDialog implements OnClickListener
         mOnLastPage = position == mPagerAdapter.getCount() - 1;
         updateButton();
 
-        setTitle(mPagerAdapter.getPageTitle(position));
+        if (mFixedTitle != null) {
+            setTitle(mFixedTitle);
+        } else {
+            setTitle(mPagerAdapter.getPageTitle(position));
+        }
     }
 
     private void updateButton() {
         ImageButton button = getIconButton(BUTTON_POSITIVE);
         if (button != null) {
+            int iconResId;
             if (mOnLastPage) {
-                button.setImageResource(R.drawable.tic_ic_btn_ok);
-                button.setOnClickListener(this);
+                iconResId = mLastBtnIconResId > 0 ? mLastBtnIconResId : R.drawable.tic_ic_btn_ok;
             } else {
-                button.setImageResource(R.drawable.tic_ic_btn_next);
-                button.setOnClickListener(this);
+                iconResId = mNextBtnIconResId > 0 ? mNextBtnIconResId : R.drawable.tic_ic_btn_next;
             }
+            button.setImageResource(iconResId);
+            button.setOnClickListener(this);
         }
     }
 
@@ -323,6 +335,18 @@ public class DatetimePickerDialog extends AlertDialog implements OnClickListener
      */
     public void updateTime(int hourOfDay, int minuteOfHour) {
         mTimePickerViewHolder.updateTime(hourOfDay, minuteOfHour);
+    }
+
+    public void setFixedTitle(CharSequence title) {
+        mFixedTitle = title;
+    }
+
+    public void setNextButtonIcon(@DrawableRes int iconResId) {
+        mNextBtnIconResId = iconResId;
+    }
+
+    public void setLastButtonIcon(@DrawableRes int iconResId) {
+        mLastBtnIconResId = iconResId;
     }
 
     @Override
@@ -456,6 +480,11 @@ public class DatetimePickerDialog extends AlertDialog implements OnClickListener
         private Calendar defaultCalendar;
         private boolean dismissOnConfirm;
         private boolean is24Hour;
+        private CharSequence title;
+        @DrawableRes
+        private int nextBtnIconResId;
+        @DrawableRes
+        private int lastBtnIconResId;
 
         public Builder(Context context) {
             this.mContext = context;
@@ -494,6 +523,21 @@ public class DatetimePickerDialog extends AlertDialog implements OnClickListener
             return this;
         }
 
+        public Builder title(CharSequence title) {
+            this.title = title;
+            return this;
+        }
+
+        public Builder nextButtonIcon(@DrawableRes int iconResId) {
+            this.nextBtnIconResId = iconResId;
+            return this;
+        }
+
+        public Builder lastButtonIcon(@DrawableRes int iconResId) {
+            this.lastBtnIconResId = iconResId;
+            return this;
+        }
+
         public Builder listener(OnCalendarSetListener listener) {
             this.listener = listener;
             return this;
@@ -512,6 +556,15 @@ public class DatetimePickerDialog extends AlertDialog implements OnClickListener
         public DatetimePickerDialog create() {
             DatetimePickerDialog dialog = new DatetimePickerDialog(mContext, theme,
                     pageFlag, defaultCalendar, is24Hour, dismissOnConfirm);
+            if (title != null) {
+                dialog.setFixedTitle(title);
+            }
+            if (nextBtnIconResId > 0) {
+                dialog.setNextButtonIcon(nextBtnIconResId);
+            }
+            if (lastBtnIconResId > 0) {
+                dialog.setLastButtonIcon(lastBtnIconResId);
+            }
             dialog.setOnCalendarSetListener(listener);
             return dialog;
         }
