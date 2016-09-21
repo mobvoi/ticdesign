@@ -502,6 +502,12 @@ public class NumberPicker extends LinearLayout implements SidePanelEventDispatch
     private boolean mHideWheelUntilFocused;
 
     /**
+     * Enable edit number picker.
+     * We current disabled the number picker edit, it can ben enabled when feature is stable.
+     */
+    private boolean mEditEnabled = false;
+
+    /**
      * Interface to listen for changes of the current value.
      */
     public interface OnValueChangeListener {
@@ -1289,7 +1295,7 @@ public class NumberPicker extends LinearLayout implements SidePanelEventDispatch
     public boolean performClick() {
         if (!mHasSelectorWheel) {
             return super.performClick();
-        } else if (!super.performClick()) {
+        } else if (!super.performClick() && mEditEnabled) {
             showSoftInput();
         }
         return true;
@@ -1299,7 +1305,7 @@ public class NumberPicker extends LinearLayout implements SidePanelEventDispatch
     public boolean performLongClick() {
         if (!mHasSelectorWheel) {
             return super.performLongClick();
-        } else if (!super.performLongClick()) {
+        } else if (!super.performLongClick() && mEditEnabled) {
             showSoftInput();
             mIgnoreMoveEvents = true;
         }

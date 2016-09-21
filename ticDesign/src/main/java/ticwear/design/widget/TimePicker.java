@@ -286,7 +286,7 @@ public class TimePicker extends FrameLayout implements MultiPickerContainer,
         }
 
         boolean handled = false;
-        if (mMultiPickerClient != null) {
+        if (mMultiPickerClient != null && nextView instanceof NumberPicker) {
             handled = mMultiPickerClient.onPickerPreFocus((NumberPicker) nextView, fromLast);
         }
 
