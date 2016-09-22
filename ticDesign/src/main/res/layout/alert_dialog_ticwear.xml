@@ -101,7 +101,6 @@
                         style="@style/TextAppearance.Ticwear.DialogContent"
                         />
                     <Space android:id="@+id/textSpacerNoButtons"
-                        android:visibility="gone"
                         android:layout_width="0dp"
                         android:layout_height="8dp" />
                 </LinearLayout>
