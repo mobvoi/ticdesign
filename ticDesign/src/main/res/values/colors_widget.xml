@@ -25,8 +25,6 @@
 
     <color name="tic_background_mask_dark">#b2000000</color>
 
-    <color name="tic_clockloadingview_default_color">?android:colorAccent</color>
-
     <item name="tic_alert_dialog_button_alpha" format="float" type="dimen">0.9</item>
 
 </resources>

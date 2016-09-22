@@ -6,6 +6,7 @@ import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.util.AttributeSet;
+import android.util.TypedValue;
 import android.view.View;
 import android.view.animation.AccelerateDecelerateInterpolator;
 
@@ -24,10 +25,13 @@ public class ClockLoadingView extends View {
 
     public ClockLoadingView(Context context, AttributeSet attrs) {
         super(context, attrs);
-        this.mContext = context;
+        mContext = context;
+
+        TypedValue colorAccent = new TypedValue();
+        context.getTheme().resolveAttribute(android.R.attr.colorAccent, colorAccent, true);
+
         TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.ClockLoadingView);
-        mViewColor = typedArray.getColor(R.styleable.ClockLoadingView_tic_clv_progress_color,
-                getResources().getColor(R.color.tic_clockloadingview_default_color));
+        mViewColor = typedArray.getColor(R.styleable.ClockLoadingView_tic_clv_progress_color, colorAccent.data);
         mOneCycleDuration = typedArray.getInteger(R.styleable.ClockLoadingView_tic_clv_cycle_duration, 8000);
         typedArray.recycle();
         init();
