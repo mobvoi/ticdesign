@@ -43,6 +43,7 @@
     <string name="category_widgets_button">Buttons</string>
     <string name="category_widgets_volume_bar">Volume Bar</string>
     <string name="category_widgets_progress">Progress/Loading</string>
+    <string name="category_widgets_loading">ClockLoading</string>
     <string name="category_widgets_picker">Value Picker</string>
     <string name="category_widgets_swipe_todo">Swipe Todo</string>
 

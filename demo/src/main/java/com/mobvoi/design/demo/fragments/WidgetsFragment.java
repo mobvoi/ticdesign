@@ -55,6 +55,7 @@ public class WidgetsFragment extends ListFragment {
                 R.string.category_widgets_swipe_todo,
                 R.string.category_widgets_picker,
                 R.string.category_widgets_progress,
+                R.string.category_widgets_loading,
         };
     }
 
@@ -94,6 +95,9 @@ public class WidgetsFragment extends ListFragment {
             case R.string.category_widgets_picker:
                 break;
             case R.string.category_widgets_progress:
+                break;
+            case R.string.category_widgets_loading:
+                dialog = createClockLoadingDialog(context, inflater);
                 break;
         }
 
@@ -245,6 +249,15 @@ public class WidgetsFragment extends ListFragment {
                 dialog.dismiss();
             }
         });
+        dialog.setContentView(layout);
+        return dialog;
+    }
+
+    @NonNull
+    private Dialog createClockLoadingDialog(final Context context, LayoutInflater inflater) {
+        Dialog dialog;
+        dialog = new Dialog(context);
+        View layout = inflater.inflate(R.layout.widgets_clock_loading, null);
         dialog.setContentView(layout);
         return dialog;
     }

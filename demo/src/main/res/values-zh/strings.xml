@@ -42,6 +42,7 @@
     <string name="category_widgets_button">按钮控件</string>
     <string name="category_widgets_volume_bar">声音控件</string>
     <string name="category_widgets_progress">进度/加载</string>
+    <string name="category_widgets_loading">统一加载控件</string>
     <string name="category_widgets_picker">数值选择器</string>
     <string name="category_widgets_swipe_todo">滑动选择</string>
 
