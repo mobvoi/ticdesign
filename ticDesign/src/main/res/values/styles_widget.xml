@@ -223,7 +223,7 @@
     </style>
 
     <style name="Widget.Ticwear.VolumeBar.Volume">
-        <item name="tic_vb_valueColor">@color/tic_basic_indigo</item>
+        <item name="tic_vb_valueColor">?android:colorAccent</item>
         <item name="tic_vb_bgColor">@color/tic_basic_gold_grey_darken</item>
         <item name="tic_vb_touchPadding">8dp</item>
     </style>
