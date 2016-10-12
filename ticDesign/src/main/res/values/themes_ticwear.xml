@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~ Copyright (c) 2016 Mobvoi Inc.
   ~
   ~ Licensed under the Apache License, Version 2.0 (the "License");
@@ -16,6 +15,7 @@
   -->
 
 <resources>
+
     <style name="Theme.Ticwear" parent="android:Theme.Material.NoActionBar">
 
         <item name="android:textColorPrimary">@color/primary_text_ticwear_dark</item>
@@ -29,11 +29,17 @@
         <item name="android:textAppearanceInverse">@style/TextAppearance.Ticwear.Inverse</item>
 
         <item name="android:textAppearanceLarge">@style/TextAppearance.Ticwear.Large</item>
-        <item name="android:textAppearanceLargeInverse">@style/TextAppearance.Ticwear.Large.Inverse</item>
+        <item name="android:textAppearanceLargeInverse">
+            @style/TextAppearance.Ticwear.Large.Inverse
+        </item>
         <item name="android:textAppearanceMedium">@style/TextAppearance.Ticwear.Medium</item>
-        <item name="android:textAppearanceMediumInverse">@style/TextAppearance.Ticwear.Medium.Inverse</item>
+        <item name="android:textAppearanceMediumInverse">
+            @style/TextAppearance.Ticwear.Medium.Inverse
+        </item>
         <item name="android:textAppearanceSmall">@style/TextAppearance.Ticwear.Small</item>
-        <item name="android:textAppearanceSmallInverse">@style/TextAppearance.Ticwear.Small.Inverse</item>
+        <item name="android:textAppearanceSmallInverse">
+            @style/TextAppearance.Ticwear.Small.Inverse
+        </item>
 
         <item name="android:textAppearanceButton">@style/TextAppearance.Ticwear.Widget.Button</item>
 
@@ -41,7 +47,8 @@
         <item name="android:lineSpacingExtra">@dimen/tic_text_line_spacing_extra</item>
 
         <item name="android:checkboxStyle">@style/Widget.Ticwear.CompoundButton.CheckBox</item>
-        <item name="android:radioButtonStyle">@style/Widget.Ticwear.CompoundButton.RadioButton</item>
+        <item name="android:radioButtonStyle">@style/Widget.Ticwear.CompoundButton.RadioButton
+        </item>
         <item name="android:switchStyle">@style/Widget.Ticwear.CompoundButton.Switch</item>
 
         <item name="android:listChoiceIndicatorMultiple">@drawable/tic_ic_check</item>
@@ -49,7 +56,8 @@
 
         <item name="android:listViewStyle">@style/Widget.Ticwear.ListView</item>
 
-        <item name="android:windowAnimationStyle">@style/Animation.Ticwear.Activity.Translucent</item>
+        <item name="android:windowAnimationStyle">@style/Animation.Ticwear.Activity.Translucent
+        </item>
         <item name="android:windowBackground">@android:color/black</item>
         <item name="android:windowContentOverlay">@null</item>
         <item name="android:windowIsFloating">false</item>
@@ -75,9 +83,13 @@
         <item name="android:alertDialogStyle">@style/AlertDialog.Ticwear</item>
         <!--<item name="android:alertDialogIcon">@drawable/ic_dialog_alert_material</item>-->
 
-        <item name="tic_iconButtonBarButtonStyle">@style/Widget.Ticwear.FloatingActionButton.Dialog</item>
+        <item name="tic_iconButtonBarButtonStyle">
+            @style/Widget.Ticwear.FloatingActionButton.Dialog
+        </item>
         <item name="tic_iconButtonBarPositiveButtonStyle">?attr/tic_iconButtonBarButtonStyle</item>
-        <item name="tic_iconButtonBarNegativeButtonStyle">@style/Widget.Ticwear.FloatingActionButton.Dialog.Negative</item>
+        <item name="tic_iconButtonBarNegativeButtonStyle">
+            @style/Widget.Ticwear.FloatingActionButton.Dialog.Negative
+        </item>
         <item name="tic_iconButtonBarNeutralButtonStyle">?attr/tic_iconButtonBarButtonStyle</item>
 
         <!-- Preference styles -->
@@ -87,23 +99,28 @@
         <!--<item name="android:preferenceCategoryStyle">@style/Preference.Ticwear.Category</item>-->
         <item name="android:preferenceStyle">@style/Preference.Ticwear</item>
         <item name="android:preferenceInformationStyle">@style/Preference.Ticwear.Information</item>
-        <item name="android:checkBoxPreferenceStyle">@style/Preference.Ticwear.CheckBoxPreference</item>
+        <item name="android:checkBoxPreferenceStyle">@style/Preference.Ticwear.CheckBoxPreference
+        </item>
         <item name="android:switchPreferenceStyle">@style/Preference.Ticwear.SwitchPreference</item>
         <item name="tic_preferenceCenteredStyle">@style/Preference.Ticwear.Centered</item>
         <!--<item name="tic_seekBarPreferenceStyle">@style/Preference.Ticwear.SeekBarPreference</item>-->
         <item name="android:dialogPreferenceStyle">@style/Preference.Ticwear.DialogPreference</item>
-        <item name="android:ringtonePreferenceStyle">@style/Preference.Ticwear.RingtonePreference</item>
+        <item name="android:ringtonePreferenceStyle">@style/Preference.Ticwear.RingtonePreference
+        </item>
         <!--<item name="android:editTextPreferenceStyle">@style/Preference.Ticwear.DialogPreference.EditTextPreference</item>-->
         <item name="android:preferenceLayoutChild">@layout/preference_ticwear</item>
         <item name="tic_preferencePanelStyle">@style/PreferencePanel.Ticwear</item>
         <item name="tic_preferenceHeaderPanelStyle">@style/PreferenceHeaderPanel.Ticwear</item>
         <item name="tic_preferenceListStyle">@style/PreferenceHeaderList.Ticwear</item>
         <item name="tic_preferenceFragmentListStyle">@style/PreferenceFragmentList.Ticwear</item>
-        <item name="tic_preferenceFragmentPaddingSide">@dimen/preference_fragment_padding_side_ticwear</item>
+        <item name="tic_preferenceFragmentPaddingSide">
+            @dimen/preference_fragment_padding_side_ticwear
+        </item>
         <!--<item name="android:detailsElementBackground">?attr/tic_colorBackground</item>-->
 
         <!-- PreferenceFrameLayout attributes -->
-        <item name="tic_preferenceFrameLayoutStyle">@style/Widget.Ticwear.PreferenceFrameLayout</item>
+        <item name="tic_preferenceFrameLayoutStyle">@style/Widget.Ticwear.PreferenceFrameLayout
+        </item>
 
         <!-- Number Picker style attributes -->
         <item name="tic_numberPickerStyle">@style/Widget.Ticwear.NumberPicker</item>
@@ -126,12 +143,22 @@
         <item name="android:listPreferredItemHeightSmall">48dp</item>
         <item name="android:listPreferredItemHeightLarge">80dp</item>
         <item name="android:textAppearanceListItem">@style/TextAppearance.Ticwear.Subhead</item>
-        <item name="android:textAppearanceListItemSmall">@style/TextAppearance.Ticwear.Subhead</item>
-        <item name="android:textAppearanceListItemSecondary">@style/TextAppearance.Ticwear.Body1</item>
-        <item name="android:listPreferredItemPaddingLeft">@dimen/tic_list_item_padding_horizontal_ticwear</item>
-        <item name="android:listPreferredItemPaddingRight">@dimen/tic_list_item_padding_horizontal_ticwear</item>
-        <item name="android:listPreferredItemPaddingStart">@dimen/tic_list_item_padding_horizontal_ticwear</item>
-        <item name="android:listPreferredItemPaddingEnd">@dimen/tic_list_item_padding_horizontal_ticwear</item>
+        <item name="android:textAppearanceListItemSmall">@style/TextAppearance.Ticwear.Subhead
+        </item>
+        <item name="android:textAppearanceListItemSecondary">@style/TextAppearance.Ticwear.Body1
+        </item>
+        <item name="android:listPreferredItemPaddingLeft">
+            @dimen/tic_list_item_padding_horizontal_ticwear
+        </item>
+        <item name="android:listPreferredItemPaddingRight">
+            @dimen/tic_list_item_padding_horizontal_ticwear
+        </item>
+        <item name="android:listPreferredItemPaddingStart">
+            @dimen/tic_list_item_padding_horizontal_ticwear
+        </item>
+        <item name="android:listPreferredItemPaddingEnd">
+            @dimen/tic_list_item_padding_horizontal_ticwear
+        </item>
 
         <item name="android:colorAccent">@color/tic_color_accent</item>
         <item name="android:colorControlNormal">@color/tic_color_control_normal</item>
@@ -168,7 +195,7 @@
          floating (not fill the entire screen), and puts a frame around its
          contents.  You can set this theme on an activity if you would like to
          make an activity that looks like a Dialog. -->
-    <style name="Theme.Ticwear.Dialog" parent="Theme.Ticwear.BaseDialog"/>
+    <style name="Theme.Ticwear.Dialog" parent="Theme.Ticwear.BaseDialog" />
 
     <style name="Theme.Ticwear.Dialog.BaseAlert">
         <item name="android:windowTitleStyle">@style/WindowTitle.Ticwear</item>
@@ -182,7 +209,7 @@
          but sets the background to empty so it can do two-tone backgrounds.
          For applications targeting Honeycomb or newer, this is the default
          AlertDialog theme. -->
-    <style name="Theme.Ticwear.Dialog.Alert" parent="Theme.Ticwear.Dialog.BaseAlert"/>
+    <style name="Theme.Ticwear.Dialog.Alert" parent="Theme.Ticwear.Dialog.BaseAlert" />
 
     <style name="Theme.Ticwear.Dialog.Alert.SameButtonStyle">
         <item name="tic_iconButtonBarNegativeButtonStyle">?attr/tic_iconButtonBarButtonStyle</item>
@@ -201,6 +228,36 @@
     <style name="Theme.Ticwear.Dialog.Alert.NonSwipe">
         <item name="android:windowAnimationStyle">@style/Animation.Ticwear.Dialog.NonSwipe</item>
         <item name="android:windowSwipeToDismiss">false</item>
+    </style>
+
+    <style name="Theme.Ticwear.Dialog.Alert.SingleLine">
+        <item name="tic_windowAppBarStyle">@style/WindowAppBar.Ticwear.Large</item>
+        <item name="android:windowTitleStyle">@style/TextAppearance.Ticwear.WindowTitle.Large</item>
+        <item name="tic_dialogMessageStytle">@style/TextAppearance.Ticwear.DialogContent.Secondary.SingleLine</item>
+    </style>
+
+    <style name="Theme.Ticwear.Dialog.Alert.SingleLine.NonSwipe">
+        <item name="android:windowAnimationStyle">@style/Animation.Ticwear.Dialog.NonSwipe</item>
+        <item name="android:windowSwipeToDismiss">false</item>
+    </style>
+
+    <style name="Theme.Ticwear.Dialog.Alert.SingleLine.SameButtonStyle">
+        <item name="tic_iconButtonBarNegativeButtonStyle">?attr/tic_iconButtonBarButtonStyle</item>
+    </style>
+
+    <style name="Theme.Ticwear.Dialog.Alert.LargeTitle">
+        <item name="tic_windowAppBarStyle">@style/WindowAppBar.Ticwear.Meduim</item>
+        <item name="android:windowTitleStyle">@style/TextAppearance.Ticwear.WindowTitle.Large</item>
+        <item name="tic_dialogMessageStytle">@style/TextAppearance.Ticwear.DialogContent.Secondary</item>
+    </style>
+
+    <style name="Theme.Ticwear.Dialog.Alert.LargeTitle.NonSwipe">
+        <item name="android:windowAnimationStyle">@style/Animation.Ticwear.Dialog.NonSwipe</item>
+        <item name="android:windowSwipeToDismiss">false</item>
+    </style>
+
+    <style name="Theme.Ticwear.Dialog.Alert.LargeTitle.SameButtonStyle">
+        <item name="tic_iconButtonBarNegativeButtonStyle">?attr/tic_iconButtonBarButtonStyle</item>
     </style>
 
     <style name="Theme.Ticwear.Dialog.Alert.ContextMenu" parent="Theme.Ticwear.Dialog.Alert.NonSwipe">

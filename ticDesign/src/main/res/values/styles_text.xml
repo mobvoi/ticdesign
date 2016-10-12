@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~ Copyright (c) 2016 Mobvoi Inc.
   ~
   ~ Licensed under the Apache License, Version 2.0 (the "License");
@@ -19,7 +18,8 @@
 
     <!-- Text styles -->
 
-    <style name="TextAppearance"/>
+    <style name="TextAppearance" />
+
     <style name="TextAppearance.Ticwear">
         <item name="android:textColor">?android:textColorPrimary</item>
         <item name="android:textColorHint">?android:textColorHint</item>
@@ -134,12 +134,12 @@
         <item name="android:textColorLink">?android:textColorLinkInverse</item>
     </style>
 
-    <style name="TextAppearance.Ticwear.Widget"/>
+    <style name="TextAppearance.Ticwear.Widget" />
+
     <style name="TextAppearance.Ticwear.Widget.Button" parent="TextAppearance.Ticwear.Button" />
 
 
-    <style name="TextAppearance.Ticwear.TitleBar.Title" parent="TextAppearance.Ticwear.Title">
-    </style>
+    <style name="TextAppearance.Ticwear.TitleBar.Title" parent="TextAppearance.Ticwear.Title"></style>
 
     <style name="TextAppearance.Ticwear.TimePicker.TimeLabel" parent="TextAppearance.Ticwear">
         <item name="android:textSize">@dimen/tic_timepicker_time_label_size</item>
@@ -156,13 +156,28 @@
     <style name="TextAppearance.Ticwear.WindowTitle" parent="TextAppearance.Ticwear.Body2">
         <item name="android:textColor">?android:textColorHint</item>
     </style>
+
     <style name="TextAppearance.Ticwear.WindowTitle.Small">
         <item name="android:textSize">@dimen/tic_text_size_small_2</item>
     </style>
+
+    <style name="TextAppearance.Ticwear.WindowTitle.Large">
+        <item name="android:textSize">@dimen/tic_text_size_large_1</item>
+    </style>
+
     <style name="TextAppearance.Ticwear.DialogWindowTitle" parent="TextAppearance.Ticwear.Body2" />
 
     <style name="TextAppearance.Ticwear.DialogContent" parent="TextAppearance.Ticwear.Medium">
         <item name="android:textColor">?android:textColorPrimary</item>
+    </style>
+
+    <style name="TextAppearance.Ticwear.DialogContent.Secondary">
+        <item name="android:textColor">?android:textColorSecondary</item>
+    </style>
+
+    <style name="TextAppearance.Ticwear.DialogContent.Secondary.SingleLine">
+        <item name="android:gravity">center_horizontal</item>
+        <item name="android:singleLine">true</item>
     </style>
 
 </resources>

@@ -32,6 +32,10 @@
         <item name="android:textAppearance">@style/TextAppearance.Ticwear.WindowTitle.Small</item>
     </style>
 
+    <style name="WindowTitle.Ticwear.Large">
+        <item name="android:textAppearance">@style/TextAppearance.Ticwear.WindowTitle.Large</item>
+    </style>
+
     <style name="WindowIcon" />
     <style name="WindowIcon.Ticwear" >
         <item name="android:layout_width">24dp</item>
@@ -52,6 +56,14 @@
     </style>
     <style name="WindowAppBar.Ticwear.Small">
         <item name="android:minHeight">46dp</item>
+    </style>
+    <style name="WindowAppBar.Ticwear.Meduim">
+        <item name="android:gravity">bottom</item>
+        <item name="android:minHeight">78dp</item>
+    </style>
+    <style name="WindowAppBar.Ticwear.Large">
+        <item name="android:gravity">bottom</item>
+        <item name="android:minHeight">92dp</item>
     </style>
     <style name="WindowAppBar.Ticwear.Minimize">
         <item name="android:minHeight">0dp</item>

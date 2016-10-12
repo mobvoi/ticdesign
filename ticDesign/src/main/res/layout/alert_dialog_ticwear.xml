@@ -98,7 +98,7 @@
                         android:layout_height="wrap_content"
                         android:paddingTop="0dp"
                         tools:text="Dialog content message in here."
-                        style="@style/TextAppearance.Ticwear.DialogContent"
+                        style="?attr/tic_dialogMessageStytle"
                         />
                     <Space android:id="@+id/textSpacerNoButtons"
                         android:layout_width="0dp"
