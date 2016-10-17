@@ -433,7 +433,7 @@ public class NumberPicker extends LinearLayout implements SidePanelEventDispatch
     /**
      * Divider for showing item to be selected while scrolling
      */
-    private final Drawable mSelectionDivider;
+    private Drawable mSelectionDivider;
 
     /**
      * The height of the selection divider.
@@ -1020,6 +1020,10 @@ public class NumberPicker extends LinearLayout implements SidePanelEventDispatch
             } break;
         }
         return true;
+    }
+
+    public void setSelectionColor(Drawable drawable){
+        mSelectionDivider = drawable;
     }
 
     @Override
