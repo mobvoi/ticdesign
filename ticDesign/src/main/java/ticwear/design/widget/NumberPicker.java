@@ -749,9 +749,14 @@ public class NumberPicker extends LinearLayout implements SidePanelEventDispatch
 
         // input text
         mInputText = (EditText) findViewById(R.id.numberpicker_input);
+        if (!mEditEnabled) {
+            mInputText.setFocusable(false);
+            mInputText.setInputType(InputType.TYPE_NULL);
+            mInputText.setSelection(0, 0);
+        }
         mInputText.setOnFocusChangeListener(new OnFocusChangeListener() {
             public void onFocusChange(View v, boolean hasFocus) {
-                if (getValidInputMethodManager() == null) {
+                if (getValidInputMethodManager() == null || !mEditEnabled) {
                     return;
                 }
 
