@@ -31,6 +31,7 @@ import android.provider.Settings;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckedTextView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,7 +40,6 @@ import ticwear.design.R;
 import ticwear.design.internal.app.AlertActivity;
 import ticwear.design.internal.app.AlertController.AlertParams;
 import ticwear.design.internal.app.AlertController.AlertParams.OnPrepareListViewListener;
-import ticwear.design.widget.CheckedTextView;
 import ticwear.design.widget.CursorRecyclerViewAdapter;
 import ticwear.design.widget.FocusableLinearLayoutManager;
 import ticwear.design.widget.TicklableRecyclerView;

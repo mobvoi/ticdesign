@@ -17,6 +17,8 @@
 package ticwear.design.widget;
 
 import android.content.Context;
+import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.util.AttributeSet;
 import android.view.accessibility.AccessibilityEvent;
 import android.view.accessibility.AccessibilityNodeInfo;
@@ -27,6 +29,8 @@ import android.widget.TextView;
  * Created by tankery on 3/31/16.
  *
  * A text-view can receive check state.
+ *
+ * @deprecated Use {@link android.widget.CheckedTextView} with 'checkMark' drawable
  */
 public class CheckedTextView extends TextView implements Checkable {
 
@@ -79,6 +83,27 @@ public class CheckedTextView extends TextView implements Checkable {
             mergeDrawableStates(drawableState, CHECKED_STATE_SET);
         }
         return drawableState;
+    }
+
+    @Override
+    protected void drawableStateChanged() {
+        super.drawableStateChanged();
+
+        if (Build.VERSION.SDK_INT >= 23) {
+            // Additional set drawable state for compound drawables, to fix bug that
+            // drawable that not showing is not update on API 23.
+            int[] drawableState = getDrawableState();
+            for (Drawable drawable : getCompoundDrawables()) {
+                if (drawable != null && drawable.isStateful()) {
+                    drawable.setState(drawableState);
+                }
+            }
+            for (Drawable drawable : getCompoundDrawablesRelative()) {
+                if (drawable != null && drawable.isStateful()) {
+                    drawable.setState(drawableState);
+                }
+            }
+        }
     }
 
     @Override
