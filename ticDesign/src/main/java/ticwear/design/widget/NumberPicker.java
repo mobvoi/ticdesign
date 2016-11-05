@@ -18,13 +18,13 @@
 package ticwear.design.widget;
 
 import android.content.Context;
-import android.content.res.ColorStateList;
 import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Paint.Align;
 import android.graphics.Rect;
+import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.CallSuper;
@@ -235,6 +235,16 @@ public class NumberPicker extends LinearLayout implements SidePanelEventDispatch
     private final EditText mInputText;
 
     /**
+     * EditText Default color
+     */
+    private final int mEditTextDefaultColor;
+
+    /**
+     * EditText selected color
+     */
+    private final int mEditTextSelectedColor;
+
+    /**
      * The distance between the two selection dividers.
      */
     private final int mSelectionDividersDistance;
@@ -267,7 +277,7 @@ public class NumberPicker extends LinearLayout implements SidePanelEventDispatch
     /**
      * The height of the text.
      */
-    private final int mTextSize;
+    private int mTextSize;
 
     /**
      * The height of the gap between text elements if the selector wheel.
@@ -684,6 +694,13 @@ public class NumberPicker extends LinearLayout implements SidePanelEventDispatch
         mVirtualButtonPressedDrawable = attributesArray.getDrawable(
                 R.styleable.NumberPicker_tic_virtualButtonPressedDrawable);
 
+        mTextSize = attributesArray.getDimensionPixelSize(
+                R.styleable.NumberPicker_tic_inputTextSize, SIZE_UNSPECIFIED);
+
+        mEditTextDefaultColor = attributesArray.getColor(R.styleable.NumberPicker_tic_unselectedColor, Color.WHITE);
+
+        mEditTextSelectedColor = attributesArray.getColor(R.styleable.NumberPicker_tic_selectedColor, Color.WHITE);
+
         attributesArray.recycle();
 
         mPressedStateHelper = new PressedStateHelper();
@@ -781,18 +798,16 @@ public class NumberPicker extends LinearLayout implements SidePanelEventDispatch
         mMinimumFlingVelocity = configuration.getScaledMinimumFlingVelocity();
         mMaximumFlingVelocity = configuration.getScaledMaximumFlingVelocity()
                 / SELECTOR_MAX_FLING_VELOCITY_ADJUSTMENT;
-        mTextSize = (int) mInputText.getTextSize();
 
         // create the selector wheel paint
         Paint paint = new Paint();
         paint.setAntiAlias(true);
         paint.setTextAlign(Align.CENTER);
-        paint.setTextSize(mTextSize);
-        paint.setTypeface(mInputText.getTypeface());
-        ColorStateList colors = mInputText.getTextColors();
-        int color = colors.getColorForState(ENABLED_STATE_SET, Color.WHITE);
-        paint.setColor(color);
+        paint.setColor(mEditTextDefaultColor);
+        mInputText.setTextColor(mEditTextSelectedColor);
+        mInputText.setTextSize(TypedValue.COMPLEX_UNIT_PX, mTextSize);
         mSelectorWheelPaint = paint;
+        mSelectorWheelPaint.setTextSize(mTextSize);
 
         // create the fling and adjust scrollers
         mFlingScroller = new Scroller(getContext(), null, true);
@@ -1670,8 +1685,10 @@ public class NumberPicker extends LinearLayout implements SidePanelEventDispatch
             // item. Otherwise, if the user starts editing the text via the
             // IME he may see a dimmed version of the old value intermixed
             // with the new one.
-            if ((showSelectorWheel && i != SELECTOR_MIDDLE_ITEM_INDEX) ||
-                (i == SELECTOR_MIDDLE_ITEM_INDEX && mInputText.getVisibility() != VISIBLE)) {
+            if (showSelectorWheel && i != SELECTOR_MIDDLE_ITEM_INDEX) {
+                mSelectorWheelPaint.setColor(Color.WHITE);
+                canvas.drawText(scrollSelectorValue, x, y, mSelectorWheelPaint);
+            } else if (i == SELECTOR_MIDDLE_ITEM_INDEX && mInputText.getVisibility() != VISIBLE) {
                 int color = mInputText.getCurrentTextColor();
                 mSelectorWheelPaint.setColor(color);
                 canvas.drawText(scrollSelectorValue, x, y, mSelectorWheelPaint);
@@ -1693,6 +1710,17 @@ public class NumberPicker extends LinearLayout implements SidePanelEventDispatch
             mSelectionDivider.setBounds(0, topOfBottomDivider, getRight(), bottomOfBottomDivider);
             mSelectionDivider.draw(canvas);
         }
+    }
+
+    public void setInputTextTypeface(Typeface typeface) {
+        mSelectorWheelPaint.setTypeface(typeface);
+        invalidate();
+    }
+
+    public void setInputTextSize(int size) {
+        mInputText.setTextSize(TypedValue.COMPLEX_UNIT_PX, size);
+        mSelectorWheelPaint.setTextSize(mTextSize);
+        invalidate();
     }
 
     @Override

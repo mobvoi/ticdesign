@@ -86,6 +86,12 @@
         <attr name="tic_virtualButtonPressedDrawable" format="reference" />
         <!-- @hide If true then the selector wheel is hidden until the picker has focus. -->
         <attr name="tic_hideWheelUntilFocused" format="boolean" />
+        <!-- @hide The Input edit size of the NumberPicker. -->
+        <attr name="tic_inputTextSize" format="dimension" />
+        <!-- @hide The selected color of the NumberPicker. -->
+        <attr name="tic_selectedColor" format="color|reference" />
+        <!-- @hide The default color of the NumberPicker. -->
+        <attr name="tic_unselectedColor" format="color|reference" />
     </declare-styleable>
 
     <declare-styleable name="TimePicker">
