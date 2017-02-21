@@ -1714,6 +1714,7 @@ public class NumberPicker extends LinearLayout implements SidePanelEventDispatch
 
     public void setInputTextTypeface(Typeface typeface) {
         mSelectorWheelPaint.setTypeface(typeface);
+        mInputText.setTypeface(typeface);
         invalidate();
     }
 
