@@ -23,6 +23,7 @@
     <string name="category_dialog_no_title">无标题对话框</string>
     <string name="category_dialog_confirm">确认对话框</string>
     <string name="category_dialog_choose">选择对话框</string>
+    <string name="category_dialog_skippable">可跳过对话框</string>
     <string name="category_dialog_delay_confirm">延时选择对话框</string>
     <string name="category_dialog_long">长文本对话框</string>
     <string name="category_dialog_value_picker">数值选择器</string>

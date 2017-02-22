@@ -329,6 +329,10 @@ public class AlertDialog extends Dialog implements DialogInterface {
         mAlert.setInverseBackgroundForced(forceInverseBackground);
     }
 
+    public void setSkipChecked(boolean checked) {
+        mAlert.setSkipChecked(checked);
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -381,6 +385,16 @@ public class AlertDialog extends Dialog implements DialogInterface {
      */
     public void showButtons() {
         mAlert.showButtons();
+    }
+
+    public interface OnSkipClickListener {
+        /**
+         * This method will be invoked when skip button in the dialog is clicked.
+         *
+         * @param dialog The dialog where the selection was made.
+         * @param isChecked True if the click checked the item, else false.
+         */
+        void onClick(DialogInterface dialog, boolean isChecked);
     }
 
     public static class Builder {
@@ -1102,6 +1116,30 @@ public class AlertDialog extends Dialog implements DialogInterface {
         @Deprecated
         public Builder setInverseBackgroundForced(boolean useInverseBackground) {
             P.mForceInverseBackground = useInverseBackground;
+            return this;
+        }
+
+        public Builder setSkipButton(OnSkipClickListener listener) {
+            P.mOnSkipClickListener = listener;
+            return this;
+        }
+
+        public Builder setSkipButton(CharSequence skipMessage, OnSkipClickListener listener) {
+            P.mSkipMessage = skipMessage;
+            P.mOnSkipClickListener = listener;
+            return this;
+        }
+
+        public Builder setSkipButton(boolean initialChecked, OnSkipClickListener listener) {
+            P.mSkipInitialChecked = initialChecked;
+            P.mOnSkipClickListener = listener;
+            return this;
+        }
+
+        public Builder setSkipButton(CharSequence skipMessage, boolean initialChecked, OnSkipClickListener listener) {
+            P.mSkipMessage = skipMessage;
+            P.mSkipInitialChecked = initialChecked;
+            P.mOnSkipClickListener = listener;
             return this;
         }
 

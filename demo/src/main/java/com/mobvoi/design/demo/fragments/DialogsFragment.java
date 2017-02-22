@@ -33,6 +33,7 @@ import java.util.Calendar;
 import java.util.List;
 
 import ticwear.design.app.AlertDialog;
+import ticwear.design.app.AlertDialog.OnSkipClickListener;
 import ticwear.design.app.DatetimePickerDialog;
 import ticwear.design.app.NumberPickerDialog;
 import ticwear.design.utils.WindowUtils;
@@ -70,6 +71,7 @@ public class DialogsFragment extends ListFragment {
                 R.string.category_dialog_no_title,
                 R.string.category_dialog_confirm,
                 R.string.category_dialog_choose,
+                R.string.category_dialog_skippable,
                 R.string.category_dialog_delay_confirm,
                 R.string.category_dialog_long,
         };
@@ -141,6 +143,29 @@ public class DialogsFragment extends ListFragment {
                 dialog = new AlertDialog.Builder(context)
                         .setTitle(R.string.category_dialog_choose)
                         .setMessage(R.string.text_short_content)
+                        .setPositiveButtonIcon(ticwear.design.R.drawable.tic_ic_btn_ok, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                            }
+                        })
+                        .setNegativeButtonIcon(ticwear.design.R.drawable.tic_ic_btn_cancel, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                            }
+                        })
+                        .create();
+                break;
+            case R.string.category_dialog_skippable:
+                dialog = new AlertDialog.Builder(context, R.style.Theme_Ticwear_Dialog_Alert_Compact)
+                        .setMessage(R.string.text_short_content)
+                        .setSkipButton(new OnSkipClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, boolean isChecked) {
+                                Toast.makeText(context, "Skip check set to " + isChecked, Toast.LENGTH_SHORT).show();
+                            }
+                        })
                         .setPositiveButtonIcon(ticwear.design.R.drawable.tic_ic_btn_ok, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {

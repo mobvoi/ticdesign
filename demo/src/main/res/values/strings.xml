@@ -24,6 +24,7 @@
     <string name="category_dialog_no_title">Message Only</string>
     <string name="category_dialog_confirm">Confirm Dialog</string>
     <string name="category_dialog_choose">Choose Dialog</string>
+    <string name="category_dialog_skippable">Skippable Dialog</string>
     <string name="category_dialog_delay_confirm">Delay Confirm</string>
     <string name="category_dialog_long">Long Message Dialog</string>
     <string name="category_dialog_value_picker">Value Picker</string>

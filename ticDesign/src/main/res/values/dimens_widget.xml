@@ -25,6 +25,9 @@
     <dimen name="alert_dialog_button_translate_vertical">30dp</dimen>
     <dimen name="alert_dialog_button_translate_horizontal">28dp</dimen>
     <dimen name="alert_dialog_message_padding_horizontal">40dp</dimen>
+    <dimen name="alert_dialog_skip_button_height">48dp</dimen>
+    <dimen name="alert_dialog_skip_button_padding">8dp</dimen>
+    <dimen name="alert_dialog_skip_text_space_relative">6dp</dimen>
 
     <!-- TimePicker -->
     <dimen name="tic_timepicker_time_label_size">60sp</dimen>

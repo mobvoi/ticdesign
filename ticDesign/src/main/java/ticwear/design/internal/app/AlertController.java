@@ -38,12 +38,14 @@ import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.AbsListView;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.CheckedTextView;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -56,6 +58,7 @@ import java.lang.ref.WeakReference;
 
 import ticwear.design.R;
 import ticwear.design.app.AlertDialog;
+import ticwear.design.app.AlertDialog.OnSkipClickListener;
 import ticwear.design.widget.CoordinatorLayout;
 import ticwear.design.widget.CursorRecyclerViewAdapter;
 import ticwear.design.widget.FloatingActionButton;
@@ -101,10 +104,16 @@ public class AlertController {
     private int mIconId = 0;
     private Drawable mIcon;
 
+    private CharSequence mSkipMessage;
+    private OnSkipClickListener mOnSkipClickListener;
+
     private ImageView mIconView;
     private TextView mTitleView;
     private TextView mMessageView;
     private View mCustomTitleView;
+    private View mSkipLayout;
+    private CheckBox mSkipCheck;
+    private TextView mSkipText;
 
     private boolean mForceInverseBackground;
 
@@ -388,6 +397,20 @@ public class AlertController {
         }
     }
 
+    public void setSkipChecked(boolean checked) {
+        if (mSkipCheck != null) {
+            mSkipCheck.setChecked(checked);
+        }
+    }
+
+    public void setSkipButton(CharSequence message, OnSkipClickListener listener) {
+        mSkipMessage = message;
+        mOnSkipClickListener = listener;
+        if (mSkipText != null && message != null) {
+            mSkipText.setText(message);
+        }
+    }
+
     /**
      * @param attrId the attributeId of the theme-specific drawable
      * to resolve the resourceId for.
@@ -632,6 +655,30 @@ public class AlertController {
                         new LayoutParams(MATCH_PARENT, MATCH_PARENT));
             } else {
                 contentPanel.setVisibility(View.GONE);
+            }
+        }
+
+        mSkipLayout = mWindow.findViewById(R.id.layout_skip);
+        if (mSkipLayout != null) {
+            mSkipCheck = (CheckBox) mSkipLayout.findViewById(R.id.check_skip);
+            mSkipText = (TextView) mSkipLayout.findViewById(R.id.text_skip);
+        }
+
+        if (mSkipLayout != null) {
+            if (mOnSkipClickListener == null) {
+                mSkipLayout.setVisibility(View.GONE);
+                mScrollView.removeView(mSkipLayout);
+            } else {
+                if (mSkipMessage != null) {
+                    mSkipText.setText(mSkipMessage);
+                }
+                mSkipLayout.setOnClickListener(new OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        mSkipCheck.setChecked(!mSkipCheck.isChecked());
+                        mOnSkipClickListener.onClick(mDialogInterface, mSkipCheck.isChecked());
+                    }
+                });
             }
         }
 
@@ -911,6 +958,9 @@ public class AlertController {
         public boolean mForceInverseBackground;
         public TrackSelectionAdapterWrapper.OnItemSelectedListener mOnItemSelectedListener;
         public OnPrepareListViewListener mOnPrepareListViewListener;
+        public CharSequence mSkipMessage;
+        public OnSkipClickListener mOnSkipClickListener;
+        public boolean mSkipInitialChecked;
 
         /**
          * Interface definition for a callback to be invoked before the ListView
@@ -968,6 +1018,10 @@ public class AlertController {
             }
             if (mDelayConfirmRequest != null) {
                 dialog.setDelayConfirmAction(mDelayConfirmRequest);
+            }
+            if (mOnSkipClickListener != null) {
+                dialog.setSkipChecked(mSkipInitialChecked);
+                dialog.setSkipButton(mSkipMessage, mOnSkipClickListener);
             }
             // For a list, the client can either supply an array of items or an
             // adapter or a cursor
