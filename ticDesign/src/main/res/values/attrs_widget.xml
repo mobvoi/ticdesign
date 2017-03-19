@@ -266,18 +266,4 @@
             <enum name="custom" value="0"/>
         </attr>
     </declare-styleable>
-
-    <declare-styleable name="AlertView">
-        <attr name="tic_av_cancelDrawable" format="reference|integer" />
-        <attr name="tic_av_positiveDrawable" format="reference|integer" />
-        <attr name="tic_av_showTitle" format="boolean" />
-        <attr name="tic_av_showContent" format="boolean" />
-        <attr name="tic_av_showCancelButton" format="boolean" />
-        <attr name="tic_av_title" format="string" />
-        <attr name="tic_av_message" format="string" />
-        <attr name="tic_av_messageTextColor" format="color" />
-        <attr name="tic_av_messageTextSize" format="dimension" />
-        <attr name="tic_av_titleTextColor" format="color" />
-        <attr name="tic_av_titleTextSize" format="dimension" />
-    </declare-styleable>
 </resources>
