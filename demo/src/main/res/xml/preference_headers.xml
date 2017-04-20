@@ -38,7 +38,10 @@
     </header>
     <header
         android:icon="@drawable/ic_batterysave"
-        android:title="@string/preference_power_save_mode" />
+        android:title="@string/preference_about_compat" >
+        <intent android:targetPackage="com.mobvoi.design.demo"
+                android:targetClass="com.mobvoi.design.demo.SupportSettingsActivity" />
+    </header>
     <header
         android:icon="@drawable/ic_plane"
         android:title="@string/preference_airplane_mode_service_name" />

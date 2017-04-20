@@ -66,6 +66,11 @@ public class PreferenceManager {
     private PreferenceFragment mFragment;
 
     /**
+     * Fragment that owns this instance in compat.
+     */
+    private PreferenceFragmentCompat mFragmentCompat;
+
+    /**
      * The context to use. This should always be set.
      *
      * @see #mActivity
@@ -179,6 +184,20 @@ public class PreferenceManager {
      */
     PreferenceFragment getFragment() {
         return mFragment;
+    }
+
+    /**
+     * @see #setFragment(PreferenceFragment)
+     */
+    void setSupportFragment(PreferenceFragmentCompat fragment) {
+        mFragmentCompat = fragment;
+    }
+
+    /**
+     * @see #getFragment()
+     */
+    PreferenceFragmentCompat getSupportFragment() {
+        return mFragmentCompat;
     }
 
     /**

@@ -148,7 +148,12 @@ public class RingtonePreference extends Preference implements
         if (owningFragment != null) {
             owningFragment.startActivityForResult(intent, mRequestCode);
         } else {
-            getPreferenceManager().getActivity().startActivityForResult(intent, mRequestCode);
+            PreferenceFragmentCompat owningFragmentCompat = getPreferenceManager().getSupportFragment();
+            if (owningFragmentCompat != null) {
+                owningFragmentCompat.startActivityForResult(intent, mRequestCode);
+            } else {
+                getPreferenceManager().getActivity().startActivityForResult(intent, mRequestCode);
+            }
         }
     }
 

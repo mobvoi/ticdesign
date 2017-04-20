@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2016 Mobvoi Inc.
+ * Copyright (c) 2017 Mobvoi Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,15 +16,17 @@
 
 package com.mobvoi.design.demo;
 
-import android.app.Fragment;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+
+import com.ticwear.design.demo.R;
 
 /**
- * An Activity contains
- *
- * Created by tankery on 6/14/16.
+ * Activity contains support fragment.
+ * Created by tankery on 20/04/2017.
  */
-public abstract class FragmentActivity extends BaseActivity {
+
+public abstract class SupportFragmentActivity extends android.support.v4.app.FragmentActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,7 +38,7 @@ public abstract class FragmentActivity extends BaseActivity {
                 finish();
                 return;
             }
-            getFragmentManager().beginTransaction()
+            getSupportFragmentManager().beginTransaction()
                     .add(android.R.id.content, fragment)
                     .commitAllowingStateLoss();
         }

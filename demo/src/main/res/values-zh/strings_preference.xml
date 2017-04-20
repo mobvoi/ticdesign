@@ -103,6 +103,7 @@
     <string name="preference_change_watch_face">更换表盘</string>
     <string name="preference_settings">设置</string>
     <string name="preference_about">关于</string>
+    <string name="preference_about_compat">关于 (兼容)</string>
     <string name="preference_airplane_mode">飞行模式</string>
     <string name="preference_on">已启用</string>
     <string name="preference_off">已禁用</string>

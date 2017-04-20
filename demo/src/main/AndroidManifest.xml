@@ -40,6 +40,7 @@
         <activity android:name="com.mobvoi.design.demo.ContentActivity"/>
         <activity android:name="com.mobvoi.design.demo.SettingsActivity"
             android:label="@string/category_settings_title"/>
+        <activity android:name="com.mobvoi.design.demo.SupportSettingsActivity"/>
 
         <activity android:name="ticwear.design.app.RingtonePickerActivity">
             <intent-filter>

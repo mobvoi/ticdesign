@@ -39,7 +39,6 @@ public class DetailsActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_fragment);
 
         Fragment detailFragment;
         int titleRes = getIntent().getIntExtra("case", -1);
@@ -78,7 +77,7 @@ public class DetailsActivity extends BaseActivity {
 
         if (detailFragment != null) {
             getFragmentManager().beginTransaction()
-                    .add(R.id.fragment_container, detailFragment)
+                    .add(android.R.id.content, detailFragment)
                     .commitAllowingStateLoss();
         } else {
             finish();
