@@ -30,7 +30,7 @@
     <attr name="tic_dialogContentStyle" format="reference" />
 
     <!-- Style for dialog message -->
-    <attr name="tic_dialogMessageStytle" format="reference" />
+    <attr name="tic_dialogMessageStyle" format="reference" />
 
     <!-- Style for buttons within icon button bars -->
     <attr name="tic_iconButtonBarButtonStyle" format="reference" />

@@ -202,6 +202,7 @@
         <item name="tic_windowIconStyle">@style/WindowIcon.Ticwear</item>
         <item name="tic_windowAppBarStyle">@style/WindowAppBar.Ticwear</item>
         <item name="tic_dialogContentStyle">@style/Widget.Ticwear.ListView.Dialog</item>
+        <item name="tic_dialogMessageStyle">@style/TextAppearance.Ticwear.DialogContent</item>
     </style>
 
     <!-- Material theme for alert dialog windows, which is used by the
@@ -233,7 +234,7 @@
     <style name="Theme.Ticwear.Dialog.Alert.SingleLine">
         <item name="tic_windowAppBarStyle">@style/WindowAppBar.Ticwear.Large</item>
         <item name="android:windowTitleStyle">@style/TextAppearance.Ticwear.WindowTitle.Large</item>
-        <item name="tic_dialogMessageStytle">@style/TextAppearance.Ticwear.DialogContent.Secondary.SingleLine</item>
+        <item name="tic_dialogMessageStyle">@style/TextAppearance.Ticwear.DialogContent.Secondary.SingleLine</item>
     </style>
 
     <style name="Theme.Ticwear.Dialog.Alert.SingleLine.NonSwipe">
@@ -248,7 +249,7 @@
     <style name="Theme.Ticwear.Dialog.Alert.LargeTitle">
         <item name="tic_windowAppBarStyle">@style/WindowAppBar.Ticwear.Meduim</item>
         <item name="android:windowTitleStyle">@style/TextAppearance.Ticwear.WindowTitle.Large</item>
-        <item name="tic_dialogMessageStytle">@style/TextAppearance.Ticwear.DialogContent.Secondary</item>
+        <item name="tic_dialogMessageStyle">@style/TextAppearance.Ticwear.DialogContent.Secondary</item>
     </style>
 
     <style name="Theme.Ticwear.Dialog.Alert.LargeTitle.NonSwipe">

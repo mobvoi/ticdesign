@@ -98,7 +98,7 @@
                         android:layout_height="wrap_content"
                         android:paddingTop="0dp"
                         tools:text="Dialog content message in here."
-                        style="?attr/tic_dialogMessageStytle"
+                        style="?attr/tic_dialogMessageStyle"
                         />
 
                     <LinearLayout
