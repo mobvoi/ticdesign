@@ -90,7 +90,6 @@ public class TicwearDialogs {
                         }
                     }
                 })
-                .setDelayConfirmAction(DialogInterface.BUTTON_POSITIVE, 5000)
                 .create();
     }
 
