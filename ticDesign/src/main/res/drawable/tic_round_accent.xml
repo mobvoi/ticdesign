@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <!--
   ~ Copyright (c) 2016 Mobvoi Inc.
   ~
@@ -16,15 +15,9 @@
   ~ limitations under the License.
   -->
 
-<resources>
-    <public type="drawable" name="tic_ic_btn_ok" />
-    <public type="drawable" name="tic_ic_btn_cancel" />
-    <public type="drawable" name="tic_ic_btn_next" />
-    <public type="drawable" name="tic_ic_check" />
-    <public type="drawable" name="tic_ic_check_small" />
-    <public type="drawable" name="tic_ic_radio" />
-    <public type="drawable" name="tic_ic_radio_small" />
-    <public type="drawable" name="tic_ic_switch" />
-    <public type="drawable" name="tic_ic_enter" />
-    <public type="drawable" name="tic_round_accent" />
-</resources>
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="oval">
+
+    <solid android:color="@color/tic_color_accent" />
+
+</shape>
