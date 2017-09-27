@@ -17,9 +17,9 @@
 
 <resources>
     <!-- The title of the time picker dialog. [CHAR LIMIT=NONE] -->
-    <string name="time_picker_dialog_title">Time</string>
+    <string name="time_picker_dialog_title">Temps</string>
     <!-- The title of the date picker dialog. [CHAR LIMIT=NONE] -->
-    <string name="date_picker_dialog_title">Date</string>
+    <string name="date_picker_dialog_title">Rendez-vous amoureux</string>
 
-    <string name="alert_dialog_dont_show_me_again">Don\'t show again</string>
+    <string name="alert_dialog_dont_show_me_again">Nicht wieder zeigen</string>
 </resources>

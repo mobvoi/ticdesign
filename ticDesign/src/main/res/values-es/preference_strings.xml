@@ -18,32 +18,32 @@
 <resources>
 
     <!--  Strings for possible PreferenceActivity Back/Next buttons -->
-    <string name="back_button_label">Back</string>
-    <string name="next_button_label">Next</string>
+    <string name="back_button_label">Espalda</string>
+    <string name="next_button_label">Siguiente</string>
 
     <!-- Optional button to Skip a PreferenceActivity [CHAR LIMIT=20] -->
-    <string name="skip_button_label">Skip</string>
+    <string name="skip_button_label">Omitir</string>
 
     <!-- Default text for a button that can be toggled on and off. -->
-    <string name="capital_on">On</string>
+    <string name="capital_on">En</string>
     <!-- Default text for a button that can be toggled on and off. -->
-    <string name="capital_off">Off</string>
+    <string name="capital_off">Apagado</string>
 
     <!-- Ringtone picker strings --> <skip />
     <!-- Choice in the ringtone picker.  If chosen, the default ringtone will be used. -->
-    <string name="ringtone_default">Default ringtone</string>
+    <string name="ringtone_default">Tono de llamada por defecto</string>
     <!-- Choice in the ringtone picker.  If chosen, there will be silence instead of a ringtone played. -->
-    <string name="ringtone_silent">None</string>
+    <string name="ringtone_silent">Ninguna</string>
     <!-- The title of the ringtone picker dialog. -->
     <string name="ringtone_picker_title">Ringtones</string>
     <!-- If there is ever a ringtone set for some setting, but that ringtone can no longer be resolved, t his is shown instead.  For example, if the ringtone was on a SD card and it had been removed, this woudl be shown for ringtones on that SD card. -->
-    <string name="ringtone_unknown">Unknown ringtone</string>
+    <string name="ringtone_unknown">Tono de llamada desconocido</string>
 
     <!-- Choice in the notification sound picker.  If chosen, the default notification sound will be
          used. -->
-    <string name="notification_sound_default">Default notification sound</string>
+    <string name="notification_sound_default">Sonido de notificación predeterminado</string>
 
     <!-- Choice in the alarm sound picker.  If chosen, the default alarm sound will be used. -->
-    <string name="alarm_sound_default">Default alarm sound</string>
+    <string name="alarm_sound_default">Sonido de alarma predeterminado</string>
 
 </resources>
