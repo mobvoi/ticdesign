@@ -53,13 +53,11 @@
         <attr name="android:bottomMedium" />
         <attr name="android:centerMedium" />
         <attr name="android:layout" />
-        <attr name="android:buttonPanelSideLayout" />
+        <attr name="buttonPanelSideLayout" />
         <attr name="tic_listLayout" format="reference" />
         <attr name="tic_multiChoiceItemLayout" format="reference" />
         <attr name="tic_singleChoiceItemLayout" format="reference" />
         <attr name="tic_listItemLayout" format="reference" />
-        <attr name="android:progressLayout" />
-        <attr name="android:horizontalProgressLayout" />
     </declare-styleable>
 
     <!-- TODO: check if this may conflict to other library when its not public. -->

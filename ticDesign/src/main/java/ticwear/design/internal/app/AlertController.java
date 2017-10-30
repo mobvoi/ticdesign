@@ -195,7 +195,7 @@ public class AlertController {
 
         mAlertDialogLayout = R.layout.alert_dialog_ticwear;
         mButtonPanelSideLayout = a.getResourceId(
-                R.styleable.AlertDialog_android_buttonPanelSideLayout, 0);
+                R.styleable.AlertDialog_buttonPanelSideLayout, 0);
 
         mListLayout = a.getResourceId(
                 R.styleable.AlertDialog_tic_listLayout,
