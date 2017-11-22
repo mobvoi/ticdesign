@@ -24,6 +24,7 @@ import android.text.TextUtils;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.TextView;
 
 import ticwear.design.R;
 import ticwear.design.widget.FloatingActionButton;
@@ -48,12 +49,13 @@ public class NumberPickerDialog extends AlertDialog implements DialogInterface.O
     private OnValuePickedListener onValuePickedListener;
     private OnValuePickCancelListener onValuePickCancelListener;
     private FloatingActionButton buttonPositive;
+    private TextView numUnitText;
 
-    public NumberPickerDialog(Context context, @StyleRes int themeResId, CharSequence title,
+    private NumberPickerDialog(Context context, @StyleRes int themeResId, CharSequence title,
                               OnValuePickedListener onValuePickedListener,
                               OnValuePickCancelListener onValuePickCancelListener,
                               int minValue, int maxValue, int defaultValue,
-                              String[] displayedValues) {
+                              String[] displayedValues, String unit) {
         super(context, resolveDialogTheme(context, themeResId));
 
         // Use getContext to use wrapper context.
@@ -78,6 +80,12 @@ public class NumberPickerDialog extends AlertDialog implements DialogInterface.O
             setTitle(title);
         }
         setButton(BUTTON_POSITIVE, getContext().getDrawable(R.drawable.tic_ic_btn_ok), this);
+
+        if (!TextUtils.isEmpty(unit)) {
+            numUnitText = view.findViewById(R.id.num_unit_text);
+            numUnitText.setVisibility(View.VISIBLE);
+            numUnitText.setText(unit);
+        }
     }
 
     @StyleRes
@@ -142,6 +150,8 @@ public class NumberPickerDialog extends AlertDialog implements DialogInterface.O
 
         String[] displayedValues;
 
+        private String unit = null;
+
         public Builder(Context context) {
             this.context = context;
             this.themeResId = 0;
@@ -190,10 +200,15 @@ public class NumberPickerDialog extends AlertDialog implements DialogInterface.O
             return this;
         }
 
+        public Builder setUnitText(String unit) {
+            this.unit = unit;
+            return this;
+        }
+
         public NumberPickerDialog create() {
             return new NumberPickerDialog(context, themeResId, title,
                     onValuePickedListener, onValuePickCancelListener,
-                    minValue, maxValue, defaultValue, displayedValues);
+                    minValue, maxValue, defaultValue, displayedValues, unit);
         }
 
         public NumberPickerDialog show() {

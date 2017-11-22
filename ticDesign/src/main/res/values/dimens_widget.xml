@@ -68,4 +68,6 @@
     <dimen name="tic_menu_item_title_size_2">@dimen/tic_text_size_medium_2</dimen>
     <dimen name="tic_menu_item_title_size_3">@dimen/tic_text_size_small_1</dimen>
 
+    <!--NumberPickerDialog -->
+    <dimen name="number_picker_dialog_unit_text_margin_left">8dp</dimen>
 </resources>
