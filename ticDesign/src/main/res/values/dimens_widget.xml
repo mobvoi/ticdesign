@@ -19,12 +19,12 @@
 
     <!-- Dialog padding for round display -->
     <dimen name="alert_dialog_round_padding">0dip</dimen>
-    <dimen name="alert_dialog_round_padding_bottom">14dp</dimen>
-    <dimen name="alert_dialog_round_button_padding_horizontal_full">16dp</dimen>
-    <dimen name="alert_dialog_round_button_padding_horizontal_pair">48dp</dimen>
+    <dimen name="alert_dialog_round_padding_bottom">8dp</dimen>
+    <dimen name="alert_dialog_round_button_padding_horizontal_full">10dp</dimen>
+    <dimen name="alert_dialog_round_button_padding_horizontal_pair">38dp</dimen>
     <dimen name="alert_dialog_button_translate_vertical">30dp</dimen>
     <dimen name="alert_dialog_button_translate_horizontal">28dp</dimen>
-    <dimen name="alert_dialog_message_padding_horizontal">40dp</dimen>
+    <dimen name="alert_dialog_message_padding_horizontal">20dp</dimen>
     <dimen name="alert_dialog_skip_button_height">48dp</dimen>
     <dimen name="alert_dialog_skip_button_padding">8dp</dimen>
     <dimen name="alert_dialog_skip_text_space_relative">6dp</dimen>
