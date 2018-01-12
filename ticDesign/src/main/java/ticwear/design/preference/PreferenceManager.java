@@ -334,6 +334,9 @@ public class PreferenceManager {
      * @see Context#getSharedPreferences(String, int)
      */
     public void setSharedPreferencesName(String sharedPreferencesName) {
+        if (mSharedPreferences != null) {
+            Log.w(TAG, "There is an old SharedPreference created with name " + mSharedPreferencesName);
+        }
         mSharedPreferencesName = sharedPreferencesName;
         mSharedPreferences = null;
     }
