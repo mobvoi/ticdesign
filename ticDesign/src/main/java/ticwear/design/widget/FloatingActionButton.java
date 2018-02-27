@@ -254,10 +254,10 @@ public class FloatingActionButton extends VisibilityAwareImageButton {
      */
     public void setProgressPercent(float percent) {
         if (getProgressDrawable() != null) {
+            stopDelayConfirmation();
             if (getProgressDrawable().getProgress() == percent) {
                 return;
             }
-            stopDelayConfirmation();
             getProgressDrawable().setProgress(percent);
         }
     }
