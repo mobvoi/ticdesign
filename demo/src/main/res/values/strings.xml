@@ -17,103 +17,109 @@
 <resources>
     <string name="app_name">TicDesign</string>
 
-    <string name="main.title">@string/app_name</string>
+    <string name="main_title">@string/app_name</string>
 
-    <string name="category.dialog.title">Dialogs</string>
-    <string name="category.dialog.standard">Standard Dialog</string>
-    <string name="category.dialog.no_title">Message Only</string>
-    <string name="category.dialog.confirm">Confirm Dialog</string>
-    <string name="category.dialog.choose">Choose Dialog</string>
-    <string name="category.dialog.delay_confirm">Delay Confirm</string>
-    <string name="category.dialog.long">Long Message Dialog</string>
-    <string name="category.dialog.value_picker">Value Picker</string>
-    <string name="category.dialog.number_picker">Number Picker</string>
-    <string name="category.dialog.time_picker">Time Picker</string>
-    <string name="category.dialog.date_picker">Date Picker</string>
-    <string name="category.dialog.datetime_picker">Datetime Picker</string>
-    <string name="category.dialog.choice">Make Choice</string>
-    <string name="category.dialog.single_selection">Single Selection</string>
-    <string name="category.dialog.single_choice">Single Choice</string>
-    <string name="category.dialog.multiple_choice">Multiple Choice</string>
-    <string name="category.dialog.text_only">Text Only</string>
+    <string name="category_dialog_title">Dialogs</string>
+    <string name="category_dialog_standard">Standard Dialog</string>
+    <string name="category_dialog_no_title">Message Only</string>
+    <string name="category_dialog_confirm">Confirm Dialog</string>
+    <string name="category_dialog_choose">Choose Dialog</string>
+    <string name="category_dialog_skippable">Skippable Dialog</string>
+    <string name="category_dialog_delay_confirm">Delay Confirm</string>
+    <string name="category_dialog_long">Long Message Dialog</string>
+    <string name="category_dialog_value_picker">Value Picker</string>
+    <string name="category_dialog_number_picker">Number Picker</string>
+    <string name="category_dialog_time_picker">Time Picker</string>
+    <string name="category_dialog_date_picker">Date Picker</string>
+    <string name="category_dialog_datetime_picker">Datetime Picker</string>
+    <string name="category_dialog_choice">Make Choice</string>
+    <string name="category_dialog_single_selection">Single Selection</string>
+    <string name="category_dialog_single_choice">Single Choice</string>
+    <string name="category_dialog_multiple_choice">Multiple Choice</string>
+    <string name="category_dialog_text_only">Text Only</string>
 
-    <string name="category.widgets.title">Widgets</string>
-    <string name="category.widgets.fab">FAB</string>
-    <string name="category.widgets.fab_delay">Delay Confirm</string>
-    <string name="category.widgets.button">Buttons</string>
-    <string name="category.widgets.volume_bar">Volume Bar</string>
-    <string name="category.widgets.progress">Progress/Loading</string>
-    <string name="category.widgets.picker">Value Picker</string>
+    <string name="category_widgets_title">Widgets</string>
+    <string name="category_widgets_fab">FAB</string>
+    <string name="category_widgets_fab_delay">Delay Confirm</string>
+    <string name="category_widgets_button">Buttons</string>
+    <string name="category_widgets_volume_bar">Volume Bar</string>
+    <string name="category_widgets_progress">Progress/Loading</string>
+    <string name="category_widgets_loading">ClockLoading</string>
+    <string name="category_widgets_picker">Value Picker</string>
+    <string name="category_widgets_swipe_todo">Swipe Todo</string>
 
-    <string name="category.settings.title">Settings</string>
+    <string name="category_settings_title">Settings</string>
 
-    <string name="category.spec.title">Specification</string>
-    <string name="category.spec.text">Text Style</string>
-    <string name="category.spec.color">Default Color</string>
-    <string name="category.spec.layout">Common Layout</string>
+    <string name="category_spec_title">Specification</string>
+    <string name="category_spec_text">Text Style</string>
+    <string name="category_spec_color">Default Color</string>
+    <string name="category_spec_layout">Common Layout</string>
 
-    <string name="category.showcase.title">Showcase</string>
+    <string name="category_showcase_title">Showcase</string>
 
-    <string name="category.menu.title">Menu</string>
-    <string name="category.menu.hint.1">Long press to show 1 menu</string>
-    <string name="category.menu.hint.2">Long press to show 2 menu</string>
-    <string name="category.menu.hint.3">Long press to show 3 menu</string>
-    <string name="category.menu.hint.4">Long press to show 4 menu</string>
-    <string name="category.menu.hint.5">Long press to show 5 menu</string>
-    <string name="category.menu.hint.create">Create New</string>
-    <string name="category.menu.hint.open">Open file</string>
-    <string name="category.menu.hint.edit">Edit</string>
-    <string name="category.menu.hint.share">Share</string>
-    <string name="category.menu.hint.delete">Delete</string>
+    <string name="category_menu_title">Menu</string>
+    <string name="category_menu_hint_1">Long press to show 1 menu</string>
+    <string name="category_menu_hint_2">Long press to show 2 menu</string>
+    <string name="category_menu_hint_3">Long press to show 3 menu</string>
+    <string name="category_menu_hint_4">Long press to show 4 menu</string>
+    <string name="category_menu_hint_5">Long press to show 5 menu</string>
+    <string name="category_menu_hint_create">Create New</string>
+    <string name="category_menu_hint_open">Open file</string>
+    <string name="category_menu_hint_edit">Edit</string>
+    <string name="category_menu_hint_share">Share</string>
+    <string name="category_menu_hint_delete">Delete</string>
 
-    <string name="text.short_content">To keep good look of page, put message less than 3 lines.</string>
-    <string name="text.long_content">Jarlsberg lancashire edam. Dolcelatte hard cheese brie st. agur blue
+    <string name="category_coordinator_title">CoordinatorLayout</string>
+
+
+    <string name="text_short_content">To keep good look of page, put message less than 3 lines.</string>
+    <string name="text_long_content">Jarlsberg lancashire edam. Dolcelatte hard cheese brie st. agur blue
     cheese caerphilly bavarian bergkase cheese and biscuits mascarpone. Cheeseburger swiss bavarian
     bergkase cream cheese fromage frais cheesy feet port-salut airedale. St. agur blue cheese rubber
     cheese caerphilly cheddar cheesecake cream cheese manchego lancashire. Roquefort squirty cheese
     the big cheese.</string>
-    <string name="text.dialog.delay_confirm">Action will be done in a second. Click to do it now.</string>
+    <string name="text_dialog_delay_confirm">Action will be done in a second. Click to do it now.</string>
 
-    <string name="spec.text_size.line_height">All text with line spacing 1.4</string>
+    <string name="spec_text_size_line_height">All text with line spacing 1.4</string>
 
-    <string name="spec.text_size.base">Base Text Style</string>
-    <string name="spec.text_size.xxl.name">Ex-Ex Large</string>
-    <string name="spec.text_size.xxl.desc">27sp Regular</string>
-    <string name="spec.text_size.xl.name">Extra Large</string>
-    <string name="spec.text_size.xl.desc">20sp Regular</string>
-    <string name="spec.text_size.l1.name">Large 1</string>
-    <string name="spec.text_size.l1.desc">18sp Regular</string>
-    <string name="spec.text_size.l2.name">Large 2</string>
-    <string name="spec.text_size.l2.desc">17sp Regular</string>
-    <string name="spec.text_size.m1.name">Medium 1</string>
-    <string name="spec.text_size.m1.desc">16sp Regular</string>
-    <string name="spec.text_size.m2.name">Medium 2</string>
-    <string name="spec.text_size.m2.desc">15sp Regular</string>
-    <string name="spec.text_size.s1.name">Small 1</string>
-    <string name="spec.text_size.s1.desc">14sp Regular</string>
-    <string name="spec.text_size.s2.name">Small 2</string>
-    <string name="spec.text_size.s2.desc">13sp Regular</string>
-    <string name="spec.text_size.xs.name">Extra Small</string>
-    <string name="spec.text_size.xs.desc">12sp Regular</string>
+    <string name="spec_text_size_base">Base Text Style</string>
+    <string name="spec_text_size_xxl_name">Ex-Ex Large</string>
+    <string name="spec_text_size_xxl_desc">27sp Regular</string>
+    <string name="spec_text_size_xl_name">Extra Large</string>
+    <string name="spec_text_size_xl_desc">20sp Regular</string>
+    <string name="spec_text_size_l1_name">Large 1</string>
+    <string name="spec_text_size_l1_desc">18sp Regular</string>
+    <string name="spec_text_size_l2_name">Large 2</string>
+    <string name="spec_text_size_l2_desc">17sp Regular</string>
+    <string name="spec_text_size_m1_name">Medium 1</string>
+    <string name="spec_text_size_m1_desc">16sp Regular</string>
+    <string name="spec_text_size_m2_name">Medium 2</string>
+    <string name="spec_text_size_m2_desc">15sp Regular</string>
+    <string name="spec_text_size_s1_name">Small 1</string>
+    <string name="spec_text_size_s1_desc">14sp Regular</string>
+    <string name="spec_text_size_s2_name">Small 2</string>
+    <string name="spec_text_size_s2_desc">13sp Regular</string>
+    <string name="spec_text_size_xs_name">Extra Small</string>
+    <string name="spec_text_size_xs_desc">12sp Regular</string>
 
-    <string name="spec.text_size.material">Material Text Style</string>
-    <string name="spec.text_size.headline.name">Headline</string>
-    <string name="spec.text_size.headline.desc">20sp Regular</string>
-    <string name="spec.text_size.title.name">Title</string>
-    <string name="spec.text_size.title.desc">18sp Medium</string>
-    <string name="spec.text_size.subhead.name">Subhead</string>
-    <string name="spec.text_size.subhead.desc">17sp Regular</string>
-    <string name="spec.text_size.body2.name">Body 2</string>
-    <string name="spec.text_size.body2.desc">14sp Medium</string>
-    <string name="spec.text_size.body1.name">Body 1</string>
-    <string name="spec.text_size.body1.desc">14sp Regular</string>
-    <string name="spec.text_size.caption.name">Caption</string>
-    <string name="spec.text_size.caption.desc">12sp Regular</string>
-    <string name="spec.text_size.button.name">Button</string>
-    <string name="spec.text_size.button.desc">14sp MEDIUM</string>
+    <string name="spec_text_size_material">Material Text Style</string>
+    <string name="spec_text_size_headline_name">Headline</string>
+    <string name="spec_text_size_headline_desc">20sp Regular</string>
+    <string name="spec_text_size_title_name">Title</string>
+    <string name="spec_text_size_title_desc">18sp Medium</string>
+    <string name="spec_text_size_subhead_name">Subhead</string>
+    <string name="spec_text_size_subhead_desc">17sp Regular</string>
+    <string name="spec_text_size_body2_name">Body 2</string>
+    <string name="spec_text_size_body2_desc">14sp Medium</string>
+    <string name="spec_text_size_body1_name">Body 1</string>
+    <string name="spec_text_size_body1_desc">14sp Regular</string>
+    <string name="spec_text_size_caption_name">Caption</string>
+    <string name="spec_text_size_caption_desc">12sp Regular</string>
+    <string name="spec_text_size_button_name">Button</string>
+    <string name="spec_text_size_button_desc">14sp MEDIUM</string>
 
-    <string name="spec.color.decorate.darken">D</string>
-    <string name="spec.color.decorate.normal">N</string>
-    <string name="spec.color.decorate.lighten">L</string>
+    <string name="spec_color_decorate_darken">D</string>
+    <string name="spec_color_decorate_normal">N</string>
+    <string name="spec_color_decorate_lighten">L</string>
 
 </resources>

@@ -32,7 +32,7 @@
             android:singleLine="true"
             android:gravity="end"
             android:alpha="0.7"
-            android:text="@string/spec.text_size.xxl.name"
+            android:text="@string/spec_text_size_xxl_name"
             />
 
         <TextView
@@ -42,7 +42,7 @@
             android:layout_margin="4dp"
             android:singleLine="true"
             android:textSize="@dimen/tic_text_size_extra_extra_large"
-            android:text="@string/spec.text_size.xxl.desc"
+            android:text="@string/spec_text_size_xxl_desc"
             />
 
     </LinearLayout>
@@ -60,7 +60,7 @@
             android:singleLine="true"
             android:gravity="end"
             android:alpha="0.7"
-            android:text="@string/spec.text_size.xl.name"
+            android:text="@string/spec_text_size_xl_name"
             />
 
         <TextView
@@ -70,7 +70,7 @@
             android:layout_margin="4dp"
             android:singleLine="true"
             android:textSize="@dimen/tic_text_size_extra_large"
-            android:text="@string/spec.text_size.xl.desc"
+            android:text="@string/spec_text_size_xl_desc"
             />
 
     </LinearLayout>
@@ -88,7 +88,7 @@
             android:singleLine="true"
             android:gravity="end"
             android:alpha="0.7"
-            android:text="@string/spec.text_size.l1.name"
+            android:text="@string/spec_text_size_l1_name"
             />
 
         <TextView
@@ -98,7 +98,7 @@
             android:layout_margin="4dp"
             android:singleLine="true"
             android:textSize="@dimen/tic_text_size_large_1"
-            android:text="@string/spec.text_size.l1.desc"
+            android:text="@string/spec_text_size_l1_desc"
             />
 
     </LinearLayout>
@@ -116,7 +116,7 @@
             android:singleLine="true"
             android:gravity="end"
             android:alpha="0.7"
-            android:text="@string/spec.text_size.l2.name"
+            android:text="@string/spec_text_size_l2_name"
             />
 
         <TextView
@@ -126,7 +126,7 @@
             android:layout_margin="4dp"
             android:singleLine="true"
             android:textSize="@dimen/tic_text_size_large_2"
-            android:text="@string/spec.text_size.l2.desc"
+            android:text="@string/spec_text_size_l2_desc"
             />
 
     </LinearLayout>
@@ -144,7 +144,7 @@
             android:singleLine="true"
             android:gravity="end"
             android:alpha="0.7"
-            android:text="@string/spec.text_size.m1.name"
+            android:text="@string/spec_text_size_m1_name"
             />
 
         <TextView
@@ -154,7 +154,7 @@
             android:layout_margin="4dp"
             android:singleLine="true"
             android:textSize="@dimen/tic_text_size_medium_1"
-            android:text="@string/spec.text_size.m1.desc"
+            android:text="@string/spec_text_size_m1_desc"
             />
 
     </LinearLayout>
@@ -172,7 +172,7 @@
             android:singleLine="true"
             android:gravity="end"
             android:alpha="0.7"
-            android:text="@string/spec.text_size.m2.name"
+            android:text="@string/spec_text_size_m2_name"
             />
 
         <TextView
@@ -182,7 +182,7 @@
             android:layout_margin="4dp"
             android:singleLine="true"
             android:textSize="@dimen/tic_text_size_medium_2"
-            android:text="@string/spec.text_size.m2.desc"
+            android:text="@string/spec_text_size_m2_desc"
             />
 
     </LinearLayout>
@@ -200,7 +200,7 @@
             android:singleLine="true"
             android:gravity="end"
             android:alpha="0.7"
-            android:text="@string/spec.text_size.s1.name"
+            android:text="@string/spec_text_size_s1_name"
             />
 
         <TextView
@@ -210,7 +210,7 @@
             android:layout_margin="4dp"
             android:singleLine="true"
             android:textSize="@dimen/tic_text_size_small_1"
-            android:text="@string/spec.text_size.s1.desc"
+            android:text="@string/spec_text_size_s1_desc"
             />
 
     </LinearLayout>
@@ -228,7 +228,7 @@
             android:singleLine="true"
             android:gravity="end"
             android:alpha="0.7"
-            android:text="@string/spec.text_size.s2.name"
+            android:text="@string/spec_text_size_s2_name"
             />
 
         <TextView
@@ -238,7 +238,7 @@
             android:layout_margin="4dp"
             android:singleLine="true"
             android:textSize="@dimen/tic_text_size_small_2"
-            android:text="@string/spec.text_size.s2.desc"
+            android:text="@string/spec_text_size_s2_desc"
             />
 
     </LinearLayout>
@@ -256,7 +256,7 @@
             android:singleLine="true"
             android:gravity="end"
             android:alpha="0.7"
-            android:text="@string/spec.text_size.xs.name"
+            android:text="@string/spec_text_size_xs_name"
             />
 
         <TextView
@@ -266,7 +266,7 @@
             android:layout_margin="4dp"
             android:singleLine="true"
             android:textSize="@dimen/tic_text_size_extra_small"
-            android:text="@string/spec.text_size.xs.desc"
+            android:text="@string/spec_text_size_xs_desc"
             />
 
     </LinearLayout>

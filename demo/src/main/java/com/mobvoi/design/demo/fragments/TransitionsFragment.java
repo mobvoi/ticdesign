@@ -38,7 +38,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import ticwear.design.widget.FocusableLinearLayoutManager;
 import ticwear.design.widget.FocusableLinearLayoutManager.FocusState;
@@ -58,10 +58,10 @@ public class TransitionsFragment extends Fragment {
         return inflater.inflate(R.layout.fragment_simple_list, container, false);
     }
 
-    @Bind(android.R.id.title)
+    @BindView(android.R.id.title)
     TextView textTitle;
 
-    @Bind(R.id.list_sub_demo)
+    @BindView(R.id.list_sub_demo)
     TicklableRecyclerView listSubDemo;
 
     private final static String[] fromList = {
@@ -119,9 +119,9 @@ public class TransitionsFragment extends Fragment {
 
         private final WeakReference<Activity> hostActivity;
 
-        @Bind(R.id.item_icon)
+        @BindView(R.id.item_icon)
         ImageView imageIcon;
-        @Bind(R.id.item_text)
+        @BindView(R.id.item_text)
         TextView textView;
 
         ViewHolder(Activity host, View view, int[] to) {

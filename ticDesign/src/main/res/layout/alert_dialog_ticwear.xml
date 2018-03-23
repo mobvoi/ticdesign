@@ -98,10 +98,41 @@
                         android:layout_height="wrap_content"
                         android:paddingTop="0dp"
                         tools:text="Dialog content message in here."
-                        style="@style/TextAppearance.Ticwear.DialogContent"
+                        style="?attr/tic_dialogMessageStyle"
                         />
+
+                    <LinearLayout
+                        android:id="@+id/layout_skip"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:background="?android:selectableItemBackground"
+                        android:clickable="true"
+                        android:gravity="start|center_vertical"
+                        android:orientation="horizontal"
+                        android:minHeight="@dimen/alert_dialog_skip_button_height"
+                        android:padding="@dimen/alert_dialog_skip_button_padding"
+                        >
+
+                        <CheckBox
+                            android:id="@+id/check_skip"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:button="@drawable/tic_ic_radio_small"
+                            android:clickable="false"
+                            style="@style/TextAppearance.Ticwear.Small"
+                            />
+
+                        <TextView
+                            android:id="@+id/text_skip"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/alert_dialog_skip_text_space_relative"
+                            android:text="@string/alert_dialog_dont_show_me_again"/>
+
+                    </LinearLayout>
+
                     <Space android:id="@+id/textSpacerNoButtons"
-                        android:visibility="gone"
                         android:layout_width="0dp"
                         android:layout_height="8dp" />
                 </LinearLayout>

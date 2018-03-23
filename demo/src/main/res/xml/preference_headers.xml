@@ -19,32 +19,36 @@
     <header
         android:fragment="com.mobvoi.design.demo.fragments.SettingsFragment"
         android:icon="@drawable/ic_preference"
-        android:title="@string/preference.custom_config_mode">
+        android:title="@string/preference_custom_config_mode">
         <extra
             android:name="settings"
             android:value="preference" />
     </header>
     <header
+        android:fragment="com.mobvoi.design.demo.fragments.DynamicSettingsFragment"
+        android:icon="@drawable/ic_wifi"
+        android:title="@string/preference_wifi_setting" />
+    <header
         android:fragment="com.mobvoi.design.demo.fragments.SettingsFragment"
         android:icon="@drawable/ic_about"
-        android:title="@string/preference.about" >
+        android:title="@string/preference_about" >
         <extra
             android:name="settings"
             android:value="about" />
     </header>
     <header
         android:icon="@drawable/ic_batterysave"
-        android:title="@string/preference.power_save_mode" />
+        android:title="@string/preference_about_compat" >
+        <intent android:targetPackage="com.mobvoi.design.demo"
+                android:targetClass="com.mobvoi.design.demo.SupportSettingsActivity" />
+    </header>
     <header
         android:icon="@drawable/ic_plane"
-        android:title="@string/preference.airplane_mode_service_name" />
-    <header
-        android:icon="@drawable/ic_wifi"
-        android:title="@string/preference.wifi_setting" />
+        android:title="@string/preference_airplane_mode_service_name" />
     <header
         android:icon="@drawable/ic_3g"
-        android:title="@string/preference.network_saved" />
+        android:title="@string/preference_network_saved" />
     <header
         android:icon="@drawable/ic_developer"
-        android:title="@string/preference.developer_options" />
+        android:title="@string/preference_developer_options" />
 </preference-headers>

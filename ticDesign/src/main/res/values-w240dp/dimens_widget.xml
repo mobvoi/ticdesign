@@ -16,6 +16,7 @@
   -->
 
 <resources>
+    <dimen name="alert_dialog_round_padding_bottom">14dp</dimen>
     <dimen name="alert_dialog_round_button_padding_horizontal_full">20dp</dimen>
     <dimen name="alert_dialog_round_button_padding_horizontal_pair">56dp</dimen>
     <dimen name="alert_dialog_message_padding_horizontal">48dp</dimen>

@@ -17,25 +17,25 @@
 
 <ticwear.design.preference.PreferenceScreen
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:title="@string/preference.custom_config_mode">
+    android:title="@string/preference_custom_config_mode">
 
     <!-- This PreferenceScreen tag serves as a screen break (similar to page break
          in word processing). Like for other preference types, we assign a key
          here so it is able to save and restore its instance state. -->
     <ticwear.design.preference.PreferenceScreen
         android:key="screen_preference"
-        android:title="@string/preference.locale_service_name">
+        android:title="@string/preference_locale_service_name">
 
         <!-- You can place more preferences here that will be shown on the next screen. -->
 
         <ticwear.design.preference.CheckBoxPreference
             android:key="next_screen_checkbox_preference"
-            android:title="@string/preference.enable_super_power_save_mode"
-            android:summary="@string/preference.enable_super_power_save_summery" />
+            android:title="@string/preference_enable_super_power_save_mode"
+            android:summary="@string/preference_enable_super_power_save_summery" />
 
         <ticwear.design.preference.ListPreference
             android:key="list_preference"
-            android:title="@string/preference.perm_label_change_locale"
+            android:title="@string/preference_perm_label_change_locale"
             android:summary="%s"
             android:entries="@array/preference_text_size_list"
             android:entryValues="@array/preference_text_size_list"
@@ -43,7 +43,7 @@
 
         <ticwear.design.preference.MultiSelectListPreference
             android:key="multi_list_preference"
-            android:title="@string/preference.perm_label_configure_doze"
+            android:title="@string/preference_perm_label_configure_doze"
             android:entries="@array/preference_text_size_list"
             android:entryValues="@array/preference_text_size_list"
             />
@@ -52,37 +52,37 @@
 
     <ticwear.design.preference.CheckBoxPreference
         android:key="checkbox_preference"
-        android:title="@string/preference.long_press_change_watch_face"
-        android:summaryOn="@string/preference.enabled"
-        android:summaryOff="@string/preference.disabled" />
+        android:title="@string/preference_long_press_change_watch_face"
+        android:summaryOn="@string/preference_enabled"
+        android:summaryOff="@string/preference_disabled" />
 
     <ticwear.design.preference.RingtonePreference
         android:key="ringtone_preference"
-        android:title="@string/preference.ringtone"
+        android:title="@string/preference_ringtone"
         android:ringtoneType="ringtone"/>
 
     <ticwear.design.preference.SwitchPreference
         android:key="parent_checkbox_preference"
-        android:title="@string/preference.wifi_auto"
-        android:summaryOn="@string/preference.wifi_successful"
-        android:summaryOff="@string/preference.wifi_closed" />
+        android:title="@string/preference_wifi_auto"
+        android:summaryOn="@string/preference_wifi_successful"
+        android:summaryOff="@string/preference_wifi_closed" />
 
     <!-- The visual style of a child is defined by this styled theme attribute. -->
     <ticwear.design.preference.PreferenceScreen
         android:key="child_checkbox_preference"
         android:dependency="parent_checkbox_preference"
         android:layout="?android:preferenceLayoutChild"
-        android:title="@string/preference.wifi_more"
-        android:summary="@string/preference.forget_wifi">
+        android:title="@string/preference_wifi_more"
+        android:summary="@string/preference_forget_wifi">
 
 
         <ticwear.design.preference.SwitchPreference
             android:key="next_screen_switch_preference"
-            android:title="@string/preference.enable_super_power_save_mode"
-            android:summary="@string/preference.enable_super_power_save_summery" />
+            android:title="@string/preference_enable_super_power_save_mode"
+            android:summary="@string/preference_enable_super_power_save_summery" />
 
         <ticwear.design.preference.Preference
-            android:summary="@string/preference.ambientmode_tips"
+            android:summary="@string/preference_ambientmode_tips"
             style="?android:preferenceInformationStyle"
             />
 

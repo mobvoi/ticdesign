@@ -16,7 +16,7 @@
      limitations under the License.
 -->
 
-<ticwear.design.widget.CheckedTextView
+<CheckedTextView
     xmlns:android="http://schemas.android.com/apk/res/android"
     style="@style/Widget.Ticwear.ListItem"
     android:id="@android:id/text1"
@@ -24,5 +24,5 @@
     android:layout_height="wrap_content"
     android:textAppearance="?android:textAppearanceListItem"
     android:textColor="?android:textColorAlertDialogListItem"
-    android:drawableEnd="?android:listChoiceIndicatorSingle"
+    android:checkMark="?android:listChoiceIndicatorSingle"
     android:ellipsize="marquee" />

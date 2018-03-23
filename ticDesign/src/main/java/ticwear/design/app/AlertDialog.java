@@ -41,6 +41,7 @@ import android.widget.ImageButton;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 
+import ticwear.design.R;
 import ticwear.design.internal.app.AlertController;
 import ticwear.design.internal.app.AlertController.DelayConfirmRequest;
 import ticwear.design.utils.ThemeUtils;
@@ -73,6 +74,7 @@ import ticwear.design.widget.TrackSelectionAdapterWrapper;
  * <a href="{@docRoot}guide/topics/ui/dialogs.html">Dialogs</a> developer guide.</p>
  * </div>
  */
+@SuppressWarnings("unused")
 public class AlertDialog extends Dialog implements DialogInterface {
     private AlertController mAlert;
 
@@ -327,6 +329,10 @@ public class AlertDialog extends Dialog implements DialogInterface {
         mAlert.setInverseBackgroundForced(forceInverseBackground);
     }
 
+    public void setSkipChecked(boolean checked) {
+        mAlert.setSkipChecked(checked);
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -379,6 +385,16 @@ public class AlertDialog extends Dialog implements DialogInterface {
      */
     public void showButtons() {
         mAlert.showButtons();
+    }
+
+    public interface OnSkipClickListener {
+        /**
+         * This method will be invoked when skip button in the dialog is clicked.
+         *
+         * @param dialog The dialog where the selection was made.
+         * @param isChecked True if the click checked the item, else false.
+         */
+        void onClick(DialogInterface dialog, boolean isChecked);
     }
 
     public static class Builder {
@@ -638,6 +654,10 @@ public class AlertDialog extends Dialog implements DialogInterface {
             return this;
         }
 
+        public Builder setPositiveButtonIcon(OnClickListener listener) {
+            return setPositiveButtonIcon(R.drawable.tic_ic_btn_ok, listener);
+        }
+
         /**
          * Set a listener to be invoked when the positive button of the dialog is pressed.
          * @param icon The icon to display in the positive button
@@ -662,6 +682,10 @@ public class AlertDialog extends Dialog implements DialogInterface {
             P.mNegativeButtonIcon = P.mContext.getDrawable(iconId);
             P.mNegativeButtonListener = listener;
             return this;
+        }
+
+        public Builder setNegativeButtonIcon(OnClickListener listener) {
+            return setNegativeButtonIcon(R.drawable.tic_ic_btn_cancel, listener);
         }
 
         /**
@@ -1092,6 +1116,30 @@ public class AlertDialog extends Dialog implements DialogInterface {
         @Deprecated
         public Builder setInverseBackgroundForced(boolean useInverseBackground) {
             P.mForceInverseBackground = useInverseBackground;
+            return this;
+        }
+
+        public Builder setSkipButton(OnSkipClickListener listener) {
+            P.mOnSkipClickListener = listener;
+            return this;
+        }
+
+        public Builder setSkipButton(CharSequence skipMessage, OnSkipClickListener listener) {
+            P.mSkipMessage = skipMessage;
+            P.mOnSkipClickListener = listener;
+            return this;
+        }
+
+        public Builder setSkipButton(boolean initialChecked, OnSkipClickListener listener) {
+            P.mSkipInitialChecked = initialChecked;
+            P.mOnSkipClickListener = listener;
+            return this;
+        }
+
+        public Builder setSkipButton(CharSequence skipMessage, boolean initialChecked, OnSkipClickListener listener) {
+            P.mSkipMessage = skipMessage;
+            P.mSkipInitialChecked = initialChecked;
+            P.mOnSkipClickListener = listener;
             return this;
         }
 

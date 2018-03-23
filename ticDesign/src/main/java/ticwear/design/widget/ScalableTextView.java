@@ -84,6 +84,10 @@ public class ScalableTextView extends TextView {
         a.recycle();
     }
 
+    public float getTextScale() {
+        return mTextScale;
+    }
+
     public float getScaleFactor() {
         return mScaleFactor;
     }

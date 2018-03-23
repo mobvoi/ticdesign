@@ -76,7 +76,7 @@ public class TimePicker extends FrameLayout implements MultiPickerContainer,
          * @param hourOfDay The current hour.
          * @param minute The current minute.
          */
-        void onTimeChanged(TimePicker view, int hourOfDay, int minute);
+        void onTimeChanged(TimePicker view, int hourOfDay, int minute, int second);
     }
 
     public TimePicker(Context context) {
@@ -145,6 +145,18 @@ public class TimePicker extends FrameLayout implements MultiPickerContainer,
      */
     public Integer getCurrentMinute() {
         return mDelegate.getCurrentMinute();
+    }
+
+    public void setSecondsPickerVisible(boolean visible) {
+        mDelegate.setSecondsPickerVisible(visible);
+    }
+
+    public void setCurrentSecond(Integer currentSecond) {
+        mDelegate.setCurrentSecond(currentSecond);
+    }
+
+    public Integer getCurrentSecond() {
+        return mDelegate.getCurrentSecond();
     }
 
     /**
@@ -274,7 +286,7 @@ public class TimePicker extends FrameLayout implements MultiPickerContainer,
         }
 
         boolean handled = false;
-        if (mMultiPickerClient != null) {
+        if (mMultiPickerClient != null && nextView instanceof NumberPicker) {
             handled = mMultiPickerClient.onPickerPreFocus((NumberPicker) nextView, fromLast);
         }
 
@@ -311,6 +323,10 @@ public class TimePicker extends FrameLayout implements MultiPickerContainer,
 
         void setCurrentMinute(Integer currentMinute);
         Integer getCurrentMinute();
+
+        void setCurrentSecond(Integer currentSecond);
+        void setSecondsPickerVisible(boolean visible);
+        Integer getCurrentSecond();
 
         void setIs24HourView(Boolean is24HourView);
         boolean is24HourView();

@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~ Copyright (c) 2016 Mobvoi Inc.
   ~
   ~ Licensed under the Apache License, Version 2.0 (the "License");
@@ -18,16 +17,16 @@
 <resources>
 
     <declare-styleable name="ScrollBar">
-        <attr name="tic_scroll_bar_strokeWidth" format="dimension"/>
-        <attr name="tic_scroll_bar_margin" format="dimension"/>
-        <attr name="tic_scroll_bar_bgColor" format="color"/>
-        <attr name="tic_scroll_bar_sweepColor" format="color"/>
+        <attr name="tic_scroll_bar_strokeWidth" format="dimension" />
+        <attr name="tic_scroll_bar_margin" format="dimension" />
+        <attr name="tic_scroll_bar_bgColor" format="color" />
+        <attr name="tic_scroll_bar_sweepColor" format="color" />
     </declare-styleable>
 
     <declare-styleable name="VolumeBar">
-        <attr name="tic_vb_valueColor" format="color"/>
-        <attr name="tic_vb_bgColor" format="color"/>
-        <attr name="tic_vb_btnImageSize" format="dimension"/>
+        <attr name="tic_vb_valueColor" format="color" />
+        <attr name="tic_vb_bgColor" format="color" />
+        <attr name="tic_vb_btnImageSize" format="dimension" />
         <attr name="tic_vb_touchPadding" format="dimension" />
         <attr name="tic_vb_thumbImage" format="reference" />
         <attr name="tic_vb_thumbLeftImage" format="reference" />
@@ -37,7 +36,7 @@
         <!-- A factor multiplied to text scale.
              When equals 0, there is no scale effect, when equals 1, the text scaled with view change.
              textScale = 1f + (scale - 1f) * scaleFactor -->
-        <attr name="tic_scaleFactor" format="float"/>
+        <attr name="tic_scaleFactor" format="float" />
     </declare-styleable>
 
 
@@ -54,13 +53,11 @@
         <attr name="android:bottomMedium" />
         <attr name="android:centerMedium" />
         <attr name="android:layout" />
-        <attr name="android:buttonPanelSideLayout" />
+        <attr name="buttonPanelSideLayout" />
         <attr name="tic_listLayout" format="reference" />
         <attr name="tic_multiChoiceItemLayout" format="reference" />
         <attr name="tic_singleChoiceItemLayout" format="reference" />
         <attr name="tic_listItemLayout" format="reference" />
-        <attr name="android:progressLayout" />
-        <attr name="android:horizontalProgressLayout" />
     </declare-styleable>
 
     <!-- TODO: check if this may conflict to other library when its not public. -->
@@ -84,9 +81,15 @@
         <!-- @hide The layout of the number picker. -->
         <attr name="tic_internalLayout" format="reference" />
         <!-- @hide The drawable for pressed virtual (increment/decrement) buttons. -->
-        <attr name="tic_virtualButtonPressedDrawable" format="reference"/>
+        <attr name="tic_virtualButtonPressedDrawable" format="reference" />
         <!-- @hide If true then the selector wheel is hidden until the picker has focus. -->
-        <attr name="tic_hideWheelUntilFocused" format="boolean"/>
+        <attr name="tic_hideWheelUntilFocused" format="boolean" />
+        <!-- @hide The Input edit size of the NumberPicker. -->
+        <attr name="tic_inputTextSize" format="dimension" />
+        <!-- @hide The selected color of the NumberPicker. -->
+        <attr name="tic_selectedColor" format="color|reference" />
+        <!-- @hide The default color of the NumberPicker. -->
+        <attr name="tic_unselectedColor" format="color|reference" />
     </declare-styleable>
 
     <declare-styleable name="TimePicker">
@@ -121,7 +124,7 @@
         <!-- Defines the look of the widget. Prior to the L release, the only choice was
              spinner. As of L, with the Material theme selected, the default layout is clock,
              but this attribute can be used to force spinner to be used instead. -->
-        <attr name="android:timePickerMode"/>
+        <attr name="android:timePickerMode" />
     </declare-styleable>
 
     <declare-styleable name="DatePicker">
@@ -180,7 +183,7 @@
     </declare-styleable>
 
     <!-- Style of the circle indicator. -->
-    <attr name="tic_CirclePageIndicatorStyle" format="reference"/>
+    <attr name="tic_CirclePageIndicatorStyle" format="reference" />
 
     <declare-styleable name="CirclePageIndicator">
         <!-- Whether or not the indicators should be centered. -->
@@ -190,7 +193,7 @@
         <!-- Color of the filled circles that represents pages. -->
         <attr name="tic_pageColor" format="color" />
         <!-- Orientation of the indicator. -->
-        <attr name="android:orientation"/>
+        <attr name="android:orientation" />
         <!-- Radius of the circles. This is also the spacing between circles. -->
         <attr name="android:radius" />
         <!-- Whether or not the selected indicator snaps to the circles. -->
@@ -200,7 +203,7 @@
         <!-- Width of the stroke used to draw the circles. -->
         <attr name="tic_strokeWidth" format="dimension" />
         <!-- View background -->
-        <attr name="android:background"/>
+        <attr name="android:background" />
     </declare-styleable>
 
     <!-- Used as a filter array on the theme to pull out only the EdgeEffect-relevant bits. -->
@@ -209,21 +212,21 @@
     </declare-styleable>
 
     <declare-styleable name="CircularProgressDrawable">
-        <attr name="tic_cpd_strokeSize" format="dimension"/>
-        <attr name="tic_cpd_padding" format="reference|dimension"/>
-        <attr name="tic_cpd_initialAngle" format="reference|integer"/>
-        <attr name="tic_cpd_progress" format="float"/>
-        <attr name="tic_cpd_secondaryProgress" format="float"/>
-        <attr name="tic_cpd_minSweepAngle" format="reference|integer"/>
-        <attr name="tic_cpd_maxSweepAngle" format="reference|integer"/>
-        <attr name="tic_cpd_reverse" format="boolean"/>
-        <attr name="tic_cpd_rotateDuration" format="reference|integer"/>
-        <attr name="tic_cpd_transformDuration" format="reference|integer"/>
-        <attr name="tic_cpd_keepDuration" format="reference|integer"/>
-        <attr name="tic_cpd_inAnimDuration" format="reference|integer"/>
-        <attr name="tic_cpd_inStepPercent" format="float"/>
-        <attr name="tic_cpd_outAnimDuration" format="reference|integer"/>
-        <attr name="tic_cpd_progressAlpha" format="reference|integer"/>
+        <attr name="tic_cpd_strokeSize" format="dimension" />
+        <attr name="tic_cpd_padding" format="reference|dimension" />
+        <attr name="tic_cpd_initialAngle" format="reference|integer" />
+        <attr name="tic_cpd_progress" format="float" />
+        <attr name="tic_cpd_secondaryProgress" format="float" />
+        <attr name="tic_cpd_minSweepAngle" format="reference|integer" />
+        <attr name="tic_cpd_maxSweepAngle" format="reference|integer" />
+        <attr name="tic_cpd_reverse" format="boolean" />
+        <attr name="tic_cpd_rotateDuration" format="reference|integer" />
+        <attr name="tic_cpd_transformDuration" format="reference|integer" />
+        <attr name="tic_cpd_keepDuration" format="reference|integer" />
+        <attr name="tic_cpd_inAnimDuration" format="reference|integer" />
+        <attr name="tic_cpd_inStepPercent" format="float" />
+        <attr name="tic_cpd_outAnimDuration" format="reference|integer" />
+        <attr name="tic_cpd_progressAlpha" format="reference|integer" />
         <attr name="tic_cpd_progressMode">
             <enum name="determinate" value="0x00000000" />
             <enum name="indeterminate" value="0x00000001" />
@@ -243,5 +246,22 @@
         <attr name="tic_rightBtnBgColor" format="color" />
         <attr name="tic_content" format="string" />
         <attr name="tic_subContent" format="string" />
+    </declare-styleable>
+
+    <declare-styleable name="ClockLoadingView">
+        <attr name="tic_clv_progressColor" format="color" />
+        <attr name="tic_clv_cycleDuration" format="reference|integer" />
+        <attr name="tic_clv_bgRadius" format="dimension"/>
+        <attr name="tic_clv_bgThickWidth" format="dimension"/>
+        <attr name="tic_clv_hourHandWidth" format="dimension"/>
+        <attr name="tic_clv_hourHandHeight" format="dimension"/>
+        <attr name="tic_clv_minuteHandWidth" format="dimension"/>
+        <attr name="tic_clv_minuteHandHeight" format="dimension"/>
+        <attr name="tic_clv_style">
+            <enum name="large" value="1"/>
+            <enum name="middle" value="2"/>
+            <enum name="small" value="3"/>
+            <enum name="custom" value="0"/>
+        </attr>
     </declare-styleable>
 </resources>

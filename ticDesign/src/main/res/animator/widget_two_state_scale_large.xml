@@ -19,12 +19,12 @@
     android:ordering="sequentially">
     <set android:ordering="together">
         <objectAnimator
-            android:duration="@integer/design.anim.button_state_half"
+            android:duration="@integer/design_anim_button_state_half"
             android:propertyName="scaleX"
             android:valueFrom="0"
             android:valueTo="0" />
         <objectAnimator
-            android:duration="@integer/design.anim.button_state_half"
+            android:duration="@integer/design_anim_button_state_half"
             android:propertyName="scaleY"
             android:valueFrom="0"
             android:valueTo="0" />
@@ -32,13 +32,13 @@
     <set android:ordering="together">
         <objectAnimator
             android:interpolator="@android:interpolator/decelerate_cubic"
-            android:duration="@integer/design.anim.button_state_half"
+            android:duration="@integer/design_anim_button_state_half"
             android:propertyName="scaleX"
             android:valueFrom="0"
             android:valueTo="1" />
         <objectAnimator
             android:interpolator="@android:interpolator/decelerate_cubic"
-            android:duration="@integer/design.anim.button_state_half"
+            android:duration="@integer/design_anim_button_state_half"
             android:propertyName="scaleY"
             android:valueFrom="0"
             android:valueTo="1" />

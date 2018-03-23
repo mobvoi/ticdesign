@@ -26,7 +26,7 @@
         android:pivotY="52">
         <path
             android:name="bgPath"
-            android:pathData="@string/tic.svg.btn.two_state.bg"
+            android:pathData="@string/tic_svg_btn_two_state_bg"
             android:fillColor="?android:colorControlActivated" />
 
         <group android:name="fgOn"
@@ -34,7 +34,7 @@
                android:pivotY="52.0">
             <path
                 android:fillColor="#FFFFFF"
-                android:pathData="@string/tic.svg.btn.radio.on" />
+                android:pathData="@string/tic_svg_btn_radio_on" />
         </group>
     </group>
 </vector>

@@ -18,8 +18,8 @@ apply plugin: 'com.android.library'
 apply plugin: 'com.jakewharton.hugo'
 
 android {
-    compileSdkVersion rootProject.ext.compileSdkVersion
-    buildToolsVersion rootProject.ext.buildToolsVersion
+    compileSdkVersion versions.compileSdk
+    buildToolsVersion versions.buildTools
 
     defaultConfig {
         minSdkVersion 21
@@ -29,12 +29,16 @@ android {
     sourceSets {
         main.res.srcDirs 'src/main/res', 'src/main/res-public'
     }
+
+    lintOptions {
+        disable 'AppCompatCustomView'
+    }
 }
 
 dependencies {
-    compile "com.android.support:support-annotations:${rootProject.ext.supportLibVersion}"
-    compile "com.android.support:recyclerview-v7:${rootProject.ext.supportLibVersion}"
-    compile "com.android.support:support-v4:${rootProject.ext.supportLibVersion}"
+    implementation deps.support.annotations
+    implementation deps.support.fragment
+    implementation deps.support.recyclerview
 }
 
 apply from: rootProject.file('gradle/bintray-push.gradle')

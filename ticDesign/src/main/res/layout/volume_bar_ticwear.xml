@@ -33,6 +33,7 @@
         android:layout_height="match_parent"
         android:layout_gravity="center_vertical|start"
         android:background="?android:attr/selectableItemBackgroundBorderless"
+        android:src="@drawable/tic_ic_minus_32px"
         android:clickable="true"/>
 
     <ticwear.design.widget.ProgressBarButton

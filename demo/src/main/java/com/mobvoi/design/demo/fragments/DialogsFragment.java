@@ -33,8 +33,10 @@ import java.util.Calendar;
 import java.util.List;
 
 import ticwear.design.app.AlertDialog;
+import ticwear.design.app.AlertDialog.OnSkipClickListener;
 import ticwear.design.app.DatetimePickerDialog;
 import ticwear.design.app.NumberPickerDialog;
+import ticwear.design.utils.WindowUtils;
 
 /**
  * Created by tankery on 1/12/16.
@@ -69,6 +71,7 @@ public class DialogsFragment extends ListFragment {
                 R.string.category_dialog_no_title,
                 R.string.category_dialog_confirm,
                 R.string.category_dialog_choose,
+                R.string.category_dialog_skippable,
                 R.string.category_dialog_delay_confirm,
                 R.string.category_dialog_long,
         };
@@ -101,9 +104,7 @@ public class DialogsFragment extends ListFragment {
     @Override
     public void onTitleClicked(View view, @StringRes int titleResId) {
         Dialog dialog = createDialog(view.getContext(), titleResId);
-        if (dialog != null) {
-            dialog.show();
-        }
+        showDialogIfNeed(dialog);
     }
 
     private Dialog createStandardDialog(final Context context, @StringRes int resId) {
@@ -140,8 +141,31 @@ public class DialogsFragment extends ListFragment {
                 break;
             case R.string.category_dialog_choose:
                 dialog = new AlertDialog.Builder(context)
-                        .setTitle(R.string.category_dialog_confirm)
+                        .setTitle(R.string.category_dialog_choose)
                         .setMessage(R.string.text_short_content)
+                        .setPositiveButtonIcon(ticwear.design.R.drawable.tic_ic_btn_ok, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                            }
+                        })
+                        .setNegativeButtonIcon(ticwear.design.R.drawable.tic_ic_btn_cancel, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                            }
+                        })
+                        .create();
+                break;
+            case R.string.category_dialog_skippable:
+                dialog = new AlertDialog.Builder(context, R.style.Theme_Ticwear_Dialog_Alert_Compact)
+                        .setMessage(R.string.text_short_content)
+                        .setSkipButton(new OnSkipClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, boolean isChecked) {
+                                Toast.makeText(context, "Skip check set to " + isChecked, Toast.LENGTH_SHORT).show();
+                            }
+                        })
                         .setPositiveButtonIcon(ticwear.design.R.drawable.tic_ic_btn_ok, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
@@ -359,9 +383,7 @@ public class DialogsFragment extends ListFragment {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 Dialog dlg = createStandardDialog(getActivity(), standardDialogIds[which]);
-                                if (dlg != null) {
-                                    dlg.show();
-                                }
+                                showDialogIfNeed(dlg);
                             }
                         })
                         .create();
@@ -374,9 +396,7 @@ public class DialogsFragment extends ListFragment {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 Dialog dlg = createValuePickerDialog(getActivity(), valuePickerIds[which]);
-                                if (dlg != null) {
-                                    dlg.show();
-                                }
+                                showDialogIfNeed(dlg);
                             }
                         })
                         .create();
@@ -389,9 +409,7 @@ public class DialogsFragment extends ListFragment {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 Dialog dlg = createListChoiceDialog(getActivity(), listChoiceIds[which]);
-                                if (dlg != null) {
-                                    dlg.show();
-                                }
+                                showDialogIfNeed(dlg);
                             }
                         })
                         .create();
@@ -404,6 +422,13 @@ public class DialogsFragment extends ListFragment {
         }
 
         return dialog;
+    }
+
+    private static void showDialogIfNeed(final Dialog dlg) {
+        if (dlg != null) {
+            WindowUtils.clipToScreenShape(dlg.getWindow());
+            dlg.show();
+        }
     }
 
 }

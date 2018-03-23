@@ -19,13 +19,13 @@
     android:ordering="together">
     <objectAnimator
         android:interpolator="@android:interpolator/anticipate"
-        android:duration="@integer/design.anim.button_state_half"
+        android:duration="@integer/design_anim_button_state_half"
         android:propertyName="scaleX"
         android:valueFrom="1"
         android:valueTo="0" />
     <objectAnimator
         android:interpolator="@android:interpolator/anticipate"
-        android:duration="@integer/design.anim.button_state_half"
+        android:duration="@integer/design_anim_button_state_half"
         android:propertyName="scaleY"
         android:valueFrom="1"
         android:valueTo="0" />

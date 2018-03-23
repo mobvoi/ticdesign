@@ -18,12 +18,12 @@
 <resources>
 
     <!-- Standard padding -->
-    <dimen name="tic_page_horizontal_padding_normal">32dp</dimen>
-    <dimen name="tic_page_horizontal_padding_small">24dp</dimen>
+    <dimen name="tic_page_horizontal_padding_normal">22dp</dimen>
+    <dimen name="tic_page_horizontal_padding_small">14dp</dimen>
 
 
     <!-- Default padding for list items. -->
-    <dimen name="tic_list_item_padding_horizontal_large_ticwear">36dp</dimen>
+    <dimen name="tic_list_item_padding_horizontal_large_ticwear">24dp</dimen>
     <dimen name="tic_list_item_padding_horizontal_ticwear">@dimen/tic_page_horizontal_padding_small</dimen>
 
     <dimen name="tic_list_padding_top_ticwear">8dp</dimen>

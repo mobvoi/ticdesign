@@ -23,6 +23,7 @@ import android.content.DialogInterface;
 import android.content.res.ColorStateList;
 import android.content.res.TypedArray;
 import android.database.Cursor;
+import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.StateListDrawable;
 import android.os.Handler;
@@ -37,13 +38,15 @@ import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
 import android.view.Window;
-import android.view.WindowInsets;
 import android.view.WindowManager;
 import android.widget.AbsListView;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CheckedTextView;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -55,7 +58,7 @@ import java.lang.ref.WeakReference;
 
 import ticwear.design.R;
 import ticwear.design.app.AlertDialog;
-import ticwear.design.widget.CheckedTextView;
+import ticwear.design.app.AlertDialog.OnSkipClickListener;
 import ticwear.design.widget.CoordinatorLayout;
 import ticwear.design.widget.CursorRecyclerViewAdapter;
 import ticwear.design.widget.FloatingActionButton;
@@ -101,10 +104,16 @@ public class AlertController {
     private int mIconId = 0;
     private Drawable mIcon;
 
+    private CharSequence mSkipMessage;
+    private OnSkipClickListener mOnSkipClickListener;
+
     private ImageView mIconView;
     private TextView mTitleView;
     private TextView mMessageView;
     private View mCustomTitleView;
+    private View mSkipLayout;
+    private CheckBox mSkipCheck;
+    private TextView mSkipText;
 
     private boolean mForceInverseBackground;
 
@@ -186,7 +195,7 @@ public class AlertController {
 
         mAlertDialogLayout = R.layout.alert_dialog_ticwear;
         mButtonPanelSideLayout = a.getResourceId(
-                R.styleable.AlertDialog_android_buttonPanelSideLayout, 0);
+                R.styleable.AlertDialog_buttonPanelSideLayout, 0);
 
         mListLayout = a.getResourceId(
                 R.styleable.AlertDialog_tic_listLayout,
@@ -231,12 +240,9 @@ public class AlertController {
     }
 
     public void installContent() {
-        /* We use a custom title so never request a window title */
-        mWindow.requestFeature(Window.FEATURE_NO_TITLE);
         int contentView = selectContentView();
         mWindow.setContentView(contentView);
         setupView();
-        setupDecor();
     }
 
     private int selectContentView() {
@@ -391,6 +397,20 @@ public class AlertController {
         }
     }
 
+    public void setSkipChecked(boolean checked) {
+        if (mSkipCheck != null) {
+            mSkipCheck.setChecked(checked);
+        }
+    }
+
+    public void setSkipButton(CharSequence message, OnSkipClickListener listener) {
+        mSkipMessage = message;
+        mOnSkipClickListener = listener;
+        if (mSkipText != null && message != null) {
+            mSkipText.setText(message);
+        }
+    }
+
     /**
      * @param attrId the attributeId of the theme-specific drawable
      * to resolve the resourceId for.
@@ -502,27 +522,6 @@ public class AlertController {
             showButtons();
         }
     };
-
-    private void setupDecor() {
-        final View decor = mWindow.getDecorView();
-        final View parent = mWindow.findViewById(R.id.parentPanel);
-        if (parent != null && decor != null) {
-            decor.setOnApplyWindowInsetsListener(new View.OnApplyWindowInsetsListener() {
-                @Override
-                public WindowInsets onApplyWindowInsets(View view, WindowInsets insets) {
-                    if (insets.isRound()) {
-                        // TODO: Get the padding as a function of the window size.
-                        int roundOffset = mContext.getResources().getDimensionPixelOffset(
-                                R.dimen.alert_dialog_round_padding);
-                        parent.setPadding(roundOffset, roundOffset, roundOffset, roundOffset);
-                    }
-                    return insets.consumeSystemWindowInsets();
-                }
-            });
-            decor.setFitsSystemWindows(true);
-            decor.requestApplyInsets();
-        }
-    }
 
     private void setupView() {
         final ViewGroup contentPanel = (ViewGroup) mWindow.findViewById(R.id.contentPanel);
@@ -656,6 +655,30 @@ public class AlertController {
                         new LayoutParams(MATCH_PARENT, MATCH_PARENT));
             } else {
                 contentPanel.setVisibility(View.GONE);
+            }
+        }
+
+        mSkipLayout = mWindow.findViewById(R.id.layout_skip);
+        if (mSkipLayout != null) {
+            mSkipCheck = (CheckBox) mSkipLayout.findViewById(R.id.check_skip);
+            mSkipText = (TextView) mSkipLayout.findViewById(R.id.text_skip);
+        }
+
+        if (mSkipLayout != null) {
+            if (mOnSkipClickListener == null) {
+                mSkipLayout.setVisibility(View.GONE);
+                mScrollView.removeView(mSkipLayout);
+            } else {
+                if (mSkipMessage != null) {
+                    mSkipText.setText(mSkipMessage);
+                }
+                mSkipLayout.setOnClickListener(new OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        mSkipCheck.setChecked(!mSkipCheck.isChecked());
+                        mOnSkipClickListener.onClick(mDialogInterface, mSkipCheck.isChecked());
+                    }
+                });
             }
         }
 
@@ -935,6 +958,9 @@ public class AlertController {
         public boolean mForceInverseBackground;
         public TrackSelectionAdapterWrapper.OnItemSelectedListener mOnItemSelectedListener;
         public OnPrepareListViewListener mOnPrepareListViewListener;
+        public CharSequence mSkipMessage;
+        public OnSkipClickListener mOnSkipClickListener;
+        public boolean mSkipInitialChecked;
 
         /**
          * Interface definition for a callback to be invoked before the ListView
@@ -992,6 +1018,10 @@ public class AlertController {
             }
             if (mDelayConfirmRequest != null) {
                 dialog.setDelayConfirmAction(mDelayConfirmRequest);
+            }
+            if (mOnSkipClickListener != null) {
+                dialog.setSkipChecked(mSkipInitialChecked);
+                dialog.setSkipButton(mSkipMessage, mOnSkipClickListener);
             }
             // For a list, the client can either supply an array of items or an
             // adapter or a cursor
@@ -1297,9 +1327,11 @@ public class AlertController {
                         ENABLED_STATE_SET,
                         DISABLED_STATE_SET
                 };
+                int alpha = Color.alpha(normalColor);
+                float opacity = ((float) alpha / 0xff) * ((float) getAlphaValue(context) / 0xff);
                 int[] colors = {
                         normalColor,
-                        normalColor & 0xffffff | (getAlphaValue(context) << 24)
+                        normalColor & 0xffffff | ((int) (0xff * opacity) << 24)
                 };
                 filledList = new ColorStateList(states, colors);
             }

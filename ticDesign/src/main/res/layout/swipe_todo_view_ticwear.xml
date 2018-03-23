@@ -16,6 +16,17 @@
         android:textColor="#ffffff"
         android:textSize="17sp" />
 
+    <TextView
+        android:id="@+id/tip_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="17dp"
+        android:textColor="#FFFFFF"
+        android:textSize="@dimen/tic_text_size_extra_small"
+        android:visibility="gone" />
+
     <ImageView
         android:id="@+id/outer_circle_iv"
         android:layout_width="29dp"
@@ -49,7 +60,7 @@
         android:layout_height="132dp"
         android:layout_alignParentLeft="true"
         android:layout_centerVertical="true"
-        android:visibility="invisible" />
+        android:alpha="0" />
 
     <ImageView
         android:id="@+id/right_iv"
@@ -57,7 +68,7 @@
         android:layout_height="132dp"
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
-        android:visibility="invisible" />
+        android:alpha="0" />
 
     <TextView
         android:id="@+id/sub_content_tv"

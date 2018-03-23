@@ -22,9 +22,9 @@
     <path
         android:fillColor="?android:colorControlNormal"
         android:fillAlpha="?android:disabledAlpha"
-        android:pathData="@string/tic.svg.btn.two_state.bg" />
+        android:pathData="@string/tic_svg_btn_two_state_bg" />
     <path
-        android:pathData="@string/tic.svg.btn.enter"
+        android:pathData="@string/tic_svg_btn_enter"
         android:strokeAlpha="?android:disabledAlpha"
         android:strokeColor="#FFFFFF"
         android:strokeWidth="7"/>

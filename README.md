@@ -1,6 +1,6 @@
 # TicDesign
 
-[![](https://api.bintray.com/packages/ticwear/maven/ticdesign/images/download.svg)](https://jcenter.bintray.com/com/ticwear/ticdesign/1.0.0/)
+[![](https://api.bintray.com/packages/ticwear/maven/ticdesign/images/download.svg)](https://jcenter.bintray.com/com/ticwear/ticdesign/1.1.0/)
 
 [中文](README.zh.md)
 
@@ -17,7 +17,7 @@ Add dependencies in your module `build.gradle`:
 
 ``` gradle
 dependencies {
-    compile 'com.ticwear:ticdesign:1.0.0'
+    compile 'com.ticwear:ticdesign:1.1.0'
 }
 ```
 

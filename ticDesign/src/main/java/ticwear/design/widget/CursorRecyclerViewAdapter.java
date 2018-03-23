@@ -138,14 +138,19 @@ public abstract class CursorRecyclerViewAdapter<VH extends RecyclerView.ViewHold
             }
             mRowIdColumn = newCursor.getColumnIndexOrThrow("_id");
             mDataValid = true;
-            notifyDataSetChanged();
+            onCursorChanged();
         } else {
             mRowIdColumn = -1;
             mDataValid = false;
-            notifyDataSetChanged();
+            onCursorChanged();
             //There is no notifyDataSetInvalidated() method in RecyclerView.Adapter
         }
         return oldCursor;
+    }
+
+    // Give sub-class a chance to hack the data set change notify.
+    public void onCursorChanged() {
+        notifyDataSetChanged();
     }
 
     private class NotifyingDataSetObserver extends DataSetObserver {
@@ -153,14 +158,14 @@ public abstract class CursorRecyclerViewAdapter<VH extends RecyclerView.ViewHold
         public void onChanged() {
             super.onChanged();
             mDataValid = true;
-            notifyDataSetChanged();
+            onCursorChanged();
         }
 
         @Override
         public void onInvalidated() {
             super.onInvalidated();
             mDataValid = false;
-            notifyDataSetChanged();
+            onCursorChanged();
             //There is no notifyDataSetInvalidated() method in RecyclerView.Adapter
         }
     }

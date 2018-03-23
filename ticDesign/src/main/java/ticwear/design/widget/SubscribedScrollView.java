@@ -23,14 +23,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.Adapter;
-import android.widget.ScrollView;
 
 /**
  * Created by tankery on 3/16/16.
  *
  * A ScrollView can set a {@link OnScrollListener}
  */
-public class SubscribedScrollView extends ScrollView {
+public class SubscribedScrollView extends TicklableScrollView {
 
     /**
      * The last scroll state reported to clients through {@link OnScrollListener}.
@@ -43,15 +42,15 @@ public class SubscribedScrollView extends ScrollView {
     private boolean isInFling = false;
 
     public SubscribedScrollView(Context context) {
-        super(context);
+        this(context, null);
     }
 
     public SubscribedScrollView(Context context, AttributeSet attrs) {
-        super(context, attrs);
+        this(context, attrs, android.R.attr.scrollViewStyle);
     }
 
     public SubscribedScrollView(Context context, AttributeSet attrs, int defStyleAttr) {
-        super(context, attrs, defStyleAttr);
+        this(context, attrs, defStyleAttr, 0);
     }
 
     public SubscribedScrollView(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {

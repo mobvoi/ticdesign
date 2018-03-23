@@ -29,7 +29,7 @@ import android.widget.TextView;
 
 import com.ticwear.design.demo.R;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import ticwear.design.app.AlertDialog;
 import ticwear.design.utils.ColorPalette;
@@ -116,13 +116,13 @@ public class SpecFragment extends ListFragment {
 
         private final Context context;
 
-        @Bind(R.id.color_name)
+        @BindView(R.id.color_name)
         TextView colorName;
-        @Bind(R.id.color_darken)
+        @BindView(R.id.color_darken)
         TextView colorDarken;
-        @Bind(R.id.color_normal)
+        @BindView(R.id.color_normal)
         TextView colorNormal;
-        @Bind(R.id.color_lighten)
+        @BindView(R.id.color_lighten)
         TextView colorLighten;
 
         public ColorViewHolder(View itemView) {

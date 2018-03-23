@@ -56,7 +56,7 @@ class PreferenceInflater extends GenericInflater<Preference, PreferenceGroup> {
 
     private void init(PreferenceManager preferenceManager) {
         mPreferenceManager = preferenceManager;
-        setDefaultPackage("android.preference.");
+        setDefaultPackage("ticwear.design.preference.");
     }
 
     @Override

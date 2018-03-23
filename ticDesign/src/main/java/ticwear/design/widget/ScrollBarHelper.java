@@ -47,7 +47,7 @@ public class ScrollBarHelper {
     private static final float SWEEP_ANGLE = 60.0F;
     private static final float MIN_SWEEP = 3.0F;
 
-    private boolean mIsRound = true;
+    private boolean mIsRound = false;
     private Paint mPaint = new Paint();
     private RectF mOval = null;
     private int mBgColor;

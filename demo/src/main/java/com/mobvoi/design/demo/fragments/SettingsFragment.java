@@ -17,6 +17,7 @@
 package com.mobvoi.design.demo.fragments;
 
 import android.os.Bundle;
+import android.widget.Toast;
 
 import com.ticwear.design.demo.R;
 
@@ -33,9 +34,12 @@ public class SettingsFragment extends PreferenceFragment {
         super.onCreate(savedInstanceState);
         String settings = getArguments().getString("settings");
         if ("preference".equals(settings)) {
-            addPreferencesFromResource(R.xml.preferences);
+            addPreferencesFromResource(R.xml.preferences_widget);
         } else if ("about".equals(settings)) {
             addPreferencesFromResource(R.xml.preferences_about);
+        } else {
+            Toast.makeText(getActivity(), "No such settings.", Toast.LENGTH_SHORT).show();
+            getActivity().finish();
         }
     }
 }

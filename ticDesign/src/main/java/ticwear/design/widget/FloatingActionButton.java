@@ -38,6 +38,7 @@ import android.view.GestureDetector;
 import android.view.GestureDetector.SimpleOnGestureListener;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.animation.LinearInterpolator;
 import android.widget.ImageView;
 
 import java.util.List;
@@ -253,10 +254,10 @@ public class FloatingActionButton extends VisibilityAwareImageButton {
      */
     public void setProgressPercent(float percent) {
         if (getProgressDrawable() != null) {
+            stopDelayConfirmation();
             if (getProgressDrawable().getProgress() == percent) {
                 return;
             }
-            stopDelayConfirmation();
             getProgressDrawable().setProgress(percent);
         }
     }
@@ -317,6 +318,7 @@ public class FloatingActionButton extends VisibilityAwareImageButton {
 
         mDelayedConfirmationListener = listener;
         mDelayedConfirmationAnimator = ValueAnimator.ofFloat(0, 1).setDuration(delay);
+        mDelayedConfirmationAnimator.setInterpolator(new LinearInterpolator());
         mDelayedConfirmationAnimator.addUpdateListener(new AnimatorUpdateListener() {
             @Override
             public void onAnimationUpdate(ValueAnimator animation) {

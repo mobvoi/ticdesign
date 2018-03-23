@@ -22,8 +22,8 @@
     android:viewportWidth="104.0">
     <path
         android:fillColor="?android:colorControlActivated"
-        android:pathData="@string/tic.svg.btn.two_state.bg" />
+        android:pathData="@string/tic_svg_btn_two_state_bg" />
     <path
         android:fillColor="#FFFFFF"
-        android:pathData="@string/tic.svg.btn.radio.on" />
+        android:pathData="@string/tic_svg_btn_radio_on" />
 </vector>

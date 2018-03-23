@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ticwear.design.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ticwear.design.widget.AppBarLayout
+        style="@style/WindowAppBar.Ticwear"
+        android:layout_width="match_parent"
+        android:layout_height="68dp">
+
+        <ticwear.design.widget.ScalableTextView
+            android:id="@android:id/title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:gravity="center_horizontal|top"
+            android:textColor="@android:color/white"
+            android:textSize="@dimen/tic_text_size_medium_2"
+            android:textStyle="bold"
+            app:tic_layout_scrollFlags="scroll|overScrollBounce"/>
+    </ticwear.design.widget.AppBarLayout>
+
+    <ticwear.design.widget.SubscribedScrollView
+        android:id="@+id/scroll_view"
+        style="?tic_dialogContentStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:nestedScrollingEnabled="true"
+        app:tic_layout_behavior="@string/tic_appbar_scrolling_view_behavior">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/message"
+                style="@style/TextAppearance.Ticwear.DialogContent"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:paddingTop="0dp"
+                android:textColor="#cccccc"
+                android:textSize="@dimen/tic_text_size_small_1"/>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="18dp"
+                android:layout_marginTop="18dp"
+                android:orientation="horizontal">
+
+                <CheckBox
+                    android:id="@+id/checkbox"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:button="@drawable/tic_ic_radio"
+                    android:checked="false"/>
+
+                <TextView
+                    android:id="@+id/confirm"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginStart="10dp"
+                    android:paddingTop="0dp"
+                    android:textColor="#cccccc"
+                    android:textSize="@dimen/tic_text_size_small_1"/>
+            </LinearLayout>
+
+            <RelativeLayout
+                android:id="@+id/textButtonPanel"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <ticwear.design.widget.FloatingActionButton
+                    style="?tic_iconButtonBarNegativeButtonStyle"
+                    android:id="@+id/cancel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/tic_ic_btn_cancel"
+                    android:layout_alignParentStart="true"/>
+
+                <ticwear.design.widget.FloatingActionButton
+                    style="?tic_iconButtonBarPositiveButtonStyle"
+                    android:id="@+id/ok"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/tic_ic_btn_ok"
+                    android:layout_alignParentEnd="true"/>
+            </RelativeLayout>
+        </LinearLayout>
+    </ticwear.design.widget.SubscribedScrollView>
+</ticwear.design.widget.CoordinatorLayout>

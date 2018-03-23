@@ -16,11 +16,11 @@
 
 package com.mobvoi.design.demo;
 
-import android.app.Activity;
 import android.app.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
 
+import com.mobvoi.design.demo.fragments.CoordinatorFragment;
 import com.mobvoi.design.demo.fragments.DialogsFragment;
 import com.mobvoi.design.demo.fragments.ListFragment;
 import com.mobvoi.design.demo.fragments.MenuFragment;
@@ -34,12 +34,11 @@ import com.ticwear.design.demo.R;
  *
  * Activity for details.
  */
-public class DetailsActivity extends Activity {
+public class DetailsActivity extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_fragment);
 
         Fragment detailFragment;
         int titleRes = getIntent().getIntExtra("case", -1);
@@ -64,6 +63,9 @@ public class DetailsActivity extends Activity {
             case R.string.category_spec_title:
                 detailFragment = new SpecFragment();
                 break;
+            case R.string.category_coordinator_title:
+                detailFragment = new CoordinatorFragment();
+                break;
             default:
                 detailFragment = null;
                 break;
@@ -75,7 +77,7 @@ public class DetailsActivity extends Activity {
 
         if (detailFragment != null) {
             getFragmentManager().beginTransaction()
-                    .add(R.id.fragment_container, detailFragment)
+                    .add(android.R.id.content, detailFragment)
                     .commitAllowingStateLoss();
         } else {
             finish();

@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="TextAppearance.Ticwear.DialogContent" parent="TextAppearance.Ticwear.Medium">
+        <item name="android:textColor">?android:textColorPrimary</item>
+        <item name="android:breakStrategy">high_quality</item>
+    </style>
+</resources>

@@ -21,6 +21,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
 import android.os.Bundle;
+import android.support.annotation.DrawableRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.StyleRes;
 import android.support.v4.view.PagerAdapter;
@@ -76,15 +77,30 @@ public class DatetimePickerDialog extends AlertDialog implements OnClickListener
     private boolean mOnLastPage = false;
     private boolean mIsSidePanelTouching = false;
 
+    private CharSequence mFixedTitle;
+    @DrawableRes
+    private int mNextBtnIconResId;
+    @DrawableRes
+    private int mLastBtnIconResId;
+
     private NumberPicker mFocusedPicker;
+
+    private boolean mDismissOnConfirm;
 
     /**
      * @param context The context the dialog is to run in.
      * @param pageFlag Witch page will show.
      * @param defaultCalendar The initial datetime of the dialog.
+     * @param is24Hour whether time is 24 hour format.
      */
-    public DatetimePickerDialog(Context context, int pageFlag, Calendar defaultCalendar) {
-        this(context, 0, pageFlag, defaultCalendar);
+    public DatetimePickerDialog(Context context, int pageFlag, Calendar defaultCalendar,
+                                boolean is24Hour) {
+        this(context, 0, pageFlag, defaultCalendar, is24Hour, true);
+    }
+
+    public DatetimePickerDialog(Context context, @StyleRes int theme, int pageFlag,
+                                Calendar defaultCalendar, boolean is24Hour) {
+        this(context, theme, pageFlag, defaultCalendar, is24Hour, true);
     }
 
     @StyleRes
@@ -105,7 +121,8 @@ public class DatetimePickerDialog extends AlertDialog implements OnClickListener
      * @param defaultCalendar The initial datetime of the dialog.
      */
     public DatetimePickerDialog(Context context, @StyleRes int theme, int pageFlag,
-                                Calendar defaultCalendar) {
+                                Calendar defaultCalendar, boolean is24HourFormat,
+                                boolean dismissOnConfirm) {
         super(context, resolveDialogTheme(context, theme));
 
         // Use getContext to use wrapper context.
@@ -155,7 +172,7 @@ public class DatetimePickerDialog extends AlertDialog implements OnClickListener
         if (hasTimeView) {
             mTimePickerViewHolder = new TimePickerViewHolder(context);
             TimePicker timeView = mTimePickerViewHolder.init(mViewPager,
-                    hour, minute, DateFormat.is24HourFormat(context),
+                    hour, minute, is24HourFormat,
                     this, validationCallback);
             timeView.setMultiPickerClient(this);
             timeView.setTag(R.id.title_template, R.string.time_picker_dialog_title);
@@ -177,6 +194,8 @@ public class DatetimePickerDialog extends AlertDialog implements OnClickListener
         setButtonPanelLayoutHint(LAYOUT_HINT_SIDE);
 
         setTitle(mPagerAdapter.getPageTitle(0));
+
+        mDismissOnConfirm = dismissOnConfirm;
     }
 
     @Override
@@ -198,9 +217,10 @@ public class DatetimePickerDialog extends AlertDialog implements OnClickListener
     }
 
     @Override
-    public void onTimeChanged(TimePicker view, int hourOfDay, int minute) {
+    public void onTimeChanged(TimePicker view, int hourOfDay, int minute, int second) {
         mCurrentCalendar.set(Calendar.HOUR_OF_DAY, hourOfDay);
         mCurrentCalendar.set(Calendar.MINUTE, minute);
+        mCurrentCalendar.set(Calendar.SECOND, second);
     }
 
     @Override
@@ -222,7 +242,9 @@ public class DatetimePickerDialog extends AlertDialog implements OnClickListener
     public void onClick(View v) {
         if (mOnLastPage) {
             onConfirm();
-            dismiss();
+            if (mDismissOnConfirm) {
+                dismiss();
+            }
         } else {
             mViewPager.setCurrentItem(mViewPager.getCurrentItem() + 1);
         }
@@ -244,19 +266,24 @@ public class DatetimePickerDialog extends AlertDialog implements OnClickListener
         mOnLastPage = position == mPagerAdapter.getCount() - 1;
         updateButton();
 
-        setTitle(mPagerAdapter.getPageTitle(position));
+        if (mFixedTitle != null) {
+            setTitle(mFixedTitle);
+        } else {
+            setTitle(mPagerAdapter.getPageTitle(position));
+        }
     }
 
     private void updateButton() {
         ImageButton button = getIconButton(BUTTON_POSITIVE);
         if (button != null) {
+            int iconResId;
             if (mOnLastPage) {
-                button.setImageResource(R.drawable.tic_ic_btn_ok);
-                button.setOnClickListener(this);
+                iconResId = mLastBtnIconResId > 0 ? mLastBtnIconResId : R.drawable.tic_ic_btn_ok;
             } else {
-                button.setImageResource(R.drawable.tic_ic_btn_next);
-                button.setOnClickListener(this);
+                iconResId = mNextBtnIconResId > 0 ? mNextBtnIconResId : R.drawable.tic_ic_btn_next;
             }
+            button.setImageResource(iconResId);
+            button.setOnClickListener(this);
         }
     }
 
@@ -308,6 +335,18 @@ public class DatetimePickerDialog extends AlertDialog implements OnClickListener
      */
     public void updateTime(int hourOfDay, int minuteOfHour) {
         mTimePickerViewHolder.updateTime(hourOfDay, minuteOfHour);
+    }
+
+    public void setFixedTitle(CharSequence title) {
+        mFixedTitle = title;
+    }
+
+    public void setNextButtonIcon(@DrawableRes int iconResId) {
+        mNextBtnIconResId = iconResId;
+    }
+
+    public void setLastButtonIcon(@DrawableRes int iconResId) {
+        mLastBtnIconResId = iconResId;
     }
 
     @Override
@@ -439,11 +478,19 @@ public class DatetimePickerDialog extends AlertDialog implements OnClickListener
         private int pageFlag;
         private OnCalendarSetListener listener;
         private Calendar defaultCalendar;
+        private boolean dismissOnConfirm;
+        private boolean is24Hour;
+        private CharSequence title;
+        @DrawableRes
+        private int nextBtnIconResId;
+        @DrawableRes
+        private int lastBtnIconResId;
 
         public Builder(Context context) {
             this.mContext = context;
             // Enable all pickers.
             this.pageFlag = PAGE_FLAG_DATE | PAGE_FLAG_TIME;
+            this.is24Hour = DateFormat.is24HourFormat(context);
         }
 
         public Builder theme(@StyleRes int theme) {
@@ -471,6 +518,26 @@ public class DatetimePickerDialog extends AlertDialog implements OnClickListener
             return this;
         }
 
+        public Builder set24Hour(boolean is24Hour){
+            this.is24Hour = is24Hour;
+            return this;
+        }
+
+        public Builder title(CharSequence title) {
+            this.title = title;
+            return this;
+        }
+
+        public Builder nextButtonIcon(@DrawableRes int iconResId) {
+            this.nextBtnIconResId = iconResId;
+            return this;
+        }
+
+        public Builder lastButtonIcon(@DrawableRes int iconResId) {
+            this.lastBtnIconResId = iconResId;
+            return this;
+        }
+
         public Builder listener(OnCalendarSetListener listener) {
             this.listener = listener;
             return this;
@@ -481,9 +548,23 @@ public class DatetimePickerDialog extends AlertDialog implements OnClickListener
             return this;
         }
 
+        public Builder dismissOnConfirm(boolean dismiss) {
+            this.dismissOnConfirm = dismiss;
+            return this;
+        }
+
         public DatetimePickerDialog create() {
             DatetimePickerDialog dialog = new DatetimePickerDialog(mContext, theme,
-                    pageFlag, defaultCalendar);
+                    pageFlag, defaultCalendar, is24Hour, dismissOnConfirm);
+            if (title != null) {
+                dialog.setFixedTitle(title);
+            }
+            if (nextBtnIconResId > 0) {
+                dialog.setNextButtonIcon(nextBtnIconResId);
+            }
+            if (lastBtnIconResId > 0) {
+                dialog.setLastButtonIcon(lastBtnIconResId);
+            }
             dialog.setOnCalendarSetListener(listener);
             return dialog;
         }
