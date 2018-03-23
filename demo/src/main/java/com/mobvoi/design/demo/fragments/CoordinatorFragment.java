@@ -28,8 +28,9 @@ import android.view.ViewGroup;
 
 import com.ticwear.design.demo.R;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.Unbinder;
 import ticwear.design.widget.FloatingActionButton;
 import ticwear.design.widget.SubscribedScrollView;
 import ticwear.design.widget.SubscribedScrollView.OnScrollListener;
@@ -42,10 +43,12 @@ import ticwear.design.widget.SubscribedScrollView.OnScrollListener;
 public class CoordinatorFragment extends Fragment {
 
 
-    @Bind(R.id.coordinator_pager)
+    @BindView(R.id.coordinator_pager)
     ViewPager pagerCoordinator;
-    @Bind(R.id.fab_coordinator)
+    @BindView(R.id.fab_coordinator)
     FloatingActionButton fab;
+
+    private Unbinder unbinder;
 
     @Nullable
     @Override
@@ -55,7 +58,7 @@ public class CoordinatorFragment extends Fragment {
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
-        ButterKnife.bind(this, view);
+        unbinder = ButterKnife.bind(this, view);
         pagerCoordinator.setAdapter(new MyPagerAdapter());
         pagerCoordinator.addOnPageChangeListener(new OnPageChangeListener() {
             @Override
@@ -79,7 +82,7 @@ public class CoordinatorFragment extends Fragment {
 
     @Override
     public void onDestroyView() {
-        ButterKnife.unbind(this);
+        unbinder.unbind();
         super.onDestroyView();
     }
 

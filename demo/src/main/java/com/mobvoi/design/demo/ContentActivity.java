@@ -34,24 +34,24 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.ticwear.design.demo.R;
 import com.mobvoi.design.demo.data.Cheeses;
+import com.ticwear.design.demo.R;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 public class ContentActivity extends BaseActivity {
 
-    @Bind(R.id.layout_container)
+    @BindView(R.id.layout_container)
     ViewGroup layoutContainer;
 
-    @Bind(R.id.image_avatar)
+    @BindView(R.id.image_avatar)
     ImageView imageAvatar;
 
-    @Bind(R.id.text_title)
+    @BindView(R.id.text_title)
     TextView textTitle;
-    @Bind(R.id.text_content)
+    @BindView(R.id.text_content)
     TextView textContent;
 
     @SuppressWarnings("unchecked")
