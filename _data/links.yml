@@ -1,19 +1,19 @@
 zh:
   - title: 出门问问
-    url: http://www.chumenwenwen.com/
+    url: https://www.chumenwenwen.com/
   - title: Ticwatch
-    url: http://ticwear.com/
+    url: https://www.chumenwenwen.com/product/ticwatchpro.html
   - title: 问问开发者平台
-    url: http://developer.ticwear.com/
-  - title: 联系我们
-    url: mailto:ticdesign@mobvoi.com
+    url: https://developer.chumenwenwen.com/
+  - title: 反馈和建议
+    url: https://github.com/mobvoi/ticdesign/issues
 
 en:
   - title: Mobvoi Inc.
-    url: http://www.chumenwenwen.com/
-  - title: Ticwatch
-    url: http://ticwear.com/
+    url: https://www.mobvoi.com/
+  - title: TicWatch
+    url: https://www.mobvoi.com/types/wearable
   - title: Mobvoi Developer
-    url: http://developer.ticwear.com/
-  - title: Contact Us
-    url: mailto:ticdesign@mobvoi.com
+    url: https://developer.chumenwenwen.com/en/
+  - title: TicDesign Feedback
+    url: https://github.com/mobvoi/ticdesign/issues

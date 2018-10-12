@@ -12,7 +12,7 @@
       {% if site.data.links[locale] %}
       <li>
         {% for link in site.data.links[locale] %}
-        <a href="{{ link.url }}">{{ link.title }}</a>
+        <a href="{{ link.url }}" target="_blank">{{ link.title }}</a>
         {% unless forloop.last %}
         |
         {% endunless %}
